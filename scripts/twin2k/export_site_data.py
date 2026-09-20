@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import statistics
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -30,6 +31,7 @@ SIGNAL_PRIOR = REPORTS / "gpt41_panel_n2058" / "individual_signal_full_prior_ans
 SCORE_NOUL = REPORTS / "jev_vs_gpt41_n300" / "score_with_noul.json"
 SCORE_ALL = REPORTS / "jev_vs_gpt41_n300" / "score_all_arms.json"
 SCORE_DESCRIBED = REPORTS / "jev_vs_gpt41_n300" / "score_with_described.json"
+SEGMENTS = REPORTS / "jev_vs_gpt41_n2058" / "segment_diversity_n2058.json"
 
 # Numbers that the scored JSON does not carry. Each points at the page that owns it.
 DOCUMENTED = {
@@ -125,6 +127,42 @@ def paper_snapshot(paper_path: Path, signal_path: Path, gap_key: str) -> dict:
     }
 
 
+POLITICAL = ("demo_party", "demo_political_views")
+
+
+def segment_snapshot() -> dict:
+    """Median fidelity and separation ratio per arm, over the full-panel segment report.
+
+    Two different questions, which is the whole point of showing them together: fidelity is
+    the distance to the humans INSIDE a segment, separation is how far the segments sit from
+    each other. An arm can win one and lose the other, and both arms here do.
+    """
+    report = load_json(SEGMENTS)
+    jev = report["arms"]["jev_noul"]["by_variable"]
+    gpt = report["arms"]["gpt41_hard"]["by_variable"]
+    scored = [v for v in jev if (jev[v].get("separation_humans") or {}).get("all_tasks")]
+
+    def ratio(block: dict, variable: str) -> float:
+        by = block[variable]
+        return by["separation_model"]["all_tasks"] / by["separation_humans"]["all_tasks"]
+
+    def fidelity(block: dict, variable: str) -> float:
+        return block[variable]["segment_fidelity"]["all_tasks"]
+
+    politics = [v for v in scored if v in POLITICAL]
+    return {
+        "min_segment": report["min_segment"],
+        "variables_scored": len(scored),
+        "jev_closer_on": sum(1 for v in scored if fidelity(jev, v) < fidelity(gpt, v)),
+        "fidelity_jev": round(statistics.median(fidelity(jev, v) for v in scored), 4),
+        "fidelity_gpt41": round(statistics.median(fidelity(gpt, v) for v in scored), 4),
+        "spread_jev": round(statistics.median(ratio(jev, v) for v in scored), 3),
+        "spread_gpt41": round(statistics.median(ratio(gpt, v) for v in scored), 3),
+        "spread_jev_politics": round(statistics.median(ratio(jev, v) for v in politics), 3),
+        "spread_gpt41_politics": round(statistics.median(ratio(gpt, v) for v in politics), 3),
+    }
+
+
 def build_figures() -> dict:
     noul = load_json(SCORE_NOUL)
     all_arms = load_json(SCORE_ALL)
@@ -213,6 +251,7 @@ def build_figures() -> dict:
             **{k: v for k, v in DOCUMENTED["price"].items() if k != "source"},
             "source": DOCUMENTED["price"]["source"],
         },
+        "segments": segment_snapshot(),
     }
 
 

@@ -189,6 +189,29 @@ const EssayCharts = {
     ]);
   },
 
+  segments(host, figures) {
+    const seg = figures.segments;
+    metricStack(host, [
+      {
+        title: "Inside each group · distance to the humans · lower better",
+        max: 0.4,
+        rows: [
+          { label: "Jev Noul", value: seg.fidelity_jev, display: fmtNum(seg.fidelity_jev, 3), color: COLORS.gold },
+          { label: "gpt-4.1 hard", value: seg.fidelity_gpt41, display: fmtNum(seg.fidelity_gpt41, 3), color: COLORS.gpt },
+        ],
+      },
+      {
+        title: "Between groups · share of the real spread reproduced",
+        max: 3,
+        rows: [
+          { label: "The humans", value: 1, display: "1.00", color: COLORS.human },
+          { label: "Jev Noul", value: seg.spread_jev, display: fmtNum(seg.spread_jev, 2), color: COLORS.gold },
+          { label: "gpt-4.1 hard", value: seg.spread_gpt41, display: fmtNum(seg.spread_gpt41, 2), color: COLORS.gpt },
+        ],
+      },
+    ]);
+  },
+
   cost(host, figures) {
     const arms = figures.comparison.arms;
     rowChart(

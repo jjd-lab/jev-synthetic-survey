@@ -50,6 +50,7 @@ async function main() {
     EssayCharts.panel(document.getElementById("chart-panel"), figures);
     EssayCharts.comparison(document.getElementById("chart-comparison"), figures);
     EssayCharts.noul(document.getElementById("chart-noul"), figures);
+    EssayCharts.segments(document.getElementById("chart-segments"), figures);
     EssayCharts.cost(document.getElementById("chart-cost"), figures);
     EssayCharts.price(document.getElementById("chart-price"), figures);
   };

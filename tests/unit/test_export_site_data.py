@@ -45,5 +45,13 @@ def test_write_figures_round_trips(exporter, tmp_path):
     assert out.is_file()
     payload = exporter.load_json(out)
     assert payload["verdict"] == "strong_claim_fails"
+
+    seg = payload["segments"]
+    # The two halves of the segment measurement disagree on purpose: Jev is nearer the humans
+    # inside every group while spreading the groups far less than they really differ.
+    assert seg["min_segment"] == 50
+    assert seg["jev_closer_on"] == seg["variables_scored"]
+    assert seg["fidelity_jev"] < seg["fidelity_gpt41"]
+    assert seg["spread_jev"] < 1 < seg["spread_gpt41_politics"]
     assert payload["comparison"]["n"] == 300
     assert payload["panel"]["n"] == 2058
