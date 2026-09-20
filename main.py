@@ -349,7 +349,14 @@ def run_excel_validation_pipeline(config_path: str,
             )
 
             print(f"[OK] Generated {len(personas)} personas")
-            save_personas_to_excel(personas, persona_cache_path)
+            if skip_respondents:
+                # The cache is keyed by respid and shared across arms, and saving is a full
+                # overwrite -- so writing a --skip run's slice would delete the respondents
+                # outside its window from a cache other arms resume against.
+                print(f"[INFO] --skip {skip_respondents}: not writing {persona_cache_path}, "
+                      "a partial slice would overwrite the shared cache")
+            else:
+                save_personas_to_excel(personas, persona_cache_path)
 
         except Exception as e:
             print(f"[ERROR] Failed to generate personas: {e}")
@@ -448,6 +455,12 @@ def run_excel_validation_pipeline(config_path: str,
                 f"stateful run checkpoints per persona and cannot share it. Use a new "
                 f"--run-id."
             )
+        # Pin the respondent window to the dir: `global_index` is positional, so a --skip run
+        # and a full run write indices that mean different respondents (see the guard's docstring).
+        ckpt.check_and_record_window(
+            run_dir, {"sample": effective_sample, "skip": skip_respondents}
+        )
+        manifest = ckpt.load_manifest(run_dir)
         existing_batches = len(manifest.get("batches", []))
 
         if existing_batches and not resume:
@@ -725,6 +738,8 @@ Examples:
     # --skip is an offset into the --sample window. Without --sample that window is the
     # config's max_rows, which every shipped config sets to 50 as a smoke run -- so
     # `--skip 300` alone would silently select no respondents at all.
+    if args.skip < 0:
+        parser.error("--skip must be >= 0 (a negative offset would select the LAST rows)")
     if args.skip and args.sample is None:
         parser.error("--skip requires --sample (it offsets into the --sample window)")
     if args.skip and args.sample is not None and args.skip >= args.sample:

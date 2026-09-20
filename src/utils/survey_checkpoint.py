@@ -124,6 +124,31 @@ def save_batch(
     _atomic_write(_manifest_path(run_dir), json.dumps(manifest, ensure_ascii=False, indent=2))
 
 
+def check_and_record_window(run_dir: Path, window: Dict[str, Any]) -> None:
+    """Pin the respondent window a stateful checkpoint dir was built from, and refuse a mismatch.
+
+    Records carry ``global_index``, a POSITION in the run's persona list, and
+    ``load_all_batches`` deduplicates on it. Two runs over different windows of the panel
+    therefore reuse the same indices for different respondents: the export keeps one record of
+    each colliding pair, drops the other, and still reports a complete run. Resume itself is
+    respid-keyed and safe -- this is the export that is not.
+
+    First write wins and is stored; a later run over a different window is refused rather than
+    merged. A dir written before this key existed has no window and adopts the caller's.
+    """
+    manifest = load_manifest(run_dir)
+    recorded = manifest.get("window")
+    if recorded is not None and recorded != window:
+        raise RuntimeError(
+            f"Checkpoint dir '{run_dir}' was built for respondent window {recorded}, but this "
+            f"run is {window}. Their persona positions mean different respondents, so the "
+            f"export would silently drop one of every colliding pair. Use a new --run-id."
+        )
+    if recorded is None:
+        manifest["window"] = window
+        _atomic_write(_manifest_path(run_dir), json.dumps(manifest, ensure_ascii=False, indent=2))
+
+
 def load_all_batches(run_dir: Path) -> List[Dict[str, Any]]:
     """Read every batch_*.jsonl in the run dir, sorted by global_index, one record per index.
 

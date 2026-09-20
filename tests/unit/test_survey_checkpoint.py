@@ -1,6 +1,8 @@
 """Unit tests for src/utils/survey_checkpoint.py (batched checkpoint/resume I/O)."""
 
 
+import pytest
+
 from src.utils import survey_checkpoint as ckpt
 
 
@@ -189,3 +191,44 @@ def test_the_later_attempt_wins_when_both_attempts_aborted(tmp_path):
 
     assert len(records) == 1
     assert records[0]["explanations"] == {"Q1": "second attempt"}
+
+
+def test_window_is_recorded_on_first_use_and_reused(tmp_path):
+    run_dir = ckpt.init_run_dir(str(tmp_path), "w1")
+    window = {"sample": 2058, "skip": 0}
+
+    ckpt.check_and_record_window(run_dir, window)
+    assert ckpt.load_manifest(run_dir)["window"] == window
+
+    ckpt.check_and_record_window(run_dir, window)  # same window resumes fine
+
+
+def test_a_different_window_is_refused(tmp_path):
+    """`global_index` is positional, so persona 0 is respid 1 in a full run and respid 301
+    under `--skip 300`. Sharing a dir makes the export drop one of each colliding pair while
+    still reporting success, so the mismatch has to fail loudly instead."""
+    run_dir = ckpt.init_run_dir(str(tmp_path), "w2")
+    ckpt.check_and_record_window(run_dir, {"sample": 2058, "skip": 0})
+
+    with pytest.raises(RuntimeError, match="respondent window"):
+        ckpt.check_and_record_window(run_dir, {"sample": 2058, "skip": 300})
+
+
+def test_a_dir_written_before_windows_existed_adopts_the_callers(tmp_path):
+    run_dir = ckpt.init_run_dir(str(tmp_path), "w3")
+    ckpt.save_batch(run_dir, 1, [_record(1, 0)])
+    assert "window" not in ckpt.load_manifest(run_dir)
+
+    ckpt.check_and_record_window(run_dir, {"sample": 50, "skip": 0})
+    assert ckpt.load_manifest(run_dir)["window"] == {"sample": 50, "skip": 0}
+
+
+def test_recording_a_window_preserves_existing_manifest_keys(tmp_path):
+    run_dir = ckpt.init_run_dir(str(tmp_path), "w4")
+    ckpt.save_batch(run_dir, 1, [_record(7, 0)])
+
+    ckpt.check_and_record_window(run_dir, {"sample": 10, "skip": 2})
+
+    manifest = ckpt.load_manifest(run_dir)
+    assert manifest["completed_respids"] == ["7"], "window write must not clobber resume state"
+    assert len(manifest["batches"]) == 1
