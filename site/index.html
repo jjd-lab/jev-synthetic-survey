@@ -47,9 +47,9 @@
         </h1>
         <p class="lede">
           We asked TypeSafe’s Jev, a decision-only model, and gpt-4.1 to play the
-          same 300 survey respondents. Jev returns a typed value and a probability vector and
-          generates no text at all, so its vector is native rather than written. We asked the chat
-          model to write one out. Two tests were written down first.
+          same 300 survey respondents. Jev returns a typed value and a probability per option —
+          documented as calibrated — and generates no text at all, so its vector is native rather
+          than written. We asked the chat model to write one out. Two tests were written down first.
           Both failed, so the strong claim does not hold. It failed on one of the six columns
           measured; Jev won the other five, at a thirty-fourth of the cost, and that soft claim is
           the interesting one.
@@ -231,8 +231,12 @@
         <p>
           Same 300 respondents, same 108 columns, same stateful demographics persona.
           The test that decides it is a conjunction: Jev must win both the 65 yes/no
-          columns and the 43 ordinal ones. It loses the yes/no half. Calibration fails
-          for every arm — that one is about demographics-only grounding, not about Jev.
+          columns and the 43 ordinal ones. It loses the yes/no half. The second test takes
+          TypeSafe at its word — the vector is documented as calibrated, so the bar was set at
+          0.05 — and no arm comes close: Jev Noul 0.1472, Jev Choice 0.2029, gpt-4.1 0.2393.
+          Jev is the better calibrated of the two models, by 39%, and still three times over the
+          bar. Failing for every arm at once is what makes it a statement about demographics-only
+          grounding rather than about Jev.
         </p>
       </header>
 

@@ -49,6 +49,11 @@ conjunction on purpose. Winning one half and losing the other is not a win.
 **The calibration test.** Jev's calibration error on the 65 two-option columns, weighted equally
 across tasks, must be at most 0.05. Between 0.05 and 0.10 is marginal; above 0.10 is a failure.
 
+The bar is not arbitrary. TypeSafe documents the primitive as returning a *calibrated* probability
+per option, so this test takes that claim at face value and checks it on this instrument. A model
+that only ranks options correctly would fail it while still being useful; one whose stated
+probabilities mean what they say would pass.
+
 The verdict follows mechanically from the two:
 
 | Outcome | Meaning |
