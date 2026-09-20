@@ -1,0 +1,63 @@
+# What is in `reports/`
+
+Scored output. Every figure quoted in the write-up comes from one of these files, and each one is
+reproducible from the runs in [`runs/`](../runs/) with the command shown.
+
+The `source` field inside the older reports records the path the file was scored from at the time,
+under `outputs/`, which is this repo's gitignored working directory. The same runs now ship under
+`runs/gpt41_panel_n2058/`; the table below maps them.
+
+## The comparison that decides the verdict
+
+| File | Arms | Scored from |
+|---|---|---|
+| `score_with_noul.json` | Jev Noul, Jev Choice, GPT-4.1 probabilities | `runs/jev_vs_gpt41_n300/{jev_noul,jev_choice,gpt41_probs}.jsonl.gz` |
+| `score_all_arms.json` | Jev Choice, GPT-4.1 probabilities, GPT-4.1 hard answer | `runs/jev_vs_gpt41_n300/{jev_choice,gpt41_probs,gpt41_hard}.jsonl.gz` |
+| `score_jc_vs_ac.json` | Jev Choice, GPT-4.1 hard answer | `runs/jev_vs_gpt41_n300/{jev_choice,gpt41_hard}.jsonl.gz` |
+
+```bash
+python scripts/twin2k/prob_scoring.py score \
+    --arm jev_noul=runs/jev_vs_gpt41_n300/jev_noul.jsonl.gz \
+    --arm jev=runs/jev_vs_gpt41_n300/jev_choice.jsonl.gz \
+    --arm bc=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl.gz \
+    --bootstrap 1000 --seed 20260919 --ece-bins 10 --out /tmp/check.json
+```
+
+The `--arm` labels are part of the output: they become the keys in the JSON, so changing them
+changes the file. The labels above are the ones the shipped reports were scored with.
+
+Every statistic reproduces. Two fields will not match byte for byte: each arm's `path`, which
+records where the file was read from, and occasionally the last digit of a p-value, which moves
+with the platform's floating-point rounding. Verified for `score_with_noul.json` and
+`score_all_arms.json` on 2026-09-20: of several thousand values, only the three `path` strings and
+one p-value's final digit differed.
+
+## The full-panel GPT-4.1 runs
+
+`arm1` in these filenames is the demographics-stateless arm, named before the arms were.
+
+| File | Arm | Scored from |
+|---|---|---|
+| `paper_accuracy_full_arm1.json`, `individual_signal_full_arm1.json` | demographics, stateless | `runs/gpt41_panel_n2058/demographics_stateless/` |
+| `paper_accuracy_full_chained.json`, `individual_signal_full_chained.json` | demographics, stateful | `runs/gpt41_panel_n2058/demographics_stateful/` |
+| `paper_accuracy_full_prior_answers.json`, `individual_signal_full_prior_answers.json` | prior answers, stateless | `runs/gpt41_panel_n2058/prior_answers_stateless/` |
+| `task_deep_dive_full.md` | all three | the same workbooks, per task |
+
+```bash
+python scripts/twin2k/paper_accuracy.py \
+    --details runs/gpt41_panel_n2058/demographics_stateless/respondent_details_20260904_091556.xlsx
+python scripts/twin2k/individual_signal.py \
+    --details runs/gpt41_panel_n2058/demographics_stateless/respondent_details_20260904_091556.xlsx \
+    --summary runs/gpt41_panel_n2058/demographics_stateless/validation_summary_20260904_091556.xlsx
+```
+
+`paper_accuracy_full_prior_answers.json` is also the anchor for the scorer's own test: the
+leave-one-out and accuracy figures in it must reproduce exactly from the shipped workbook, which
+is what `tests/unit/test_twin2k_prob_scoring.py` checks.
+
+## Not reproducible from this repo
+
+`paper_accuracy_matched50.json` was scored from a 50-respondent matched subset whose workbooks are
+not shipped (`respondent_details_demographics_only_matched50.xlsx`,
+`respondent_details_chained_matched50.xlsx`, and a superseded prior-answers run). It is kept
+because the write-up quotes it, but it cannot be re-run here.

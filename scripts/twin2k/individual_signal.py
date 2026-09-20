@@ -40,8 +40,8 @@ separate metrics rather than averaged into one column.
 
 Usage:
     .venv\\Scripts\\python.exe scripts/twin2k/individual_signal.py \\
-        --details outputs/twin2k/demographics_only/respondent_details_20260904_091556.xlsx \\
-        --summary outputs/twin2k/demographics_only/validation_summary_20260904_091556.xlsx
+        --details runs/gpt41_panel_n2058/demographics_stateless/respondent_details_20260904_091556.xlsx \\
+        --summary runs/gpt41_panel_n2058/demographics_stateless/validation_summary_20260904_091556.xlsx
 """
 
 import argparse

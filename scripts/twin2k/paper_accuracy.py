@@ -49,9 +49,9 @@ must land on 81.68% across our 16 tasks. That is the implementation's only exter
 formula is short enough to look right while being wrong, and the recorded figure pins it.
 
 Usage:
-    .venv\\Scripts\\python.exe scripts/twin2k/paper_accuracy.py \\
-        --details outputs/twin2k/demographics_only/respondent_details_20260903_170807.xlsx \\
-        --details outputs/twin2k/prior_answers/respondent_details_20260903_172818.xlsx \\
+    python scripts/twin2k/paper_accuracy.py \\
+        --details runs/gpt41_panel_n2058/demographics_stateless/respondent_details_20260904_091556.xlsx \\
+        --details runs/gpt41_panel_n2058/prior_answers_stateless/respondent_details_20260908_074918.xlsx \\
         --ceiling
 """
 

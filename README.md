@@ -115,35 +115,42 @@ rather than a result about Jev.
 
 ## Reproduce it
 
-Every per-arm run is in this repo. There is nothing to download and no account to create.
+Every run behind the verdict is in this repo. Scoring needs nothing downloaded and no account.
 
 ```bash
 pip install -r requirements.txt
 
 python scripts/twin2k/prob_scoring.py score \
-    --arm jev_noul=runs/jev_noul_chained.jsonl.gz \
-    --arm jev=runs/jev_chained.jsonl.gz \
-    --arm bc=runs/bc_probs_chained.jsonl.gz \
+    --arm jev_noul=runs/jev_vs_gpt41_n300/jev_noul.jsonl.gz \
+    --arm jev=runs/jev_vs_gpt41_n300/jev_choice.jsonl.gz \
+    --arm bc=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl.gz \
     --bootstrap 1000 --seed 20260919 --ece-bins 10 \
     --out /tmp/check.json
 ```
 
-That reproduces [`reports/score_with_noul.json`](reports/score_with_noul.json) exactly. Every number
-quoted above and in [FINDINGS.md](FINDINGS.md) comes out of it.
+That reproduces [`reports/score_with_noul.json`](reports/score_with_noul.json). Every number quoted
+above and in [FINDINGS.md](FINDINGS.md) comes out of it. Two fields will not match byte for byte:
+each arm's `path`, which records where the file was read from and in the shipped report still names
+the working directory the run was scored in, and occasionally the last digit of a p-value, which
+moves with the platform's floating-point rounding.
 
-[`runs/`](runs/) holds all five arms as gzipped JSONL, one record per respondent and question cell,
-carrying the probability vector, the committed answer, the human's answer, the option order as
-presented, and the model version. There are 24,596 cells per arm and 5.8 MB for all five. They
-compress to about 6%, which is why they ship here rather than from a dataset host.
+[`runs/jev_vs_gpt41_n300/`](runs/jev_vs_gpt41_n300/) holds the four arms of that comparison as
+gzipped JSONL, one record per respondent and question cell, carrying the probability vector, the
+committed answer, the human's answer, the option order as presented, and the model version. Each
+arm is 24,596 cells; the four are 3.1 MB gzipped against 56.7 MB raw, which is why they ship here
+rather than from a dataset host. The scorer reads either form.
+[`runs/gpt41_panel_n2058/`](runs/gpt41_panel_n2058/) holds the earlier full-panel GPT-4.1 runs the
+grounding comparison rests on. [`runs/README.md`](runs/README.md) maps every file to the claim it
+supports.
 
 The price diagnostic also needs the dataset itself, for the per-respondent piped prices.
 
 ```bash
 python scripts/twin2k/fetch_twin2k.py            # Twin-2K-500, CC BY 4.0
 python scripts/twin2k/price_sensitivity.py \
-    --arm JC=runs/jev_chained.jsonl.gz \
-    --arm NC=runs/jev_noul_chained.jsonl.gz \
-    --arm BC=runs/bc_probs_chained.jsonl.gz
+    --arm JC=runs/jev_vs_gpt41_n300/jev_choice.jsonl.gz \
+    --arm NC=runs/jev_vs_gpt41_n300/jev_noul.jsonl.gz \
+    --arm BC=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl.gz
 ```
 
 ## Run a new arm
@@ -188,8 +195,7 @@ I would use it today for ordinal-scale marginals under cost pressure, with `Noul
 |---|---|
 | [FINDINGS.md](FINDINGS.md) | the full write-up, with every number, every caveat, and the pre-registration |
 | [`reports/`](reports/) | the scored reports behind every figure quoted here |
-| [`runs/`](runs/) | the raw per-cell output of all five arms, gzipped |
-| [`runs/twin2k/`](runs/twin2k/) | the GPT-4.1 arms as run: respondent-level workbooks, validation summaries, persona caches |
+| [`runs/`](runs/) | the raw per-cell output of every arm, and what each file supports |
 | [`scripts/twin2k/`](scripts/twin2k/) | the Jev client, the probe, the scorer, and the price diagnostic |
 | [`docs/`](docs/) | the arm design, the instrument, and the structured-output failure modes |
 

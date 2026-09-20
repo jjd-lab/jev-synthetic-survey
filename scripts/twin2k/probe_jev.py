@@ -39,11 +39,11 @@ JC beat gpt-4.1 on the 43 multiclass columns and lost the 65 binary ones, and th
 yes/no as precisely where `Choice` and `Noul` diverge. If the gap closes, C3 measured the
 elicitation and not the model.
 
-Usage (see the plan's Phase 3/4 for the gate table):
-    .venv\\Scripts\\python.exe scripts/twin2k/probe_jev.py --arm jev_chained --chain \\
+Usage:
+    python scripts/twin2k/probe_jev.py --arm jev_chained --chain \\
         --config configs/twin2k/twin2k_survey_config_chained.yaml \\
-        --persona-cache outputs/twin2k/chained/persona_cache.xlsx \\
-        --sample 300 --out outputs/twin2k/jev/jev_chained.jsonl
+        --persona-cache runs/gpt41_panel_n2058/demographics_stateful/persona_cache.xlsx \\
+        --sample 300 --out outputs/twin2k/jev/jev_choice.jsonl
 """
 
 import argparse

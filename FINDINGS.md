@@ -489,8 +489,9 @@ Not run, and deliberately so:
 - Scores in [reports/](reports/): `score_all_arms.json` (JC/BC/AC, the verdict) and
   `score_with_noul.json` (NC/JC/BC, the follow-up); the per-arm JSONL in [runs/](runs/), gzipped,
   including `jev_noul_chained.jsonl`
-- The GPT-4.1 arms these are compared against, as run: [runs/twin2k/](runs/twin2k/) for the
-  respondent-level workbooks, `reports/paper_accuracy_full_*.json` for their scores
+- The GPT-4.1 arms these are compared against, as run:
+  [runs/gpt41_panel_n2058/](runs/gpt41_panel_n2058/) for the respondent-level workbooks,
+  `reports/paper_accuracy_full_*.json` for their scores
 - [docs/twin2k-grounding-variants.md](docs/twin2k-grounding-variants.md), the arm ladder BC joins as a fourth
   generated config
 - [docs/twin2k-paper-vs-our-setting.md](docs/twin2k-paper-vs-our-setting.md), the 108 columns, 16 tasks, and

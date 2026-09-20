@@ -8,8 +8,8 @@ Two subcommands over one interchange format, so no metric ever grows a second co
 `probe_jev.py` writes the same JSONL directly, which is the whole point: after `convert`, JC and BC
 differ only in which model produced the numbers, and every metric below reads them identically.
 
-What the arms are and what decides between them is pre-registered in the plan
-(`outputs/twin2k/jev/PLAN.md`); this module implements it and nothing more. The two criteria:
+What the arms are and what decides between them was fixed in a written plan before the runs; this
+module implements it and nothing more. The two criteria:
 
   * C3 — soft distributional error and multiclass Brier, JC vs BC, paired.
   * C1 — calibration: equal-task-weighted ECE on the 65 binary columns.
@@ -34,14 +34,14 @@ reproduce `paper_accuracy`'s recorded 72.92% accuracy / 73.27% leave-one-out maj
 below are all short enough to look right while being wrong; that pair of numbers is what pins them.
 
 Usage:
-    .venv\\Scripts\\python.exe scripts/twin2k/prob_scoring.py convert \\
-        --details outputs/twin2k/probs_chained/respondent_details_20260919_120000.xlsx \\
-        --arm gpt41_probs_chained --out outputs/twin2k/jev/bc.jsonl --sample 300
+    python scripts/twin2k/prob_scoring.py convert \\
+        --details runs/jev_vs_gpt41_n300/gpt41_probs_source/respondent_details_20260919_112211.xlsx \\
+        --arm gpt41_probs_chained --out /tmp/gpt41_probs.jsonl --sample 300
 
-    .venv\\Scripts\\python.exe scripts/twin2k/prob_scoring.py score \\
-        --arm jev_chained=outputs/twin2k/jev/jev_chained.jsonl \\
-        --arm gpt41_probs_chained=outputs/twin2k/jev/bc.jsonl \\
-        --out outputs/twin2k/jev/report.json
+    python scripts/twin2k/prob_scoring.py score \\
+        --arm jev_chained=runs/jev_vs_gpt41_n300/jev_choice.jsonl.gz \\
+        --arm gpt41_probs_chained=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl.gz \\
+        --out /tmp/report.json
 """
 
 import argparse
