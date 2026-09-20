@@ -46,7 +46,7 @@
           <em>beat a verbalized one?</em>
         </h1>
         <p class="lede">
-          We asked TypeSafe’s Jev, a decision-only model, and <code>gpt-4.1</code> to play the
+          We asked TypeSafe’s Jev, a decision-only model, and gpt-4.1 to play the
           same 300 survey respondents. Jev returns a probability vector because that is all it
           does. We asked the chat model to write one out. Two tests were written down first.
           Both failed, so the strong claim does not hold. It failed on one of the six columns
@@ -55,14 +55,14 @@
         </p>
 
         <div class="hero-board">
-          <div class="stamp" aria-label="The strong claim fails">
+          <div class="stamp" aria-label="The strong claim was not met">
             <span>Strong claim</span>
-            <strong>Fails</strong>
+            <strong>Not met</strong>
           </div>
           <dl class="hero-stats">
-            <div><dt>Respondents</dt><dd>300</dd></div>
+            <div><dt>Paired arms</dt><dd>300</dd></div>
+            <div><dt>Full panel</dt><dd>2,058</dd></div>
             <div><dt>Questions</dt><dd>108</dd></div>
-            <div><dt>Cells / arm</dt><dd>24,596</dd></div>
             <div><dt>Jev cost</dt><dd>$4.01</dd></div>
             <div><dt>gpt-4.1 cost</dt><dd>~$136</dd></div>
           </dl>
@@ -72,8 +72,10 @@
           The registered arm is Jev <code>Choice</code> against verbalized <code>gpt-4.1</code>
           probabilities, and the column it loses is the two-option distribution gap the test turns
           on. Re-asked as a <code>Noul</code> it wins that column too, but after the fact, so the
-          failure stands. What follows teaches the instrument, then the full-panel
-          <code>gpt-4.1</code> run, then that comparison.
+          failure stands. The headline arms were then re-run over all 2,058 respondents and the
+          numbers held: 0.1530 to 0.1523 on the distribution gap, 0.1472 to 0.1418 on calibration,
+          67.28% to 67.64% on accuracy, across a 6.9-fold increase in sample. What follows teaches
+          the instrument, then the full-panel <code>gpt-4.1</code> run, then that comparison.
         </p>
       </div>
     </section>
@@ -194,8 +196,10 @@
 
       <figure class="frame">
         <figcaption>
-          Accuracy against the human ceiling, the paper’s published twin, and a persona-blind
-          leave-one-out floor. Every arm is below the floor.
+          Accuracy against the human test–retest ceiling and the paper’s published twin. Every
+          arm also lands under 73.59%, which is what you score by ignoring the persona entirely
+          and going with what everyone else answered — the sharper point, and the one §03 turns
+          on.
         </figcaption>
         <div class="chart" id="chart-floors"></div>
       </figure>
@@ -249,8 +253,8 @@
         </p>
         <p>
           Accuracy is last on purpose. The arm that wins it, gpt-4.1 hard answer at 69.32%,
-          is last on the distribution gap. All five sit below the 73.59% leave-one-out floor
-          on this 300-person slice.
+          is last on the distribution gap. All five land under 73.59% on this 300-person slice,
+          the score from ignoring the persona entirely.
         </p>
       </div>
 
@@ -298,10 +302,10 @@
           answer distribution sits nearer the humans’ than gpt-4.1’s does, on 13 of 13 demographic
           variables with no exceptions. Median distance 0.233 against 0.295, over all 2,058
           respondents. If the deliverable is “what share of this group said yes”, this is the arm
-          that gets it right. The second bar is the other half of the same measurement, and it
-          goes the other way: Jev reproduces 40% of the real spread <em>between</em> groups,
-          gpt-4.1 about 110%. Being right inside a group and getting the gaps between groups
-          right are different things, and neither arm does both.
+          that gets it right. The chart is the other half of the same measurement, and it goes the
+          other way: Jev reproduces 40% of the real gap <em>between</em> groups, gpt-4.1 about
+          110%. Being right inside a group and getting the gaps between groups right are different
+          things, and neither arm does both.
         </figcaption>
         <div class="chart" id="chart-segments"></div>
       </figure>

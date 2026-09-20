@@ -79,7 +79,6 @@ const EssayCharts = {
       host,
       [
         { label: "Human test–retest", value: figures.constants.human_ceiling_pct, display: fmtPct(figures.constants.human_ceiling_pct), color: COLORS.human },
-        { label: "Leave-one-out floor", value: figures.constants.panel_loo_floor_pct, display: fmtPct(figures.constants.panel_loo_floor_pct), color: COLORS.gold },
         { label: "Paper’s published twin", value: figures.constants.paper_twin_pct, display: fmtPct(figures.constants.paper_twin_pct), color: "#8a9698" },
         { label: "Prior answers", value: panel.prior_answers_stateless.accuracy_pct, display: fmtPct(panel.prior_answers_stateless.accuracy_pct), color: COLORS.gpt },
         { label: "Demographics, stateless", value: panel.demographics_stateless.accuracy_pct, display: fmtPct(panel.demographics_stateless.accuracy_pct), color: COLORS.gpt, muted: true },
@@ -193,16 +192,8 @@ const EssayCharts = {
     const seg = figures.segments;
     metricStack(host, [
       {
-        title: "Inside each group · distance to the humans · lower better",
-        max: 0.4,
-        rows: [
-          { label: "Jev Noul", value: seg.fidelity_jev, display: fmtNum(seg.fidelity_jev, 3), color: COLORS.gold },
-          { label: "gpt-4.1 hard", value: seg.fidelity_gpt41, display: fmtNum(seg.fidelity_gpt41, 3), color: COLORS.gpt },
-        ],
-      },
-      {
-        title: "Between groups · share of the real spread reproduced",
-        max: 3,
+        title: "How much of the real gap between groups each arm reproduces",
+        max: 1.4,
         rows: [
           { label: "The humans", value: 1, display: "1.00", color: COLORS.human },
           { label: "Jev Noul", value: seg.spread_jev, display: fmtNum(seg.spread_jev, 2), color: COLORS.gold },
