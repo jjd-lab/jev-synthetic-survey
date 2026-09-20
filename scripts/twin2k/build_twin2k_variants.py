@@ -53,12 +53,17 @@ BASELINE_OUTPUT = 'output_dir: "outputs/twin2k/demographics_stateless"'
 # them, so one baseline edit does not have to be chased through two tables.
 CAP_COMMENT_1 = "  # The only concurrency knob. A slot holds a whole persona-walk (~82 sequential calls), not a"
 CAP_COMMENT_2 = "  # single call, so this is 50 concurrent walks. 50 is this pipeline's proven-stable value;"
+CAP_COMMENT_3 = "  # c=100 stalled the provider on the same path."
 CAP_VALUE = "max_concurrency: 50"
 
 # Every arm is a respondent-major walk now; the baseline is the one that does not chain. So a
 # variant says only what it changes about the walk, and the two flags the baseline sets to false
 # are the tokens the chaining arms flip.
+NO_CHAIN_COMMENT = "# Never show the model its own earlier answers. That is the difference this arm is"
+NO_CHAIN_COMMENT_2 = "# defined by, and `demographics_stateful` is the same config with this set true."
 NO_CHAIN = "chain_own_answers: false"
+NO_BATCH_COMMENT = "# Ask each grid member individually. Left true, the 7 grid groups would collapse 40 of the"
+NO_BATCH_COMMENT_2 = "# 108 questions into 7 calls, a different elicitation on 37% of the instrument."
 NO_BATCH = "batch_grids: false"
 
 # `prior_answers_stateless` differs from the baseline in ONE respect: what the persona contains.
@@ -81,26 +86,23 @@ PRIOR_ANSWERS_STATEFUL = [
      "  # Slots hold a whole persona-walk, so this is 32 concurrent walks, not 32 calls. Lower than"),
     (CAP_COMMENT_2,
      "  # the others: it is also the checkpoint cohort size, bounding what a spend cap can waste."),
+    (CAP_COMMENT_3,
+     "  # Raise it for speed alone; lowering it for cost no longer buys anything."),
     (CAP_VALUE, "max_concurrency: 32"),
 ]
 
 # `demographics_stateful` is the baseline with chaining switched on. That one flag is the whole
 # arm: it is what isolates "the model sees its own earlier answers" from everything else.
 CHAINED = [
-    (NO_CHAIN,
-     [
-         "# Feed the model its own earlier answers. This single flag is what separates this arm from",
-         "# the baseline, which is otherwise the identical walk.",
-         "chain_own_answers: true",
-     ]),
-    (NO_BATCH,
-     [
-         "# Grids batched, as the runner does by default: the 7 grid groups become 7 calls covering 40",
-         "# of the 108 questions. This is the one way the arm departs from the baseline's elicitation,",
-         "# which is why it is a loose sanity check against `gpt41_probs` rather than a second",
-         "# comparator.",
-         "batch_grids: true",
-     ]),
+    (NO_CHAIN_COMMENT,
+     "# Feed the model its own earlier answers. This single flag is what separates this arm from"),
+    (NO_CHAIN_COMMENT_2, "# the baseline, which is otherwise the identical walk."),
+    (NO_CHAIN, "chain_own_answers: true"),
+    (NO_BATCH_COMMENT,
+     "# Grids batched, as the runner does by default: the 7 grid groups become 7 calls covering"),
+    (NO_BATCH_COMMENT_2,
+     "# 40 of the 108 questions, the one way this arm departs from the baseline's elicitation."),
+    (NO_BATCH, "batch_grids: true"),
 ]
 
 # `gpt41_probs` is `demographics_stateful` asked for a DISTRIBUTION instead of an answer, and is
@@ -109,18 +111,16 @@ CHAINED = [
 # in nothing else, which is what keeping the baseline's per-member grids buys -- it matches the
 # probe's one-call-per-cell walk -- while the shared persona cache keeps the twins identical.
 PROBS_CHAINED = [
-    (NO_CHAIN,
-     [
-         "# Chained, like `demographics_stateful`: the answer entering the history is still the model's",
-         "# own `choice`, never a draw from the vector.",
-         "chain_own_answers: true",
-     ]),
+    (NO_CHAIN_COMMENT,
+     "# Chained, like `demographics_stateful`: the answer entering the history is still the"),
+    (NO_CHAIN_COMMENT_2, "# model's own `choice`, never a draw from the vector."),
+    (NO_CHAIN, "chain_own_answers: true"),
+    (NO_BATCH_COMMENT,
+     "# Grids stay per-member, as the Jev probe asks them. Batched, the 7 grid groups would"),
+    (NO_BATCH_COMMENT_2,
+     "# collapse 40 of the 108 columns into 7 calls, and a grid writes ONE combined history turn."),
     (NO_BATCH,
      [
-         "# Grids stay per-member, unlike `demographics_stateful`, because that is what the Jev probe",
-         "# does. Batched, the 7 grid groups would collapse 40 of the 108 columns into 7 calls, a",
-         "# different elicitation from the probe on 37% of the instrument -- and a grid writes ONE",
-         "# combined history turn, so the damage would not stay in those 40.",
          "batch_grids: false",
          "",
          "# The point of the arm: gpt-4.1 ASKED to state a distribution, against a model whose native",

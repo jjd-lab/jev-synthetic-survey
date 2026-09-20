@@ -1,6 +1,6 @@
 """The described-`Choice` arm's manipulation, pinned to the rule fixed before the run.
 
-`docs/jev/06-option-descriptions-plan.md` fixes three things these tests exist to hold the code to:
+`docs/jev/06-option-descriptions.md` fixes three things these tests exist to hold the code to:
 
   1. descriptions are derived from the label, never written, so there is no wording to tune;
   2. the rule reaches exactly the 40 pricing columns on the shipped instrument, and falls through

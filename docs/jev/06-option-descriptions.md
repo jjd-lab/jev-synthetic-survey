@@ -84,7 +84,8 @@ The boundary figures come from `price_sensitivity.py` with the same four arms.
 ## The question
 
 Jev was given the same input GPT-4.1 got: the option labels bare, with no descriptions
-(`criteria: {option: None}`, [`jev_client.py:174`](../../scripts/twin2k/jev_client.py)). That
+(`criteria: {option: None}` in `jev_client.build_payload`,
+[`jev_client.py`](../../scripts/twin2k/jev_client.py)). That
 matching is what made the comparison a test of models rather than of prompting, and it is why
 every lever in TypeSafe's own guidance was left untouched.
 

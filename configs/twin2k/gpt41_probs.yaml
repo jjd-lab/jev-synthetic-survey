@@ -335,10 +335,9 @@ survey:
 
 personas:
   source: "excel"
-  # No `screener_summarization_prompt`: it is optional for surveys with no screener, and with
-  # one the pipeline would spend a call per persona summarizing a profile that is either
-  # empty (baseline/chained) or wanted verbatim (prior_answers). Omitting it takes the
-  # direct-demographics branch of `generate_personas_from_respondents`, and it is what
+  # No `screener_summarization_prompt`: the summarizer was removed once no arm set it. A
+  # persona's prior answers are rendered verbatim as Q:/A: pairs, which is what the
+  # prior-answers arm wants and what the demographics arms leave empty. Kept as a note because
   # selects verbatim over summary in `render_history`.
 
 # Shared verbatim by all three arms, so the only difference between them is the persona
@@ -351,10 +350,9 @@ personas:
 # in elicitation anyway (one call per question, enforced schema, shuffled options, temp 0.7)
 # bought nothing, and the tagged shape is what the rest of the repo is tuned for.
 #
-# {framing_guidance} and {response_format} are NOT available here. The stateful runner
-# supplies them; `_build_persona_survey_inputs` (the batched path) does not, and this one
-# text is shared by the stateless arms and the stateful `chained` arm — so the answer format
-# is inlined literally, matching `_CHOICE_RESPONSE_FORMAT` in survey_runner_excel.py.
+# {framing_guidance} and {response_format} are NOT available here: no runner supplies them,
+# and the placeholders were removed once it was measured that every cell computed and then
+# discarded them. The answer format is inlined literally below instead.
 #
 # "This is a survey research simulation." inside <survey_context> is kept as insurance, but
 # on THIS shape it is no longer what carries the prompt past Azure's content filter. Re-probed
@@ -447,18 +445,12 @@ execution:
 # everything else `full` would otherwise change, so the elicitation is unaffected.
 memory_mode: "full"
 
-# Never show the model its own earlier answers. That is the difference this arm is
-# defined by, and `demographics_stateful` is the same config with this set true.
-# Chained, like `demographics_stateful`: the answer entering the history is still the model's
-# own `choice`, never a draw from the vector.
+# Chained, like `demographics_stateful`: the answer entering the history is still the
+# model's own `choice`, never a draw from the vector.
 chain_own_answers: true
 
-# Ask each grid member individually. Left true, the 7 grid groups would collapse 40 of the
-# 108 questions into 7 calls, a different elicitation on 37% of the instrument.
-# Grids stay per-member, unlike `demographics_stateful`, because that is what the Jev probe
-# does. Batched, the 7 grid groups would collapse 40 of the 108 columns into 7 calls, a
-# different elicitation from the probe on 37% of the instrument -- and a grid writes ONE
-# combined history turn, so the damage would not stay in those 40.
+# Grids stay per-member, as the Jev probe asks them. Batched, the 7 grid groups would
+# collapse 40 of the 108 columns into 7 calls, and a grid writes ONE combined history turn.
 batch_grids: false
 
 # The point of the arm: gpt-4.1 ASKED to state a distribution, against a model whose native

@@ -35,7 +35,7 @@ def validate_question_responses(
     min_n_for_gating: int = MIN_N_FOR_GATING,
 ) -> ValidationResult:
     """
-    Common validation logic for both stateful and stateless modes.
+    Shared validation logic, called once per question after the walk completes.
 
     Args:
         question_id: Question identifier
@@ -396,7 +396,15 @@ def run_excel_validation_pipeline(config_path: str,
 
     from src.core.survey_runner_excel import run_stateful_survey_for_all_personas
 
-    question_list = [q.id for q in config.survey.questions]
+    # The walk asks exactly what will be validated. Built from the full config this silently
+    # asked all 108 per persona and scored one, so `--questions` cost the whole run and
+    # discarded 107/108 of it. Restricting the walk changes the per-persona RNG stream and the
+    # history every later cell sees, so a restricted run is a smoke run, not a comparable arm --
+    # the same caveat `probe_jev.py` prints.
+    question_list = [q.id for q in questions_to_validate]
+    if question_ids:
+        print(f"[warn] --questions restricts the walk to {len(question_list)} question(s); the "
+              "RNG stream and history differ from a full run, so this is a smoke run only.")
 
     def _run_cohort(cohort_personas):
         """Run the stateful survey over one cohort of personas (unchanged runner)."""
@@ -429,10 +437,9 @@ def run_excel_validation_pipeline(config_path: str,
         run_dir = ckpt.init_run_dir(checkpoint_dir, run_id)
         manifest = ckpt.load_manifest(run_dir)
         # Mirror of the stateless branch's guard. Reachable now that a survey can move between
-        # the two paths: `prior_answers` left a question-scoped dir behind. Without this the
-        # `batches` count below is 0, so a stateful run appends its own keys beside the
-        # existing `questions` — and `rerun_failed` dispatches on which key is present, so it
-        # would repair a mixed dir with the wrong unit.
+        # A dir written by the removed question-scoped checkpointer. Without this guard the
+        # `batches` count below is 0, so a run would append its own keys beside the existing
+        # `questions` and leave a mixed dir that nothing can read back correctly.
         if manifest.get("questions") or manifest.get("completed_pairs"):
             raise RuntimeError(
                 f"Checkpoint dir '{run_dir}' holds a stateless, per-question checkpoint; a "

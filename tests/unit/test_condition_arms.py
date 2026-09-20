@@ -392,7 +392,9 @@ def test_the_config_default_cannot_drift_from_the_module_constant():
 
 @pytest.mark.unit
 @pytest.mark.parametrize("config_path", sorted(
-    p for p in REPO_ROOT.glob("configs/*/*survey_config*.yaml") if "twin2k" not in p.parts
+    # Any yaml, not just *survey_config*: the twin2k arms were renamed away from that
+    # convention, so a name-based glob would silently stop guarding a future survey.
+    p for p in REPO_ROOT.glob("configs/*/*.yaml") if "twin2k" not in p.parts
 ))
 def test_no_other_surveys_config_sets_the_floor(config_path):
     """Only twin2k may state a gating floor; every other survey takes the default.

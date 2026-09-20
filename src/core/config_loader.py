@@ -84,7 +84,10 @@ class LLMConfig(BaseModel):
     temperature: float = 0.7
     persona_temperature: Optional[float] = None
     survey_temperature: Optional[float] = None
-    n_variations: int = 1
+    # Fixed at 1. The walk asks each cell once; the batched runner that fanned out into
+    # several variations per persona was removed. Stated as a validated field rather than
+    # dropped so a config asking for 4 fails here instead of silently getting 1.
+    n_variations: Literal[1] = 1
     # The only concurrency knob. .batch() uses a rolling pool, so this caps in-flight calls without
     # the synchronization barrier the old `batch_size` chunk loop imposed. None = LangChain default
     # pool of min(32, cpu_count + 4). A leftover `batch_size:` key in an old config is inert

@@ -1,13 +1,11 @@
-"""Checkpoint I/O for resumable survey runs, in two flavours keyed to the two runners.
+"""Checkpoint I/O for resumable survey runs.
 
-Stateful runs checkpoint per batch of persona-walks (`save_batch`/`load_all_batches`, keyed on
-respid); stateless runs checkpoint per question (`save_question`/`load_question`, keyed on
-(question_id, respid)). Each uses its own manifest keys, so a run dir carries one flavour only.
-Either way a crash loses at most one in-flight unit, and validation plus Excel export run once at
-the end over the reconstructed full result set.
+Runs checkpoint per batch of persona-walks (`save_batch`/`load_all_batches`, keyed on respid). A
+crash loses at most one in-flight batch, and validation plus Excel export run once at the end over
+the reconstructed full result set.
 
-Batch-level resume only: a kill *during* a batch (or question) loses that unit's in-flight
-personas, which re-run on resume.
+Batch-level resume only: a kill *during* a batch loses that batch's in-flight personas, which
+re-run on resume.
 
 In both flavours the manifest records what SUCCEEDED, not what was attempted: a failed cell or
 aborted persona-walk is written to its JSONL but left out of the completed set, so plain `--resume`
@@ -32,7 +30,7 @@ def _is_aborted(record: Dict[str, Any]) -> bool:
     sets an explicit `status` for both, so no sniffing is needed. Records written before that field
     existed have no `status` and are treated as successful, so old checkpoints reconstruct
     unchanged (and, since resume reads the manifest rather than the records, a pre-existing
-    checkpoint's failed cells stay marked complete — repair those with rerun_failed.py).
+    checkpoint's failed cells stay marked complete, and the only repair is a fresh run id).
     """
     return record.get("status", "ok") == "aborted"
 

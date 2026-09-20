@@ -1,8 +1,8 @@
 """Survey runner for Excel-based validation with multi-choice support
 
-This module supports two modes:
-1. Stateless mode: Batch processing, no conversation history, no routing
-2. Stateful mode: Sequential per-persona, full conversation history, routing-aware
+One mode: a sequential per-persona walk with full conversation history and routing. An arm that
+should not see its own earlier answers sets `chain_own_answers: false` rather than taking a
+different runner; the batched, question-major path was removed once no arm used it.
 """
 
 import random

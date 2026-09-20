@@ -335,10 +335,9 @@ survey:
 
 personas:
   source: "excel"
-  # No `screener_summarization_prompt`: it is optional for surveys with no screener, and with
-  # one the pipeline would spend a call per persona summarizing a profile that is either
-  # empty (baseline/chained) or wanted verbatim (prior_answers). Omitting it takes the
-  # direct-demographics branch of `generate_personas_from_respondents`, and it is what
+  # No `screener_summarization_prompt`: the summarizer was removed once no arm set it. A
+  # persona's prior answers are rendered verbatim as Q:/A: pairs, which is what the
+  # prior-answers arm wants and what the demographics arms leave empty. Kept as a note because
   # selects verbatim over summary in `render_history`.
 
 # Shared verbatim by all three arms, so the only difference between them is the persona
@@ -351,10 +350,9 @@ personas:
 # in elicitation anyway (one call per question, enforced schema, shuffled options, temp 0.7)
 # bought nothing, and the tagged shape is what the rest of the repo is tuned for.
 #
-# {framing_guidance} and {response_format} are NOT available here. The stateful runner
-# supplies them; `_build_persona_survey_inputs` (the batched path) does not, and this one
-# text is shared by the stateless arms and the stateful `chained` arm — so the answer format
-# is inlined literally, matching `_CHOICE_RESPONSE_FORMAT` in survey_runner_excel.py.
+# {framing_guidance} and {response_format} are NOT available here: no runner supplies them,
+# and the placeholders were removed once it was measured that every cell computed and then
+# discarded them. The answer format is inlined literally below instead.
 #
 # "This is a survey research simulation." inside <survey_context> is kept as insurance, but
 # on THIS shape it is no longer what carries the prompt past Azure's content filter. Re-probed
@@ -431,7 +429,7 @@ llm:
   n_variations: 1
   # Slots hold a whole persona-walk, so this is 32 concurrent walks, not 32 calls. Lower than
   # the others: it is also the checkpoint cohort size, bounding what a spend cap can waste.
-  # c=100 stalled the provider on the same path.
+  # Raise it for speed alone; lowering it for cost no longer buys anything.
   max_concurrency: 32
 
 execution:

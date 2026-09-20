@@ -379,12 +379,19 @@ class TestChainingAndAbort:
             {"arm": "a", "respid": "3", "aborted": True, "repeat_tag": "r1", "order_salt": ""},
             {"arm": "b", "respid": "4", "done": True, "repeat_tag": "r1", "order_salt": ""},
             {"arm": "a", "respid": "5", "done": True, "repeat_tag": "r2", "order_salt": ""},
+            # Same arm and tags, but produced with --describe-criteria: a different manipulation
+            # under one arm name, which a resume must not treat as already done.
+            {"arm": "a", "respid": "6", "done": True, "repeat_tag": "r1", "order_salt": "",
+             "described": True},
         ]) + "\n", encoding="utf-8")
-        done = completed_respids(path, "a", "r1", "")
+        done = completed_respids(path, "a", "r1", "", False)
         assert done == {"2"}, "only a matching done marker counts as complete"
+        assert completed_respids(path, "a", "r1", "", True) == {"6"}, (
+            "a described resume must match only described markers"
+        )
 
     def test_resume_on_a_missing_file_is_empty(self, tmp_path):
-        assert completed_respids(tmp_path / "nope.jsonl", "a", "r1", "") == set()
+        assert completed_respids(tmp_path / "nope.jsonl", "a", "r1", "", False) == set()
 
     def test_order_salt_changes_the_permutation(self, twin):
         persona = _persona(twin)
@@ -494,7 +501,8 @@ class TestGuards:
         assert_public_data_config(CHAINED_CONFIG, config)  # must not raise
 
     @pytest.mark.parametrize("config_path", sorted(
-        p for p in REPO_ROOT.glob("configs/*/*survey_config*.yaml") if "twin2k" not in p.parts
+        # Any yaml: see the note in test_condition_arms.py on the renamed twin2k arms.
+        p for p in REPO_ROOT.glob("configs/*/*.yaml") if "twin2k" not in p.parts
     ))
     def test_every_non_twin_survey_config_is_refused(self, config_path):
         """Enumerated from the repo, not hardcoded: a non-Twin config added later is covered

@@ -238,6 +238,10 @@ def walk_persona(client, persona, question_list, mapper, router, state_template,
             "history_len": len(own_answers),
             "repeat_tag": args.repeat_tag,
             "order_salt": args.order_salt,
+            # Part of the arm's identity, like the two above: a resume that changed this flag
+            # would otherwise append undescribed cells under a described arm's name, and nothing
+            # downstream could tell them apart.
+            "described": bool(args.describe_criteria),
             "error": None,
         }
 
@@ -312,7 +316,8 @@ def walk_persona(client, persona, question_list, mapper, router, state_template,
     return rows, None
 
 
-def completed_respids(path: Path, arm: str, repeat_tag: str, order_salt: str) -> set:
+def completed_respids(path: Path, arm: str, repeat_tag: str, order_salt: str,
+                      described: bool) -> set:
     """Respids whose walk finished, from a `done` marker -- not from the presence of cell rows.
 
     A marker is what makes resume safe: an aborted persona also has rows on disk (it does not,
@@ -333,7 +338,8 @@ def completed_respids(path: Path, arm: str, repeat_tag: str, order_salt: str) ->
                 continue
             if (row.get("done") and row.get("arm") == arm
                     and row.get("repeat_tag") == repeat_tag
-                    and row.get("order_salt") == order_salt):
+                    and row.get("order_salt") == order_salt
+                    and bool(row.get("described")) == described):
                 done.add(str(row["respid"]))
     return done
 
@@ -400,9 +406,10 @@ def main() -> int:
                        help="Existing persona cache. Required in practice: regenerating personas "
                             "needs the provider and would break the same-persona control.")
     parser.add_argument("--describe-criteria", action="store_true",
-                       help="Send a derived description per option, where the rule reaches one. "
-                            "On the shipped instrument that is the 40 pricing columns and nothing "
-                            "else; see docs/jev/06-option-descriptions.md.")
+                       help="Send a derived description per option on two-option columns. On the "
+                            "shipped instrument that is the 40 pricing columns and nothing else. "
+                            "Has no effect with --primitive noul, which carries the option text "
+                            "in its own true/false slots; see docs/jev/06-option-descriptions.md.")
     parser.add_argument("--primitive", choices=("choice", "noul"), default="choice",
                        help="`noul` asks the 65 two-option columns as a yes/no condition instead "
                             "of a Choice, and leaves the 43 multiclass columns on Choice. Tests "
@@ -485,12 +492,22 @@ def main() -> int:
 
     state_template = build_state_template(config.survey_prompt)
 
+    if args.describe_criteria and args.primitive == "noul":
+        # A Noul already carries the option text in its true/false slots, so descriptions
+        # would reach only the 43 multi-option columns -- the opposite of what the flag is
+        # for. Refuse rather than bill for tokens that change nothing.
+        raise SystemExit(
+            "--describe-criteria has no effect with --primitive noul: a Noul already puts the "
+            "option text in its true/false slots. Drop one of the two flags."
+        )
+
     if args.dry_run:
         return dry_run(personas, question_list, mapper, router, state_template, args)
 
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    done = completed_respids(out_path, args.arm, args.repeat_tag, args.order_salt)
+    done = completed_respids(out_path, args.arm, args.repeat_tag, args.order_salt,
+                             bool(args.describe_criteria))
     todo = [p for p in personas if str(p["respid"]) not in done]
     print(f"[OK] {len(done)} personas already complete, {len(todo)} to run")
     if not todo:
@@ -515,6 +532,7 @@ def main() -> int:
         if error is None:
             payload = rows + [{"arm": args.arm, "respid": respid, "done": True,
                                "repeat_tag": args.repeat_tag, "order_salt": args.order_salt,
+                               "described": bool(args.describe_criteria),
                                "n_cells": len(rows)}]
         else:
             # Nothing but the marker: a partial walk's cells are not comparable, and keeping them
