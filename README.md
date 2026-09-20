@@ -291,9 +291,9 @@ cp .env.example .env
 costs and how long it takes.
 
 The configs ship a plain `gpt-4.1`, so `.env.example` as written runs against stock OpenAI. Every
-number in this repo was collected as `azure/gpt-4.1` through a hosted endpoint, and the model id is the
-only thing that differs. It is sent verbatim as the model, so it *is* the routing key at a
-that endpoint — to reproduce the shipped runs, restore the prefix along with its `API_BASE_URL`.
+number in this repo was collected as `azure/gpt-4.1` through a hosted endpoint, and the model id is
+the only thing that differs. It is sent verbatim as the model, so at such an endpoint it *is* the
+routing key. To reproduce the shipped runs, restore the prefix along with its `API_BASE_URL`.
 What it does not change is structured output: `structured_output_method` branches only on a
 `bedrock/` prefix, so both ids take the same hard-enforced `json_schema` path the probability arm
 depends on.
