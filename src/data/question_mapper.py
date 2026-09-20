@@ -320,7 +320,6 @@ class QuestionMapper:
                     }
                 continue
 
-            # Handle multi-select questions (e.g., S6, S6A)
             if config.get("is_multi_select", False):
                 choices = config.get("choices", {})
                 selected = []

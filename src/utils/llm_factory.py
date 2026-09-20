@@ -29,12 +29,6 @@ def budget_halt_reason() -> Optional[str]:
         return _budget_halt_reason
 
 
-def reset_budget_halt() -> None:
-    """Clear the latch. For tests; a real run has nothing to clear."""
-    global _budget_halt_reason
-    with _budget_halt_lock:
-        _budget_halt_reason = None
-
 
 def _latch_budget_halt(exc: BaseException) -> None:
     """Record the first block. Later ones don't overwrite it -- the first message is the diagnosis."""

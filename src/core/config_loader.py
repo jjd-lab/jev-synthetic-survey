@@ -142,12 +142,12 @@ class FullSurveyConfig(BaseModel):
     preserve_anchors: bool = False  # Pin `anchor_options` (mapping JSON) to the end of the shuffled
     # option list instead of letting them float. Default False = uniform shuffle over all options.
     # Opt-in because it changes prompt option order, so results are not comparable across the flip;
-    # tracked as the hillclimb `positional:preserve_anchors` arm.
+    # tracked as the predecessor project's `positional:preserve_anchors` arm.
     response_mode: Literal["hard_choice", "choice_plus_confidence", "verbalized_probs", "weighted_draw"] = "hard_choice"
     # `response_mode` is how a choice is elicited. `hard_choice` = pick one option (default, and
     # every pre-ELICIT arm).
     # `verbalized_probs` = also emit a probability per option (ELICIT_V10), which is what the
-    # `<qid>_probs` export column and report.py's soft metric read; the committed `choice` field
+    # `<qid>_probs` export column and the downstream soft metric read; the committed `choice` field
     # still supplies `_synthetic`, so hard metrics are unaffected.
     # `weighted_draw` (ELICIT_V11) elicits identically to `verbalized_probs` and changes only the
     # commit rule: `_synthetic` becomes a DRAW from that vector -- one option from the simplex for
@@ -164,7 +164,7 @@ class FullSurveyConfig(BaseModel):
     routing_rules: Optional[List[RoutingRule]] = None  # Conditional logic (skip, show-if, mask, pipe)
     min_n_for_gating: int = 50  # Valid-respondent floor below which `collapse` and `blind_spot` are
     # reported but never FLAGGED (an entropy ratio over a handful of draws cannot separate collapse
-    # from sampling noise). Default matches `MIN_N_FOR_GATING` in response_validator.py, which the
+    # from sampling noise). Default matches `MIN_N_FOR_GATING` in response_validator.py.
     # Per-survey because it is a reporting policy, not a law.
     # Raising it is the honest use — lowering it manufactures flags rather than restoring a guardrail.
 
@@ -268,7 +268,6 @@ def load_survey_config(config_path: str) -> FullSurveyConfig:
 
     try:
         config = FullSurveyConfig(**data)
-        # Phase 2: Validate routing rules
         validate_routing_rules(config)
         return config
     except Exception as e:

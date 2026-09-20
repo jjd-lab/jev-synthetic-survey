@@ -84,9 +84,7 @@ def _free_text(question_id, selector, rows=(), n_columns=1, stem="Describe yours
     }
 
 
-# --------------------------------------------------------------------------
 # Checkbox batteries decode as ordinary single-column screeners
-# --------------------------------------------------------------------------
 
 @pytest.mark.unit
 def test_every_checkbox_column_gets_the_whole_option_list(generator):
@@ -160,9 +158,7 @@ def test_an_unchecked_box_never_reaches_the_prompt():
     assert profile["QID126_1"]["answer"] == "I feel sad"
 
 
-# --------------------------------------------------------------------------
 # Free text renders the cell as written
-# --------------------------------------------------------------------------
 
 @pytest.mark.unit
 def test_a_standalone_free_text_question_keeps_its_stem(generator):
@@ -233,9 +229,7 @@ def test_the_free_text_branch_renders_a_number_without_its_float_tail():
     assert "QID51_TEXT" not in profile
 
 
-# --------------------------------------------------------------------------
 # Every selector has a branch
-# --------------------------------------------------------------------------
 
 @pytest.mark.unit
 def test_an_unhandled_selector_is_fatal_rather_than_skipped(generator):
@@ -262,9 +256,7 @@ def test_a_column_less_block_is_not_mistaken_for_an_unhandled_selector(generator
     assert not entries and not tagged
 
 
-# --------------------------------------------------------------------------
 # Generator -> runtime, on the shipped artifact
-# --------------------------------------------------------------------------
 
 @pytest.mark.unit
 def test_the_shipped_persona_carries_the_whole_non_holdout_record(shipped_mapping):
@@ -317,9 +309,7 @@ def test_the_shipped_free_text_columns_render_verbatim(shipped_mapping):
     assert all(entry["answer"] == f"answer to {qid}" for qid, entry in profile.items())
 
 
-# --------------------------------------------------------------------------
 # Inert for every other mapping
-# --------------------------------------------------------------------------
 
 @pytest.mark.unit
 def test_no_shipped_screener_reaches_the_free_text_branch_by_accident():

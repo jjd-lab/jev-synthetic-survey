@@ -61,9 +61,7 @@ def _price_list(rows, question_id=_TAGGED_QID, columns=("1", "2")):
     }
 
 
-# --------------------------------------------------------------------------
 # Splitting the row label
-# --------------------------------------------------------------------------
 
 @pytest.mark.unit
 def test_a_row_label_becomes_the_two_options_it_offers(generator):
@@ -146,9 +144,7 @@ def test_a_fully_excluded_battery_leaves_no_tag_behind(generator):
     assert not entries and not tagged and skipped["excluded"] == 1
 
 
-# --------------------------------------------------------------------------
 # Carrying the option text through the decode check
-# --------------------------------------------------------------------------
 
 @pytest.mark.unit
 def test_fit_to_csv_preserves_a_non_identity_answer_text(generator):
@@ -186,9 +182,7 @@ def test_fit_to_csv_is_unchanged_for_identity_maps(generator):
     assert not dropped
 
 
-# --------------------------------------------------------------------------
 # Generator -> runtime, on the shipped artifact
-# --------------------------------------------------------------------------
 
 @pytest.mark.unit
 def test_the_shipped_persona_renders_options_not_codes():
@@ -217,9 +211,7 @@ def test_the_shipped_persona_renders_options_not_codes():
         assert profile[qid]["answer"] == config["choices"]["1"]
 
 
-# --------------------------------------------------------------------------
 # Inert for surveys that declare no price lists
-# --------------------------------------------------------------------------
 
 @pytest.mark.unit
 def test_no_other_survey_reads_the_prior_answer_persona():

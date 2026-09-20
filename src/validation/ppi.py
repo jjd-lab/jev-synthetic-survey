@@ -100,14 +100,3 @@ def ppi_marginals(
         out[opt] = ppi_binary(y_hit, zh_hit, zu_hit)
     return out if is_multi else normalize_probs(out)
 
-
-def pearson(a: np.ndarray, b: np.ndarray) -> float:
-    """Pearson correlation, NaN when either side is constant (lambda is 0 there anyway).
-
-    Callers pass per-option hit vectors indexed by respondent, so the margin is across
-    respondents within one option — the strict one. Do not compare the resulting r to an
-    across-questions-within-participant figure: the two margins are not comparable.
-    """
-    if len(a) < 2 or a.std() == 0 or b.std() == 0:
-        return float("nan")
-    return float(np.corrcoef(a, b)[0, 1])

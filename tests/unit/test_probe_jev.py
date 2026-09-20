@@ -46,13 +46,11 @@ BASELINE_CONFIG = TWIN_DIR / "twin2k_survey_config.yaml"
 PRIOR_ANSWERS_CONFIG = TWIN_DIR / "twin2k_survey_config_prior_answers.yaml"
 
 
-# --------------------------------------------------------------------------
 # Fixtures: the real mapping and router, but a synthetic persona.
 #
 # Deliberately no CSV. The walk's branching lives in the MAPPING (the 65/43 shuffle split, the 7
 # grid groups, the 13 between-subject groups), so loading 761 columns and seven parquet chunks
 # would add ~30s per test without exercising anything the mapping does not already carry.
-# --------------------------------------------------------------------------
 @pytest.fixture(scope="module")
 def twin():
     config = load_survey_config(str(CHAINED_CONFIG))
@@ -109,9 +107,7 @@ class _Args:
         self.__dict__.update(kw)
 
 
-# --------------------------------------------------------------------------
 # The fidelity test
-# --------------------------------------------------------------------------
 class TestWalkFidelity:
     """`plan_walk` must reproduce `run_stateful_survey`'s walk exactly."""
 
@@ -236,9 +232,7 @@ class TestWalkFidelity:
         assert unconditional <= first and unconditional <= second
 
 
-# --------------------------------------------------------------------------
 # State rendering
-# --------------------------------------------------------------------------
 class TestStateRendering:
     def test_state_is_the_prompt_minus_answer_style_and_the_question(self, twin):
         template = build_state_template(twin.config.survey_prompt)
@@ -295,9 +289,7 @@ class TestStateRendering:
             plan_walk(persona, twin.question_list, twin.mapper, twin.router, "")
 
 
-# --------------------------------------------------------------------------
 # Chaining, walk-abort and resume
-# --------------------------------------------------------------------------
 class _FakeClient:
     """Answers every cell with its first option (or a fixed `noul`), or raises at a cell index."""
 
@@ -399,14 +391,12 @@ class TestChainingAndAbort:
         assert any(a[2] != b[2] for a, b in zip(plain, salted)), "salt did not reorder anything"
 
 
-# --------------------------------------------------------------------------
 # The Noul primitive
 #
 # `--primitive noul` exists to answer one question: JC beat gpt-4.1 on the 43 multiclass columns and
 # lost the 65 binary ones, and the vendor documents yes/no items as where `Choice` and `Noul`
 # disagree. That only isolates the primitive if EVERYTHING else stays at JC's values -- same cells,
 # same option permutations, same history -- which is what these tests pin.
-# --------------------------------------------------------------------------
 def _asked_rows(rows):
     """Rows that cost a call, in call order -- so they line up with `_FakeClient.asked`/`.states`."""
     return [r for r in rows if r["elicitation"] in ("noul", "choice")]
@@ -494,9 +484,7 @@ class TestNoulPrimitive:
         assert asked[first]["choice"] in client.states[first + 1]
 
 
-# --------------------------------------------------------------------------
 # Guards: public data, and the --chain cross-check
-# --------------------------------------------------------------------------
 class TestGuards:
     def test_twin_config_is_accepted(self):
         config = load_survey_config(str(CHAINED_CONFIG))
@@ -552,9 +540,7 @@ class TestGuards:
         assert effective_chaining(load_survey_config(str(PRIOR_ANSWERS_CONFIG))) is False
 
 
-# --------------------------------------------------------------------------
 # The client's wire contract
-# --------------------------------------------------------------------------
 class TestJevClient:
     def _client(self):
         return JevClient("test-key-not-real")
@@ -651,7 +637,7 @@ class TestJevClient:
         with pytest.raises(JevError, match="auth"):
             JevClient("")
 
-    # ---- the Noul primitive, per /primitives/noul.md ----
+    # The Noul primitive, per /primitives/noul.md
     def test_noul_payload_shape_matches_the_documented_api(self):
         payload = self._client().build_noul_payload("some state", "Buy it?", "Yes", "No")
         question = payload["questions"]["q"]

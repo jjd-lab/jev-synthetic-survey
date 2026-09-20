@@ -103,7 +103,7 @@ class TestHardChoiceHasNoProbabilitySurface:
     G5 rests on a pre-D-5 run rescoring byte-identically, which holds only if the default path
     sends the provider exactly what it sent before any of this existed. `TestHardChoiceRegression`
     checks two shapes by field name; this sweeps every shape the runner builds -- including grids
-    and the 24/25-option questions where exp-006 actually lost cells -- and greps the serialised
+    and the 24/25-option questions where an earlier survey actually lost cells -- and greps the serialised
     schema, so a probability field cannot arrive under a new name or nested in a `$def`.
 
     `choice_plus_confidence` is swept too: it is an accepted value with no runner branch, so it
@@ -178,7 +178,7 @@ class TestVerbalizedProbsModels:
     def test_prob_length_declared_in_schema_when_enforced(self):
         """The length must ride in the JSON schema, not only in the field description.
 
-        exp-006 lost 7 cells to this: under `json_schema` the provider constrained-decodes
+        An earlier survey lost 7 cells to this: under `json_schema` the provider constrained-decodes
         the schema, the schema said nothing about length, and a 25th number on a 24-option
         question then failed client-side validation -- taking a valid choice down with it.
         """
@@ -242,7 +242,7 @@ class TestWeightedDrawSchema:
     """`weighted_draw` must elicit *identically* to `verbalized_probs`.
 
     The two arms differ only in the commit rule, so any schema or prompt difference would
-    confound exp-007 against exp-006. Asserted rather than assumed, because both modes reach
+    confound the draw rule against the stated one. Asserted rather than assumed, because both modes reach
     the schema through the same `response_mode` parameter and it would be easy to wire one and
     not the other -- which is the bug that left `weighted_draw` a silent no-op.
     """
@@ -293,7 +293,7 @@ class TestWeightedDrawAnswer:
         assert drawn == "A"
 
     def test_single_normalises_a_non_normalised_vector(self):
-        """exp-006 accepts vectors that do not sum to 1, so the draw cannot assume they do."""
+        """Verbalized vectors do not always sum to 1, so the draw cannot assume they do."""
         drawn = _weighted_draw_answer(
             "C", {"A": 0.2, "B": 0.0, "C": 0.0}, self.OPTIONS, "1", "Q16", multi=False
         )
@@ -311,7 +311,7 @@ class TestWeightedDrawAnswer:
 
     def test_multi_is_one_bernoulli_per_option(self):
         """The multi vector is independent inclusion marginals, NOT a distribution: raw sum mean
-        2.11 on exp-006's panel. A simplex draw would tick exactly one box and destroy the count."""
+        2.11 on an earlier survey's panel. A simplex draw would tick exactly one box and destroy the count."""
         drawn = _weighted_draw_answer(
             ["A"], {"A": 1.0, "B": 1.0, "C": 0.0}, self.OPTIONS, "1", "Q30", multi=True
         )

@@ -185,7 +185,6 @@ def validate_stateful_results(
         all_persona_indices_by_question[question_id] = valid_persona_indices
         all_variation_ids_by_question[question_id] = valid_variation_ids
 
-        # Get question type and ground truth
         question_type = question_mapper.get_question_type(question_id)
         if question_type == "open_ended":
             # Excluded from validation metrics, but still rendered in respondent_details.
@@ -400,9 +399,7 @@ def run_excel_validation_pipeline(config_path: str,
     from src.core.question_router import QuestionRouter
     router = QuestionRouter(getattr(config, 'routing_rules', None), question_mapper)
 
-    # Branch based on memory mode
     if memory_mode == "full":
-        # ===== STATEFUL MODE =====
         print("[INFO] Using stateful mode (per-persona sequential with routing)")
 
         from src.core.survey_runner_excel import run_stateful_survey_for_all_personas
@@ -432,7 +429,7 @@ def run_excel_validation_pipeline(config_path: str,
             )
 
         if checkpoint_dir:
-            # ----- Batched, resumable execution -----
+            # Batched, resumable execution
             from src.utils import survey_checkpoint as ckpt
 
             # One checkpoint batch per full concurrency wave.
@@ -559,7 +556,7 @@ def run_excel_validation_pipeline(config_path: str,
             all_probs = [r.get("probs", {}) for r in all_records]
             error_records = [er for r in all_records for er in r.get("error_records", [])]
         else:
-            # ----- Single-shot execution (unchanged behavior) -----
+            # Single-shot execution (unchanged behavior)
             all_states, all_explanations, all_tiers, all_probs, all_orders, error_records = (
                 _run_cohort(personas)
             )
@@ -580,7 +577,6 @@ def run_excel_validation_pipeline(config_path: str,
             i for i, exp_dict in enumerate(all_explanations) if "__persona_error__" in exp_dict
         }
 
-        # Convert stateful results to per-question format for validation
         PipelineDisplay.section("Converting stateful results to validation format")
 
         (
@@ -606,7 +602,6 @@ def run_excel_validation_pipeline(config_path: str,
         )
 
     else:
-        # ===== STATELESS MODE =====
         print("[INFO] Using stateless mode (batch processing, no routing)")
 
         from src.utils import survey_checkpoint as ckpt
@@ -888,7 +883,7 @@ def run_excel_validation_pipeline(config_path: str,
                 ),
                 # Gated on the mode, not on emptiness: passing this on a hard_choice run would add
                 # an all-None `<qid>_probs` column to every baseline export and break the anchor
-                # guarantee report.py rests on (a pre-D-5 run must score byte-identically).
+                # guarantee the downstream scorer rests on (an older run must score identically).
                 # `weighted_draw` elicits the same vector and needs the column even more: it is the
                 # only record of what `_synthetic` was drawn from.
                 all_probs_by_question=(

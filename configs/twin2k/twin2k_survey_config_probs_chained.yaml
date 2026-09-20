@@ -15,14 +15,14 @@
 # The other two are GENERATED from this file and differ from it in nothing but what defines
 # their arm: `demographic_mapping`, `memory_mode` and the flags that cancel its side effects,
 # `max_concurrency`, and `output_dir` — so edit this one, then re-run
-#   .venv\Scripts\python.exe scripts/twin2k/build_twin2k_variants.py
+#   python scripts/twin2k/build_twin2k_variants.py
 # Editing a generated file by hand silently confounds the comparison it exists for.
 #
 # Data: LLM-Digital-Twin/Twin-2K-500 (CC BY 4.0) — fetch with
-#   .venv\Scripts\python.exe scripts/twin2k/fetch_twin2k.py
+#   python scripts/twin2k/fetch_twin2k.py
 # Mappings are generated, never hand-written:
-#   .venv\Scripts\python.exe scripts/twin2k/build_twin2k_config.py
-#   .venv\Scripts\python.exe scripts/twin2k/build_twin2k_persona.py   (the prior-answer runs)
+#   python scripts/twin2k/build_twin2k_config.py
+#   python scripts/twin2k/build_twin2k_persona.py   (the prior-answer runs)
 #
 # 108 questions x 50 respondents: the paper's WHOLE holdout instrument, minus the 18 columns
 # our decoder cannot read (12 sliders, 6 anchoring/sunk-cost text boxes). 60 are asked of
@@ -459,15 +459,16 @@ response_mode: "verbalized_probs"
 # would only defeat prefix caching.
 include_request_id: false
 
-# Reuse `chained`'s cache so this arm and the Jev probe walk the SAME 300 twins; the comparison
-# is about elicitation, not about personas. Omitted, `get_persona_cache_path` derives the path
-# from this arm's own `output_dir`, finds no cache, and regenerates all 300 through the provider.
-persona_cache_path: "outputs/twin2k/chained/persona_cache.xlsx"
+# Reuse the stateful demographics arm's cache so this arm and the Jev probe walk the SAME
+# 300 twins; the comparison is about elicitation, not about personas. This is the copy that
+# ships in runs/, so a fresh clone reuses it instead of regenerating 300 personas through the
+# provider. Omitted, `get_persona_cache_path` derives a path from this arm's own `output_dir`.
+persona_cache_path: "runs/gpt41_panel_n2058/demographics_stateful/persona_cache.xlsx"
 preserve_anchors: false
 
 # Equal to the default, and stated anyway: this is the floor that suppresses `collapse` and
 # `blind_spot` on all 48 condition columns (n≈16-25 per arm), so for THIS survey it is a
 # deliberate reporting policy rather than an inherited value — see header rule 4 for why
 # lowering it would manufacture flags instead of restoring the guardrail. Other surveys
-# state nothing here on purpose: the hillclimb contract pins their floor to the constant.
+# state nothing here on purpose and inherit the constant.
 min_n_for_gating: 50

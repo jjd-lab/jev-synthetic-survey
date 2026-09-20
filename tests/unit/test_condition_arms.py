@@ -66,9 +66,7 @@ def _mapper(tmp_path, question_mapping, name="questions.json") -> QuestionMapper
     return QuestionMapper(str(demographics), str(questions), data_format="text")
 
 
-# --------------------------------------------------------------------------
 # QuestionMapper.condition_assignments — presence -> arm
-# --------------------------------------------------------------------------
 
 @pytest.mark.unit
 def test_condition_assignments_reads_the_arm_off_the_filled_column(tmp_path):
@@ -120,9 +118,7 @@ def test_respondent_exposes_the_assignment_for_the_persona(tmp_path):
     assert respondent.to_dict()["condition_assignments"] == respondent.condition_assignments
 
 
-# --------------------------------------------------------------------------
 # QuestionRouter.is_asked — the gate itself
-# --------------------------------------------------------------------------
 
 _CONDITIONS = {"QID157": ("Disease", "gain"), "QID158": ("Disease", "loss")}
 
@@ -150,9 +146,7 @@ def test_an_unassigned_group_gates_both_arms_off():
     assert not router.is_asked("QID158", {})
 
 
-# --------------------------------------------------------------------------
 # next_question — conditioning composed with the other routing rules
-# --------------------------------------------------------------------------
 
 @pytest.mark.unit
 def test_next_question_walks_only_the_assigned_arm():
@@ -201,9 +195,7 @@ def test_a_skip_target_inside_a_condition_group_still_resolves():
     assert router.next_question(state, ["Q0", "Q1", "QID157", "QID158", "QID196"]) == "QID158"
 
 
-# --------------------------------------------------------------------------
 # The stateless panel: indices must land back on the full persona list
-# --------------------------------------------------------------------------
 
 def _persona(respid, arm, answer):
     return {
@@ -316,9 +308,7 @@ def test_the_lift_is_the_identity_without_condition_groups():
     assert asked_idx == [0, 1, 2, 3]
 
 
-# --------------------------------------------------------------------------
 # The persona cache — the second construction site
-# --------------------------------------------------------------------------
 
 @pytest.mark.unit
 def test_a_cache_hit_carries_the_arm_assignments(tmp_path):
@@ -345,9 +335,7 @@ def test_a_cache_hit_carries_the_arm_assignments(tmp_path):
     ]
 
 
-# --------------------------------------------------------------------------
 # The preprocessor cast: QID198's options are the integers 1 and 2
-# --------------------------------------------------------------------------
 
 @pytest.mark.unit
 def test_numeric_labels_become_integral_strings():
@@ -370,9 +358,7 @@ def test_the_cast_is_inert_for_columns_it_does_not_name():
     assert cast_numeric_labels(frame).equals(frame)
 
 
-# --------------------------------------------------------------------------
 # min_n_for_gating — now per-survey, still 50 by default
-# --------------------------------------------------------------------------
 
 def _result(n, min_n_for_gating=None):
     """One question where every persona gives the same answer: entropy 0, so collapse-eligible."""
@@ -441,9 +427,7 @@ def test_every_segment_row_uses_the_same_floor_as_its_overall_row():
     assert result.segment_results["age"]["35-44"]["kl_thin"] is False
 
 
-# --------------------------------------------------------------------------
 # The shipped Twin-2K-500 mapping
-# --------------------------------------------------------------------------
 
 @pytest.mark.unit
 def test_the_shipped_mapping_tags_both_arms_of_every_condition_group():
@@ -476,9 +460,7 @@ def test_no_other_survey_mapping_declares_a_condition_group():
     assert not offenders
 
 
-# --------------------------------------------------------------------------
 # The generator's arm-aware completeness assertion
-# --------------------------------------------------------------------------
 
 @pytest.fixture(scope="module")
 def generator():

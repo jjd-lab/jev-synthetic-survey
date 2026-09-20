@@ -15,14 +15,14 @@
 # The other two are GENERATED from this file and differ from it in nothing but what defines
 # their arm: `demographic_mapping`, `memory_mode` and the flags that cancel its side effects,
 # `max_concurrency`, and `output_dir` — so edit this one, then re-run
-#   .venv\Scripts\python.exe scripts/twin2k/build_twin2k_variants.py
+#   python scripts/twin2k/build_twin2k_variants.py
 # Editing a generated file by hand silently confounds the comparison it exists for.
 #
 # Data: LLM-Digital-Twin/Twin-2K-500 (CC BY 4.0) — fetch with
-#   .venv\Scripts\python.exe scripts/twin2k/fetch_twin2k.py
+#   python scripts/twin2k/fetch_twin2k.py
 # Mappings are generated, never hand-written:
-#   .venv\Scripts\python.exe scripts/twin2k/build_twin2k_config.py
-#   .venv\Scripts\python.exe scripts/twin2k/build_twin2k_persona.py   (the prior-answer runs)
+#   python scripts/twin2k/build_twin2k_config.py
+#   python scripts/twin2k/build_twin2k_persona.py   (the prior-answer runs)
 #
 # 108 questions x 50 respondents: the paper's WHOLE holdout instrument, minus the 18 columns
 # our decoder cannot read (12 sliders, 6 anchoring/sunk-cost text boxes). 60 are asked of
@@ -451,5 +451,5 @@ preserve_anchors: false
 # `blind_spot` on all 48 condition columns (n≈16-25 per arm), so for THIS survey it is a
 # deliberate reporting policy rather than an inherited value — see header rule 4 for why
 # lowering it would manufacture flags instead of restoring the guardrail. Other surveys
-# state nothing here on purpose: the hillclimb contract pins their floor to the constant.
+# state nothing here on purpose and inherit the constant.
 min_n_for_gating: 50

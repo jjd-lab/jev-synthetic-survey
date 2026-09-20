@@ -39,7 +39,7 @@ DISTANCES (0 = perfect); `individual_baseline` flips meaning by bucket, so it is
 separate metrics rather than averaged into one column.
 
 Usage:
-    .venv\\Scripts\\python.exe scripts/twin2k/individual_signal.py \\
+    python scripts/twin2k/individual_signal.py \\
         --details runs/gpt41_panel_n2058/demographics_stateless/respondent_details_20260904_091556.xlsx \\
         --summary runs/gpt41_panel_n2058/demographics_stateless/validation_summary_20260904_091556.xlsx
 """

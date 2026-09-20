@@ -241,7 +241,6 @@ def generate_respondent_detail_excel(
 
             rows.append(row)
 
-    # Create DataFrame
     df = pd.DataFrame(rows)
 
     # Reorder columns for better readability
@@ -310,12 +309,12 @@ def generate_summary_excel(
     # Overall summary
     #
     # Entropy columns are appended AFTER individual_baseline so existing column positions don't
-    # move: hillclimb/report.py and "Ground Truth Analysis/analysis.py" both read this sheet, by
+    # move: two downstream scorers in the predecessor project both read this sheet, by
     # name. Values are read off the ValidationResult — no formula here, exactly as with
     # distributional_metric.
     #
     # Six columns, not the eleven `ValidationResult` carries. The other five are omitted from the
-    # SHEET only (`to_dict` and the hillclimb scorecard keep all eleven) because a reader can
+    # SHEET only (`to_dict` and that project's scorecard keep all eleven) because a reader can
     # reconstruct each from a column already present, and a wide sheet costs more than the
     # keystrokes save:
     #   entropy_kind  = "setwise" if metric_bucket == "multi" else "optionwise"

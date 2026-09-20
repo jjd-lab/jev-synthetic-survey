@@ -1,9 +1,9 @@
 """Walk Twin-2K-500 personas through Jev, recording a probability vector per cell.
 
-The JC arm of the Jev-vs-exp-006 comparison. The question is narrow: gpt-4.1 under
+The Jev Choice arm of the Jev-vs-gpt-4.1 comparison. The question is narrow: gpt-4.1 under
 `response_mode: verbalized_probs` is ASKED to state a distribution over the options; Jev returns one
 natively. Does the native vector fit the human marginals better than the verbalized one, in the
-setting exp-006 actually runs -- stateful, demographics-only, chaining the twin's own answers?
+setting a production survey actually runs -- stateful, demographics-only, chaining its own answers?
 
 For that comparison to mean anything, the two arms must differ in the MODEL and nothing else. So
 this does not build its own prompt: it reuses the runner's own helpers (`_fill_stem`,

@@ -58,7 +58,6 @@ class MockQuestionMapper:
         return self.conditions.get(question_id, (None, None))[1]
 
 
-# Test 1: Skip logic (single-select source)
 def test_skip_logic_fires():
     """Test skip_if rule: Q2=No → skip to Q5"""
     mapper = MockQuestionMapper({})
@@ -97,7 +96,6 @@ def test_skip_logic_no_fire():
     assert next_q == "Q3", f"Expected Q3, got {next_q}"
 
 
-# Test 2: Show-if logic (single-select source)
 def test_show_if_single_select_match():
     """Test show_if with single-select source: Q3=StreamingApp → Q4 shown"""
     mapper = MockQuestionMapper({})
@@ -134,7 +132,6 @@ def test_show_if_single_select_no_match():
     assert next_q == "Q5", f"Expected Q5 (Q4 skipped), got {next_q}"
 
 
-# Test 3: Show-if logic (multi-select source)
 def test_show_if_multi_select_match():
     """Test show_if with multi-select source: Q3 has ANY of [A2, A3, A4] → Q4 shown"""
     mapper = MockQuestionMapper({})
@@ -179,7 +176,6 @@ def test_show_if_multi_select_no_match():
     assert next_q == "Q5", f"Expected Q5 (Q4 skipped), got {next_q}"
 
 
-# Test 4: Masking (include_selected)
 def test_masking_include_selected():
     """Test mask_by include_selected: Q9 options = Q8 selected platforms"""
     mapper = MockQuestionMapper({
@@ -242,7 +238,6 @@ def test_masking_include_selected_empty_source():
     assert options == [], f"Expected empty list, got {options}"
 
 
-# Test 5: Masking (exclude_selected)
 def test_masking_exclude_selected():
     """Test mask_by exclude_selected: Q32 options = all genres EXCEPT Q30 selections"""
     mapper = MockQuestionMapper({
@@ -341,7 +336,6 @@ def test_piping_missing_source():
     assert options == ["StandardGenre1", "StandardGenre2"], f"Expected no piping, got {options}"
 
 
-# Test 7: No routing rules (sequential iteration)
 def test_no_routing_rules():
     """Test router with no rules: sequential iteration"""
     mapper = MockQuestionMapper({})

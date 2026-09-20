@@ -13,7 +13,7 @@ from src.core.persona_cache import (
 class TestPersonaCache:
     def test_explicit_cache_path_overrides_output_default(self):
         assert get_persona_cache_path(
-            "hillclimb/runs/exp-001-grid-shuffle",
+            "outputs/runs/example-run",
             "C:/repo/outputs/twin2k/persona_cache.xlsx",
         ) == "C:/repo/outputs/twin2k/persona_cache.xlsx"
 

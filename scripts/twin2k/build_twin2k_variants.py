@@ -32,7 +32,7 @@ everyone plus the arms this respondent drew).
 
 Re-run after ANY edit to twin2k_survey_config.yaml. Generated files are overwritten.
 
-Usage:  .venv\\Scripts\\python.exe scripts/twin2k/build_twin2k_variants.py
+Usage:  python scripts/twin2k/build_twin2k_variants.py
 """
 
 import sys
@@ -80,7 +80,7 @@ PRIOR_ANSWERS_STATEFUL = [
          "  # It USED TO double as a cost knob: the prompt-cache hit rate fell as walks in flight rose --",
          "  # 92.5% at c=1, 89.3% at c=2, 54.6% at c=32, 50.5% at c=50 -- and a miss bills 4x. The cause was",
          "  # provider routing, not prefix eviction (32 concurrent calls on ONE shared prefix, with nothing to",
-         "  # evict, still hit only 53%: scripts/twin2k/probe_cache_routing.py). `prompt_cache_key_by_respid`",
+         "  # evict, still hit only 53%), measured with a probe not kept here. `prompt_cache_key_by_respid`",
      ]),
     (CAP_COMMENT_2,
      [
@@ -100,7 +100,7 @@ PRIOR_ANSWERS_STATEFUL = [
      [
          "# comes after 2,057 competing 20k prefixes; the stateful runner walks one respondent's questions",
          "# back-to-back. Measured hit rates: 26/30 question-major vs 30/30 respondent-major, and only the",
-         "# latter is scale-invariant. Probe: scripts/twin2k/probe_prompt_cache.py.",
+         "# latter is scale-invariant.",
          "#",
      ]),
     ("# isolates.",
@@ -165,10 +165,11 @@ PROBS_CHAINED = [
      [
          "include_request_id: false",
          "",
-         "# Reuse `chained`'s cache so this arm and the Jev probe walk the SAME 300 twins; the comparison",
-         "# is about elicitation, not about personas. Omitted, `get_persona_cache_path` derives the path",
-         "# from this arm's own `output_dir`, finds no cache, and regenerates all 300 through the provider.",
-         "persona_cache_path: \"outputs/twin2k/chained/persona_cache.xlsx\"",
+         "# Reuse the stateful demographics arm's cache so this arm and the Jev probe walk the SAME",
+         "# 300 twins; the comparison is about elicitation, not about personas. This is the copy that",
+         "# ships in runs/, so a fresh clone reuses it instead of regenerating 300 personas through the",
+         "# provider. Omitted, `get_persona_cache_path` derives a path from this arm's own `output_dir`.",
+         "persona_cache_path: \"runs/gpt41_panel_n2058/demographics_stateful/persona_cache.xlsx\"",
      ]),
 ]
 

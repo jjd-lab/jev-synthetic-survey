@@ -55,7 +55,6 @@ class QuestionRouter:
         self.mapper = question_mapper
         self.routing_rules = routing_rules or []
 
-        # Index rules by question_id for O(1) lookup
         self.rules_by_question = {rule.question_id: rule for rule in self.routing_rules}
 
     def is_asked(self, question_id: str, state: Dict[str, Any]) -> bool:
@@ -121,7 +120,6 @@ class QuestionRouter:
             if rule and rule.skip_if:
                 source_answer = state.get(rule.skip_if.source_question)
 
-                # Handle multi-select source (answer is list)
                 if isinstance(source_answer, list):
                     # Check if ANY selected option triggers skip
                     if _answer_matches_any(source_answer, rule.skip_if.skip_on):
@@ -133,7 +131,6 @@ class QuestionRouter:
                             return None
                         continue
                 else:
-                    # Single-select: check if answer matches skip_on
                     if _answer_matches_any(source_answer, rule.skip_if.skip_on):
                         # Skip to target question
                         try:
@@ -143,7 +140,6 @@ class QuestionRouter:
                             return None
                         continue
 
-            # Check show_if rule
             if rule and rule.show_if:
                 source_answer = state.get(rule.show_if.source_question)
 
@@ -152,14 +148,12 @@ class QuestionRouter:
                     i += 1
                     continue
 
-                # Handle multi-select source (answer is list)
                 if isinstance(source_answer, list):
                     # Check if ANY selected option matches any_of condition
                     if not _answer_matches_any(source_answer, rule.show_if.any_of):
                         i += 1
                         continue
                 else:
-                    # Single-select: check if answer matches any_of
                     if not _answer_matches_any(source_answer, rule.show_if.any_of):
                         i += 1
                         continue
@@ -188,7 +182,6 @@ class QuestionRouter:
         Returns:
             List of option texts (can be masked or include piped text)
         """
-        # Start with base options
         base_options = self.mapper.get_choice_options_list(question_id)
 
         rule = self.rules_by_question.get(question_id)
@@ -204,7 +197,6 @@ class QuestionRouter:
         if rule.mask_by and self.mapper.get_grid_group(question_id) is None:
             source_answer = state.get(rule.mask_by.source_question, [])
 
-            # Normalize to list
             if not isinstance(source_answer, list):
                 source_answer = [source_answer] if source_answer else []
 

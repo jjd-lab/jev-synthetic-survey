@@ -112,9 +112,7 @@ def test_no_tmp_files_left_after_save(tmp_path):
     assert list(run_dir.glob("*.tmp")) == []
 
 
-# ---------------------------------------------------------------------------
 # Question-scoped checkpoint (stateless runs), keyed on (question_id, respid)
-# ---------------------------------------------------------------------------
 
 def _row(respid, variation_id=0, response="Yes"):
     return {
@@ -204,10 +202,8 @@ def test_a_slug_collision_between_two_question_ids_fails_loud(tmp_path):
     assert [r["respid"] for r in ckpt.load_question(run_dir, "Q.1")] == ["10"]
 
 
-# ---------------------------------------------------------------------------
 # Failed work is written but not marked complete, so plain --resume repairs it.
 # Same rule in both flavours, which is what makes --resume the single repair path.
-# ---------------------------------------------------------------------------
 
 def _failed_row(respid, variation_id=0):
     """What the error path writes when a stateless cell exhausts its retries."""

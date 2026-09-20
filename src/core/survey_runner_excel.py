@@ -86,7 +86,7 @@ def _elicits_option_probabilities(response_mode: ResponseMode) -> bool:
 
     `weighted_draw` elicits exactly like `verbalized_probs` -- same prompt, same schema, same
     `<qid>_probs` column -- and differs only in how the answer is committed. Holding elicitation
-    constant is the point: it makes exp-007 vs exp-006 a test of the commit rule alone.
+    constant is the point: it makes the draw-vs-stated comparison a test of the commit rule alone.
     """
     return response_mode in ("verbalized_probs", "weighted_draw")
 
@@ -408,7 +408,7 @@ def _create_multi_variation_model(
     `maxItems`) instead of only in the description. Caller-supplied because it is provider-dependent:
     OpenAI/Azure constrained-decode the schema and honour both keywords, while Bedrock's validator
     rejects array `maxItems` outright — see `structured_output_method`. Leaving it off is what
-    produced exp-006's 7 lost cells: the description said "length must be 24", the schema said
+    produced 7 lost cells on an earlier survey: the description said "length must be 24", the schema said
     nothing, and the decoder emitted 25.
     """
     fields: Dict[str, Any] = {}
@@ -660,13 +660,13 @@ def _weighted_draw_answer(
     `response_mode: weighted_draw` (ELICIT_V11) changes only the commit rule; elicitation is
     identical to `verbalized_probs`. There is no argmax step being replaced -- the committed answer
     is the model's own `choice`/`choices` field, which coincided with the vector's argmax on 99.5%
-    of nominal and 99.6% of ordinal cells on exp-006's panel.
+    of nominal and 99.6% of ordinal cells on an earlier survey's panel.
 
     The two buckets are drawn differently, and this is not a detail:
       * single-choice -- the vector IS a distribution, so normalise to a simplex and draw one option.
       * multi-choice  -- the vector is **independent inclusion marginals**, not a distribution (raw
-        sum mean 2.11 on exp-006's panel). So it is one Bernoulli per option, and renormalising it
-        would be wrong. `soft_distribution` in report.py already splits the buckets this way.
+        sum mean 2.11 on that panel). So it is one Bernoulli per option, and renormalising it
+        would be wrong. The downstream soft metric already splits the buckets this way.
 
     Seeded per (respid, question_id) rather than drawn from the persona's shuffle `rng` on purpose:
     the shuffle stream must stay identical to every other arm, or the presented option order differs
@@ -929,9 +929,7 @@ def run_survey_multi_choice_multi_var(personas: List[dict],
     )
 
 
-# ============================================================================
 # Stateful Survey Runner (routing + conversation history)
-# ============================================================================
 
 def _pin_cache_to_respid(llm, respid: Any):
     """Return a copy of `llm` that sends `prompt_cache_key` = respid, sharing its connection pool.
@@ -1034,7 +1032,6 @@ def run_stateful_survey(
     # `with_structured_output` calls below use, so the two can never disagree.
     enforce_prob_length = structured_output_method(model) == "json_schema"
 
-    # LLM setup
     llm = create_llm_instance(model=model, temperature=temperature, max_retries=max_retries)
     if prompt_cache_key_by_respid:
         llm = _pin_cache_to_respid(llm, persona["respid"])
@@ -1232,7 +1229,6 @@ def run_stateful_survey(
                 explanations_dict[next_q] = "Skipped (masked out)"
                 continue
 
-        # Get question metadata
         question_text = _fill_stem(question_mapper.get_question_text(next_q), persona, next_q)
         base_options = question_router.get_options(next_q, state)  # Dynamic options (masking/piping)
         # Unmasked, unshuffled option list — the frame `orders_dict` indices are relative to.

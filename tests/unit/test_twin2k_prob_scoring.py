@@ -81,9 +81,7 @@ def _rows(qid, options, forecasts, humans, arm="test"):
     return rows
 
 
-# --------------------------------------------------------------------------
 # The external anchor
-# --------------------------------------------------------------------------
 @pytest.mark.unit
 def test_the_recorded_panel_reproduces_paper_accuracy_exactly(tmp_path):
     """`convert` + `score` must land on the SAME accuracy `paper_accuracy.py` recorded.
@@ -119,9 +117,7 @@ def test_the_recorded_panel_reproduces_paper_accuracy_exactly(tmp_path):
     assert scored["tasks"] == 16
 
 
-# --------------------------------------------------------------------------
 # Forecasters whose scores theory fixes
-# --------------------------------------------------------------------------
 @pytest.mark.unit
 class TestKnownForecasters:
     def test_an_oracle_scores_zero_brier(self):
@@ -206,13 +202,11 @@ class TestKnownForecasters:
         assert brier_report(columns)["cells_with_zero_probability_on_truth"] == 2
 
 
-# --------------------------------------------------------------------------
 # soft / argmax / draw over the same vectors
-# --------------------------------------------------------------------------
 @pytest.mark.unit
 class TestCommitRules:
     def test_soft_is_the_expected_value_of_the_draw(self):
-        """exp-007's finding, re-derived here: aggregating the vectors IS the mean of the draws.
+        """An earlier survey's finding, re-derived here: aggregating the vectors IS the mean of the draws.
 
         If this drifts, `soft` and `draw` have stopped being two readings of one elicitation, and the
         plan's claim that the three commit rules are comparable stops holding.
@@ -277,9 +271,7 @@ class TestCommitRules:
         assert vector_of({"probs": None, "choice": "Maybe"}, BINARY) is None
 
 
-# --------------------------------------------------------------------------
 # The four pre-registered aggregation choices
-# --------------------------------------------------------------------------
 @pytest.mark.unit
 class TestAggregation:
     def _pricing_heavy(self):
@@ -347,9 +339,7 @@ class TestAggregation:
         assert set(columns) == {CONSENSUS_QID}
 
 
-# --------------------------------------------------------------------------
 # Reference forecasts and uncertainty
-# --------------------------------------------------------------------------
 @pytest.mark.unit
 class TestReferencesAndUncertainty:
     def test_the_loo_marginal_is_out_of_sample(self):
@@ -531,9 +521,7 @@ def _write(path: Path, rows: list) -> None:
     path.write_text("\n".join(json.dumps(r) for r in rows) + "\n", encoding="utf-8")
 
 
-# --------------------------------------------------------------------------
 # Reading the interchange format
-# --------------------------------------------------------------------------
 @pytest.mark.unit
 class TestInterchangeFormat:
     def test_resume_markers_are_not_scored(self, tmp_path):
@@ -584,9 +572,7 @@ class TestInterchangeFormat:
         assert len(columns[PRICING_QID]["y"]) == 2
 
 
-# --------------------------------------------------------------------------
 # Diagnostics
-# --------------------------------------------------------------------------
 @pytest.mark.unit
 class TestDiagnostics:
     def test_the_entropy_ratio_flags_collapse(self):
@@ -677,9 +663,7 @@ class TestDiagnostics:
         assert repeat_agreement(rows, _entries({PRICING_QID: (BINARY, False)})) == {}
 
 
-# --------------------------------------------------------------------------
 # The verdict bands, fixed before any data
-# --------------------------------------------------------------------------
 @pytest.mark.unit
 @pytest.mark.parametrize("ece,verdict", [
     (0.0, "PASS"), (0.05, "PASS"), (0.0500001, "MARGINAL"),

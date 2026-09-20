@@ -201,7 +201,7 @@ def completed_respids(run_dir: Path) -> Set[str]:
     return {norm_respid(r) for r in manifest.get("completed_respids", [])}
 
 
-# --- Question-scoped checkpoint (stateless runs) -----------------------------------------------
+# Question-scoped checkpoint (stateless runs)
 #
 # The stateless runner walks questions serially and fans out across personas within a question, so
 # its natural unit is one file per question holding one row per (respid, variation) — not one file

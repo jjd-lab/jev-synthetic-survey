@@ -132,7 +132,7 @@ def test_probs_chained_differs_from_chained_in_exactly_three_settings():
 
     assert probs.response_mode == "verbalized_probs"
     assert probs.batch_grids is False
-    assert probs.persona_cache_path == "outputs/twin2k/chained/persona_cache.xlsx"
+    assert probs.persona_cache_path == "runs/gpt41_panel_n2058/demographics_stateful/persona_cache.xlsx"
 
     assert chained.response_mode == "hard_choice"
     assert chained.batch_grids is True

@@ -55,9 +55,7 @@ def _persona(respid, stem_values=None):
     }
 
 
-# --------------------------------------------------------------------------
 # _fill_stem
-# --------------------------------------------------------------------------
 
 @pytest.mark.unit
 def test_fill_stem_substitutes_the_respondents_own_value():
@@ -86,9 +84,7 @@ def test_fill_stem_raises_when_the_token_cannot_be_filled():
         _fill_stem(PRICED_STEM, _persona("r1", {"QID9_2": "8.45"}), "QID9_1")
 
 
-# --------------------------------------------------------------------------
 # Respondent.stem_values
-# --------------------------------------------------------------------------
 
 @pytest.mark.unit
 def test_respondent_collects_stem_columns_and_strips_the_prefix():
@@ -109,9 +105,7 @@ def test_respondent_skips_unfilled_stem_cells():
     assert Respondent(row, _StubMapper()).stem_values == {"QID9_3": "5.00"}
 
 
-# --------------------------------------------------------------------------
 # The batched stateless path — where the substitution actually happens
-# --------------------------------------------------------------------------
 
 @pytest.mark.unit
 def test_batch_inputs_carry_a_different_price_per_persona():
@@ -140,9 +134,7 @@ def test_batch_inputs_identical_across_personas_without_the_token():
     assert {i["question"] for i in inputs} == {PLAIN_STEM}
 
 
-# --------------------------------------------------------------------------
 # The shipped mappings
-# --------------------------------------------------------------------------
 
 @pytest.mark.unit
 def test_exactly_the_forty_pricing_stems_are_piped():
@@ -175,9 +167,7 @@ def test_piped_stems_are_never_grid_members():
     ]
 
 
-# --------------------------------------------------------------------------
 # The preprocessor
-# --------------------------------------------------------------------------
 
 @pytest.mark.unit
 def test_preprocessor_without_the_param_only_renames():

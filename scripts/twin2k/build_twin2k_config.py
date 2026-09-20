@@ -136,7 +136,6 @@ MATRIX_ITEMS = {
     "QID289": [1, 2, 3, 4],   # nonseparability, risks half (7-point), same 4 technologies
 }
 
-# ---------------------------------------------------------------------------------------
 # Between-subject conditions: 13 groups, 48 columns. Each respondent was randomized by
 # Qualtrics into exactly ONE arm, so each arm is filled by only 31.6-51.3% of the panel.
 # Every entry below is tagged `condition_group` + `condition_arm`, which `QuestionRouter.is_asked`

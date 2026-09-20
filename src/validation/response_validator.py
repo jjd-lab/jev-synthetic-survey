@@ -61,25 +61,6 @@ def wasserstein_from_pcts(
     return float(np.abs(np.cumsum(u)[:-1] - np.cumsum(v)[:-1]).sum())
 
 
-def mad_from_rates(
-    rates_a: Dict[str, float], rates_b: Dict[str, float], all_options: List[str]
-) -> float:
-    """Mean absolute difference between two dicts of per-option selection rates (multi-select).
-
-    The distribution-input sibling of `marginal_prevalence_distance`, which takes respondent lists.
-
-    Do **not** substitute one for the other: `marginal_prevalence_distance` filters on
-    `isinstance(s, list)`, so handing it rate dicts makes every rate 0 and it returns 0.0 — a silent
-    perfect score rather than a TypeError. `tests/unit/test_ppi.py` pins that behaviour.
-    """
-    if not all_options:
-        return 0.0
-    total = sum(
-        abs(rates_a.get(opt, 0.0) - rates_b.get(opt, 0.0)) for opt in all_options
-    )
-    return total / len(all_options)
-
-
 def mae_scale_steps(
     synthetic_list: List[str], ground_truth_list: List[str], ordered_options: List[str]
 ) -> float:
@@ -135,7 +116,7 @@ def kl_and_blind_spot(
              whether the LLM ever produced an answer humans used, which is order-free; KL would
              treat the scale points as unordered labels, which is exactly why W1 is the ordinal
              metric. Excluding the flag along with KL cost the worst bucket its worst diagnostic:
-             18 of exp-000-baseline's 22 gate-eligible ordinal questions carry a blind spot, and 4
+             18 of the reference run's 22 gate-eligible ordinal questions carry a blind spot, and 4
              of G9's 9 failures are ordinal (`Q24::*` importance scales where the LLM never uses
              one end of the scale).
     """
@@ -208,50 +189,50 @@ def kl_and_blind_spot(
             "kl_thin": False}
 
 
-# ─────────────────────────────── entropy ───────────────────────────────
+# Entropy diagnostics
 # Diagnostic the distributional metric is structurally blind to: a run can match the human option
 # distribution well while every persona gives the same answer. One home for the formulas because
-# `hillclimb/report.py` and `Ground Truth Analysis/analysis.py` both need them, and when each kept
-# its own copy the two DIVERGED — analysis.py normalized multi by `2 ** len(lists[0])`, the first
-# respondent's answer length, making `normalized_h` row-order dependent and > 1.
+# two separate scorers in the predecessor project both needed them, and when each kept its own copy
+# the two DIVERGED: one normalized multi by `2 ** len(lists[0])`, the first respondent's answer
+# length, making `normalized_h` row-order dependent and > 1.
 
 # Collapse cut for H_syn/H_hum. A ratio gate, not a raw-gap gate: a raw threshold selects on "wide
-# scale," not "collapsed," and misses Q23::streaming (gap -1.00, TVD 0.227 — 8th best of 40, with
-# every one of 1500 personas answering "Yes") at any cut tight enough to be selective, because a
-# 3-option question with 77% human mass has little entropy available to lose. Measured over the 5
+# scale," not "collapsed," and misses a three-option question with 77% human mass (gap -1.00, TVD
+# 0.227, 8th best of 40, every one of 1500 personas answering "Yes") at any cut tight enough to be
+# selective, because such a question has little entropy available to lose. Measured over the 5
 # total-collapse questions: raw <= -1.0 catches 4/5, raw <= -1.4 catches 3/5, ratio <= 0.3 catches
-# 5/5 (flagging 10 of 40). CONTRACT.md G3.
+# 5/5, flagging 10 of 40.
 #
-# FIXED 2026-08-28 at 0.30 on exp-000-baseline's hillclimb fold, where the value is not knife-edge:
-# over the 56 gate-eligible questions the ratios have a gap from Q23::grow_food at 0.2989 to
-# Q23::drone at 0.3477, so ANY cut in (0.299, 0.347] flags the same 9 questions. Only lowering it
-# moves the set (0.25 and 0.20 both flag 7). Calibrated on the hillclimb fold ONLY, deliberately:
-# tuning a gate on the held-out fold would stop it being held out.
+# Fixed at 0.30 on a calibration fold of a private predecessor survey, where the value is not
+# knife-edge: over the 56 gate-eligible questions the ratios have a gap from 0.2989 to 0.3477, so
+# ANY cut in (0.299, 0.347] flags the same 9 questions. Only lowering it moves the set (0.25 and
+# 0.20 both flag 7). Calibrated on that fold only, deliberately: tuning a gate on the held-out fold
+# would stop it being held out. Not re-derived for Twin-2K.
 COLLAPSE_RATIO_MAX = 0.30
 
 KL_SMOOTHING_EPS        = 1e-4   # added to LLM probs before KL to keep it finite
 KL_BLIND_SPOT_HUMAN_MIN = 0.05   # human rate >= this = "option humans use"
 KL_BLIND_SPOT_LLM_MAX   = 0.01   # LLM rate < this = "LLM doesn't know it"
 
-# G9's cut, on `blind_spot_worst` — the SEVERITY of the worst missed option, not the boolean flag.
-# The boolean cannot gate: at the 5%/1% definition above it fires on 36 of exp-000-baseline's 56
+# The cut on `blind_spot_worst`: the SEVERITY of the worst missed option, not the boolean flag.
+# The boolean cannot gate: at the 5%/1% definition above it fires on 36 of the reference run's 56
 # gate-eligible questions (multi 7/16, nominal 11/18, ordinal 18/22), and a gate that fails 64% of
 # its own reference run is a gate the loop learns to skip. The severities separate where the flag
 # does not: sorted descending they run 0.4419, 0.3910, 0.3541, 0.3448, 0.3200, 0.3190, 0.3171,
 # 0.3030, 0.3010, then GAP 0.046, then 0.2551, 0.2542, 0.2464 … so any cut in (0.2551, 0.3010]
-# flags the same 9 questions (5 nominal Q23::*, 4 ordinal, 0 multi — multi's worst is 0.2551).
+# flags the same 9 questions (5 nominal, 4 ordinal, 0 multi; multi's worst is 0.2551).
 # Read it as: an answer more than 30% of humans gave that the LLM essentially never produces.
-# Not redundant with G3 — only 4 of those 9 also collapse, and Q23::grow_food collapses at ratio
-# 0.2989 with no blind spot at all. Calibrated on the hillclimb fold ONLY, same reason as G3.
+# Not redundant with the collapse cut: only 4 of those 9 also collapse, and one question collapses at
+# ratio 0.2989 with no blind spot at all. Calibrated on that same fold only, same reason.
 BLIND_SPOT_WORST_MAX = 0.30
 
-# Below this many valid respondents a question is REPORTED but never GATED (CONTRACT.md G1/G3).
-# Routing thins the panel unevenly: measured on the haiku anchor's hillclimb fold (1050 respondents),
-# `Q9::rokuchannel` scores on 3 rows and `Q9::tubi` on 6, while a typical question scores on ~1050.
-# `Q9::tubi` was flagged `collapse: True` at n=6, where H_syn = 0 over 6 draws is sampling noise, not
-# diversity collapse. 50 is the client's reporting floor on this survey, and independently the
-# smallest round cut that clears the routing-thinned Q9::* grid on every fold. FIXED 2026-08-28 —
-# unlike G3's ratio it is not revisited when exp-000-baseline is scored.
+# Below this many valid respondents a question is REPORTED but never GATED.
+# Routing thins the panel unevenly: measured on that fold (1050 respondents), two routing-thinned
+# questions scored on 3 and 6 rows, while a typical question scored on ~1050. The one at n=6 was
+# flagged as collapsed, where zero synthetic entropy over 6 draws is sampling noise, not
+# diversity collapse. 50 was that survey's reporting floor, and independently the
+# smallest round cut that clears the routing-thinned grid on every fold. Unlike the collapse
+# ratio it is not revisited when the reference run is scored.
 MIN_N_FOR_GATING = 50
 
 # Guard on the combinatorial ceiling: 2**K explodes for large option counts and log2 n binds long

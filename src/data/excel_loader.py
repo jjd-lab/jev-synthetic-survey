@@ -46,7 +46,6 @@ class ExcelSurveyLoader:
         """
         print(f"Loading data file: {self.excel_path}")
 
-        # Check if CSV or Excel
         if self.excel_path.lower().endswith('.csv'):
             # Try UTF-8 first; fall back to cp1252 (Windows-1252) for Windows-authored
             # CSVs, whose curly apostrophes (byte 0x92) UTF-8 rejects and latin-1 would

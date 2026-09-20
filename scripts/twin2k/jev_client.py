@@ -2,7 +2,7 @@
 
 Jev is a "System One" model -- it returns a typed answer plus a calibrated probability per option
 instead of generating text. That makes it a candidate replacement for the `verbalized_probs`
-elicitation exp-006 measured, where gpt-4.1 is ASKED to state a distribution and frequently returns
+elicitation measured on an earlier survey, where gpt-4.1 is ASKED to state a distribution and returns
 one that does not sum to 1. Here the distribution is the model's native output.
 
 Deliberately `requests` and not the official `typesafe_sdk`, even though the SDK exists and would
@@ -98,7 +98,7 @@ class JevError(RuntimeError):
 
 
 def approx_tokens(text: str) -> int:
-    """Chars/4, the same rough estimate probe_prompt_cache.py uses for pacing and cost.
+    """Chars/4, a rough estimate used for pacing and cost.
 
     Only ever used to PREDICT whether a request fits or what it costs. The billed figure comes back
     in `usage.input_tokens`, so nothing downstream depends on this being exact.

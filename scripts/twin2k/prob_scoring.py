@@ -81,9 +81,7 @@ BOOTSTRAP_SEED = 20260919
 LOGLOSS_CLIP = 1e-3
 
 
-# --------------------------------------------------------------------------
 # Interchange format
-# --------------------------------------------------------------------------
 def open_jsonl(path) -> "object":
     """Open a run file, transparently handling gzip.
 
@@ -242,9 +240,7 @@ def build_columns(rows: list, entries: dict) -> dict:
     return columns, dropped
 
 
-# --------------------------------------------------------------------------
 # Aggregation: column -> task -> equal weight across tasks
-# --------------------------------------------------------------------------
 def by_task(per_column: dict, columns: dict, exclude=()) -> dict:
     """Column values -> task means. `exclude` drops whole tasks (the pricing split)."""
     buckets: dict = {}
@@ -275,13 +271,11 @@ def headline(per_column: dict, columns: dict) -> dict:
     }
 
 
-# --------------------------------------------------------------------------
 # Distributional fidelity (C3 primary)
-# --------------------------------------------------------------------------
 def marginals(block: dict, how: str, qid: str = "") -> np.ndarray:
     """The arm's predicted marginal for one column, under one of the three commit rules.
 
-    All three read the SAME vectors, which is the point: exp-006 vs exp-007 established that soft
+    All three read the SAME vectors, which is the point: an earlier survey established that soft
     aggregation is the expected value of the weighted draw, so any gap between `soft` and `draw`
     here is Monte Carlo error on ~250 cells rather than a difference in elicitation.
     """
@@ -372,9 +366,7 @@ def _entropy(distribution: np.ndarray) -> float:
     return float(-(positive * np.log(positive)).sum() / np.log(len(distribution)))
 
 
-# --------------------------------------------------------------------------
 # Brier, its decomposition, and the two reference forecasts
-# --------------------------------------------------------------------------
 def brier_cells(block: dict) -> np.ndarray:
     """Multiclass Brier per cell: sum_k (p_k - 1[y=k])^2. Lower is better, 0 is an oracle."""
     onehot = np.zeros_like(block["P"])
@@ -490,9 +482,7 @@ def murphy(columns: dict, bins: int = ECE_BINS) -> dict:
     }
 
 
-# --------------------------------------------------------------------------
 # Calibration (C1)
-# --------------------------------------------------------------------------
 def _ece(f: np.ndarray, y: np.ndarray, bins: int, adaptive: bool) -> float:
     """Expected calibration error: |mean forecast - mean outcome| per bin, weighted by bin size.
 
@@ -594,9 +584,7 @@ def reliability_diagram(f: np.ndarray, y: np.ndarray, bins: int) -> list:
     return out
 
 
-# --------------------------------------------------------------------------
 # Diagnostics: raw sums, and the between-subject framing contrast
-# --------------------------------------------------------------------------
 def raw_sum_report(columns: dict) -> dict:
     """What the vectors summed to before normalisation — a result, not a health check.
 
@@ -666,9 +654,6 @@ def framing_contrast(columns: dict, entries: dict) -> dict:
     return out
 
 
-# --------------------------------------------------------------------------
-# The paper-accuracy anchor
-# --------------------------------------------------------------------------
 def accuracy_anchor(columns: dict, entries: dict, arm: str, how: str = "argmax") -> dict:
     """`paper_accuracy`'s own metric over these cells, as the scorer's external check.
 
@@ -699,9 +684,7 @@ def accuracy_anchor(columns: dict, entries: dict, arm: str, how: str = "argmax")
     }
 
 
-# --------------------------------------------------------------------------
 # Uncertainty: bootstrap over respondents, Wilcoxon over columns
-# --------------------------------------------------------------------------
 def _respondent_index(columns: dict, respids: list = None):
     """One respondent ordering, plus per-column row lookups keyed on it.
 
@@ -955,9 +938,6 @@ def repeat_agreement(rows: list, entries: dict) -> dict:
     }
 
 
-# --------------------------------------------------------------------------
-# convert
-# --------------------------------------------------------------------------
 def convert(details_path: Path, arm: str, out_path: Path, entries: dict,
             sample: int = None, respid_order: list = None) -> int:
     """A run's respondent details -> probs JSONL, one line per (respondent, question).
@@ -1019,9 +999,6 @@ def convert(details_path: Path, arm: str, out_path: Path, entries: dict,
     return 0
 
 
-# --------------------------------------------------------------------------
-# score
-# --------------------------------------------------------------------------
 def score_arms(arm_paths: dict, entries: dict, resamples: int, seed: int, bins: int) -> dict:
     report = {"arms": {}, "bins": bins, "bootstrap_resamples": resamples, "seed": seed}
     columns_by_arm = {}

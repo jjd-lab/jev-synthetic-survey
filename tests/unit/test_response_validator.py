@@ -168,7 +168,7 @@ class TestDistributionalMetrics:
     def test_ordinal_carries_the_flag_and_never_kl(self):
         # The two halves of this function need different things from the scale and only KL needs
         # ordering: the flag asks whether the LLM ever produced an answer humans used. Excluding
-        # both cost the worst bucket its coverage signal — 18 of exp-000-baseline's 22 gate-eligible
+        # both cost the worst bucket its coverage signal: 18 of the reference run's 22 gate-eligible
         # ordinal questions carry a blind spot, and 4 of G9's 9 failures are ordinal.
         r = kl_and_blind_spot({"Very": 0.4, "Somewhat": 0.3, "Not at all": 0.3},
                               {"Very": 0.7, "Somewhat": 0.3},
@@ -256,8 +256,8 @@ class TestValidationResult:
 class TestEntropy:
     """The diagnostic the distributional metric is blind to: a run can match the human option
     distribution well while every persona answers identically. Ported here from
-    test_hillclimb_report.py when the formulas moved out of hillclimb/report.py — `report.py` and
-    "Ground Truth Analysis/analysis.py" each kept a copy and the two diverged."""
+    the predecessor project when the formulas moved out of its report module: that module and
+    a second scorer each kept a copy and the two diverged."""
 
     def test_uniform_hits_the_log2k_ceiling(self):
         h, ceiling = optionwise_entropy({"percentages": {k: 0.25 for k in "ABCD"}}, 4)
@@ -391,7 +391,7 @@ class TestEntropy:
 
     def test_thin_question_reports_entropy_but_never_gates(self):
         """The other reason a ratio may not gate: too few respondents for it to mean anything. Same
-        numbers, same crossed threshold, suppressed flag — real case, `Q9::tubi` scoring on 6 rows,
+        numbers, same crossed threshold, suppressed flag: a real case, one question scoring on 6 rows,
         where H_syn = 0 over 6 draws is sampling noise, not diversity collapse."""
         n = MIN_N_FOR_GATING - 1
         thin = ValidationResult("Q3", "single")
