@@ -1,9 +1,85 @@
-# Plan: does describing the options close the gap?
+# Does describing the options close the gap?
 
-**Status: not yet run.** This page is written before the data exists, and is committed before the
-code that implements it, so the rule below is timestamped by this repository rather than asserted
-afterwards. That is the thing the [original comparison](01-question-and-criteria.md) could not
-offer.
+**Status: run. Both criteria failed; the control passed.** Describing the options changes
+essentially nothing.
+
+The plan below was committed before the data existed and before the code that implements it, so
+the rule is timestamped by this repository rather than asserted afterwards. That is the thing the
+[original comparison](01-question-and-criteria.md) could not offer. It is left unedited; the result
+is reported above it.
+
+## Result
+
+| Criterion, fixed in advance | Threshold | Measured | |
+|---|---|---|---|
+| Moves the boundary | pricing signed bias below +0.10 | +0.185 to **+0.183** | fail |
+| Closes the gap | pricing distribution gap at or below 0.1074 | unchanged, Wilcoxon p=1.0000 | fail |
+| Controls hold | untouched columns within the 0.0055 floor | **-0.0042** | pass |
+
+The control passing is what makes the two failures readable: the 43 multi-option columns received a
+byte-identical payload and stayed put, so the run is clean.
+
+Paired against Jev Choice on the same 300 respondents, the two-option distribution gap moved
+**+0.0001**, CI [-0.0025, +0.0025]. Brier moved +0.0003. Against GPT-4.1 probabilities the gap is
++0.0196 at p=1.0000, which is Jev Choice's own figure to four decimal places.
+
+24,596 cells, 300 respondents, zero errors, zero aborted walks, $4.03.
+
+### The descriptions were read, and did nothing directional
+
+Per-cell movement on the 40 described columns was 0.062 TVD against 0.011 on the untouched
+two-option controls, so the model did respond to them, about five times above noise. But of 12,000
+pricing cells, 5,743 moved up and 4,605 moved down, median exactly zero, standard deviation 0.144.
+The perturbation is real and symmetric, so the marginal does not shift.
+
+For scale, switching the primitive moves the same cells 0.142, more than twice as far and in one
+direction.
+
+### Saturation is untouched, which explains the null
+
+Cells putting a probability of exactly zero on an option:
+
+| Arm | Rate over the 15,896 two-option cells |
+|---|---|
+| Jev Choice | 16.6% |
+| Jev Choice described | 17.2% |
+| Jev Noul | 0.0% |
+
+A zero on the human's actual answer costs the full 2 in Brier and is unbounded in log loss, and
+that is what drove the original gap. `Noul` removes those zeros by construction. A description
+cannot, and did not.
+
+### What it settles
+
+The strongest objection to "never ask Jev a yes/no as a `Choice`" was that `Choice` had been
+under-specified: bare labels, with TypeSafe's own documented lever unpulled. That objection is now
+tested and dead. The recommendation survives its best challenge.
+
+It also weakens the framing hypothesis for pricing. The +0.185 offset survived a description that
+names the boundary in words, so "a framing problem a description can fix" is unlikely and a
+calibration-layer problem is the better reading.
+
+### A measurement worth keeping
+
+The 25 undescribed two-option columns receive a byte-identical payload, so their 0.011 per-cell
+movement is a clean estimate of Jev's run-to-run nondeterminism in a paired design. The 0.055 floor
+quoted elsewhere in these pages comes from `order_probe`, which
+[the planned comparison](02-planned-comparison.md) already flags as an upper bound inflated by
+accidental chaining. This one is not inflated, and it is roughly five times smaller.
+
+### Reproduce
+
+```bash
+python scripts/twin2k/prob_scoring.py score \
+    --arm jev_described=runs/jev_vs_gpt41_n300/jev_choice_described.jsonl.gz \
+    --arm jev=runs/jev_vs_gpt41_n300/jev_choice.jsonl.gz \
+    --arm bc=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl.gz \
+    --bootstrap 1000 --seed 20260919 --ece-bins 10 \
+    --out /tmp/check.json
+```
+
+Writes the equivalent of [`reports/score_with_described.json`](../../reports/score_with_described.json).
+The boundary figures come from `price_sensitivity.py` with the same four arms.
 
 ## The question
 
@@ -129,4 +205,5 @@ reports the exact figure before anything is sent.
 
 ## Reproduce
 
-To be filled in when the run exists, alongside the arm's file under `runs/jev_vs_gpt41_n300/`.
+See the Reproduce block under Result, above. The arm ships as
+`runs/jev_vs_gpt41_n300/jev_choice_described.jsonl.gz`.

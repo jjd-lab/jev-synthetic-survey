@@ -16,10 +16,14 @@ produced, so it is checkable rather than asserted.
 | 19 Sep, morning | **Jev Choice**, the arm the two tests were fixed on | 300 | `runs/jev_vs_gpt41_n300/jev_choice.jsonl.gz` |
 | 19 Sep, evening | **Jev Noul**, built after seeing Jev Choice lose the yes/no half | 300 | `runs/jev_vs_gpt41_n300/jev_noul.jsonl.gz` |
 | 19 to 20 Sep | diagnostics over runs already collected: price sensitivity, the elicitation cost, the instrument's own noise | | `reports/` |
+| 20 Sep | **Jev Choice described**, the first arm whose criteria were committed to this repository before it ran | 300 | `runs/jev_vs_gpt41_n300/jev_choice_described.jsonl.gz` |
 
-No model was run against the 300 respondents after the Noul arm. The GPT-4.1 hard-answer file in
-that folder is not a fifth run: it is the first 300 respondents of the 4 September stateful panel
-run, extracted, with all 24,596 cells identical.
+The described arm is the one exception to the timestamping caveat below: its rule and its criteria
+were committed at `390c51c`, before the code that implements it and before any of its data existed.
+
+`runs/jev_vs_gpt41_n300/` holds five files but only four runs. The GPT-4.1 hard-answer file is not
+a run of its own: it is the first 300 respondents of the 4 September stateful panel run, extracted,
+with all 24,596 cells identical.
 
 ## What this means for reading the result
 

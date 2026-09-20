@@ -23,6 +23,7 @@ specific model and the verdict on it.
 | [03 The Noul follow-up](jev/03-noul-follow-up.md) | experiment 3: re-asking the yes/no questions a different way. Built after seeing the result, and it cannot change the verdict |
 | [04 Price sensitivity](jev/04-price-sensitivity.md) | the largest single effect measured: Jev reads price harder than humans do, at the wrong operating point |
 | [05 What this licenses](jev/05-what-this-licenses.md) | what the result supports, what it does not, and what to run next |
+| [06 Option descriptions](jev/06-option-descriptions.md) | experiment 4: does prompting Jev TypeSafe's way close the gap? Pre-registered, and it does not |
 
 [Appendix: question inventory](appendix-question-inventory.md) lists all 108 columns and the 16
 tasks they belong to.

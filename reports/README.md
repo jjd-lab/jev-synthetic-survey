@@ -16,6 +16,7 @@ tables below map each file to the run it came from.
 | `score_with_noul.json` | Jev Noul, Jev Choice, GPT-4.1 probabilities | `runs/jev_vs_gpt41_n300/{jev_noul,jev_choice,gpt41_probs}.jsonl.gz` |
 | `score_all_arms.json` | Jev Choice, GPT-4.1 probabilities, GPT-4.1 hard answer | `runs/jev_vs_gpt41_n300/{jev_choice,gpt41_probs,gpt41_hard}.jsonl.gz` |
 | `score_jc_vs_ac.json` | Jev Choice, GPT-4.1 hard answer | `runs/jev_vs_gpt41_n300/{jev_choice,gpt41_hard}.jsonl.gz` |
+| `score_with_described.json` | Jev Choice described, Jev Choice, GPT-4.1 probabilities | `runs/jev_vs_gpt41_n300/{jev_choice_described,jev_choice,gpt41_probs}.jsonl.gz` |
 
 ```bash
 python scripts/twin2k/prob_scoring.py score \
