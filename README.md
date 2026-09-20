@@ -234,8 +234,9 @@ floating-point rounding.
 [`runs/jev_vs_gpt41_n300/`](runs/jev_vs_gpt41_n300/) holds the five arms as plain JSONL, one record
 per respondent and question cell, carrying the probability vector, the committed answer, the human's
 answer, the option order as presented, and the model version. Each arm is 24,596 cells and the five
-come to 70 MB, small enough to ship here rather than from a dataset host. The scorer also reads
-`.jsonl.gz`, which is how the 2,058-respondent arms are stored, those being 68 to 115 MB raw.
+come to 70 MB, small enough to ship here rather than from a dataset host. The 2,058-respondent
+arms ship as plain JSONL too, except for the one file past GitHub's 100 MB limit: the scorer also
+reads `.jsonl.gz`, which is how `jev_noul` is stored at 115 MB raw.
 [`runs/README.md`](runs/README.md) maps every file to the claim it supports.
 
 The price diagnostic also needs the dataset itself, for the per-respondent piped prices.
@@ -291,9 +292,10 @@ cp .env.example .env
 costs and how long it takes.
 
 The configs ship a plain `gpt-4.1`, so `.env.example` as written runs against stock OpenAI. Every
-number in this repo was collected as `azure/gpt-4.1` through a hosted endpoint, and the model id is
-the only thing that differs. It is sent verbatim as the model, so at such an endpoint it *is* the
-routing key. To reproduce the shipped runs, restore the prefix along with its `API_BASE_URL`.
+number in this repo was collected through a hosted OpenAI-compatible endpoint, and the model id is
+the only thing that differs. It is sent verbatim as the model, so at such an endpoint the provider
+prefix *is* the routing key. To reproduce the shipped runs, restore that prefix along with its
+`API_BASE_URL`.
 What it does not change is structured output: `structured_output_method` branches only on a
 `bedrock/` prefix, so both ids take the same hard-enforced `json_schema` path the probability arm
 depends on.

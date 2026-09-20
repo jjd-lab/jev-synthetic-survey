@@ -13,8 +13,8 @@ their behaviour on the next run, with nothing in this branch's diff to show it. 
 authenticated POST with a JSON body, and the retry/error-classification logic below is wanted
 explicitly anyway, so the SDK buys little against that risk. See the plan's "Isolation" section.
 
-PUBLIC DATA ONLY. This is the one code path in the repo that sends prompts outside the company
-provider, on a personal key. Twin-2K-500 is CC BY 4.0 and is the ONLY data cleared to reach it.
+PUBLIC DATA ONLY. This is the one code path in the repo that sends prompts to a third-party
+endpoint, on a personal key. Twin-2K-500 is CC BY 4.0 and is the ONLY data cleared to reach it.
 The caller enforces that (`probe_jev.py`'s config guard) -- this module is the transport.
 
 Wire format, per https://docs.typesafe.ai/api.md and /primitives/choice.md:

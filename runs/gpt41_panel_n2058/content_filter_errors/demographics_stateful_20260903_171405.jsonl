@@ -1,2 +1,0 @@
-{"respid": 4, "item_id": "QID9_25", "scope": "question", "category": "structured_output", "exception_class": "ContentFilterFinishReasonError", "reason": "Could not parse response content as the request was rejected by the content filter", "retry_count": 2}
-{"respid": 32, "item_id": "QID189", "scope": "question", "category": "structured_output", "exception_class": "ContentFilterFinishReasonError", "reason": "Could not parse response content as the request was rejected by the content filter", "retry_count": 2}

@@ -53,7 +53,7 @@ BASELINE_OUTPUT = 'output_dir: "outputs/twin2k/demographics_stateless"'
 # them, so one baseline edit does not have to be chased through two tables.
 CAP_COMMENT_1 = "  # The only concurrency knob. A slot holds a whole persona-walk (~82 sequential calls), not a"
 CAP_COMMENT_2 = "  # single call, so this is 50 concurrent walks. 50 is this pipeline's proven-stable value;"
-CAP_COMMENT_3 = "  # c=100 stalled the provider on the same path."
+CAP_COMMENT_3 = "  # c=100 stalled that endpoint on the same path."
 CAP_VALUE = "max_concurrency: 50"
 
 # Every arm is a respondent-major walk now; the baseline is the one that does not chain. So a

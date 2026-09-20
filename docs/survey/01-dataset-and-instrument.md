@@ -262,7 +262,7 @@ form are on the [metrics page](02-metrics.md).
 | Call granularity | one call per respondent, all items in one context | one call per respondent and question | the paper's twin can be internally consistent across items and carry inferences forward; its answers are also mutually dependent in a way these are not |
 | Option order | never shuffled | shuffled per persona, no option pinned | deliberate divergence: the paper's own cited reason is that order moves answers, so this repo randomizes it away rather than inheriting it |
 | Temperature | 0 for every arm but one | 0.7 | priced by the paper's own arm at about 0.5 points |
-| Model | GPT-4.1-mini in the best arm | `azure/gpt-4.1` | the one clean pair in the table below, JSON Persona on each model, puts GPT-4.1 0.57 points above the mini, so this pushes the other way |
+| Model | GPT-4.1-mini in the best arm | `gpt-4.1` | the one clean pair in the table below, JSON Persona on each model, puts GPT-4.1 0.57 points above the mini, so this pushes the other way |
 | Answer format | free-text JSON, parsed and retried | provider-enforced schema | fewer parse losses here; no measurable accuracy claim either way |
 | Reasoning | an arm, costing 1.3 points | always on, never scored | untested here; the paper's evidence says it does not help |
 | Metric | exact match or graded deviation, averaged within then across 17 equally weighted tasks | distribution gaps, calibration, Brier, plus the paper's accuracy as a side-by-side | most numbers here are not on the paper's scale |

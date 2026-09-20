@@ -241,7 +241,7 @@ def test_price_list_rendering_stays_inside_the_twin_generator():
 
 @pytest.mark.unit
 def test_every_shipped_config_is_a_public_twin_config():
-    """The Jev probe sends prompts OUTSIDE any provider, on a personal key, so what may be sent is
+    """The Jev probe sends prompts to a THIRD-PARTY endpoint, on a personal key, so what may be sent is
     a property of the whole repo and not only of the probe.
 
     Twin-2K-500 is CC BY 4.0 and cleared for that. Stated as a POSITIVE invariant on purpose:

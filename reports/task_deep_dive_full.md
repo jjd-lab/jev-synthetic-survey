@@ -1,6 +1,6 @@
 # Twin-2K-500 — per-task deep dive, all three arms
 
-Full panel, 2,058 respondents × 108 paper-holdout questions, `azure/gpt-4.1`, temperature 0.7, options
+Full panel, 2,058 respondents × 108 paper-holdout questions, `gpt-4.1`, temperature 0.7, options
 shuffled, between-subject arms gated so each twin is asked only the condition its human was randomized
 into. One factor separates the arms:
 

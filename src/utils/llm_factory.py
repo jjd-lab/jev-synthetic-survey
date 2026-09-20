@@ -52,15 +52,17 @@ def structured_output_method(model: Optional[str] = None) -> str:
     """Pick the structured-output method for a model, resolving None like create_llm_instance.
 
     Bedrock's schema validator rejects array ``maxItems`` (silently erroring every
-    multi-choice/grid question), so tool-calling is required there. OpenAI/Azure support the strict
-    ``json_schema`` decoder, which hard-enforces the schema — no client-side shape drift, so the
-    list-as-string / missing-field failures seen under ``function_calling`` cannot occur. `None`
-    falls back to the same MODEL_NAME env default as create_llm_instance (Bedrock Haiku).
+    multi-choice/grid question), so tool-calling is required there. OpenAI-compatible endpoints
+    support the strict ``json_schema`` decoder, which hard-enforces the schema — no client-side
+    shape drift, so the list-as-string / missing-field failures seen under ``function_calling``
+    cannot occur. `None` falls back to the same MODEL_NAME env default as create_llm_instance
+    (Bedrock Haiku).
     """
     load_dotenv()
     m = (model or os.getenv("MODEL_NAME", "bedrock/us.anthropic.claude-haiku-4-5")).lower()
-    # Match on the provider prefix, not a free-text substring, so an OpenAI/Azure deployment whose
-    # alias happens to contain "claude"/"anthropic" isn't misrouted off the strict json_schema path.
+    # Match on the provider prefix, not a free-text substring, so an OpenAI-compatible deployment
+    # whose alias happens to contain "claude"/"anthropic" isn't misrouted off the strict
+    # json_schema path.
     if m.startswith("bedrock/"):
         return "function_calling"
     return "json_schema"

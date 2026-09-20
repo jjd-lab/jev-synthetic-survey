@@ -201,10 +201,10 @@ def _create_multi_variation_model(
 
     `enforce_prob_length` puts the probability-vector length **in the schema** (`minItems`/
     `maxItems`) instead of only in the description. Caller-supplied because it is provider-dependent:
-    OpenAI/Azure constrained-decode the schema and honour both keywords, while Bedrock's validator
-    rejects array `maxItems` outright — see `structured_output_method`. Leaving it off is what
-    produced 7 lost cells on an earlier survey: the description said "length must be 24", the schema said
-    nothing, and the decoder emitted 25.
+    OpenAI-compatible endpoints constrained-decode the schema and honour both keywords, while
+    Bedrock's validator rejects array `maxItems` outright — see `structured_output_method`. Leaving
+    it off is what produced 7 lost cells on an earlier survey: the description said "length must be
+    24", the schema said nothing, and the decoder emitted 25.
     """
     fields: Dict[str, Any] = {}
     if _elicits_option_probabilities(response_mode):
@@ -314,8 +314,8 @@ def create_grid_response_model(
     single/multi questions.
 
     `enforce_prob_length` is provider-dependent for the same reason as in
-    `_create_multi_variation_model`: it emits `minItems`/`maxItems`, which OpenAI/Azure enforce and
-    Bedrock rejects.
+    `_create_multi_variation_model`: it emits `minItems`/`maxItems`, which OpenAI-compatible
+    endpoints enforce and Bedrock rejects.
     """
     tier_default = _default_subscription_tier(subscription_tiers) if subscription_tiers else None
     TierLiteral = Literal[*subscription_tiers] if subscription_tiers else None
@@ -518,7 +518,7 @@ def _pin_cache_to_respid(llm, respid: Any):
     """Return a copy of `llm` that sends `prompt_cache_key` = respid, sharing its connection pool.
 
     OpenAI treats `prompt_cache_key` as a routing hint: calls carrying the same key are steered to
-    the same cache. That is the fix for this provider fanning a single walk across deployments, where
+    the same cache. That is the fix for a provider fanning a single walk across deployments, where
     a cached prefix is only readable on the deployment that wrote it.
 
     `model_copy` rather than a second `create_llm_instance(...)` call: the factory is lru_cached on
@@ -609,9 +609,9 @@ def run_stateful_survey(
     rng = random.Random(str(persona["respid"]))
 
     # Declare the probability-vector length in the schema only where the provider honours it.
-    # `json_schema` (OpenAI/Azure) constrained-decodes it, so the length is guaranteed rather than
-    # merely requested in prose; `function_calling` (Bedrock/Claude) rejects array `maxItems`, which
-    # is the reason that path exists at all. Derived once here from the same dispatch the
+    # `json_schema` (OpenAI-compatible) constrained-decodes it, so the length is guaranteed rather
+    # than merely requested in prose; `function_calling` (Bedrock/Claude) rejects array `maxItems`,
+    # which is the reason that path exists at all. Derived once here from the same dispatch the
     # `with_structured_output` calls below use, so the two can never disagree.
     enforce_prob_length = structured_output_method(model) == "json_schema"
 

@@ -19,8 +19,8 @@ arm**. Set equality was asserted on respondent ids and cell keys, not just count
 | Arm | Model | How it was asked | Errors |
 |---|---|---|---|
 | Jev Choice | `jev-1.13.0` | native `Choice` vector | 0 |
-| GPT-4.1 probabilities | azure/gpt-4.1 | states a probability per option, grids unbatched | 0 |
-| GPT-4.1 hard answer | azure/gpt-4.1 | picks one option, grids batched | not recorded |
+| GPT-4.1 probabilities | gpt-4.1 | states a probability per option, grids unbatched | 0 |
+| GPT-4.1 hard answer | gpt-4.1 | picks one option, grids batched | not recorded |
 | Jev Noul | `jev-1.13.0` | `Noul` on the 65 two-option columns, `Choice` on the 43 multi-option ones | 0 |
 
 The comparison that decides the verdict is Jev Choice against GPT-4.1 probabilities. The other two

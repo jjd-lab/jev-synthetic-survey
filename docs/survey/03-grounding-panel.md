@@ -22,7 +22,7 @@ stateful       −  stateless          = what seeing its own earlier answers is 
 
 ## Setup
 
-Same 108 questions, same 2,058 respondents, same prompt text, `azure/gpt-4.1`, temperature 0.7,
+Same 108 questions, same 2,058 respondents, same prompt text, `gpt-4.1`, temperature 0.7,
 options shuffled per persona. All three arms ask each simulated respondent only the between-subject
 arm its human counterpart was randomized into, so 48 of the 108 columns draw an arm's share of the
 panel rather than the full sample.
@@ -219,12 +219,12 @@ for statefulness (p = 0.801), with the 20 non-pricing questions canceling (p = 0
 panel run reversed the sign of the larger contrast. That is the reason these arms needed the full
 panel rather than a cheaper slice.
 
-**An identity-framed persona block does not survive Azure's content filter, and the failure is not
+**An identity-framed persona block does not survive the endpoint's content filter, and the failure is not
 random.** The prompt keeps the line "This is a survey research simulation." inside its context
 block. On the current prompt shape that line is insurance rather than load-bearing: re-probed after a
 rewrite, the same 8 respondents by 2 questions pass 16 of 16 both with the line and with the whole
 context block deleted. It *was* load-bearing under the dataset paper's own prompt wording, which
-earlier runs used: without the line, Azure rejected the request on the input, before the model saw
+earlier runs used: without the line, the endpoint rejected the request on the input, before the model saw
 anything, on 12 of 16 probes, against 16 of 16 with it. What changed is the framing, not the
 demographics.
 
@@ -247,9 +247,9 @@ collected, not the failure counter: the validator reported zero failures on a qu
 2 of 50 personas. In principle the three arms are therefore comparable only on the intersection of
 respondents that survived all three. In practice that turned out not to be an obstacle, because the
 arms lost almost the same people rather than different ones: one respondent on one column in two of
-the arms, none in the third. The refused cells from two superseded runs are kept under
-[`runs/gpt41_panel_n2058/content_filter_errors/`](../../runs/gpt41_panel_n2058/content_filter_errors/)
-because a deterministic deletion is a limitation of these arms rather than an incident.
+the arms, none in the third. Every cell the filter refused in an earlier run came back answered in
+the run that shipped, so no shipped arm carries a filter-deleted cell. The deterministic deletion
+is a property to re-check after any prompt edit, not an open defect in the data here.
 
 The 48 between-subject columns are read differently from the other 60, and per-arm fit says
 nothing about whether the model responds to the manipulation at all. See

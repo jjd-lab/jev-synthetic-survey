@@ -15,7 +15,7 @@ It is not. **Does asking for a distribution change the committed answer, and by 
 
 ## Setup
 
-Two arms of the same 300-respondent comparison, `azure/gpt-4.1`, a demographics-only persona, each
+Two arms of the same 300-respondent comparison, `gpt-4.1`, a demographics-only persona, each
 simulated respondent walking its own questionnaire statefully so that it sees its own earlier
 answers. Same 300 respondents (ids 1 to 300 in loader order), same 108 scored columns, same 16
 tasks, same persona cache, **24,596 answered cells in each arm**, with set equality asserted on
@@ -126,7 +126,7 @@ model answers but whether the answer survives at all.
 
 Two completed runs on that survey logged schema-validation errors that silently dropped individual
 question responses for some personas: gpt-5.4-mini had 8, Haiku 4.5 had 152. An earlier
-`azure/gpt-4.1` run on the same code had none.
+`gpt-4.1` run on the same code had none.
 
 ### Three failure modes
 
@@ -140,7 +140,7 @@ response model for that question type needed an answer and an explanation. The m
 prose and packed both into the single answer string, omitting the explanation field entirely. The
 prompt and the schema disagreed, and the model obeyed the prompt.
 
-C: a length the schema never stated. `azure/gpt-4.1`, 7 cells. The probability-vector field was
+C: a length the schema never stated. `gpt-4.1`, 7 cells. The probability-vector field was
 declared as a plain list of numbers, so the emitted schema carried no minimum or maximum item count.
 The required length lived only in the field's description prose plus a validator that runs on the
 client, after generation. On the two longest option lists the model emitted one number too many, 25

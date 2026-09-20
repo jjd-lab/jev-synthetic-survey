@@ -355,7 +355,7 @@ personas:
 # discarded them. The answer format is inlined literally below instead.
 #
 # "This is a survey research simulation." inside <survey_context> is kept as insurance, but
-# on THIS shape it is no longer what carries the prompt past Azure's content filter. Re-probed
+# on THIS shape it is no longer what carries the prompt past the endpoint's content filter. Re-probed
 # after the rewrite: the same 8 respondents x 2 questions pass 16/16 both with the line and
 # with <survey_context> deleted. Under the previous Appendix A.1 wording the same probe failed
 # 12 of 16 bare with ContentPolicyViolationError on the INPUT, and deterministically per
@@ -366,7 +366,7 @@ personas:
 #
 # <answer_style> exists to close that residual, which is a DIFFERENT failure from the one above:
 # `finish_reason=content_filter` on the OUTPUT, not a rejected input. The model writes a long
-# scenario-elaborating explanation and Azure truncates the completion mid-flight, so the cell comes
+# scenario-elaborating explanation and the endpoint truncates the completion mid-flight, so the cell comes
 # back `Error`. Resampling clears an output-side rejection often enough that the harness does retry
 # it — but not here. Measured: with a 23k-character history, respid 32 / QID189 (Thaler WTA/WTP)
 # failed 3/3 and passed 3/3 with this block; it also passes with the history truncated, which is
@@ -424,16 +424,16 @@ survey_prompt: |
 
 llm:
   # Plain OpenAI model id, for a stock https://api.openai.com/v1 key. Every result shipped
-  # in runs/ and reports/ was collected as `azure/gpt-4.1` through a provider instead; the
-  # docs keep that name because it is what those numbers came from. Routing is unchanged
-  # either way -- `structured_output_method` only branches on a `bedrock/` prefix.
+  # in runs/ and reports/ was collected through a hosted OpenAI-compatible endpoint instead,
+  # under that endpoint's own provider-prefixed id. Routing is unchanged either way --
+  # `structured_output_method` only branches on a `bedrock/` prefix.
   model: "gpt-4.1"
   persona_temperature: 0.3
   survey_temperature: 0.7
   n_variations: 1
   # The only concurrency knob. A slot holds a whole persona-walk (~82 sequential calls), not a
   # single call, so this is 50 concurrent walks. 50 is this pipeline's proven-stable value;
-  # c=100 stalled the provider on the same path.
+  # c=100 stalled that endpoint on the same path.
   max_concurrency: 50
 
 execution:

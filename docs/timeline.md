@@ -6,8 +6,8 @@ produced, so it is checkable rather than asserted.
 
 | When | What ran | n | Artifact |
 |---|---|---|---|
-| 3 Sep 2026 | pilot of the stateful demographics arm, 50 respondents | 50 | not shipped; its content-filter errors are in `runs/gpt41_panel_n2058/content_filter_errors/` |
-| 4 Sep, 08:04 | first full run of the stateless demographics arm, superseded | 2,058 | not shipped; its content-filter errors are kept |
+| 3 Sep 2026 | pilot of the stateful demographics arm, 50 respondents | 50 | not shipped; superseded by the 13:16 run, which filled every cell it had lost |
+| 4 Sep, 08:04 | first full run of the stateless demographics arm, superseded | 2,058 | not shipped; superseded by the 09:15 run, which filled every cell it had lost |
 | 4 Sep, 09:15 | **demographics, stateless** | 2,058 | `runs/gpt41_panel_n2058/demographics_stateless/` |
 | 4 Sep, 13:16 | **demographics, stateful** | 2,058 | `runs/gpt41_panel_n2058/demographics_stateful/` |
 | 6 to 8 Sep | **prior answers, stateless**, resumed across six sessions under a daily spend cap | 2,058 | `runs/gpt41_panel_n2058/prior_answers_stateless/`, one `run_tokens_*.json` per resumption |

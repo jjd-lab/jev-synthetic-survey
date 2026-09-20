@@ -34,10 +34,11 @@ that the walk finished. The `arm` field inside each record keeps its original ru
 
 These five ship uncompressed, at about 15 MB each. Git zlib-compresses blobs anyway, so an
 already-gzipped file costs it slightly more to store than the plain text, and a `.jsonl` can be
-grepped and read on the web without a decompression step. The rule flips for the
-2,058-respondent arms, which are 68 to 115 MB raw: those stay gzipped, in
-`prior_answers_stateless/` and `jev_vs_gpt41_n2058/`. GitHub refuses a push carrying any file
-over 100 MB, so for the largest of them compression is not a preference.
+grepped and read on the web without a decompression step. The 2,058-respondent arms follow the
+same rule: `jev_vs_gpt41_n2058/gpt41_hard.jsonl` ships plain at 68 MB, and
+`prior_answers_stateless/cells.jsonl` at 67 MB. One file has no choice: `jev_noul.jsonl.gz` is
+115 MB raw, past the 100 MB file limit GitHub refuses a push over, so there compression is not a
+preference.
 
 **The hard-answer arm is not its own run.** `gpt41_hard.jsonl` is the first 300 respondents of
 the `demographics_stateful` panel run below, extracted: all 24,596 cells carry identical answers,
@@ -83,13 +84,9 @@ There is no prior-answers + stateful cell: on top of 620 real prior answers the 
 earlier answers add near-zero information, and it is by far the slowest path.
 
 Each folder holds the respondent-level workbook, the validation summary, and the persona cache it
-ran from. `prior_answers_stateless/` also holds `cells.jsonl.gz` (168,768 cells, all 2,058
+ran from. `prior_answers_stateless/` also holds `cells.jsonl` (168,768 cells, all 2,058
 respondents) and the per-resumption token records. That arm ran across several days under a daily
 spend cap.
-
-`content_filter_errors/` holds the cells Azure's content filter refused, from two superseded runs.
-They are kept because the filter deletes specific respondents deterministically rather than at
-random, which is a limitation of the panel arms rather than an incident.
 
 ## `jev_vs_gpt41_n2058/`: the same two models over the whole panel
 
@@ -100,7 +97,7 @@ the ones no given respondent was asked, since 48 of the 108 columns are between-
 | File | Arm | What was asked |
 |---|---|---|
 | `jev_noul.jsonl.gz` | Jev Noul | one probability of "yes", options not offered |
-| `gpt41_hard.jsonl.gz` | GPT-4.1 hard answer | pick one option, no probabilities (extracted, not its own run) |
+| `gpt41_hard.jsonl` | GPT-4.1 hard answer | pick one option, no probabilities (extracted, not its own run) |
 
 The Jev arm ran as `jev_noul_chained` on `jev-1.13.0` against the `demographics_stateful` persona
 cache, and finished clean: 2,058 `done: true` markers, one per respondent, and zero error records.
@@ -111,10 +108,10 @@ field is `null` on every record, so it supports accuracy comparisons and nothing
 The n=300 `gpt41_hard.jsonl` is a strict subset of it: all 24,596 of those cells appear here with
 identical committed answers, checked cell by cell.
 
-Both ship gzipped, against the plain `.jsonl` of the n=300 arms. Raw they are 115 MB and 68 MB,
-and the first is past the 100 MB file limit GitHub refuses a push over, so the trade runs the same
-way as for `prior_answers_stateless/`. `prob_scoring.py` reads `.jsonl` and `.jsonl.gz` without
-being told which.
+The hard-answer arm ships as a plain `.jsonl` like the n=300 arms, at 68 MB. Only `jev_noul` is
+gzipped, because at 115 MB raw it is past the 100 MB file limit GitHub refuses a push over, so the
+trade runs the same way as for `prior_answers_stateless/`. `prob_scoring.py` reads `.jsonl` and
+`.jsonl.gz` without being told which.
 
 [`reports/score_nc_vs_ac_n2058.json`](../reports/score_nc_vs_ac_n2058.json) scores the pair. Its
 main use is as a check on the n=300 slice, and the slice holds up: Jev Noul moves from 0.1530 to

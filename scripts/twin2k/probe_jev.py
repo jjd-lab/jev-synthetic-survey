@@ -28,7 +28,7 @@ Differences from the runner, both deliberate:
     chaining the history IS the state, so one poisoned turn changes every later vector -- the
     runner's behaviour is right for a checkpointed production run and wrong for a measurement.
 
-PUBLIC DATA ONLY. This is the one path in the repo that sends prompts outside the hosted endpoint,
+PUBLIC DATA ONLY. This is the one path in the repo that sends prompts to a third-party endpoint,
 on a personal key. `assert_public_data_config` refuses any config that is not Twin's, before a
 respondent is loaded or a request is built, so a mistyped `--config` cannot send a persona from
 any other dataset to TypeSafe.
@@ -84,7 +84,7 @@ from src.data import ExcelSurveyLoader, QuestionMapper  # noqa: E402
 STATE_START = "<survey_context>"
 STATE_END = "<current_question>"
 
-# Only Twin-2K-500 is CC BY 4.0 and cleared to leave the provider.
+# Only Twin-2K-500 is CC BY 4.0 and cleared to be sent to a third party.
 PUBLIC_CONFIG_DIR = REPO_ROOT / "configs" / "twin2k"
 PUBLIC_DATA_DIR = REPO_ROOT / "data" / "twin2k500"
 
@@ -110,7 +110,7 @@ def assert_public_data_config(config_path: Path, config) -> None:
     if resolved.parent != PUBLIC_CONFIG_DIR.resolve():
         raise SystemExit(
             f"REFUSED: {resolved} is not in {PUBLIC_CONFIG_DIR}.\n"
-            "Jev is reached on a personal key outside the hosted endpoint, so only "
+            "Jev is reached on a personal key at a third-party endpoint, so only "
             "Twin-2K-500 (CC BY 4.0) may be sent -- it is the only data cleared for it."
         )
     excel = (REPO_ROOT / config.survey.data_source.excel_file).resolve()
@@ -404,7 +404,7 @@ def main() -> int:
     parser.add_argument("--out", required=True, help="JSONL, appended to; resume reads it back.")
     parser.add_argument("--persona-cache", default=None,
                        help="Existing persona cache. Required in practice: regenerating personas "
-                            "needs the provider and would break the same-persona control.")
+                            "needs a live endpoint and would break the same-persona control.")
     parser.add_argument("--describe-criteria", action="store_true",
                        help="Send a derived description per option on two-option columns. On the "
                             "shipped instrument that is the 40 pricing columns and nothing else. "
@@ -474,7 +474,7 @@ def main() -> int:
     if personas is None:
         raise SystemExit(
             f"REFUSED: no usable persona cache at {cache_path!r}. Regenerating personas needs the "
-            "provider and would break the same-persona control against the gpt-4.1 arms. Point "
+            "a live endpoint and would break the same-persona control against the gpt-4.1 arms. Point "
             "--persona-cache at the arm's existing cache."
         )
     print(f"[OK] {len(personas)} personas from cache")
