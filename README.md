@@ -376,7 +376,7 @@ yes/no.
 | [`runs/`](runs/README.md) | the raw per-cell output of every arm, and what each file supports |
 | [`reports/`](reports/README.md) | the scored reports behind every figure, and how to regenerate them |
 | [`scripts/twin2k/`](scripts/twin2k/README.md) | the scorer, the Jev probe, the price diagnostic, and the config builders |
-| [`configs/twin2k/`](configs/twin2k/) | the arm configurations, one per run |
+| [`configs/twin2k/`](configs/twin2k/README.md) | the arm configurations, and which run and report each one produced |
 | [`src/`](src/), [`main.py`](main.py) | the survey engine the `gpt-4.1` arms run on |
 | [`tests/`](tests/) | `pytest`, offline, no network |
 
