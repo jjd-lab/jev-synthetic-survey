@@ -184,9 +184,23 @@ $0.042 per million tokens, with output free.
 | Jev Noul | 95,694,291 (billed) | free | $4.02 measured |
 
 The GPT-4.1 figure is inferred from list rates ($2.00 per million input, $0.50 cached, $8.00
-output), not billed through, so read it as an order of magnitude. Wall clock was comparable: about
-35 minutes for Jev Choice at 16 concurrent walks, 22 minutes for GPT-4.1 at 50. A 34-fold cost gap
-makes "no better" a different proposition than it would be at parity.
+output), not billed through, so read it as an order of magnitude. A 34-fold cost gap makes "no
+better" a different proposition than it would be at parity.
+
+Wall clock is not a like-for-like comparison here and should not be read as one, because the arms
+ran at different concurrency: about 35 minutes for Jev Choice at 16 concurrent walks against 22
+minutes for GPT-4.1 at 50. Per call, the measurement runs the other way. Jev's records carry
+`latency_ms` and average 0.26 s across all 24,596 cells, median 0.23 s, p99 0.48 s. The GPT-4.1
+arm was converted from workbooks and kept no per-call timing, so its rate can only be inferred
+from its wall clock, at roughly 2.7 s per cell.
+
+The 35-minute figure is also not what the same work costs today. Re-measured against a live
+`Noul` walk at the same concurrency of 16 and against a warm persona cache, the throughput is
+about 3,100 to 4,000 cells per minute, which puts a 24,596-cell arm at **6 to 8 minutes**. The
+per-walk serial latency implied by that rate, 240 ms, sits on top of a 260 ms API mean, so the
+walk is latency-bound with no measurable overhead and its wall clock scales down with
+concurrency. Whatever cost the original arm its extra half hour, throttling or a cold persona
+cache, was not the model's response time. Budget from 6 to 8 minutes, not 35.
 
 ## Caveats
 

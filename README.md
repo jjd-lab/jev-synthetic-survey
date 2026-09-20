@@ -131,7 +131,10 @@ The verdict is a conjunction, so losing one half of it is not the same as losing
 - It wins the 43 ordinal questions on the ordinal distribution gap, 0.6864 against 0.7272, better in
   26 of 43 columns at p=0.031. That advantage carries its all-cell Brier win, 0.7550 against 0.8108.
 - It costs about 34 times less. $4.01 measured against roughly $136 inferred from `gpt-4.1` list
-  rates, because Jev bills input only and its output is free. Wall clock was comparable.
+  rates, because Jev bills input only and its output is free.
+- It answers about ten times faster per call, 0.26 s measured across all 24,596 cells against
+  roughly 2.7 s inferred for `gpt-4.1`. The two arms' wall clocks look close only because they ran
+  at different concurrency, so do not read those as a speed comparison.
 - It produced no errors and no aborted walks in either of its two arms, 24,596 cells each.
 - It tracks price more tightly than the respondents themselves do. The pricing block pipes a
   randomized price into each stem, and Jev's purchase probability follows it at r = −0.55 against
@@ -241,14 +244,23 @@ What each step costs, measured on a 2023 laptop:
 | `pytest` | nothing | 22s, 398 tests, no network | free |
 | `fetch_twin2k.py` | 205 MB of disk | a few minutes on a home connection | free |
 | the price diagnostic, once fetched | the dataset | under a second | free |
-| a new 300-respondent Jev arm | `TYPESAFE_API_KEY` | about 35 min at 16 walks | about $4 |
-| a new 300-respondent `gpt-4.1` arm | `API_KEY` | about 22 min at 50 | about $136 at list rates |
+| a new 300-respondent Jev arm | `TYPESAFE_API_KEY` | 6 to 8 min at 16 walks | about $4 |
+| a new 300-respondent `gpt-4.1` arm | `API_KEY` | about 22 min at 50 walks | about $136 at list rates |
 
 The two run costs are the whole reason the comparison is interesting: they buy the same 24,596
 cells. Jev bills input only at $0.042 per million tokens with output free, which is where the
 34-fold gap comes from. The `gpt-4.1` figure is inferred from list rates rather than billed
 through, so read it as an order of magnitude. `probe_jev.py --dry-run` prints the exact Jev cost
 before anything is sent.
+
+The two wall clocks are **not** a like-for-like speed comparison, and nothing here should be read
+as one. The arms ran at different concurrency, 16 in-flight walks against 50, so the Jev figure is
+the slower setting rather than the slower model. Per call Jev is the faster of the two by roughly
+an order of magnitude: its records carry `latency_ms` and average **0.26 s** over all 24,596 cells,
+while the `gpt-4.1` arm was converted from workbooks and kept no per-call timing, so its rate can
+only be inferred from wall clock at about 2.7 s. Jev's walk is latency-bound with no measurable
+overhead on top, so its wall clock scales down with concurrency: raising `--concurrency` is the
+whole lever.
 
 ## Credentials
 
