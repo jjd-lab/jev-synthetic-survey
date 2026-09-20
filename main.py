@@ -455,12 +455,6 @@ def run_excel_validation_pipeline(config_path: str,
                 f"stateful run checkpoints per persona and cannot share it. Use a new "
                 f"--run-id."
             )
-        # Pin the respondent window to the dir: `global_index` is positional, so a --skip run
-        # and a full run write indices that mean different respondents (see the guard's docstring).
-        ckpt.check_and_record_window(
-            run_dir, {"sample": effective_sample, "skip": skip_respondents}
-        )
-        manifest = ckpt.load_manifest(run_dir)
         existing_batches = len(manifest.get("batches", []))
 
         if existing_batches and not resume:
@@ -469,6 +463,14 @@ def run_excel_validation_pipeline(config_path: str,
                 f"Re-run with --resume to continue it, or use a new --run-id / delete the "
                 f"dir to start fresh. Refusing to mix a fresh run into existing batches."
             )
+
+        # Pin the respondent window to the dir: `global_index` is positional, so a --skip run
+        # and a full run write indices that mean different respondents (see the guard's
+        # docstring). After the refusals above, so a dir this run is about to reject is not
+        # left pinned to a window it never wrote a record for.
+        ckpt.check_and_record_window(
+            run_dir, {"sample": effective_sample, "skip": skip_respondents}
+        )
 
         done = ckpt.completed_respids(run_dir) if resume else set()
         if resume and done:

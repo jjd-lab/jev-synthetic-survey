@@ -223,7 +223,7 @@ floating-point rounding.
 per respondent and question cell, carrying the probability vector, the committed answer, the human's
 answer, the option order as presented, and the model version. Each arm is 24,596 cells and the five
 come to 70 MB, small enough to ship here rather than from a dataset host. The scorer also reads
-`.jsonl.gz`, which is how the larger 2,058-respondent panel runs are stored.
+`.jsonl.gz`, which is how the panel file under `prior_answers_stateless/` is stored.
 [`runs/README.md`](runs/README.md) maps every file to the claim it supports.
 
 The price diagnostic also needs the dataset itself, for the per-respondent piped prices.
@@ -316,8 +316,9 @@ Give a skipped run its **own `--run-id`**. A checkpoint record is keyed by its p
 run's persona list, so position 0 is respondent 1 in a full run and respondent 301 under
 `--skip 300`; sharing a dir would make the export drop one of every colliding pair. The run dir
 records the window it was built for and refuses a mismatch, so this fails loudly rather than
-quietly. The two runs' workbooks are then merged after the fact, by
-`prob_scoring.py convert` and concatenation — see [`runs/README.md`](runs/README.md).
+quietly. Convert each run's workbook to per-cell JSONL with
+[`prob_scoring.py convert`](scripts/twin2k/prob_scoring.py), then concatenate the two files. The
+scorer keys on respid and qid, so order across the join does not matter.
 
 The Jev probe refuses to load a config outside `configs/twin2k/`, and refuses any endpoint that is
 not TypeSafe. Twin-2K-500 is the only data cleared to be sent there, and the code and the tests

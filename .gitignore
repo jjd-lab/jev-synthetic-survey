@@ -23,6 +23,9 @@ wheels/
 .venv/
 # Environment Variables
 .env
+# Any local variant (.env.local, a timestamped backup) carries the same secrets.
+.env.*
+!.env.example
 # IDE
 .vscode/
 # Cursor — ignore local/user state, keep project rules

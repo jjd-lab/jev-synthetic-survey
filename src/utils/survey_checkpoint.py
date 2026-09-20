@@ -142,7 +142,8 @@ def check_and_record_window(run_dir: Path, window: Dict[str, Any]) -> None:
         raise RuntimeError(
             f"Checkpoint dir '{run_dir}' was built for respondent window {recorded}, but this "
             f"run is {window}. Their persona positions mean different respondents, so the "
-            f"export would silently drop one of every colliding pair. Use a new --run-id."
+            f"export would silently drop one of every colliding pair. Use a new --run-id, or "
+            f"delete this dir if it holds no batches worth keeping."
         )
     if recorded is None:
         manifest["window"] = window
