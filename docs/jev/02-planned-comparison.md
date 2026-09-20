@@ -199,9 +199,9 @@ makes "no better" a different proposition than it would be at parity.
   0.055 and flip the top answer 7.5% of the time. Scaled to 300 respondents the column-level noise
   floor is about 0.006, so the +0.0196 two-option deficit is above it and the loss is real, even
   though the respondent bootstrap interval straddles zero. That 0.055 is an upper bound inflated by
-  the accidental chaining described below; the
-  [described arm](06-option-descriptions.md) later measured 0.011 on byte-identical payloads, which
-  only strengthens this conclusion.
+  the accidental chaining described below. The [described arm](06-option-descriptions.md) later
+  measured 0.011 per cell on byte-identical payloads. Its column-level floor came out at 0.0058 on
+  the multi-option columns, which matches the 0.006 used here, so this conclusion is unchanged.
 - **Contamination applies to both sides equally.** Twin-2K-500 has been public since 2025 and its
   tasks are classic replications, so between-arm comparison is fairer than any absolute number.
 - **State growth was not tested.** The arm meant to test it chained by mistake, so no unchained Jev
