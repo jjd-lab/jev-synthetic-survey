@@ -13,6 +13,10 @@
   about 34 times cheaper. If a use case is ordinal-scale marginals under cost pressure, this result
   argues for it. That is a narrower claim than the test was making, and it has not been tested on
   its own.
+- **Do not use this Jev arm for crosstabs.** It reproduces a fifth of the real difference between
+  demographic groups on the median task, and essentially none on four of them, while GPT-4.1 tracks
+  the same variables about as far as the humans do. This is the one dimension measured here where
+  Jev is the worse instrument. See [segment diversity](07-segment-diversity.md).
 - **Keep pricing broken out in any future work.** The 9.18 point accuracy gap on the piped-price
   block is the single largest effect measured here, and its cause is a boundary offset rather than
   arithmetic. See [price sensitivity](04-price-sensitivity.md).

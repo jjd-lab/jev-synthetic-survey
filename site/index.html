@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jev on a synthetic survey</title>
+  <meta name="description" content="Does a decision-only model's native probability vector beat gpt-4.1 asked to write one out? 300 paired respondents, 24,596 cells. Verdict: reject. Jev is 34 times cheaper, and asking yes/no the other way closed most of the gap.">
+  <link rel="canonical" href="https://jjd-lab.github.io/jev-synthetic-survey/">
+  <meta property="og:title" content="Jev on a synthetic survey">
+  <meta property="og:description" content="A $4 native-probability model vs a $136 verbalized-probability run. The cheap one lost the registered test.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://jjd-lab.github.io/jev-synthetic-survey/">
+  <meta property="og:image" content="https://jjd-lab.github.io/jev-synthetic-survey/assets/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Jev on a synthetic survey">
+  <meta name="twitter:description" content="Native vs verbalized probabilities on Twin-2K-500. Verdict: reject.">
+  <meta name="twitter:image" content="https://jjd-lab.github.io/jev-synthetic-survey/assets/og.png">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,560&family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/essay.css">
+</head>
+<body>
+  <a class="skip" href="#hero">Skip to content</a>
+
+  <nav class="rail" aria-label="Chapters">
+    <a class="rail-mark" href="#hero">Jev</a>
+    <ol>
+      <li><a href="#hero" data-section="hero"><span>00</span> The question</a></li>
+      <li><a href="#concept" data-section="concept"><span>01</span> A synthetic respondent</a></li>
+      <li><a href="#panel" data-section="panel"><span>02</span> Twin-2K, gpt-4.1</a></li>
+      <li><a href="#verdict" data-section="verdict"><span>03</span> The comparison</a></li>
+      <li><a href="#promising" data-section="promising"><span>04</span> Where Jev is better</a></li>
+      <li><a href="#limits" data-section="limits"><span>05</span> Limits</a></li>
+    </ol>
+    <a class="rail-repo" href="https://github.com/jjd-lab/jev-synthetic-survey">Repo</a>
+  </nav>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="hero-inner">
+        <p class="kicker">An evaluation · Twin-2K-500 · jev-1.13.0 vs gpt-4.1</p>
+        <h1>
+          Does a native probability
+          <em>beat a verbalized one?</em>
+        </h1>
+        <p class="lede">
+          We asked TypeSafe’s Jev, a decision-only model, and <code>gpt-4.1</code> to play the
+          same 300 survey respondents. Jev returns a probability vector because that is all it
+          does. We asked the chat model to write one out. Two tests were written down first.
+          Both failed.
+        </p>
+
+        <div class="hero-board">
+          <div class="stamp" aria-label="Verdict: reject">
+            <span>Verdict</span>
+            <strong>Reject</strong>
+          </div>
+          <dl class="hero-stats">
+            <div><dt>Respondents</dt><dd>300</dd></div>
+            <div><dt>Questions</dt><dd>108</dd></div>
+            <div><dt>Cells / arm</dt><dd>24,596</dd></div>
+            <div><dt>Jev cost</dt><dd>$4.01</dd></div>
+            <div><dt>gpt-4.1 cost</dt><dd>~$136</dd></div>
+          </dl>
+        </div>
+
+        <p class="hero-note">
+          The registered arm is Jev <code>Choice</code> against verbalized <code>gpt-4.1</code>
+          probabilities. What follows teaches the instrument, then the full-panel
+          <code>gpt-4.1</code> run, then that comparison.
+        </p>
+      </div>
+    </section>
+
+    <section class="chapter paper" id="concept">
+      <header class="chapter-head">
+        <p class="chapter-no">01</p>
+        <h2>What a synthetic survey respondent is</h2>
+        <p>
+          A language model is given a few facts about a real person, walked through questions
+          that person also answered, and scored against those answers. Real panels are slow.
+          A model that could stand in for one would let you pretest a survey. Whether it can
+          is the measurement.
+        </p>
+      </header>
+
+      <div class="bench" id="walkthrough" data-walkthrough>
+        <div class="bench-tabs" role="tablist" aria-label="Walkthrough steps">
+          <button type="button" role="tab" aria-selected="true" data-step="0">1 · Persona</button>
+          <button type="button" role="tab" aria-selected="false" data-step="1">2 · Holdout</button>
+          <button type="button" role="tab" aria-selected="false" data-step="2">3 · The model</button>
+          <button type="button" role="tab" aria-selected="false" data-step="3">4 · The human</button>
+        </div>
+
+        <article class="bench-panel is-on" data-panel="0">
+          <p class="bench-kicker">Constructed demo · not a real respondent</p>
+          <h3>Fourteen demographic facts</h3>
+          <p>
+            Twin-2K-500’s cheapest persona is 14 items. The holdout exam is a battery of
+            behavioral-economics tasks the person already answered. Nothing below is a real row.
+          </p>
+          <ul class="persona">
+            <li><span>Region</span> South</li>
+            <li><span>Sex</span> Female</li>
+            <li><span>Age</span> 42</li>
+            <li><span>Education</span> Bachelor’s degree</li>
+            <li><span>Race</span> White</li>
+            <li><span>Citizen</span> Yes</li>
+            <li><span>Marital</span> Married</li>
+            <li><span>Religion</span> Protestant</li>
+            <li><span>Attendance</span> A few times a year</li>
+            <li><span>Party</span> Democrat</li>
+            <li><span>Income</span> $75,000–$99,999</li>
+            <li><span>Views</span> Moderate</li>
+            <li><span>Household</span> 3</li>
+            <li><span>Employment</span> Employed full-time</li>
+          </ul>
+        </article>
+
+        <article class="bench-panel" data-panel="1">
+          <p class="bench-kicker">One cell · pricing block · QID9-style</p>
+          <h3>A held-out yes/no, with a piped price</h3>
+          <blockquote class="stem">
+            Please consider the following product category: butter. You see Land O Lakes
+            Salted Stick Butter, 16 oz, 4 sticks, priced at <strong>$6.49</strong>. Would you
+            or would you not purchase this product?
+          </blockquote>
+          <ul class="options">
+            <li>Yes, I would purchase the product</li>
+            <li>No, I would not purchase the product</li>
+          </ul>
+          <p class="muted">
+            Forty of the 108 scored columns are this task. The price is randomized per person,
+            which is why every figure in the repo is averaged by task first.
+          </p>
+        </article>
+
+        <article class="bench-panel" data-panel="2">
+          <p class="bench-kicker">Illustrative vectors · teaching only</p>
+          <h3>Two ways to get a probability</h3>
+          <div class="split">
+            <div>
+              <p class="arm-label jev">Jev · native vector</p>
+              <p class="muted">Returns numbers. No prose.</p>
+              <div class="demo-bars" data-demo="jev"></div>
+            </div>
+            <div>
+              <p class="arm-label gpt">gpt-4.1 · verbalized</p>
+              <p class="muted">Asked to write the same numbers out.</p>
+              <div class="demo-bars" data-demo="gpt"></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="bench-panel" data-panel="3">
+          <p class="bench-kicker">The exam is the human’s own answer</p>
+          <h3>Population first, person second</h3>
+          <p>
+            In this invented cell the human said <strong>No</strong>. A survey mostly wants
+            the <em>share</em> who said No, not whether we picked the right person. That is
+            why the tables lead with a distribution gap, not accuracy. Humans themselves only
+            reproduce their earlier answers 81.68% of the time.
+          </p>
+          <div class="demo-bars" data-demo="human"></div>
+          <p class="muted">
+            The data is Toubia et al., <em>Twin-2K-500</em>, CC BY 4.0. We did not collect it.
+          </p>
+        </article>
+
+        <div class="bench-nav">
+          <button type="button" data-prev>Back</button>
+          <p data-step-label>1 / 4</p>
+          <button type="button" data-next>Next</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter ink" id="panel">
+      <header class="chapter-head">
+        <p class="chapter-no">02</p>
+        <h2>gpt-4.1 on all 2,058 people</h2>
+        <p>
+          Before the Jev comparison, the same engine walked <code>gpt-4.1</code> through the
+          whole Twin-2K-500 panel, three times. This chapter has no Jev in it. It asks what
+          the persona is worth.
+        </p>
+      </header>
+
+      <figure class="frame">
+        <figcaption>
+          Accuracy against the human ceiling, the paper’s published twin, and a persona-blind
+          leave-one-out floor. Every arm is below the floor.
+        </figcaption>
+        <div class="chart" id="chart-floors"></div>
+      </figure>
+
+      <figure class="frame">
+        <figcaption>
+          Three arms, one model. Prior answers buy +2.66 points of accuracy. Seeing its own
+          earlier answers unpins collapsed columns and loses a fifth of a point.
+        </figcaption>
+        <div class="chart" id="chart-panel"></div>
+      </figure>
+
+      <aside class="pull">
+        Landing near a published figure while losing to the column’s own modal answer is the
+        whole reading. A demographics-grounded twin is usable for a population’s distribution,
+        not for predicting a specific person.
+      </aside>
+
+      <p class="source">
+        Source:
+        <a href="https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/survey/03-grounding-panel.md">the grounding panel</a>.
+      </p>
+    </section>
+
+    <section class="chapter paper" id="verdict">
+      <header class="chapter-head">
+        <p class="chapter-no">03</p>
+        <h2>Jev against gpt-4.1</h2>
+        <p>
+          Same 300 respondents, same 108 columns, same stateful demographics persona.
+          The test that decides it is a conjunction: Jev must win both the 65 yes/no
+          columns and the 43 ordinal ones. It loses the yes/no half. Calibration fails
+          for every arm — that one is about demographics-only grounding, not about Jev.
+        </p>
+      </header>
+
+      <figure class="frame">
+        <figcaption>
+          Lower is better except accuracy. The hard-answer arm has no vector: its ECE and
+          Brier score a one-hot spike. It is here because it wins accuracy, which is the
+          point about accuracy.
+        </figcaption>
+        <div class="chart" id="chart-comparison"></div>
+      </figure>
+
+      <div class="pair-notes">
+        <p>
+          Distribution gap, yes/no: Jev <code>Choice</code> 0.1985 against gpt-4.1 0.1789.
+          Wilcoxon p = 1.0000. Jev worse. The ordinal half goes the other way, 0.6864
+          against 0.7272, p = 0.031.
+        </p>
+        <p>
+          Accuracy is last on purpose. The arm that wins it, gpt-4.1 hard answer at 69.32%,
+          is last on the distribution gap. All five sit below the 73.59% leave-one-out floor
+          on this 300-person slice.
+        </p>
+      </div>
+
+      <p class="source">
+        Source:
+        <a href="https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/jev/02-planned-comparison.md">the planned comparison</a>.
+        Reproduce with
+        <a href="https://github.com/jjd-lab/jev-synthetic-survey#reproduce-it"><code>prob_scoring.py</code></a>.
+      </p>
+    </section>
+
+    <section class="chapter ink" id="promising">
+      <header class="chapter-head">
+        <p class="chapter-no">04</p>
+        <h2>Where Jev is still the interesting option</h2>
+        <p>
+          The reject stands. These are the measured reasons it is not the end of the story.
+          The last paragraph on this page is opinion, and is labeled as such.
+        </p>
+      </header>
+
+      <figure class="frame">
+        <figcaption>
+          Asking the 65 yes/no columns as a <code>Noul</code> instead of a two-option
+          <code>Choice</code> moves the gap from 0.1985 to 0.1530. Saturation at probability
+          zero falls from 16.6% of cells to 0.0%. Same price. Built after seeing the loss,
+          so it cannot carry the verdict.
+        </figcaption>
+        <div class="chart" id="chart-noul"></div>
+      </figure>
+
+      <figure class="frame">
+        <figcaption>
+          Jev bills input only. Output is free. The gpt-4.1 figure is inferred from list
+          rates, so read it as an order of magnitude. A 34-fold gap makes “no better” a
+          different proposition than it would be at parity.
+        </figcaption>
+        <div class="chart" id="chart-cost"></div>
+      </figure>
+
+      <figure class="frame">
+        <figcaption>
+          On the 40 pricing columns Jev tracks price more tightly than the humans, at the
+          wrong operating point: it is far too willing to buy. The ranking is sound; the
+          threshold is not.
+        </figcaption>
+        <div class="chart" id="chart-price"></div>
+      </figure>
+
+      <blockquote class="opinion">
+        <p class="bench-kicker">Author’s take · not a result</p>
+        <p>
+          I think Jev is a strong option and I would use it. It costs about 34 times less,
+          it produced no errors in 24,596 cells, it wins the ordinal half outright, and the
+          yes/no half it lost closes almost entirely once you stop asking those questions
+          the wrong way. I would use it today for ordinal-scale marginals under cost
+          pressure, with <code>Noul</code> for anything yes/no.
+        </p>
+      </blockquote>
+    </section>
+
+    <section class="chapter paper" id="limits">
+      <header class="chapter-head">
+        <p class="chapter-no">05</p>
+        <h2>What this does not say</h2>
+      </header>
+      <ul class="limits">
+        <li>The 300 are the first 300 rows of the panel — older, whiter, more conservative. Read the paired comparisons. Do not read any absolute number as a population estimate.</li>
+        <li>The holdout is a cognitive-bias battery. Answers are not supposed to track who you are. Individual prediction fails for every arm.</li>
+        <li><code>Noul</code> was built after seeing the result. Option descriptions were pre-registered later and changed nothing.</li>
+        <li>Jev was given the same plain input gpt-4.1 got. TypeSafe’s own prompting levers are mostly untested, not refuted.</li>
+      </ul>
+      <div class="cta">
+        <a class="btn primary" href="https://github.com/jjd-lab/jev-synthetic-survey">The repository</a>
+        <a class="btn" href="https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/README.md">The write-up</a>
+        <a class="btn" href="https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/jev/05-what-this-licenses.md">What this licenses</a>
+      </div>
+      <p class="colophon">
+        Code and write-up MIT. Twin-2K-500 is CC BY 4.0, Toubia et al.,
+        <a href="https://arxiv.org/abs/2505.17479">arXiv 2505.17479</a>.
+        Figures on this page are generated from
+        <a href="https://github.com/jjd-lab/jev-synthetic-survey/blob/main/site/data/figures.json"><code>site/data/figures.json</code></a>.
+      </p>
+    </section>
+  </main>
+
+  <script src="js/charts.js"></script>
+  <script src="js/walkthrough.js"></script>
+  <script src="js/essay.js"></script>
+</body>
+</html>

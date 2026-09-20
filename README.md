@@ -1,5 +1,7 @@
 # Jev on a synthetic survey: does a native probability vector beat a verbalized one?
 
+**Visual explainer** — [read it as a page](https://jjd-lab.github.io/jev-synthetic-survey/), with the walkthrough and the figures.
+
 We asked a decision-only model, TypeSafe's [Jev](https://typesafe.ai) `jev-1.13.0`, and `gpt-4.1` to
 play the same 300 survey respondents on the public
 [Twin-2K-500](https://huggingface.co/datasets/LLM-Digital-Twin/Twin-2K-500) benchmark. That is 108
@@ -16,6 +18,7 @@ The full write-up is in [`docs/`](docs/README.md), split into a
 
 | If you want | Go to |
 |---|---|
+| the visual explainer | [the GitHub Pages essay](https://jjd-lab.github.io/jev-synthetic-survey/) |
 | to have never thought about synthetic survey respondents | [New to this?](#new-to-this-start-here), just below |
 | the result, all five arms, one table | [All five arms](#all-five-arms) |
 | the write-up, paper style, with every caveat | [`docs/`](docs/README.md) |
@@ -400,6 +403,7 @@ yes/no.
 
 | | |
 |---|---|
+| [`site/`](site/README.md) | the visual explainer hosted on GitHub Pages |
 | [`docs/`](docs/README.md) | the write-up: the survey track, the Jev track, and the question inventory |
 | [`runs/`](runs/README.md) | the raw per-cell output of every arm, and what each file supports |
 | [`docs/reproducing.md`](docs/reproducing.md) | the command behind every run, and what a re-run will not match |

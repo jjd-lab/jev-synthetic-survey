@@ -42,6 +42,7 @@ refuse stray arguments, because a bare `--help` probe used to rewrite the files 
 | [`build_twin2k_config.py`](build_twin2k_config.py) | the question and demographic mapping JSONs |
 | [`build_twin2k_persona.py`](build_twin2k_persona.py) | the prior-answer persona mapping |
 | [`build_twin2k_variants.py`](build_twin2k_variants.py) | the three variant configs, derived from the baseline so the shared prompt stays identical |
+| [`export_site_data.py`](export_site_data.py) | headline series for the [visual explainer](../../site/README.md), read from `reports/` |
 
 Back to [the repo overview](../../README.md), or to [the write-up](../../docs/README.md) for what
 these scripts were used to measure.

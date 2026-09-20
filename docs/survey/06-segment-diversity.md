@@ -97,11 +97,11 @@ ordered by how far the humans clear the shuffle floor:
 The last two rows sit essentially on the floor, +0.0023 and +0.0006, so nothing should be read into
 either arm's ratio there.
 
-**Jev's median ratio by task is 0.21, against 0.40 by variable.** Averaging over tasks was masking
-the collapse: on probability matching, dominator neglect, outcome bias and the Allais paradox the
-ratio is 0.03 to 0.09, which is to say the persona changes essentially nothing. The tasks where Jev
-keeps group structure are few and specific — false consensus at 1.27, pricing at 0.92,
-nonseparability at 0.85.
+**A by-variable median hides a by-task collapse.** The Jev arm reads 0.40 by variable and 0.21 by
+task, because the variable figure averages four tasks where the ratio is 0.03 to 0.09 — the persona
+changing essentially nothing — against the three where it holds. Any arm can carry that shape, so a
+by-variable number alone should not be taken as evidence that a panel supports crosstabs. What it
+means for Jev is in [jev/07](../jev/07-segment-diversity.md).
 
 **GPT-4.1's median is 0.93, and that number is an average of opposite errors.** It overshoots on
 proportion dominance, absolute versus relative saving and the Asian disease problem, and collapses
@@ -124,28 +124,20 @@ variables in the table there is barely a group difference to reproduce, and a lo
 much of an accusation. The variables worth reading are the ones with real excess: political views
 (+0.0493), sex (+0.0429), party (+0.0335), religion (+0.0304), race (+0.0290), age (+0.0274).
 
-**On political identity, the two models fail in opposite directions.** Politics is where humans
-separate most, and it is the only place either arm exceeds the human level. Jev sits just above it,
-1.35 on party and 1.23 on political views. GPT-4.1 is at 2.87 and 2.68, which is to say it spreads
-Republicans and Democrats roughly two and a half times further apart than they actually are on a
-battery of questions that is not about politics. That is caricature, and it is the more dangerous
-failure of the two: a crosstab built on it would report a polarization that is not in the data.
+**GPT-4.1 exaggerates political segments and tracks the rest.** It runs 2.87 on party and 2.68 on
+political views, spreading Republicans and Democrats roughly two and a half times further apart than
+they actually are on a battery that is not about politics, while sitting at 0.68 to 1.10 on race,
+sex and age. Caricature is the more dangerous of the two failures: a crosstab built on it would
+report a polarization that is not in the data.
 
-**The 2x gap between the models is not an artifact of how they were asked.** Those two figures come
-from a soft arm and a one-hot arm, and committing mechanically spreads segment shares wider than
-averaging probabilities does, so that comparison is confounded on its own. The n=300 table removes
-the confound by making every arm soft, and the gap survives almost exactly: on party, GPT-4.1 is
-1.79 against Jev's 0.86, a factor of 2.08, against a factor of 2.13 in the full-panel table.
+**Separation and fidelity are different questions, and an arm can win one while losing the other.**
+Within segments the Jev arm is closer to the humans on every variable, 0.229 to 0.257 against 0.287
+to 0.376, while separating them far less. Both follow from sitting near the pooled marginal: the arm
+that hedges harder lands closer to it and spreads less. Reading either number alone gets the
+instrument wrong.
 
-**Away from politics, Jev flattens.** Ratios of 0.23 to 0.40 on race, sex and age, against GPT-4.1's
-0.68 to 1.10 on the same variables and the same people. Jev's segments are real but compressed, and
-GPT-4.1 tracks those three about as far as the humans do. This is the one dimension measured in this
-repo where GPT-4.1 is clearly the better instrument and Jev is clearly the worse one.
-
-**Flattening and fidelity are not the same thing, and Jev wins the other.** Within segments, Jev is
-closer to the humans on every variable, 0.229 to 0.257 against 0.287 to 0.376. It is nearer the
-right answer inside each group while under-stating how much the groups differ. Those coexist because
-both arms sit near the pooled marginal, and the one that hedges harder lands closer to it.
+What this measurement says about Jev specifically — the verdict, the by-task collapse and the
+elicitation-confound check — is in [jev/07 Segment diversity](../jev/07-segment-diversity.md).
 
 ## Caveats
 
