@@ -328,8 +328,7 @@ def test_no_shipped_screener_reaches_the_free_text_branch_by_accident():
             if not isinstance(config, dict) or config.get("type") != "screener":
                 continue
             classified = (
-                config.get("is_grid")
-                or config.get("is_multi_select")
+                config.get("is_multi_select")
                 or config.get("free_text")
                 or config.get("choices")
             )

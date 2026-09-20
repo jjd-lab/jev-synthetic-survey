@@ -59,27 +59,6 @@ def _shuffled_option_order(options: List[str], rng, anchors=()) -> List[int]:
     return order + anchor_indices
 
 
-# Per-question-type text for the prompt's {response_format} placeholder. Choice/grid questions ask
-# for a `choice:` field; open-ended questions ask for an `answer:` field (matching OpenEndedResponse,
-# which needs `answer` + `explanation` — the `choice:` wording made models pack both into `answer`).
-# The 2-space continuation indent keeps the rendered choice block byte-identical to the pre-{response_format}
-# template so choice/grid prompts (and the gpt-4.1 base config) are unchanged.
-_CHOICE_RESPONSE_FORMAT = (
-    "• choice: Option number(s) you select based on your persona and prior answers\n"
-    "  • explanation: Brief reasoning for this response"
-)
-_VERBALIZED_CHOICE_RESPONSE_FORMAT = (
-    "• option_probabilities: Give all options with their corresponding probabilities in the order "
-    "shown in Options (one number per option, same length as the option list), then state your choice\n"
-    "• choice: Option number(s) you select based on your persona and prior answers\n"
-    "  • explanation: Brief reasoning for this response"
-)
-_OPEN_ENDED_RESPONSE_FORMAT = (
-    "• answer: Your free-text response, written as your persona\n"
-    "  • explanation: Brief reasoning for this response"
-)
-
-
 def _elicits_option_probabilities(response_mode: ResponseMode) -> bool:
     """Whether this mode asks the model for a per-option probability vector.
 
@@ -90,31 +69,8 @@ def _elicits_option_probabilities(response_mode: ResponseMode) -> bool:
     return response_mode in ("verbalized_probs", "weighted_draw")
 
 
-def _choice_response_format(response_mode: ResponseMode = "hard_choice") -> str:
-    if _elicits_option_probabilities(response_mode):
-        return _VERBALIZED_CHOICE_RESPONSE_FORMAT
-    return _CHOICE_RESPONSE_FORMAT
-
-
 def _field_names_in_order(model_fields: Dict[str, Any]) -> List[str]:
     return list(model_fields.keys())
-
-
-# Per-question framing guidance injected as {framing_guidance}. Personal = self-report;
-# societal = prediction/opinion about most people or society (e.g. Q23).
-_FRAMING_GUIDANCE = {
-    "personal": "Answer about YOUR OWN situation, behavior, and preferences.",
-    "societal": (
-        "This is a PREDICTION/OPINION question about most people or society in general "
-        "— NOT about yourself. Answer with what you think is likely for people at large."
-    ),
-}
-
-
-def _framing_guidance(question_mapper, question_id: str) -> str:
-    """Resolve the {framing_guidance} text for a question."""
-    framing = question_mapper.get_question_framing(question_id)
-    return _FRAMING_GUIDANCE.get(framing, _FRAMING_GUIDANCE["personal"])
 
 
 def build_prompt_with_history(
@@ -1032,8 +988,6 @@ def run_stateful_survey(
                 "options": format_options_numbered(rendered_scale),
                 "conversation_history": history_str,
                 "request_id": _request_id(grid_group),
-                "framing_guidance": _framing_guidance(question_mapper, members_to_rate[0]),
-                "response_format": _choice_response_format(response_mode),
             }
 
             try:
@@ -1136,8 +1090,6 @@ def run_stateful_survey(
                 "options": "(Open-ended — write your answer as free text)",
                 "conversation_history": history_str,
                 "request_id": _request_id(next_q),
-                "framing_guidance": _framing_guidance(question_mapper, next_q),
-                "response_format": _OPEN_ENDED_RESPONSE_FORMAT,
             }
             try:
                 response = _invoke_llm(next_q, chain, inputs)
@@ -1233,8 +1185,6 @@ def run_stateful_survey(
             "options": format_options_numbered(options),
             "conversation_history": history_str,
             "request_id": _request_id(next_q),
-            "framing_guidance": _framing_guidance(question_mapper, next_q),
-            "response_format": _choice_response_format(response_mode),
         }
 
         # LLM call

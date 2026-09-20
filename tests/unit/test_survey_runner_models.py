@@ -7,8 +7,6 @@ from pydantic import ValidationError
 
 from src.core.config_loader import FullSurveyConfig
 from src.core.survey_runner_excel import (
-    _CHOICE_RESPONSE_FORMAT,
-    _choice_response_format,
     _default_subscription_tier,
     _extract_option_probabilities,
     _field_names_in_order,
@@ -132,10 +130,6 @@ class TestHardChoiceHasNoProbabilitySurface:
                 n_questions, 25, 1, None, response_mode=response_mode, enforce_prob_length=True
             ).model_json_schema()
             assert "probabilit" not in json.dumps(schema).lower()
-
-    @pytest.mark.parametrize("response_mode", SILENT_MODES)
-    def test_prompt_never_asks_for_a_vector(self, response_mode):
-        assert _choice_response_format(response_mode) == _CHOICE_RESPONSE_FORMAT
 
     def test_the_default_is_the_silent_one(self):
         """A config that omits `response_mode` must elicit no probabilities at all."""
@@ -271,14 +265,6 @@ class TestWeightedDrawSchema:
             24, 1, None, response_mode="weighted_draw", enforce_prob_length=True
         )
         assert _array_length_constraints(model) == {"minItems": 24, "maxItems": 24}
-
-    def test_prompt_asks_for_the_vector(self):
-        """Without the vector in the prompt there is nothing to draw from."""
-        assert _choice_response_format("weighted_draw") == _choice_response_format(
-            "verbalized_probs"
-        )
-        assert _choice_response_format("hard_choice") == _CHOICE_RESPONSE_FORMAT
-        assert "option_probabilities" in _choice_response_format("weighted_draw")
 
 
 @pytest.mark.unit

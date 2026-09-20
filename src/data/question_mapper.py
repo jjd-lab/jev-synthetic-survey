@@ -90,76 +90,6 @@ def _canonicalize_single_answer(raw: str, config: dict) -> str:
     return text
 
 
-_FAN_LEVEL_LABELS = {
-    "1": "1=Not a fan at all",
-    "2": "2=Slight fan",
-    "3": "3=Moderate fan",
-    "4": "4=Big fan",
-    "5": "5=Very big fan",
-}
-
-
-def fan_level_label(raw_value) -> str:
-    """Expand bare 1-5 fan ratings to labeled scale text (endpoints anchored)."""
-    text = str(raw_value).strip()
-    if not text or text.lower() == "nan":
-        return text
-    if "=" in text:
-        return text
-    key = _normalize_choice_value(text)
-    return _FAN_LEVEL_LABELS.get(key, text)
-
-
-def strip_dma_code(raw_value) -> str:
-    """Remove trailing Nielsen DMA code, e.g. 'Miami-Ft. Lauderdale (528)' -> name only."""
-    text = str(raw_value).strip()
-    return re.sub(r"\s*\(\d+\)\s*$", "", text).strip()
-
-
-def bucket_age_5yr(raw_value) -> str:
-    """Map exact age to a non-overlapping band: "18-19", then 20-24, 25-29, ...
-
-    The first band is 18-19 (survey minimum is 18); from 20 up, bands floor to 5-year
-    boundaries. Avoids the old overlap where 18 -> "18-22" but 20 -> "20-24".
-    """
-    age = int(float(raw_value))
-    if age < 20:
-        return "18-19"
-    lower = (age // 5) * 5
-    return f"{lower}-{lower + 4}"
-
-
-def bucket_age_standard(raw_value) -> str:
-    """Map exact age to standard marketing bands: 18-24, 25-34, …, 65+."""
-    age = int(float(raw_value))
-    if age < 18:
-        return "18-24"
-    if age <= 24:
-        return "18-24"
-    if age <= 34:
-        return "25-34"
-    if age <= 44:
-        return "35-44"
-    if age <= 54:
-        return "45-54"
-    if age <= 64:
-        return "55-64"
-    return "65+"
-
-
-def _apply_demographic_transform(value: str, transform: Optional[str]) -> str:
-    """Apply optional post-processing to a demographic field value."""
-    if transform == "bucket_5yr":
-        return bucket_age_5yr(value)
-    if transform == "bucket_standard":
-        return bucket_age_standard(value)
-    if transform == "fan_level_label":
-        return fan_level_label(value)
-    if transform == "strip_dma_code":
-        return strip_dma_code(value)
-    return value
-
-
 class QuestionMapper:
     """Maps question IDs (S1, MU1, etc.) to question text and choices"""
 
@@ -267,9 +197,7 @@ class QuestionMapper:
                 if not _is_filled(respondent_row[qid]):
                     continue
                 raw_text = str(respondent_row[qid]).strip()
-                demographics[demographic_key] = _apply_demographic_transform(
-                    raw_text, config.get("transform")
-                )
+                demographics[demographic_key] = raw_text
                 continue
 
             value = _normalize_choice_value(respondent_row[qid])
@@ -301,25 +229,6 @@ class QuestionMapper:
         screener_profile = {}
 
         for qid, config in self.get_screener_questions().items():
-            # Handle grid questions (e.g., S4, S5)
-            if config.get("is_grid", False):
-                items = config.get("items", {})
-                scale = config.get("scale", {})
-                responses = []
-
-                for item_col, item_name in items.items():
-                    if item_col in respondent_row and respondent_row[item_col] is not None:
-                        value = str(respondent_row[item_col])
-                        scale_text = scale.get(value, value)
-                        responses.append(f"{item_name}: {scale_text}")
-
-                if responses:
-                    screener_profile[qid] = {
-                        "question": config["question"],
-                        "answer": "; ".join(responses)
-                    }
-                continue
-
             if config.get("is_multi_select", False):
                 choices = config.get("choices", {})
                 selected = []
@@ -582,16 +491,6 @@ class QuestionMapper:
             if col == option_key or col.startswith(f"{option_key}:") or col.startswith(f"{option_key} "):
                 return text
         return None
-
-    def get_question_framing(self, question_id: str) -> str:
-        """Return the answer framing for a question: "personal" (default) or "societal".
-
-        Societal/prediction questions (e.g. Q23: "In 5 years, will most people…?") ask
-        about society, not the respondent's own situation. The prompt injects different
-        guidance per framing. Uniform within a grid (read from any member).
-        """
-        config = self._get_response_config(question_id)
-        return config.get("framing", "personal") if config else "personal"
 
     def get_oe_field(self, question_id: str) -> Optional[str]:
         """Return the open-end companion column for a question (e.g. "Q30.A24.OE"), else None.
