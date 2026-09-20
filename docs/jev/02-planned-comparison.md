@@ -26,6 +26,12 @@ arm**. Set equality was asserted on respondent ids and cell keys, not just count
 The comparison that decides the verdict is Jev Choice against GPT-4.1 probabilities. The other two
 are described in [question and criteria](01-question-and-criteria.md).
 
+The hard-answer arm was not run for this comparison. It is the first 300 respondents of the
+2,058-respondent stateful panel run, extracted, with all 24,596 cells identical. That is why its
+grids are batched where the probabilities arm's are not, and it is the reason those two differ in
+two ways rather than one, which [elicitation effects](../survey/04-elicitation-effects.md)
+decomposes.
+
 GPT-4.1 probabilities introduces no new machinery: stating probabilities is an existing mode in
 this engine, already measured on a separate survey panel. What is new is running it on this
 instrument.

@@ -479,7 +479,22 @@ def fit_to_csv(entries: dict, df: pd.DataFrame) -> tuple:
     return kept, dropped, answered_cells
 
 
+
+def _refuse_arguments(what_it_writes: str) -> None:
+    """Exit rather than rebuild when given any argument.
+
+    These builders take no options and overwrite tracked files, so a typo, a stray flag, or a
+    `--help` reflex used to run a full regeneration and report success. Fail closed instead.
+    """
+    if sys.argv[1:]:
+        raise SystemExit(
+            f"{Path(sys.argv[0]).name} takes no arguments. It {what_it_writes}.\n"
+            f"Run it with no arguments to regenerate."
+        )
+
 def main() -> int:
+    _refuse_arguments("regenerates configs/twin2k/twin2k_demographic_mapping_persona.json "
+                      "from the wave 1-3 response file")
     if not RESPONSE_CSV.exists():
         raise FileNotFoundError(
             f"{RESPONSE_CSV} not found — run scripts/twin2k/fetch_twin2k.py first"

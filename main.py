@@ -941,7 +941,8 @@ def main():
 Examples:
   python main.py --config configs/twin2k/twin2k_survey_config.yaml
   python main.py --config configs/twin2k/twin2k_survey_config_chained.yaml --sample 100
-  python main.py --config configs/twin2k/twin2k_survey_config_probs_chained.yaml --resume
+  python main.py --config configs/twin2k/twin2k_survey_config_probs_chained.yaml \
+      --checkpoint-dir outputs/twin2k/checkpoints --resume
   python main.py --config configs/twin2k/twin2k_survey_config.yaml --questions QID9_1 --no-cache
         """
     )

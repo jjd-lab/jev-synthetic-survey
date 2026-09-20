@@ -1111,7 +1111,12 @@ def print_report(report: dict) -> None:
             p = ("" if metric["wilcoxon_p_left_lower"] is None
                  else f"  wilcoxon p={metric['wilcoxon_p_left_lower']:.4f}")
             print(f"  {key:<14} delta {_fmt(delta, '+.4f')}{interval}{p}")
-        print(f"  C3 (left arm wins both halves): {'PASS' if block['c3_left_wins'] else 'FAIL'}")
+        # Sign check only, NOT the registered distribution test. The registered rule is the
+        # per-column Wilcoxon within each bucket, printed above; this line reads the deltas.
+        # The two disagree whenever an arm wins the task-weighted mean and loses per column,
+        # which is exactly what the Noul follow-up did, so do not read this as the verdict.
+        print(f"  deltas all favour the left arm: {'yes' if block['c3_left_wins'] else 'no'}"
+              "   (sign check, not the registered test: read the wilcoxon p per bucket)")
         print("  Read every delta against the measured repeat-agreement floor above; a margin "
               "smaller than the floor is not a result.")
 

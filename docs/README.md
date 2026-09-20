@@ -33,8 +33,8 @@ The grounding panel came first, then the planned comparison, then the Jev Noul r
 built only after seeing that Jev had lost the yes/no half. The diagnostics were run over runs
 already collected.
 
-That order is why only the planned comparison carries the verdict. Everything after it is labeled
-as what it is.
+That order is why only the planned comparison carries the verdict. [The timeline](timeline.md)
+gives each run with the artifact that dates it.
 
 ## Names used throughout
 

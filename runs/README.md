@@ -18,7 +18,7 @@ Four arms, 300 respondents, the same 108 questions, every model seeing its own e
 | `jev_choice.jsonl.gz` | Jev Choice | pick among the listed options |
 | `jev_noul.jsonl.gz` | Jev Noul | one probability of "yes", options not offered (built after seeing the Choice result) |
 | `gpt41_probs.jsonl.gz` | GPT-4.1 probabilities | state a probability per option |
-| `gpt41_hard.jsonl.gz` | GPT-4.1 hard answer | pick one option |
+| `gpt41_hard.jsonl.gz` | GPT-4.1 hard answer | pick one option (not a separate run, see below) |
 | `respondents_300.txt` | | the respondent ids, in the order the runner walked them |
 
 All four arms hold 24,596 answer cells: 300 respondents against the same 108 questions, minus the
@@ -30,6 +30,12 @@ that the walk finished. The `arm` field inside each record keeps its original ru
 reports key off it.
 
 `gpt41_probs_source/` holds the workbooks the GPT-4.1 probabilities arm was converted from.
+
+**The hard-answer arm is not its own run.** `gpt41_hard.jsonl.gz` is the first 300 respondents of
+the `demographics_stateful` panel run below, extracted: all 24,596 cells carry identical answers,
+checked cell by cell. So it shares that arm's settings, including batched grids, which is one of
+the two ways it differs from the probabilities arm. Only three models were ever run against these
+300 respondents: Jev twice, and GPT-4.1 once for probabilities.
 
 ### The 300 are the first 300 rows, and they are not representative of the panel
 

@@ -612,7 +612,22 @@ def format_questions_yaml(mapping: dict) -> str:
     return "\n".join(lines)
 
 
+
+def _refuse_arguments(what_it_writes: str) -> None:
+    """Exit rather than rebuild when given any argument.
+
+    These builders take no options and overwrite tracked files, so a typo, a stray flag, or a
+    `--help` reflex used to run a full regeneration and report success. Fail closed instead.
+    """
+    if sys.argv[1:]:
+        raise SystemExit(
+            f"{Path(sys.argv[0]).name} takes no arguments. It {what_it_writes}.\n"
+            f"Run it with no arguments to regenerate."
+        )
+
 def main() -> None:
+    _refuse_arguments("regenerates configs/twin2k/twin2k_demographic_mapping.json and "
+                      "twin2k_question_mapping.json from the shipped question catalog")
     catalog = load_catalog()
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
