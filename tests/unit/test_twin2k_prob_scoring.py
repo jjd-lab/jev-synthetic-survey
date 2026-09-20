@@ -44,9 +44,9 @@ from scripts.twin2k.prob_scoring import (
 )
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-ANCHOR_DETAILS = (REPO_ROOT / "outputs" / "twin2k" / "prior_answers"
+ANCHOR_DETAILS = (REPO_ROOT / "runs" / "twin2k" / "prior_answers"
                   / "respondent_details_20260908_074918.xlsx")
-ANCHOR_RECORDED = REPO_ROOT / "outputs" / "twin2k" / "paper_accuracy_full_prior_answers.json"
+ANCHOR_RECORDED = REPO_ROOT / "reports" / "paper_accuracy_full_prior_answers.json"
 
 # Real Twin qids, so `task_of` resolves without a stub. Four within-subject tasks are reachable
 # without condition groups, which is enough to test the equal-weighting rule.
@@ -98,10 +98,10 @@ def test_the_recorded_panel_reproduces_paper_accuracy_exactly(tmp_path):
     """
     if not ANCHOR_DETAILS.exists() or not ANCHOR_RECORDED.exists():
         pytest.skip(
-            "the source respondent_details workbook is not shipped (6.9 MB, and it is the "
-            "only thing in the repo that would need it). This test covers the Excel -> JSONL "
-            "`convert` path; the already-converted arms in runs/ exercise everything after it. "
-            "Drop the workbook at the path above to run it."
+            "the anchor workbook or its recorded score is missing from the checkout. Both are "
+            "tracked, so this means a partial clone rather than a normal one. This test covers "
+            "the Excel -> JSONL `convert` path; the already-converted arms in runs/ exercise "
+            "everything after it."
         )
 
     entries = load_entries()

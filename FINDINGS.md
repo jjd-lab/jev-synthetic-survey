@@ -483,9 +483,14 @@ Not run, and deliberately so:
 
 ## Links
 
-- Plan and raw outputs: `outputs/twin2k/jev/` (gitignored), `PLAN.md`, `FINDINGS.md`,
-  `score_all_arms.json` (JC/BC/AC, the verdict), `score_with_noul.json` (NC/JC/BC, the follow-up), and
-  the per-arm JSONL including `jev_noul_chained.jsonl`
+- The criteria this is read against are restated in full at the top of this page. They were
+  written down before the Jev runs, in a working plan that is not published because it discusses
+  unrelated private surveys; nothing in it beyond those criteria bears on this result.
+- Scores in [reports/](reports/): `score_all_arms.json` (JC/BC/AC, the verdict) and
+  `score_with_noul.json` (NC/JC/BC, the follow-up); the per-arm JSONL in [runs/](runs/), gzipped,
+  including `jev_noul_chained.jsonl`
+- The GPT-4.1 arms these are compared against, as run: [runs/twin2k/](runs/twin2k/) for the
+  respondent-level workbooks, `reports/paper_accuracy_full_*.json` for their scores
 - [docs/twin2k-grounding-variants.md](docs/twin2k-grounding-variants.md), the arm ladder BC joins as a fourth
   generated config
 - [docs/twin2k-paper-vs-our-setting.md](docs/twin2k-paper-vs-our-setting.md), the 108 columns, 16 tasks, and

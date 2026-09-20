@@ -1,0 +1,288 @@
+{
+  "source": {
+    "details": "outputs/twin2k/chained/respondent_details_20260904_131620.xlsx",
+    "summary": "outputs/twin2k/chained/validation_summary_20260904_131620.xlsx",
+    "price_controlled": true
+  },
+  "correlation": {
+    "Pricing": {
+      "columns": 40,
+      "scored": 40,
+      "mean_rho": 0.3047256093174233,
+      "mean_rho_controlled": 0.03636305928532485,
+      "unmeasurable": {}
+    },
+    "Dominator neglect": {
+      "columns": 1,
+      "scored": 1,
+      "mean_rho": -0.03244227686907734,
+      "mean_rho_controlled": -0.03244227686907734,
+      "unmeasurable": {}
+    },
+    "Omission bias": {
+      "columns": 1,
+      "scored": 1,
+      "mean_rho": 0.1561892773351828,
+      "mean_rho_controlled": 0.1561892773351828,
+      "unmeasurable": {}
+    },
+    "False consensus": {
+      "columns": 10,
+      "scored": 10,
+      "mean_rho": 0.45280272666790305,
+      "mean_rho_controlled": 0.45280272666790305,
+      "unmeasurable": {}
+    },
+    "Nonseparability": {
+      "columns": 8,
+      "scored": 8,
+      "mean_rho": 0.08115271069810272,
+      "mean_rho_controlled": 0.08115271069810272,
+      "unmeasurable": {}
+    },
+    "Asian disease": {
+      "columns": 2,
+      "scored": 2,
+      "mean_rho": 0.0029587751265002966,
+      "mean_rho_controlled": 0.0029587751265002966,
+      "unmeasurable": {}
+    },
+    "Outcome bias": {
+      "columns": 2,
+      "scored": 2,
+      "mean_rho": 0.019944691696213435,
+      "mean_rho_controlled": 0.019944691696213435,
+      "unmeasurable": {}
+    },
+    "Anchoring": {
+      "columns": 4,
+      "scored": 0,
+      "mean_rho": null,
+      "mean_rho_controlled": null,
+      "unmeasurable": {
+        "twin collapsed": 4
+      }
+    },
+    "Absolute vs relative saving": {
+      "columns": 2,
+      "scored": 2,
+      "mean_rho": -0.056269969989515375,
+      "mean_rho_controlled": -0.056269969989515375,
+      "unmeasurable": {}
+    },
+    "Allais paradox": {
+      "columns": 2,
+      "scored": 2,
+      "mean_rho": 0.045646657163533076,
+      "mean_rho_controlled": 0.045646657163533076,
+      "unmeasurable": {}
+    },
+    "Myside bias": {
+      "columns": 2,
+      "scored": 2,
+      "mean_rho": 0.18490070505247735,
+      "mean_rho_controlled": 0.18490070505247735,
+      "unmeasurable": {}
+    },
+    "Less is more": {
+      "columns": 3,
+      "scored": 3,
+      "mean_rho": 0.0661654783150112,
+      "mean_rho_controlled": 0.0661654783150112,
+      "unmeasurable": {}
+    },
+    "Proportion dominance": {
+      "columns": 6,
+      "scored": 6,
+      "mean_rho": 0.13523655224292327,
+      "mean_rho_controlled": 0.13523655224292327,
+      "unmeasurable": {}
+    },
+    "WTA/WTP (Thaler)": {
+      "columns": 3,
+      "scored": 3,
+      "mean_rho": 0.09542144251671474,
+      "mean_rho_controlled": 0.09542144251671474,
+      "unmeasurable": {}
+    },
+    "Linda (conjunction)": {
+      "columns": 6,
+      "scored": 6,
+      "mean_rho": -0.00448096843214658,
+      "mean_rho_controlled": -0.00448096843214658,
+      "unmeasurable": {}
+    },
+    "Probability matching": {
+      "columns": 16,
+      "scored": 0,
+      "mean_rho": null,
+      "mean_rho_controlled": null,
+      "unmeasurable": {
+        "thin": 10,
+        "twin collapsed": 6
+      }
+    }
+  },
+  "distributional": {
+    "Absolute vs relative saving | nominal": {
+      "columns": 2,
+      "distance": 0.10292424613042425,
+      "individual": 0.6053254655815767,
+      "collapsed": 0,
+      "entropy_ratio": 0.7741,
+      "kl": 0.06565,
+      "blind_spots": 0,
+      "blind_spot_worst": 0.0
+    },
+    "Allais paradox | nominal": {
+      "columns": 2,
+      "distance": 0.13211893529310054,
+      "individual": 0.5927007616522592,
+      "collapsed": 0,
+      "entropy_ratio": 0.81775,
+      "kl": 0.0896,
+      "blind_spots": 0,
+      "blind_spot_worst": 0.0
+    },
+    "Anchoring | nominal": {
+      "columns": 4,
+      "distance": 0.21870760067577338,
+      "individual": 0.7812923993242267,
+      "collapsed": 4,
+      "entropy_ratio": 0.0,
+      "kl": 2.2069,
+      "blind_spots": 4,
+      "blind_spot_worst": 0.21869999999999998
+    },
+    "Asian disease | ordinal": {
+      "columns": 2,
+      "distance": 0.6534032972173528,
+      "individual": 1.4670372767952071,
+      "collapsed": 0,
+      "entropy_ratio": 0.82455,
+      "kl": null,
+      "blind_spots": 1,
+      "blind_spot_worst": 0.07575
+    },
+    "Dominator neglect | nominal": {
+      "columns": 1,
+      "distance": 0.4397473275024296,
+      "individual": 0.4037900874635568,
+      "collapsed": 0,
+      "entropy_ratio": 0.7648,
+      "kl": 0.6586,
+      "blind_spots": 0,
+      "blind_spot_worst": 0.0
+    },
+    "False consensus | ordinal": {
+      "columns": 10,
+      "distance": 0.49893100097181725,
+      "individual": 1.056268221574344,
+      "collapsed": 0,
+      "entropy_ratio": 0.9324300000000001,
+      "kl": null,
+      "blind_spots": 0,
+      "blind_spot_worst": 0.0
+    },
+    "Less is more | ordinal": {
+      "columns": 3,
+      "distance": 0.689299429449199,
+      "individual": 1.3400482773754663,
+      "collapsed": 0,
+      "entropy_ratio": 0.6296666666666667,
+      "kl": null,
+      "blind_spots": 3,
+      "blind_spot_worst": 0.13419999999999999
+    },
+    "Linda (conjunction) | ordinal": {
+      "columns": 6,
+      "distance": 0.8116294136702297,
+      "individual": 1.191609977324263,
+      "collapsed": 0,
+      "entropy_ratio": 0.49146666666666666,
+      "kl": null,
+      "blind_spots": 6,
+      "blind_spot_worst": 0.17769999999999997
+    },
+    "Myside bias | ordinal": {
+      "columns": 2,
+      "distance": 0.30423513075676933,
+      "individual": 1.4106126227394455,
+      "collapsed": 0,
+      "entropy_ratio": 1.0411000000000001,
+      "kl": null,
+      "blind_spots": 0,
+      "blind_spot_worst": 0.0
+    },
+    "Nonseparability | ordinal": {
+      "columns": 8,
+      "distance": 0.7131316812439261,
+      "individual": 1.1817905733722058,
+      "collapsed": 2,
+      "entropy_ratio": 0.5614125,
+      "kl": null,
+      "blind_spots": 5,
+      "blind_spot_worst": 0.105075
+    },
+    "Omission bias | ordinal": {
+      "columns": 1,
+      "distance": 0.4815354713313897,
+      "individual": 0.9450923226433431,
+      "collapsed": 0,
+      "entropy_ratio": 0.6209,
+      "kl": null,
+      "blind_spots": 0,
+      "blind_spot_worst": 0.0
+    },
+    "Outcome bias | ordinal": {
+      "columns": 2,
+      "distance": 0.8640419838384142,
+      "individual": 0.9608811012253473,
+      "collapsed": 2,
+      "entropy_ratio": 0.19185000000000002,
+      "kl": null,
+      "blind_spots": 2,
+      "blind_spot_worst": 0.11525
+    },
+    "Pricing | nominal": {
+      "columns": 40,
+      "distance": 0.0945092322643343,
+      "individual": 0.6510204081632652,
+      "collapsed": 0,
+      "entropy_ratio": 0.9638475,
+      "kl": 0.0526775,
+      "blind_spots": 0,
+      "blind_spot_worst": 0.0
+    },
+    "Probability matching | nominal": {
+      "columns": 16,
+      "distance": 0.20996319529443763,
+      "individual": 0.7457054093567252,
+      "collapsed": 8,
+      "entropy_ratio": 0.23310625,
+      "kl": 1.1637499999999998,
+      "blind_spots": 5,
+      "blind_spot_worst": 0.0900875
+    },
+    "Proportion dominance | ordinal": {
+      "columns": 6,
+      "distance": 0.3627068703825616,
+      "individual": 1.2903607545168605,
+      "collapsed": 0,
+      "entropy_ratio": 0.9949666666666667,
+      "kl": null,
+      "blind_spots": 3,
+      "blind_spot_worst": 0.035333333333333335
+    },
+    "WTA/WTP (Thaler) | ordinal": {
+      "columns": 3,
+      "distance": 1.1278827264581974,
+      "individual": 1.8058020435080222,
+      "collapsed": 0,
+      "entropy_ratio": 0.7176666666666667,
+      "kl": null,
+      "blind_spots": 2,
+      "blind_spot_worst": 0.11963333333333333
+    }
+  }
+}

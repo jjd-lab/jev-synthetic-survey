@@ -1,0 +1,155 @@
+{
+  "prior_answers (respondent_details_20260908_074918.xlsx)": {
+    "tasks": {
+      "Pricing": 0.6602769679300292,
+      "Dominator neglect": 0.5471331389698737,
+      "Omission bias": 0.6945254292193068,
+      "False consensus": 0.7695699708454811,
+      "Nonseparability": 0.8137957563977972,
+      "Asian disease": 0.7594468726521857,
+      "Outcome bias": 0.841866103757682,
+      "Anchoring": 0.7812923993242267,
+      "Absolute vs relative saving": 0.6446870481481096,
+      "Allais paradox": 0.6111713722307313,
+      "Myside bias": 0.7772598935431614,
+      "Less is more": 0.7052662798990564,
+      "Proportion dominance": 0.7491505284909663,
+      "WTA/WTP (Thaler)": 0.7910664078272639,
+      "Linda (conjunction)": 0.7593456430191124,
+      "Probability matching": 0.7615726574187407
+    },
+    "overall": 72.92141543546077,
+    "majority_overall": 73.26759425157117,
+    "edge_overall": -0.34617881611039536,
+    "per_task": {
+      "Pricing": {
+        "columns": 40,
+        "collapsed_columns": 0,
+        "pairs": 82320,
+        "accuracy": 66.02769679300292,
+        "majority": 56.947278911564624,
+        "edge": 9.080417881438297
+      },
+      "Dominator neglect": {
+        "columns": 1,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 54.71331389698737,
+        "majority": 63.94557823129252,
+        "edge": -9.232264334305151
+      },
+      "Omission bias": {
+        "columns": 1,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 69.45254292193069,
+        "majority": 71.73631357304828,
+        "edge": -2.2837706511175893
+      },
+      "False consensus": {
+        "columns": 10,
+        "collapsed_columns": 0,
+        "pairs": 20580,
+        "accuracy": 76.9569970845481,
+        "majority": 72.64455782312925,
+        "edge": 4.312439261418854
+      },
+      "Nonseparability": {
+        "columns": 8,
+        "collapsed_columns": 0,
+        "pairs": 16464,
+        "accuracy": 81.37957563977972,
+        "majority": 81.53040978296082,
+        "edge": -0.1508341431810889
+      },
+      "Asian disease": {
+        "columns": 2,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 75.94468726521856,
+        "majority": 79.94895881077149,
+        "edge": -4.004271545552918
+      },
+      "Outcome bias": {
+        "columns": 2,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 84.1866103757682,
+        "majority": 84.35114912552568,
+        "edge": -0.16453874975748128
+      },
+      "Anchoring": {
+        "columns": 4,
+        "collapsed_columns": 4,
+        "pairs": 4116,
+        "accuracy": 78.12923993242266,
+        "majority": 78.12923993242266,
+        "edge": 0.0
+      },
+      "Absolute vs relative saving": {
+        "columns": 2,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 64.46870481481096,
+        "majority": 69.67144140221771,
+        "edge": -5.202736587406753
+      },
+      "Allais paradox": {
+        "columns": 2,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 61.11713722307313,
+        "majority": 63.18590985839372,
+        "edge": -2.0687726353205926
+      },
+      "Myside bias": {
+        "columns": 2,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 77.72598935431614,
+        "majority": 79.0338215360201,
+        "edge": -1.3078321817039607
+      },
+      "Less is more": {
+        "columns": 3,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 70.52662798990565,
+        "majority": 57.44350495574574,
+        "edge": 13.083123034159904
+      },
+      "Proportion dominance": {
+        "columns": 6,
+        "collapsed_columns": 0,
+        "pairs": 4116,
+        "accuracy": 74.91505284909663,
+        "majority": 75.55718766001024,
+        "edge": -0.6421348109136082
+      },
+      "WTA/WTP (Thaler)": {
+        "columns": 3,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 79.10664078272639,
+        "majority": 80.13300146733373,
+        "edge": -1.0263606846073414
+      },
+      "Linda (conjunction)": {
+        "columns": 6,
+        "collapsed_columns": 0,
+        "pairs": 6174,
+        "accuracy": 75.93456430191125,
+        "majority": 81.865889212828,
+        "edge": -5.9313249109167465
+      },
+      "Probability matching": {
+        "columns": 16,
+        "collapsed_columns": 16,
+        "pairs": 16476,
+        "accuracy": 76.15726574187407,
+        "majority": 76.15726574187407,
+        "edge": 0.0
+      }
+    }
+  }
+}

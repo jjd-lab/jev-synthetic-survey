@@ -1,0 +1,308 @@
+{
+  "demographics_only (respondent_details_20260904_091556.xlsx)": {
+    "tasks": {
+      "Pricing": 0.6481413994169096,
+      "Dominator neglect": 0.37949465500485907,
+      "Omission bias": 0.6940395205701329,
+      "False consensus": 0.752538872691934,
+      "Nonseparability": 0.7950882734046,
+      "Asian disease": 0.7040108111683906,
+      "Outcome bias": 0.8434358991803299,
+      "Anchoring": 0.7812923993242267,
+      "Absolute vs relative saving": 0.6062727313080295,
+      "Allais paradox": 0.5777195218626607,
+      "Myside bias": 0.7390828842529837,
+      "Less is more": 0.6762184779825908,
+      "Proportion dominance": 0.7305482065137884,
+      "WTA/WTP (Thaler)": 0.7898849815640308,
+      "Linda (conjunction)": 0.7618723679948168,
+      "Probability matching": 0.7615726574187407
+    },
+    "overall": 70.2575853728689,
+    "majority_overall": 73.26759425157117,
+    "edge_overall": -3.0100088787022656,
+    "per_task": {
+      "Pricing": {
+        "columns": 40,
+        "collapsed_columns": 0,
+        "pairs": 82320,
+        "accuracy": 64.81413994169097,
+        "majority": 56.947278911564624,
+        "edge": 7.866861030126337
+      },
+      "Dominator neglect": {
+        "columns": 1,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 37.94946550048591,
+        "majority": 63.94557823129252,
+        "edge": -25.996112730806615
+      },
+      "Omission bias": {
+        "columns": 1,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 69.40395205701329,
+        "majority": 71.73631357304828,
+        "edge": -2.3323615160349864
+      },
+      "False consensus": {
+        "columns": 10,
+        "collapsed_columns": 0,
+        "pairs": 20580,
+        "accuracy": 75.2538872691934,
+        "majority": 72.64455782312925,
+        "edge": 2.609329446064146
+      },
+      "Nonseparability": {
+        "columns": 8,
+        "collapsed_columns": 0,
+        "pairs": 16464,
+        "accuracy": 79.50882734046,
+        "majority": 81.53040978296082,
+        "edge": -2.0215824425008133
+      },
+      "Asian disease": {
+        "columns": 2,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 70.40108111683907,
+        "majority": 79.94895881077149,
+        "edge": -9.547877693932428
+      },
+      "Outcome bias": {
+        "columns": 2,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 84.34358991803299,
+        "majority": 84.35114912552568,
+        "edge": -0.007559207492691122
+      },
+      "Anchoring": {
+        "columns": 4,
+        "collapsed_columns": 4,
+        "pairs": 4116,
+        "accuracy": 78.12923993242266,
+        "majority": 78.12923993242266,
+        "edge": 0.0
+      },
+      "Absolute vs relative saving": {
+        "columns": 2,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 60.62727313080295,
+        "majority": 69.67144140221771,
+        "edge": -9.044168271414765
+      },
+      "Allais paradox": {
+        "columns": 2,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 57.77195218626608,
+        "majority": 63.18590985839372,
+        "edge": -5.413957672127645
+      },
+      "Myside bias": {
+        "columns": 2,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 73.90828842529838,
+        "majority": 79.0338215360201,
+        "edge": -5.125533110721725
+      },
+      "Less is more": {
+        "columns": 3,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 67.62184779825908,
+        "majority": 57.44350495574574,
+        "edge": 10.178342842513343
+      },
+      "Proportion dominance": {
+        "columns": 6,
+        "collapsed_columns": 0,
+        "pairs": 4116,
+        "accuracy": 73.05482065137883,
+        "majority": 75.55718766001024,
+        "edge": -2.502367008631401
+      },
+      "WTA/WTP (Thaler)": {
+        "columns": 3,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 78.98849815640307,
+        "majority": 80.13300146733373,
+        "edge": -1.1445033109306557
+      },
+      "Linda (conjunction)": {
+        "columns": 6,
+        "collapsed_columns": 0,
+        "pairs": 6174,
+        "accuracy": 76.18723679948168,
+        "majority": 81.865889212828,
+        "edge": -5.678652413346308
+      },
+      "Probability matching": {
+        "columns": 16,
+        "collapsed_columns": 16,
+        "pairs": 16476,
+        "accuracy": 76.15726574187407,
+        "majority": 76.15726574187407,
+        "edge": 0.0
+      }
+    }
+  },
+  "ceiling": {
+    "tasks": {
+      "Pricing": 0.8389091350826045,
+      "Dominator neglect": 0.7215743440233237,
+      "Omission bias": 0.8057985098801426,
+      "False consensus": 0.8743683187560739,
+      "Nonseparability": 0.8632065921606739,
+      "Asian disease": 0.8027867109571759,
+      "Outcome bias": 0.8629495208722318,
+      "Anchoring": 0.8293048729244931,
+      "Absolute vs relative saving": 0.7915113468834202,
+      "Allais paradox": 0.7398656596970588,
+      "Myside bias": 0.8456468410090257,
+      "Less is more": 0.7710191737985518,
+      "Proportion dominance": 0.8614710770060713,
+      "WTA/WTP (Thaler)": 0.8917597121972967,
+      "Linda (conjunction)": 0.8240686750890833,
+      "Probability matching": 0.7441509842921257
+    },
+    "overall": 81.67744671643345,
+    "majority_overall": 73.26759425157117,
+    "edge_overall": 8.409852464862283,
+    "per_task": {
+      "Pricing": {
+        "columns": 40,
+        "collapsed_columns": 0,
+        "pairs": 82320,
+        "accuracy": 83.89091350826044,
+        "majority": 56.947278911564624,
+        "edge": 26.94363459669582
+      },
+      "Dominator neglect": {
+        "columns": 1,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 72.15743440233237,
+        "majority": 63.94557823129252,
+        "edge": 8.211856171039845
+      },
+      "Omission bias": {
+        "columns": 1,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 80.57985098801426,
+        "majority": 71.73631357304828,
+        "edge": 8.843537414965985
+      },
+      "False consensus": {
+        "columns": 10,
+        "collapsed_columns": 0,
+        "pairs": 20580,
+        "accuracy": 87.4368318756074,
+        "majority": 72.64455782312925,
+        "edge": 14.792274052478138
+      },
+      "Nonseparability": {
+        "columns": 8,
+        "collapsed_columns": 0,
+        "pairs": 16464,
+        "accuracy": 86.32065921606738,
+        "majority": 81.53040978296082,
+        "edge": 4.790249433106575
+      },
+      "Asian disease": {
+        "columns": 2,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 80.27867109571758,
+        "majority": 79.94895881077149,
+        "edge": 0.3297122849461043
+      },
+      "Outcome bias": {
+        "columns": 2,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 86.29495208722318,
+        "majority": 84.35114912552568,
+        "edge": 1.943802961697494
+      },
+      "Anchoring": {
+        "columns": 4,
+        "collapsed_columns": 0,
+        "pairs": 4116,
+        "accuracy": 82.9304872924493,
+        "majority": 78.12923993242266,
+        "edge": 4.80124736002664
+      },
+      "Absolute vs relative saving": {
+        "columns": 2,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 79.15113468834201,
+        "majority": 69.67144140221771,
+        "edge": 9.479693286124302
+      },
+      "Allais paradox": {
+        "columns": 2,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 73.98656596970588,
+        "majority": 63.18590985839372,
+        "edge": 10.800656111312158
+      },
+      "Myside bias": {
+        "columns": 2,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 84.56468410090257,
+        "majority": 79.0338215360201,
+        "edge": 5.530862564882466
+      },
+      "Less is more": {
+        "columns": 3,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 77.10191737985518,
+        "majority": 57.44350495574574,
+        "edge": 19.65841242410944
+      },
+      "Proportion dominance": {
+        "columns": 6,
+        "collapsed_columns": 0,
+        "pairs": 4116,
+        "accuracy": 86.14710770060712,
+        "majority": 75.55718766001024,
+        "edge": 10.58992004059689
+      },
+      "WTA/WTP (Thaler)": {
+        "columns": 3,
+        "collapsed_columns": 0,
+        "pairs": 2058,
+        "accuracy": 89.17597121972966,
+        "majority": 80.13300146733373,
+        "edge": 9.042969752395935
+      },
+      "Linda (conjunction)": {
+        "columns": 6,
+        "collapsed_columns": 0,
+        "pairs": 6174,
+        "accuracy": 82.40686750890833,
+        "majority": 81.865889212828,
+        "edge": 0.5409782960803411
+      },
+      "Probability matching": {
+        "columns": 16,
+        "collapsed_columns": 0,
+        "pairs": 16476,
+        "accuracy": 74.41509842921256,
+        "majority": 76.15726574187407,
+        "edge": -1.7421673126615023
+      }
+    }
+  }
+}

@@ -189,6 +189,7 @@ I would use it today for ordinal-scale marginals under cost pressure, with `Noul
 | [FINDINGS.md](FINDINGS.md) | the full write-up, with every number, every caveat, and the pre-registration |
 | [`reports/`](reports/) | the scored reports behind every figure quoted here |
 | [`runs/`](runs/) | the raw per-cell output of all five arms, gzipped |
+| [`runs/twin2k/`](runs/twin2k/) | the GPT-4.1 arms as run: respondent-level workbooks, validation summaries, persona caches |
 | [`scripts/twin2k/`](scripts/twin2k/) | the Jev client, the probe, the scorer, and the price diagnostic |
 | [`docs/`](docs/) | the arm design, the instrument, and the structured-output failure modes |
 

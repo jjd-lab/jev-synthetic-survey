@@ -1,0 +1,9 @@
+{
+  "calls": 2624,
+  "calls_with_cache_hit": 2426,
+  "call_hit_rate": 0.9245426829268293,
+  "prompt_tokens": 59271695,
+  "cached_prompt_tokens": 54314112,
+  "cached_token_fraction": 0.9163583393388699,
+  "completion_tokens": 76847
+}
