@@ -205,10 +205,6 @@ class RunErrorRecorder:
         with self._lock:
             return self._retry_total
 
-    def retry_by_item(self) -> Dict[Tuple[Optional[str], Optional[str]], int]:
-        with self._lock:
-            return dict(self._retry_by_item)
-
 
 class ProgressHandler(BaseCallbackHandler):
     """Prints a running completion counter during a .batch() run.

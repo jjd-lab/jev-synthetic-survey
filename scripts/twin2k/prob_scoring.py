@@ -63,7 +63,7 @@ from scripts.twin2k.paper_accuracy import (  # noqa: E402
     score_pairs,
     task_of,
 )
-from src.validation.ppi import normalize_probs  # noqa: E402
+from src.validation.probs import normalize_probs  # noqa: E402
 from src.validation.response_validator import (  # noqa: E402
     total_variation_distance,
     wasserstein_from_pcts,

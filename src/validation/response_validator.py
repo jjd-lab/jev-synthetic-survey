@@ -46,9 +46,9 @@ def wasserstein_from_pcts(
     """Wasserstein-1 between two ordered *distributions* (sum |CDF_a - CDF_b|).
 
     The distribution-input sibling of `wasserstein_1_scale`, which takes respondent lists. Both
-    compute the same statistic and agree where both apply; this variant exists because a rectified
-    estimate (see `src/validation/ppi.py`) is a distribution with no underlying list of people to
-    pass, so the list-based function cannot be called on it.
+    compute the same statistic and agree where both apply; this variant exists for callers that
+    hold a distribution with no underlying list of people to pass, such as the scorer's aggregated
+    marginals, so the list-based function cannot be called on it.
     """
     if not ordered_options:
         return 0.0
@@ -213,18 +213,6 @@ COLLAPSE_RATIO_MAX = 0.30
 KL_SMOOTHING_EPS        = 1e-4   # added to LLM probs before KL to keep it finite
 KL_BLIND_SPOT_HUMAN_MIN = 0.05   # human rate >= this = "option humans use"
 KL_BLIND_SPOT_LLM_MAX   = 0.01   # LLM rate < this = "LLM doesn't know it"
-
-# The cut on `blind_spot_worst`: the SEVERITY of the worst missed option, not the boolean flag.
-# The boolean cannot gate: at the 5%/1% definition above it fires on 36 of the reference run's 56
-# gate-eligible questions (multi 7/16, nominal 11/18, ordinal 18/22), and a gate that fails 64% of
-# its own reference run is a gate the loop learns to skip. The severities separate where the flag
-# does not: sorted descending they run 0.4419, 0.3910, 0.3541, 0.3448, 0.3200, 0.3190, 0.3171,
-# 0.3030, 0.3010, then GAP 0.046, then 0.2551, 0.2542, 0.2464 … so any cut in (0.2551, 0.3010]
-# flags the same 9 questions (5 nominal, 4 ordinal, 0 multi; multi's worst is 0.2551).
-# Read it as: an answer more than 30% of humans gave that the LLM essentially never produces.
-# Not redundant with the collapse cut: only 4 of those 9 also collapse, and one question collapses at
-# ratio 0.2989 with no blind spot at all. Calibrated on that same fold only, same reason.
-BLIND_SPOT_WORST_MAX = 0.30
 
 # Below this many valid respondents a question is REPORTED but never GATED.
 # Routing thins the panel unevenly: measured on that fold (1050 respondents), two routing-thinned
@@ -570,83 +558,6 @@ def calculate_response_distribution(responses: List[Any], question_type: str = "
     return {'counts': counts, 'percentages': percentages, 'n': n}
 
 
-def calculate_phi_correlation(synthetic_list: List[Any],
-                               ground_truth_list: List[Any],
-                               all_options: List[str],
-                               question_type: str = "single") -> Dict[str, Dict[str, Any]]:
-    """Calculate phi (Pearson) correlation for each option vs human/LLM selection.
-
-    The margin is **across respondents within one option** — the loop below zips over people
-    with the question and option held fixed. That cancels the option's base rate, leaving only
-    between-person variance, so these values are directly comparable to published
-    across-participants figures (Peng r=0.20) and *not* to across-questions-within-participant
-    ones (Park 0.83). Measured on a separate panel, the latter margin scores 0.263 on row-shuffled
-    personas versus 0.327 real, i.e. 80% of it is base-rate profile rather than individual
-    fidelity.
-    """
-    n = len(synthetic_list)
-    correlations = {}
-
-    for option in all_options:
-        human_binary = []
-        llm_binary = []
-
-        for synthetic, ground_truth in zip(synthetic_list, ground_truth_list):
-            if question_type in ("single", "open_ended"):
-                human_binary.append(1 if ground_truth == option else 0)
-                llm_binary.append(1 if synthetic == option else 0)
-            else:
-                human_selected = option in ground_truth if isinstance(ground_truth, list) else False
-                llm_selected = option in synthetic if isinstance(synthetic, list) else False
-                human_binary.append(1 if human_selected else 0)
-                llm_binary.append(1 if llm_selected else 0)
-
-        n_human_selected = sum(human_binary)
-        n_llm_selected = sum(llm_binary)
-        pct_human = n_human_selected / n if n > 0 else 0
-        pct_llm = n_llm_selected / n if n > 0 else 0
-
-        correlation = None
-        interpretation = "N/A"
-
-        try:
-            if len(set(human_binary)) <= 1 or len(set(llm_binary)) <= 1:
-                correlation = None
-                interpretation = "Insufficient variance"
-            elif n_human_selected == 0 and n_llm_selected == 0:
-                correlation = 1.0
-                interpretation = "Perfect agreement (both never select)"
-            elif n_human_selected == n and n_llm_selected == n:
-                correlation = 1.0
-                interpretation = "Perfect agreement (both always select)"
-            else:
-                correlation = np.corrcoef(human_binary, llm_binary)[0, 1]
-                if correlation >= 0.7:
-                    interpretation = "Strong agreement"
-                elif correlation >= 0.4:
-                    interpretation = "Moderate agreement"
-                elif correlation >= 0.1:
-                    interpretation = "Weak agreement"
-                elif correlation >= -0.1:
-                    interpretation = "No correlation"
-                elif correlation >= -0.4:
-                    interpretation = "Weak disagreement"
-                else:
-                    interpretation = "Strong disagreement"
-        except Exception as e:
-            correlation = None
-            interpretation = f"Calculation error: {str(e)}"
-
-        correlations[option] = {
-            'correlation': correlation,
-            'n_human_selected': n_human_selected,
-            'n_llm_selected': n_llm_selected,
-            'pct_human': pct_human,
-            'pct_llm': pct_llm,
-            'interpretation': interpretation
-        }
-
-    return correlations
 
 
 class ValidationResult:

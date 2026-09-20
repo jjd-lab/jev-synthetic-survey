@@ -127,24 +127,3 @@ class ExcelSurveyLoader:
         self.df = fn(self.df, **params)
         print(f"Preprocess complete: {before_cols} -> {len(self.df.columns)} columns")
 
-    def summarize(self) -> dict:
-        """Get summary statistics about the loaded data"""
-        if self.df is None:
-            raise ValueError("Must call load_data() first")
-
-        screener_ids = (
-            set(self.question_mapper.get_screener_questions())
-            | set(self.question_mapper.get_demographic_questions())
-        )
-        response_ids = set(self.question_mapper.question_mapping.keys())
-
-        screener_cols = [c for c in self.df.columns if c in screener_ids]
-        response_cols = [c for c in self.df.columns if c in response_ids]
-
-        return {
-            "total_rows": len(self.df),
-            "total_columns": len(self.df.columns),
-            "screener_columns": len(screener_cols),
-            "response_columns": len(response_cols),
-            "columns": list(self.df.columns)
-        }

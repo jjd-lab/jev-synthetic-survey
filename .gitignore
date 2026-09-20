@@ -57,3 +57,8 @@ private/
 # than `.claude`. settings.local.json stays ignored.
 .claude/*
 !.claude/skills/
+# macOS Finder metadata
+.DS_Store
+# Loose copies of the gzipped run files; the .gz are what ship.
+runs/**/*.jsonl
+!runs/gpt41_panel_n2058/content_filter_errors/*.jsonl

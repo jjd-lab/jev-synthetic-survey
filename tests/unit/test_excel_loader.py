@@ -13,14 +13,6 @@ class TestExcelLoader:
         assert len(respondents) == 2
         assert respondents[0].demographics
 
-    def test_summarize_uses_mapper_keys(self, minimal_excel_path, question_mapper):
-        loader = ExcelSurveyLoader(minimal_excel_path, question_mapper)
-        loader.load_respondents()
-        summary = loader.summarize()
-        assert summary["total_rows"] == 2
-        assert summary["screener_columns"] > 0
-        assert summary["response_columns"] > 0
-
     def test_max_rows(self, minimal_excel_path, question_mapper):
         loader = ExcelSurveyLoader(minimal_excel_path, question_mapper)
         respondents = loader.load_respondents(max_rows=1)

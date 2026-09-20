@@ -8,7 +8,6 @@ from src.validation.response_validator import (
     COLLAPSE_RATIO_MAX,
     MIN_N_FOR_GATING,
     ValidationResult,
-    calculate_phi_correlation,
     classify_metric_bucket,
     kl_and_blind_spot,
     mae_scale_steps,
@@ -481,17 +480,3 @@ class TestEntropy:
         assert result.collapse is False
 
 
-@pytest.mark.unit
-class TestPhiCorrelation:
-    def test_never_select_reports_insufficient_variance(self):
-        corr = calculate_phi_correlation(
-            ["A", "A"], ["A", "A"], ["A", "B"], "single"
-        )
-        assert corr["B"]["correlation"] is None
-        assert corr["B"]["interpretation"] == "Insufficient variance"
-
-    def test_insufficient_variance(self):
-        corr = calculate_phi_correlation(
-            ["A", "A", "A"], ["A", "A", "A"], ["A", "B"], "single"
-        )
-        assert corr["B"]["interpretation"] == "Insufficient variance"

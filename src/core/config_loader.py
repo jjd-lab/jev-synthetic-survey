@@ -159,7 +159,6 @@ class FullSurveyConfig(BaseModel):
     # `choice_plus_confidence` is registered but NOT implemented -- the runner has no branch for it,
     # so setting it today elicits exactly like `hard_choice`, silently.
     persona_cache_path: Optional[str] = None  # Explicit shared cache; omit for persona-changing runs.
-    demographics: Optional[List[str]] = None  # Flexible demographics list (e.g., age, gender, income)
     demographic_mapping: Optional[Dict[str, str]] = None  # Maps demo keys to CSV columns
     routing_rules: Optional[List[RoutingRule]] = None  # Conditional logic (skip, show-if, mask, pipe)
     min_n_for_gating: int = 50  # Valid-respondent floor below which `collapse` and `blind_spot` are
