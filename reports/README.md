@@ -19,7 +19,6 @@ files in their top-level key. The tables below give the current location.
 | `score_jc_vs_ac.json` | Jev Choice, GPT-4.1 hard answer | `runs/jev_vs_gpt41_n300/{jev_choice,gpt41_hard}.jsonl` |
 | `score_with_described.json` | Jev Choice described, Jev Choice, GPT-4.1 probabilities | `runs/jev_vs_gpt41_n300/{jev_choice_described,jev_choice,gpt41_probs}.jsonl` |
 | `segment_diversity_n300.json` | Jev Choice, Jev Noul, GPT-4.1 probabilities, by segment | `runs/jev_vs_gpt41_n300/{jev_choice,jev_noul,gpt41_probs}.jsonl` |
-| `segment_diversity_jc_vs_ac.json` | Jev Choice, GPT-4.1 hard answer, by segment | `runs/jev_vs_gpt41_n300/{jev_choice,gpt41_hard}.jsonl` |
 
 ```bash
 python scripts/twin2k/prob_scoring.py score \
@@ -44,6 +43,10 @@ final digit differed.
 |---|---|---|
 | `score_nc_vs_ac_n2058.json` | Jev Noul, GPT-4.1 hard answer, all 2,058 respondents | `runs/jev_vs_gpt41_n2058/jev_noul.jsonl.gz`, `gpt41_hard.jsonl` |
 | `segment_diversity_n2058.json` | the same two arms, by demographic segment | the same two files |
+
+Both n=2058 reports use a 50-person segment floor. The n=300 segment report keeps the 25-person
+floor, because at that sample size 50 drops whole variables; see
+[`docs/survey/06-segment-diversity.md`](../docs/survey/06-segment-diversity.md).
 
 Scored with the same `prob_scoring.py score` command, pointed at the n=2058 arms.
 
