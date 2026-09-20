@@ -41,9 +41,9 @@ from src.data.question_mapper import CONDITION_PREFIX
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 TWIN_DIR = REPO_ROOT / "configs" / "twin2k"
-CHAINED_CONFIG = TWIN_DIR / "twin2k_survey_config_chained.yaml"
-BASELINE_CONFIG = TWIN_DIR / "twin2k_survey_config.yaml"
-PRIOR_ANSWERS_CONFIG = TWIN_DIR / "twin2k_survey_config_prior_answers.yaml"
+CHAINED_CONFIG = TWIN_DIR / "demographics_stateful.yaml"
+BASELINE_CONFIG = TWIN_DIR / "demographics_stateless.yaml"
+PRIOR_ANSWERS_CONFIG = TWIN_DIR / "prior_answers_stateless.yaml"
 
 
 # Fixtures: the real mapping and router, but a synthetic persona.

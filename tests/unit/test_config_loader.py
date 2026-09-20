@@ -10,10 +10,10 @@ from src.core.config_loader import FullSurveyConfig, load_survey_config
 class TestConfigLoader:
     def test_load_twin_baseline_config(self, repo_root):
         cfg = load_survey_config(
-            str(repo_root / "configs" / "twin2k" / "twin2k_survey_config.yaml")
+            str(repo_root / "configs" / "twin2k" / "demographics_stateless.yaml")
         )
         assert cfg.survey.name
-        assert cfg.execution.output_dir == "outputs/twin2k/demographics_only"
+        assert cfg.execution.output_dir == "outputs/twin2k/demographics_stateless"
 
     def test_missing_file_raises(self):
         with pytest.raises(FileNotFoundError):

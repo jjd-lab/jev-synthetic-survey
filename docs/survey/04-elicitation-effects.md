@@ -27,7 +27,7 @@ respondent ids and cell keys rather than on counts.
 | **GPT-4.1 probabilities** | state a probability per option, then name a choice | unbatched, one call per cell | [`runs/jev_vs_gpt41_n300/gpt41_probs.jsonl.gz`](../../runs/jev_vs_gpt41_n300/gpt41_probs.jsonl.gz) |
 
 The probabilities arm was run from
-[`configs/twin2k/twin2k_survey_config_probs_chained.yaml`](../../configs/twin2k/twin2k_survey_config_probs_chained.yaml);
+[`configs/twin2k/gpt41_probs.yaml`](../../configs/twin2k/gpt41_probs.yaml);
 the workbooks it was converted from are under
 [`runs/jev_vs_gpt41_n300/gpt41_probs_source/`](../../runs/jev_vs_gpt41_n300/gpt41_probs_source/).
 The hard-answer arm is the same stateful demographics arm with no probability mode set, and its run

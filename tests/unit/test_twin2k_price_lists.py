@@ -225,7 +225,7 @@ def test_no_other_survey_reads_the_prior_answer_persona():
         for path in REPO_ROOT.glob("configs/*/*.yaml")
         if PERSONA_MAPPING.name in path.read_text(encoding="utf-8")
     )
-    assert readers == ["twin2k_survey_config_prior_answers.yaml"]
+    assert readers == ["prior_answers_stateless.yaml"]
 
 
 @pytest.mark.unit

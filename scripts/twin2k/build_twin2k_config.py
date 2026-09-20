@@ -658,7 +658,7 @@ def main() -> None:
         counts[bucket] = counts.get(bucket, 0) + 1
     print(f"Wrote {QUESTION_OUT} ({len(questions)} questions: {counts})")
 
-    print(f"\nPaste into {OUT_DIR}/twin2k_survey_config.yaml:\n")
+    print(f"\nPaste into {OUT_DIR}/demographics_stateless.yaml:\n")
     print(format_questions_yaml(questions))
 
 

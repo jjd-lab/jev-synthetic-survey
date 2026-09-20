@@ -29,9 +29,9 @@ panel rather than the full sample.
 
 | Arm | Persona holds | Sees its own earlier answers | Config | Output |
 |---|---|---|---|---|
-| **demographics, stateless** | 14 demographics | no | [`twin2k_survey_config.yaml`](../../configs/twin2k/twin2k_survey_config.yaml) | [`runs/gpt41_panel_n2058/demographics_stateless/`](../../runs/gpt41_panel_n2058/demographics_stateless/) |
-| **demographics, stateful** | 14 demographics | yes | [`twin2k_survey_config_chained.yaml`](../../configs/twin2k/twin2k_survey_config_chained.yaml) | [`runs/gpt41_panel_n2058/demographics_stateful/`](../../runs/gpt41_panel_n2058/demographics_stateful/) |
-| **prior answers, stateless** | 14 demographics + 620 past answers | no | [`twin2k_survey_config_prior_answers.yaml`](../../configs/twin2k/twin2k_survey_config_prior_answers.yaml) | [`runs/gpt41_panel_n2058/prior_answers_stateless/`](../../runs/gpt41_panel_n2058/prior_answers_stateless/) |
+| **demographics, stateless** | 14 demographics | no | [`demographics_stateless.yaml`](../../configs/twin2k/demographics_stateless.yaml) | [`runs/gpt41_panel_n2058/demographics_stateless/`](../../runs/gpt41_panel_n2058/demographics_stateless/) |
+| **demographics, stateful** | 14 demographics | yes | [`demographics_stateful.yaml`](../../configs/twin2k/demographics_stateful.yaml) | [`runs/gpt41_panel_n2058/demographics_stateful/`](../../runs/gpt41_panel_n2058/demographics_stateful/) |
+| **prior answers, stateless** | 14 demographics + 620 past answers | no | [`prior_answers_stateless.yaml`](../../configs/twin2k/prior_answers_stateless.yaml) | [`runs/gpt41_panel_n2058/prior_answers_stateless/`](../../runs/gpt41_panel_n2058/prior_answers_stateless/) |
 
 Each folder holds the respondent-level workbook, the validation summary, and the persona cache the
 arm ran from. The prior-answers folder also holds the per-cell file, 168,768 cells across all 2,058

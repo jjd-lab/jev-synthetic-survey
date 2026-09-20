@@ -1,6 +1,6 @@
 """Tests that the generated Twin-2K-500 arm configs still match their generator.
 
-`twin2k_survey_config_prior_answers.yaml`, `_chained.yaml` and `_probs_chained.yaml` are written
+`prior_answers_stateless.yaml`, `_chained.yaml` and `_probs_chained.yaml` are written
 by `scripts/twin2k/build_twin2k_variants.py`, and AGENTS.md forbids hand-editing them: the arms
 are read as a difference, so an edit to one file confounds the comparison invisibly.
 
@@ -52,16 +52,16 @@ def baseline_text(generator) -> str:
     return _read_exact(REPO_ROOT / generator.BASELINE)
 
 
-@pytest.mark.parametrize("variant", ["prior_answers", "chained", "probs_chained"])
+@pytest.mark.parametrize("variant", ["prior_answers_stateless", "demographics_stateful", "gpt41_probs"])
 def test_the_generated_config_matches_the_generator(generator, baseline_text, variant):
     """The on-disk arm config is byte-identical to what the generator would write for it."""
     name, summary, substitutions = next(v for v in generator.VARIANTS if v[0] == variant)
     produced = generator.build_variant(baseline_text, name, summary, substitutions)
     on_disk = _read_exact(
-        REPO_ROOT / "configs" / "twin2k" / f"twin2k_survey_config_{variant}.yaml"
+        REPO_ROOT / "configs" / "twin2k" / f"{variant}.yaml"
     )
     assert produced == on_disk, (
-        f"twin2k_survey_config_{variant}.yaml is not what the generator produces. Either it was "
+        f"{variant}.yaml is not what the generator produces. Either it was "
         f"hand-edited (move the setting into build_twin2k_variants.py) or the baseline changed "
         f"without a re-run (run the script)."
     )
@@ -83,13 +83,13 @@ def test_the_arms_differ_only_where_the_generator_says_they_do(generator):
 
     arms = {
         name: load_survey_config(
-            str(REPO_ROOT / "configs" / "twin2k" / f"twin2k_survey_config{suffix}.yaml")
+            str(REPO_ROOT / "configs" / "twin2k" / f"{filename}.yaml")
         )
-        for name, suffix in [
-            ("baseline", ""),
-            ("prior_answers", "_prior_answers"),
-            ("chained", "_chained"),
-            ("probs_chained", "_probs_chained"),
+        for name, filename in [
+            ("baseline", "demographics_stateless"),
+            ("prior_answers", "prior_answers_stateless"),
+            ("chained", "demographics_stateful"),
+            ("probs_chained", "gpt41_probs"),
         ]
     }
     # The 60-line prompt is the thing generation exists to keep identical.
@@ -123,12 +123,12 @@ def test_probs_chained_differs_from_chained_in_exactly_three_settings():
     """
     from src.core.config_loader import load_survey_config
 
-    def _load(suffix):
+    def _load(filename):
         return load_survey_config(
-            str(REPO_ROOT / "configs" / "twin2k" / f"twin2k_survey_config{suffix}.yaml")
+            str(REPO_ROOT / "configs" / "twin2k" / f"{filename}.yaml")
         )
 
-    chained, probs = _load("_chained"), _load("_probs_chained")
+    chained, probs = _load("demographics_stateful"), _load("gpt41_probs")
 
     assert probs.response_mode == "verbalized_probs"
     assert probs.batch_grids is False
@@ -149,4 +149,4 @@ def test_probs_chained_differs_from_chained_in_exactly_three_settings():
         f"probs_chained vs chained differ in {sorted(differing)}; only the three elicitation "
         f"flags and `execution` (the output directory) may differ"
     )
-    assert probs.execution.output_dir == "outputs/twin2k/probs_chained"
+    assert probs.execution.output_dir == "outputs/twin2k/gpt41_probs"

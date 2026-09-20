@@ -4,9 +4,9 @@ Synthetic Survey Validation Pipeline
 Validates synthetic survey responses against real respondent data from Excel.
 
 Usage:
-    python main.py --config configs/twin2k/twin2k_survey_config.yaml
-    python main.py --config configs/twin2k/twin2k_survey_config.yaml --sample 100
-    python main.py --config configs/twin2k/twin2k_survey_config.yaml --questions QID9_1,QID9_2
+    python main.py --config configs/twin2k/demographics_stateless.yaml
+    python main.py --config configs/twin2k/demographics_stateless.yaml --sample 100
+    python main.py --config configs/twin2k/demographics_stateless.yaml --questions QID9_1,QID9_2
 """
 import argparse
 import logging
@@ -939,11 +939,11 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python main.py --config configs/twin2k/twin2k_survey_config.yaml
-  python main.py --config configs/twin2k/twin2k_survey_config_chained.yaml --sample 100
-  python main.py --config configs/twin2k/twin2k_survey_config_probs_chained.yaml \
+  python main.py --config configs/twin2k/demographics_stateless.yaml
+  python main.py --config configs/twin2k/demographics_stateful.yaml --sample 100
+  python main.py --config configs/twin2k/gpt41_probs.yaml \
       --checkpoint-dir outputs/twin2k/checkpoints --resume
-  python main.py --config configs/twin2k/twin2k_survey_config.yaml --questions QID9_1 --no-cache
+  python main.py --config configs/twin2k/demographics_stateless.yaml --questions QID9_1 --no-cache
         """
     )
 

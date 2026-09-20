@@ -41,7 +41,7 @@ elicitation and not the model.
 
 Usage:
     python scripts/twin2k/probe_jev.py --arm jev_chained --chain \\
-        --config configs/twin2k/twin2k_survey_config_chained.yaml \\
+        --config configs/twin2k/demographics_stateful.yaml \\
         --persona-cache runs/gpt41_panel_n2058/demographics_stateful/persona_cache.xlsx \\
         --sample 300 --out outputs/twin2k/jev/jev_choice.jsonl
 """

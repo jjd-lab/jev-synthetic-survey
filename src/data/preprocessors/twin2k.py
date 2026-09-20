@@ -2,7 +2,7 @@
 
 Adapts the public Twin-2K-500 response CSV to the loader's respondent-ID
 contract *before* respondents are built, so no shared loader/mapper code needs a
-Twin-specific branch. Referenced from ``twin2k_survey_config.yaml`` via::
+Twin-specific branch. Referenced from ``demographics_stateless.yaml`` via::
 
     data_source:
       preprocess:

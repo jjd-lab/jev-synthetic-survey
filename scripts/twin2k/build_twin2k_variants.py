@@ -3,15 +3,15 @@
 Runs on the same 108 questions and the same respondents, varying what the persona CONTAINS,
 whether the model SEES ITS OWN earlier answers, and how a choice is ELICITED, one factor at a time:
 
-    config file                                     persona holds        sees own answers
-    twin2k_survey_config.yaml                       14 demographics      no   (baseline)
-    twin2k_survey_config_prior_answers.yaml         + 620 prior Q&A      no
-    twin2k_survey_config_chained.yaml               14 demographics      yes
-    twin2k_survey_config_probs_chained.yaml         14 demographics      yes, elicited as a vector
+    config file                       persona holds        sees own answers
+    demographics_stateless.yaml       14 demographics      no   (baseline)
+    prior_answers_stateless.yaml      + 620 prior Q&A      no
+    demographics_stateful.yaml        14 demographics      yes
+    gpt41_probs.yaml                  14 demographics      yes, elicited as a vector
 
-Reading them: prior_answers minus baseline = what the respondent's own past answers are
-worth. chained minus baseline = what letting the model see its earlier answers is worth.
-probs_chained minus chained = what asking for a distribution instead of an answer costs or buys,
+Reading them: prior answers minus baseline = what the respondent's own past answers are
+worth. stateful minus baseline = what letting the model see its earlier answers is worth.
+gpt41_probs minus stateful = what asking for a distribution instead of an answer costs or buys,
 and it is the comparator the Jev probe is read against.
 Every reading assumes the four differ in NOTHING else -- and the framework has no config
 inheritance, so hand-maintained copies of a 60-line prompt would make a one-file edit both
@@ -22,7 +22,7 @@ asserts each fired.
 
 An arm's runner settings belong in this table, not in the generated file. They look like
 per-file tuning and so invite a hand-edit, but a hand-edit survives only until the next
-regeneration silently reverts it: `prior_answers` carried four such settings for a while, and
+regeneration silently reverts it: `prior_answers_stateless` carried four such settings for a while, and
 regenerating would have turned it back into a stateless near-duplicate of the baseline.
 
 There is no prior_answers x chained cell: on top of 620 real prior answers, the model's own
@@ -30,7 +30,7 @@ earlier answers add near-zero information, and it is the slowest path (`memory_m
 walks each persona through ~82 sequential questions instead of batching — 60 asked of
 everyone plus the arms this respondent drew).
 
-Re-run after ANY edit to twin2k_survey_config.yaml. Generated files are overwritten.
+Re-run after ANY edit to demographics_stateless.yaml. Generated files are overwritten.
 
 Usage:  python scripts/twin2k/build_twin2k_variants.py
 """
@@ -38,13 +38,13 @@ Usage:  python scripts/twin2k/build_twin2k_variants.py
 import sys
 from pathlib import Path
 
-BASELINE = Path("configs/twin2k/twin2k_survey_config.yaml")
+BASELINE = Path("configs/twin2k/demographics_stateless.yaml")
 
 DEMOGRAPHIC_MAPPING = 'demographic_mapping: "configs/twin2k/twin2k_demographic_mapping.json"'
 PERSONA_MAPPING = 'demographic_mapping: "configs/twin2k/twin2k_demographic_mapping_persona.json"'
 NO_CHAINING = 'memory_mode: "stateless"'
 CHAINING = 'memory_mode: "full"'
-BASELINE_OUTPUT = 'output_dir: "outputs/twin2k/demographics_only"'
+BASELINE_OUTPUT = 'output_dir: "outputs/twin2k/demographics_stateless"'
 
 # Always FIND one whole line, never a multi-line block: this file is LF today and CRLF after a
 # fresh checkout on Windows, so a multi-line needle misses silently. The REPLACE side may be a
@@ -175,13 +175,13 @@ PROBS_CHAINED = [
 
 # (name, one-line description, [(find, replace), ...])
 VARIANTS = [
-    ("prior_answers",
+    ("prior_answers_stateless",
      "the respondent's own past answers in the persona — the paper's published twin (71.72%)",
      [(DEMOGRAPHIC_MAPPING, PERSONA_MAPPING), *PRIOR_ANSWERS_STATEFUL]),
-    ("chained",
+    ("demographics_stateful",
      "demographics only, but the model sees its own earlier answers — not in the paper",
      [(NO_CHAINING, CHAINING), *CHAINED_CAP]),
-    ("probs_chained",
+    ("gpt41_probs",
      "chained, but asked for a probability vector — the comparator for the Jev probe",
      [*PROBS_CHAINED, *CHAINED_CAP]),
 ]
@@ -226,6 +226,7 @@ def _refuse_arguments(what_it_writes: str) -> None:
             f"Run it with no arguments to regenerate."
         )
 
+
 def main() -> int:
     _refuse_arguments("regenerates the three derived configs under configs/twin2k/ from the "
                       "baseline config")
@@ -242,7 +243,7 @@ def main() -> int:
             raise SystemExit(f"{BASELINE} is missing the expected line {token!r}")
 
     for name, summary, substitutions in VARIANTS:
-        out_path = BASELINE.with_name(f"twin2k_survey_config_{name}.yaml")
+        out_path = BASELINE.with_name(f"{name}.yaml")
         with open(out_path, "w", encoding="utf-8", newline="") as handle:
             handle.write(build_variant(source, name, summary, substitutions))
         print(f"wrote {out_path}\n    {summary}")

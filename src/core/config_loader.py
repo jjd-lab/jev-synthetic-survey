@@ -250,7 +250,7 @@ def load_survey_config(config_path: str) -> FullSurveyConfig:
         raise FileNotFoundError(
             f"Config file not found: {config_path}\n"
             f"Expected absolute path or path relative to current directory.\n"
-            f"Example configs available in: configs/twin2k/twin2k_survey_config.yaml"
+            f"Example configs available in: configs/twin2k/demographics_stateless.yaml"
         )
 
     try:

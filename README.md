@@ -182,7 +182,7 @@ $4.01; the `gpt-4.1` comparator arm is inferred at roughly $136.
 
 ```bash
 python scripts/twin2k/probe_jev.py --arm my_run --chain --primitive noul --sample 300
-python main.py --config configs/twin2k/twin2k_survey_config_probs_chained.yaml \
+python main.py --config configs/twin2k/gpt41_probs.yaml \
     --checkpoint-dir outputs/twin2k/checkpoints --resume
 ```
 
