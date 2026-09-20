@@ -177,8 +177,8 @@ block in the prompt, so the prompt asks for exactly the fields the schema declar
 B). On the hard-enforcement path both are inert.
 
 Residue is repaired by re-running the same command with `--resume`, which re-asks exactly the failed
-work and nothing else: whole personas on a stateful checkpoint, single cells on a stateless one.
-Neither flavor marks failed work complete. One caveat carries: an error record with no respondent id
+work and nothing else, a whole persona at a time, and never marks failed work complete. One caveat
+carries: an error record with no respondent id
 means the question failed wholesale, and because a question is checkpointed *before* its answers are
 validated, dropping that question discards good rows when the fault was in validation. Fix the code
 and resume rather than pruning.

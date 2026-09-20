@@ -126,7 +126,7 @@ def effective_chaining(config) -> bool:
     prompt cache and then sets `chain_own_answers: false` to cancel the chaining, so it looks
     chained and is not.
     """
-    return getattr(config, "memory_mode", "stateless") == "full" and bool(
+    return getattr(config, "memory_mode", "full") == "full" and bool(
         getattr(config, "chain_own_answers", True)
     )
 

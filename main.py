@@ -11,19 +11,16 @@ Usage:
 import argparse
 import logging
 import os
-from collections import Counter
 from datetime import datetime
 from src.core.config_loader import load_survey_config
 from src.data import QuestionMapper, ExcelSurveyLoader
 from src.core.persona_from_excel import generate_personas_from_respondents, display_sample_personas
 from src.core.persona_cache import load_personas_from_excel, save_personas_to_excel, get_persona_cache_path
-from src.core.survey_runner_excel import run_survey_for_question
 from src.validation.response_validator import (
     MIN_N_FOR_GATING,
     ValidationResult,
     individual_baseline_name,
 )
-from src.validation.validation_pairs import replicate_ground_truth
 
 
 def validate_question_responses(
@@ -369,9 +366,6 @@ def run_excel_validation_pipeline(config_path: str,
 
     print(f"Validating {len(questions_to_validate)} questions...\n")
 
-    # Determine survey mode
-    memory_mode = getattr(config, 'memory_mode', 'stateless')
-    print(f"[INFO] Survey mode: {memory_mode}")
 
     validation_results = {}
     all_responses_by_question = {}
@@ -398,454 +392,207 @@ def run_excel_validation_pipeline(config_path: str,
     from src.core.question_router import QuestionRouter
     router = QuestionRouter(getattr(config, 'routing_rules', None), question_mapper)
 
-    if memory_mode == "full":
-        print("[INFO] Using stateful mode (per-persona sequential with routing)")
+    print("[INFO] Per-persona walk; chaining is on unless the config disables it.")
 
-        from src.core.survey_runner_excel import run_stateful_survey_for_all_personas
+    from src.core.survey_runner_excel import run_stateful_survey_for_all_personas
 
-        question_list = [q.id for q in config.survey.questions]
+    question_list = [q.id for q in config.survey.questions]
 
-        def _run_cohort(cohort_personas):
-            """Run the stateful survey over one cohort of personas (unchanged runner)."""
-            return run_stateful_survey_for_all_personas(
-                cohort_personas,
-                question_list,
-                question_mapper,
-                router,
-                config.survey_prompt,
-                model=config.llm.model,
-                temperature=config.llm.get_survey_temperature(),
-                subscription_tiers=config.llm.subscription_tiers,
-                include_request_id=config.include_request_id,
-                max_concurrency=config.llm.max_concurrency,
-                max_retries=config.llm.max_retries,
-                preserve_anchors=config.preserve_anchors,
-                chain_own_answers=config.chain_own_answers,
-                batch_grids=config.batch_grids,
-                prompt_cache_key_by_respid=config.prompt_cache_key_by_respid,
-                response_mode=config.response_mode,
-                token_recorder=token_recorder,
-            )
-
-        if checkpoint_dir:
-            # Batched, resumable execution
-            from src.utils import survey_checkpoint as ckpt
-
-            # One checkpoint batch per full concurrency wave.
-            effective_batch = config.llm.max_concurrency or len(personas)
-            run_dir = ckpt.init_run_dir(checkpoint_dir, run_id)
-            manifest = ckpt.load_manifest(run_dir)
-            # Mirror of the stateless branch's guard. Reachable now that a survey can move between
-            # the two paths: `prior_answers` left a question-scoped dir behind. Without this the
-            # `batches` count below is 0, so a stateful run appends its own keys beside the
-            # existing `questions` — and `rerun_failed` dispatches on which key is present, so it
-            # would repair a mixed dir with the wrong unit.
-            if manifest.get("questions") or manifest.get("completed_pairs"):
-                raise RuntimeError(
-                    f"Checkpoint dir '{run_dir}' holds a stateless, per-question checkpoint; a "
-                    f"stateful run checkpoints per persona and cannot share it. Use a new "
-                    f"--run-id."
-                )
-            existing_batches = len(manifest.get("batches", []))
-
-            if existing_batches and not resume:
-                raise RuntimeError(
-                    f"Checkpoint dir '{run_dir}' already has {existing_batches} batch(es). "
-                    f"Re-run with --resume to continue it, or use a new --run-id / delete the "
-                    f"dir to start fresh. Refusing to mix a fresh run into existing batches."
-                )
-
-            done = ckpt.completed_respids(run_dir) if resume else set()
-            if resume and done:
-                print(f"[INFO] Resuming: {len(done)} personas already checkpointed, skipping them")
-
-            pending = [(i, p) for i, p in enumerate(personas)
-                       if ckpt.norm_respid(p["respid"]) not in done]
-            print(f"[INFO] Checkpointed run: {len(pending)} pending, cohort_size={effective_batch}, "
-                  f"run_dir={run_dir}")
-
-            for offset in range(0, len(pending), effective_batch):
-                chunk = pending[offset:offset + effective_batch]
-                batch_num = existing_batches + (offset // effective_batch) + 1
-                PipelineDisplay.section(
-                    f"Batch {batch_num}: personas {chunk[0][0]}..{chunk[-1][0]} ({len(chunk)})"
-                )
-                cohort = [p for _, p in chunk]
-                c_states, c_expl, c_tiers, c_probs, c_orders, c_errors = _run_cohort(cohort)
-
-                # Bucket each cohort error record under its persona by respid. The bucket is
-                # only a storage container — each record carries its own respid — so any record
-                # that fails to match a persona (None/type-drifted respid) is appended to the
-                # first record's bucket rather than dropped, keeping the flattened error set
-                # identical to a single-shot run's recorder.records.
-                records = []
-                attributed = set()
-                for (global_idx, persona), state, expl, tier, probs, orders in zip(
-                    chunk, c_states, c_expl, c_tiers, c_probs, c_orders,
-                ):
-                    respid = ckpt.norm_respid(persona["respid"])
-                    err_recs = []
-                    for i, r in enumerate(c_errors):
-                        if ckpt.norm_respid(r.get("respid")) == respid:
-                            err_recs.append(r)
-                            attributed.add(i)
-                    records.append({
-                        "respid": respid,
-                        "global_index": global_idx,
-                        # A failed cell inside a finished walk is a failed walk too. `status` is what
-                        # save_batch reads to decide "complete", so consulting only
-                        # `__persona_error__` marked such a persona done and left its `LLM Error`
-                        # cells behind a manifest that no --resume would revisit -- the stateless
-                        # flavour never marks a failed cell complete, and this is that same contract.
-                        # The re-run repeats the whole walk (a stateful cell cannot be spliced), so
-                        # expect a little drift in the persona's other answers; measured at 12 cells
-                        # of 108x2 when repairing 2 filtered cells in the twin2k chained arm.
-                        "status": "aborted" if ("__persona_error__" in expl or err_recs) else "ok",
-                        "state": state,
-                        "explanations": expl,
-                        "tier": tier,
-                        "orders": orders,
-                        "probs": probs,
-                        "error_records": err_recs,
-                    })
-                leftover = [r for i, r in enumerate(c_errors) if i not in attributed]
-                if leftover:
-                    records[0]["error_records"].extend(leftover)
-                ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-                ckpt.save_batch(run_dir, batch_num, records, timestamp=ts)
-                print(f"  [checkpoint] saved batch {batch_num} ({len(records)} personas)")
-
-                # A spend cap has latched (llm_factory): every remaining call would fail without
-                # reaching the API. Stop here rather than churning the rest of the panel into
-                # aborted personas and one error record per cell, and report the day's token
-                # spend on the way out -- that summary is the reason to look at this exit.
-                halted = budget_halt_reason()
-                if halted is not None:
-                    print(
-                        f"\n[BUDGET] Stopped after batch {batch_num}: {halted}\n"
-                        f"[BUDGET] Personas that finished are checkpointed in {run_dir}. Re-run the "
-                        f"same command with --resume once the cap resets; only personas not marked "
-                        f"complete are re-run (a stateful cell cannot be spliced, so an "
-                        f"interrupted persona repeats its whole walk)."
-                    )
-                    halt_summary = token_recorder.summary()
-                    if halt_summary:
-                        halt_ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-                        print_token_summary(
-                            halt_summary, write_token_json(halt_summary, output_dir, halt_ts)
-                        )
-                    return None
-
-            # Reconstruct the full result set from all checkpoints, in global_index order.
-            all_records = ckpt.load_all_batches(run_dir)
-            # Fail loud: export is positionally index-aligned to personas.
-            got_indices = [r["global_index"] for r in all_records]
-            if got_indices != list(range(len(personas))):
-                raise RuntimeError(
-                    f"Checkpoint integrity check failed: reconstructed {len(all_records)} "
-                    f"personas with indices != 0..{len(personas) - 1}. Refusing to export "
-                    f"mispaired data. Re-run with --resume to fill gaps."
-                )
-            all_states = [r["state"] for r in all_records]
-            all_explanations = [r["explanations"] for r in all_records]
-            all_tiers = [r["tier"] for r in all_records]
-            all_orders = [r.get("orders", {}) for r in all_records]
-            # `.get` with a default: batches written before `probs` was checkpointed carry no such
-            # key, and a pre-change checkpoint dir must stay resumable.
-            all_probs = [r.get("probs", {}) for r in all_records]
-            error_records = [er for r in all_records for er in r.get("error_records", [])]
-        else:
-            # Single-shot execution (unchanged behavior)
-            all_states, all_explanations, all_tiers, all_probs, all_orders, error_records = (
-                _run_cohort(personas)
-            )
-            # The whole panel runs as one `.batch()` here, so there is no batch boundary to stop
-            # at -- by the time we know the cap latched, the personas after it are already
-            # aborted. Say so anyway: otherwise a panel of "LLM Error" cells looks like a model
-            # or prompt problem instead of a spend cap, which is the wrong thing to go debug.
-            budget_halted = budget_halt_reason()
-            if budget_halted is not None:
-                print(
-                    f"\n[BUDGET] A spend cap latched mid-run: {budget_halted}\n"
-                    f"[BUDGET] Personas after that point are aborted and this run is not "
-                    f"checkpointed, so nothing is resumable. Re-run with --checkpoint-dir once "
-                    f"the cap resets."
-                )
-
-        failed_persona_indices = {
-            i for i, exp_dict in enumerate(all_explanations) if "__persona_error__" in exp_dict
-        }
-
-        PipelineDisplay.section("Converting stateful results to validation format")
-
-        (
-            validation_results,
-            all_responses_by_question,
-            all_explanations_by_question,
-            all_subscription_tiers_by_question,
-            all_persona_indices_by_question,
-            all_variation_ids_by_question,
-            open_ended_question_ids,
-            all_option_orders_by_question,
-            all_probs_by_question,
-        ) = validate_stateful_results(
-            all_states,
-            all_explanations,
-            all_tiers,
-            questions_to_validate,
-            personas,
+    def _run_cohort(cohort_personas):
+        """Run the stateful survey over one cohort of personas (unchanged runner)."""
+        return run_stateful_survey_for_all_personas(
+            cohort_personas,
+            question_list,
             question_mapper,
-            min_n_for_gating=config.min_n_for_gating,
-            all_orders=all_orders,
-            all_probs=all_probs,
+            router,
+            config.survey_prompt,
+            model=config.llm.model,
+            temperature=config.llm.get_survey_temperature(),
+            subscription_tiers=config.llm.subscription_tiers,
+            include_request_id=config.include_request_id,
+            max_concurrency=config.llm.max_concurrency,
+            max_retries=config.llm.max_retries,
+            preserve_anchors=config.preserve_anchors,
+            chain_own_answers=config.chain_own_answers,
+            batch_grids=config.batch_grids,
+            prompt_cache_key_by_respid=config.prompt_cache_key_by_respid,
+            response_mode=config.response_mode,
+            token_recorder=token_recorder,
         )
 
-    else:
-        print("[INFO] Using stateless mode (batch processing, no routing)")
-
+    if checkpoint_dir:
+        # Batched, resumable execution
         from src.utils import survey_checkpoint as ckpt
-        from src.utils.progress import RunErrorRecorder, print_error_summary
 
-        # One recorder for the whole run: the runner records each failed (respid, question) in
-        # place, so a transient error becomes a line in run_errors_*.jsonl instead of a silent
-        # "Error" cell that only shows up as a dip in n_valid.
-        recorder = RunErrorRecorder()
+        # One checkpoint batch per full concurrency wave.
+        effective_batch = config.llm.max_concurrency or len(personas)
+        run_dir = ckpt.init_run_dir(checkpoint_dir, run_id)
+        manifest = ckpt.load_manifest(run_dir)
+        # Mirror of the stateless branch's guard. Reachable now that a survey can move between
+        # the two paths: `prior_answers` left a question-scoped dir behind. Without this the
+        # `batches` count below is 0, so a stateful run appends its own keys beside the
+        # existing `questions` — and `rerun_failed` dispatches on which key is present, so it
+        # would repair a mixed dir with the wrong unit.
+        if manifest.get("questions") or manifest.get("completed_pairs"):
+            raise RuntimeError(
+                f"Checkpoint dir '{run_dir}' holds a stateless, per-question checkpoint; a "
+                f"stateful run checkpoints per persona and cannot share it. Use a new "
+                f"--run-id."
+            )
+        existing_batches = len(manifest.get("batches", []))
 
-        # Question-scoped checkpointing. Inert unless --checkpoint-dir is passed, so callers and
-        # other non-checkpointed stateless runs keep exactly their current control flow.
-        run_dir = None
-        done = {}
-        if checkpoint_dir:
-            run_dir = ckpt.init_run_dir(checkpoint_dir, run_id)
-            manifest = ckpt.load_manifest(run_dir)
-            # A run dir carries one flavour only — readers (and rerun_failed) dispatch on which
-            # manifest key is present, so a mixed dir would be repaired with the wrong unit.
-            if manifest.get("batches") or manifest.get("completed_respids"):
-                raise RuntimeError(
-                    f"Checkpoint dir '{run_dir}' holds a stateful, per-persona checkpoint; a "
-                    f"stateless run checkpoints per question and cannot share it. Use a new "
-                    f"--run-id."
-                )
-            existing = manifest.get("questions", {})
-            if existing and not resume:
-                raise RuntimeError(
-                    f"Checkpoint dir '{run_dir}' already has {len(existing)} question(s). "
-                    f"Re-run with --resume to continue it, or use a new --run-id / delete the "
-                    f"dir to start fresh. Refusing to mix a fresh run into existing questions."
-                )
-            done = ckpt.completed_pairs(run_dir) if resume else {}
-            if done:
-                n_cells = sum(len(v) for v in done.values())
-                print(f"[INFO] Resuming: {n_cells} cell(s) across {len(done)} question(s) "
-                      f"already checkpointed, skipping them")
-            print(f"[INFO] Checkpointed run: run_dir={run_dir}")
+        if existing_batches and not resume:
+            raise RuntimeError(
+                f"Checkpoint dir '{run_dir}' already has {existing_batches} batch(es). "
+                f"Re-run with --resume to continue it, or use a new --run-id / delete the "
+                f"dir to start fresh. Refusing to mix a fresh run into existing batches."
+            )
 
-            # Resume and repair both join on respid, so a duplicate would silently claim another
-            # persona's answers. Fail before spending a single call.
-            all_respids = [ckpt.norm_respid(p["respid"]) for p in personas]
-            if len(set(all_respids)) != len(all_respids):
-                raise RuntimeError(
-                    "Checkpointing requires unique respids, but this panel has duplicates. "
-                    "Refusing to checkpoint: resume matches saved answers by respid."
-                )
+        done = ckpt.completed_respids(run_dir) if resume else set()
+        if resume and done:
+            print(f"[INFO] Resuming: {len(done)} personas already checkpointed, skipping them")
 
-        for idx, question_config in enumerate(questions_to_validate, 1):
-            question_id = question_config.id
+        pending = [(i, p) for i, p in enumerate(personas)
+                   if ckpt.norm_respid(p["respid"]) not in done]
+        print(f"[INFO] Checkpointed run: {len(pending)} pending, cohort_size={effective_batch}, "
+              f"run_dir={run_dir}")
 
-            # Same spend-cap exit as the stateful cohort loop, at the unit this path checkpoints:
-            # one question. Checked at the top of the body, not the bottom, because a halted
-            # question fails validation and takes the `except ... continue` below -- a bottom
-            # check would be skipped by exactly the iteration that latched. Every remaining call
-            # would fail without reaching the API, so stop instead of churning the rest of the
-            # panel into "Error" cells and one error record per cell.
-            budget_halted = budget_halt_reason()
-            if budget_halted is not None:
+        for offset in range(0, len(pending), effective_batch):
+            chunk = pending[offset:offset + effective_batch]
+            batch_num = existing_batches + (offset // effective_batch) + 1
+            PipelineDisplay.section(
+                f"Batch {batch_num}: personas {chunk[0][0]}..{chunk[-1][0]} ({len(chunk)})"
+            )
+            cohort = [p for _, p in chunk]
+            c_states, c_expl, c_tiers, c_probs, c_orders, c_errors = _run_cohort(cohort)
+
+            # Bucket each cohort error record under its persona by respid. The bucket is
+            # only a storage container — each record carries its own respid — so any record
+            # that fails to match a persona (None/type-drifted respid) is appended to the
+            # first record's bucket rather than dropped, keeping the flattened error set
+            # identical to a single-shot run's recorder.records.
+            records = []
+            attributed = set()
+            for (global_idx, persona), state, expl, tier, probs, orders in zip(
+                chunk, c_states, c_expl, c_tiers, c_probs, c_orders,
+            ):
+                respid = ckpt.norm_respid(persona["respid"])
+                err_recs = []
+                for i, r in enumerate(c_errors):
+                    if ckpt.norm_respid(r.get("respid")) == respid:
+                        err_recs.append(r)
+                        attributed.add(i)
+                records.append({
+                    "respid": respid,
+                    "global_index": global_idx,
+                    # A failed cell inside a finished walk is a failed walk too. `status` is what
+                    # save_batch reads to decide "complete", so consulting only
+                    # `__persona_error__` marked such a persona done and left its `LLM Error`
+                    # cells behind a manifest that no --resume would revisit -- the stateless
+                    # flavour never marks a failed cell complete, and this is that same contract.
+                    # The re-run repeats the whole walk (a stateful cell cannot be spliced), so
+                    # expect a little drift in the persona's other answers; measured at 12 cells
+                    # of 108x2 when repairing 2 filtered cells in the twin2k chained arm.
+                    "status": "aborted" if ("__persona_error__" in expl or err_recs) else "ok",
+                    "state": state,
+                    "explanations": expl,
+                    "tier": tier,
+                    "orders": orders,
+                    "probs": probs,
+                    "error_records": err_recs,
+                })
+            leftover = [r for i, r in enumerate(c_errors) if i not in attributed]
+            if leftover:
+                records[0]["error_records"].extend(leftover)
+            ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+            ckpt.save_batch(run_dir, batch_num, records, timestamp=ts)
+            print(f"  [checkpoint] saved batch {batch_num} ({len(records)} personas)")
+
+            # A spend cap has latched (llm_factory): every remaining call would fail without
+            # reaching the API. Stop here rather than churning the rest of the panel into
+            # aborted personas and one error record per cell, and report the day's token
+            # spend on the way out -- that summary is the reason to look at this exit.
+            halted = budget_halt_reason()
+            if halted is not None:
                 print(
-                    f"\n[BUDGET] Stopped before question {idx}/{len(questions_to_validate)} "
-                    f"({question_id}): {budget_halted}"
+                    f"\n[BUDGET] Stopped after batch {batch_num}: {halted}\n"
+                    f"[BUDGET] Personas that finished are checkpointed in {run_dir}. Re-run the "
+                    f"same command with --resume once the cap resets; only personas not marked "
+                    f"complete are re-run (a stateful cell cannot be spliced, so an "
+                    f"interrupted persona repeats its whole walk)."
                 )
-                if run_dir:
-                    print(
-                        f"[BUDGET] Questions that finished are checkpointed in {run_dir}. Re-run "
-                        f"the same command with --resume once the cap resets; only cells not "
-                        f"marked complete are re-run."
+                halt_summary = token_recorder.summary()
+                if halt_summary:
+                    halt_ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+                    print_token_summary(
+                        halt_summary, write_token_json(halt_summary, output_dir, halt_ts)
                     )
-                else:
-                    print(
-                        "[BUDGET] This run is not checkpointed, so the questions below are not "
-                        "saved. Re-run with --checkpoint-dir once the cap resets."
-                    )
-                break
+                return None
 
-            PipelineDisplay.section(f"Question {idx}/{len(questions_to_validate)}: {question_id}")
+        # Reconstruct the full result set from all checkpoints, in global_index order.
+        all_records = ckpt.load_all_batches(run_dir)
+        # Fail loud: export is positionally index-aligned to personas.
+        got_indices = [r["global_index"] for r in all_records]
+        if got_indices != list(range(len(personas))):
+            raise RuntimeError(
+                f"Checkpoint integrity check failed: reconstructed {len(all_records)} "
+                f"personas with indices != 0..{len(personas) - 1}. Refusing to export "
+                f"mispaired data. Re-run with --resume to fill gaps."
+            )
+        all_states = [r["state"] for r in all_records]
+        all_explanations = [r["explanations"] for r in all_records]
+        all_tiers = [r["tier"] for r in all_records]
+        all_orders = [r.get("orders", {}) for r in all_records]
+        # `.get` with a default: batches written before `probs` was checkpointed carry no such
+        # key, and a pre-change checkpoint dir must stay resumable.
+        all_probs = [r.get("probs", {}) for r in all_records]
+        error_records = [er for r in all_records for er in r.get("error_records", [])]
+    else:
+        # Single-shot execution (unchanged behavior)
+        all_states, all_explanations, all_tiers, all_probs, all_orders, error_records = (
+            _run_cohort(personas)
+        )
+        # The whole panel runs as one `.batch()` here, so there is no batch boundary to stop
+        # at -- by the time we know the cap latched, the personas after it are already
+        # aborted. Say so anyway: otherwise a panel of "LLM Error" cells looks like a model
+        # or prompt problem instead of a spend cap, which is the wrong thing to go debug.
+        budget_halted = budget_halt_reason()
+        if budget_halted is not None:
+            print(
+                f"\n[BUDGET] A spend cap latched mid-run: {budget_halted}\n"
+                f"[BUDGET] Personas after that point are aborted and this run is not "
+                f"checkpointed, so nothing is resumable. Re-run with --checkpoint-dir once "
+                f"the cap resets."
+            )
 
-            try:
-                # Between-subject arms: ask only the personas assigned this arm. `asked_idx` maps
-                # positions in `asked` back to `personas`, which the exporter and segmentation
-                # both index -- so the remap after the run is load-bearing, not cosmetic.
-                # Identity for every question with no `condition_group`.
-                asked_idx = [
-                    i for i, p in enumerate(personas)
-                    if router.is_asked(question_id, p.get("condition_assignments", {}))
-                ]
-                if not asked_idx:
-                    print(f"[WARN] {question_id}: no persona is assigned this arm, skipping")
-                    continue
-                if len(asked_idx) < len(personas):
-                    print(f"  Condition arm: asking {len(asked_idx)}/{len(personas)} personas")
-                asked = [personas[i] for i in asked_idx]
+    failed_persona_indices = {
+        i for i, exp_dict in enumerate(all_explanations) if "__persona_error__" in exp_dict
+    }
 
-                # Resume skips the cells already on disk for this question; without a checkpoint
-                # `pending_idx is asked_idx` and everything below is the single-run path.
-                done_respids = done.get(question_id, set())
-                pending_idx = (
-                    [i for i in asked_idx
-                     if ckpt.norm_respid(personas[i]["respid"]) not in done_respids]
-                    if done_respids else asked_idx
-                )
-                if done_respids:
-                    print(f"  Resume: {len(pending_idx)}/{len(asked_idx)} personas still pending")
+    PipelineDisplay.section("Converting stateful results to validation format")
 
-                if pending_idx:
-                    (fresh_responses, fresh_explanations, fresh_tiers, fresh_persona_indices,
-                     fresh_variation_ids, question_type) = run_survey_for_question(
-                        [personas[i] for i in pending_idx],
-                        question_id,
-                        question_mapper,
-                        config.survey_prompt,
-                        model=config.llm.model,
-                        temperature=config.llm.get_survey_temperature(),
-                        n_variations=config.llm.n_variations,
-                        subscription_tiers=config.llm.subscription_tiers,
-                        max_concurrency=config.llm.max_concurrency,
-                        max_retries=config.llm.max_retries,
-                        preserve_anchors=config.preserve_anchors,
-                        error_recorder=recorder,
-                    )
-                else:
-                    print("  Resume: fully checkpointed, no calls needed")
-                    fresh_responses, fresh_explanations, fresh_tiers = [], [], []
-                    fresh_persona_indices, fresh_variation_ids = [], []
-                    question_type = (
-                        ckpt.question_type_for(run_dir, question_id)
-                        or question_mapper.get_question_type(question_id)
-                    )
+    (
+        validation_results,
+        all_responses_by_question,
+        all_explanations_by_question,
+        all_subscription_tiers_by_question,
+        all_persona_indices_by_question,
+        all_variation_ids_by_question,
+        open_ended_question_ids,
+        all_option_orders_by_question,
+        all_probs_by_question,
+    ) = validate_stateful_results(
+        all_states,
+        all_explanations,
+        all_tiers,
+        questions_to_validate,
+        personas,
+        question_mapper,
+        min_n_for_gating=config.min_n_for_gating,
+        all_orders=all_orders,
+        all_probs=all_probs,
+    )
 
-                # Fresh rows are joined positionally (`fresh_persona_indices` index into
-                # `pending_idx`), never by respid — that keeps the no-checkpoint path identical to
-                # a straight lift. Only the checkpoint join uses respid.
-                rows_by_persona = {}
-                for k, pos in enumerate(fresh_persona_indices):
-                    rows_by_persona.setdefault(pending_idx[pos], []).append({
-                        "respid": ckpt.norm_respid(personas[pending_idx[pos]]["respid"]),
-                        "response": fresh_responses[k],
-                        "explanation": fresh_explanations[k],
-                        "tier": fresh_tiers[k],
-                        "variation_id": fresh_variation_ids[k],
-                    })
-                if done_respids:
-                    saved_rows = {}
-                    for row in ckpt.load_question(run_dir, question_id):
-                        saved_rows.setdefault(ckpt.norm_respid(row["respid"]), []).append(row)
-                    for i in asked_idx:
-                        if i in rows_by_persona:
-                            continue
-                        rid = ckpt.norm_respid(personas[i]["respid"])
-                        if rid not in saved_rows:
-                            raise RuntimeError(
-                                f"Checkpoint gap for {question_id}: respid {rid} is marked "
-                                f"completed in the manifest but has no rows on disk. Refusing to "
-                                f"export a hole; delete the run dir and re-run this question."
-                            )
-                        rows_by_persona[i] = saved_rows[rid]
-
-                # Merge in canonical `asked_idx` order, so the output ordering is "per persona,
-                # n_variations each" over the full asked panel — what replicate_ground_truth
-                # below assumes — whether a row came from this run or a checkpoint.
-                synthetic_responses, explanations, subscription_tiers = [], [], []
-                persona_indices, variation_ids, merged_rows = [], [], []
-                for i in asked_idx:
-                    if i not in rows_by_persona:
-                        raise RuntimeError(
-                            f"{question_id}: no rows for asked persona index {i} "
-                            f"(respid {personas[i]['respid']}). Refusing to export a panel that "
-                            f"silently drops a persona."
-                        )
-                    for row in rows_by_persona[i]:
-                        synthetic_responses.append(row["response"])
-                        explanations.append(row["explanation"])
-                        subscription_tiers.append(row["tier"])
-                        persona_indices.append(i)
-                        variation_ids.append(row["variation_id"])
-                        merged_rows.append(row)
-
-                if run_dir is not None:
-                    ckpt.save_question(
-                        run_dir, question_id, merged_rows,
-                        question_type=question_type,
-                        timestamp=datetime.now().strftime("%Y%m%d_%H%M%S"),
-                    )
-                    print(f"  [checkpoint] saved {question_id} ({len(merged_rows)} rows)")
-
-                all_responses_by_question[question_id] = synthetic_responses
-                all_explanations_by_question[question_id] = explanations
-                all_subscription_tiers_by_question[question_id] = subscription_tiers
-                all_persona_indices_by_question[question_id] = persona_indices
-                all_variation_ids_by_question[question_id] = variation_ids
-
-                all_tier_counts = Counter(subscription_tiers)
-                print(f"  Subscription tier distribution (all variations): {dict(all_tier_counts)}")
-
-                # Replicate ground truth for multi-variation comparison. Over `asked`, not
-                # `personas`: it must match `_run_survey_multi_var`'s output ordering (per
-                # persona, `n_variations` each), which ran on `asked`.
-                ground_truth_responses_replicated = replicate_ground_truth(
-                    asked, question_id, config.llm.n_variations
-                )
-
-                print(f"  Validating with all {config.llm.n_variations} variations: {len(synthetic_responses)} total responses")
-
-                # Validate using common logic
-                result = validate_question_responses(
-                    question_id=question_id,
-                    question_type=question_type,
-                    synthetic_responses=synthetic_responses,
-                    ground_truth_responses=ground_truth_responses_replicated,
-                    subscription_tiers=subscription_tiers,
-                    persona_indices=persona_indices,
-                    personas=personas,
-                    question_mapper=question_mapper,
-                    min_n_for_gating=config.min_n_for_gating,
-                )
-
-                if result is None:
-                    print(f"[WARN] No valid pairs for {question_id}, skipping")
-                    continue
-
-                print(
-                    f"[OK] {result.distributional_metric_name}={result.distributional_metric:.3f} "
-                    f"| {individual_baseline_name(result.metric_bucket)}="
-                    f"{result.individual_baseline:.3f} "
-                    f"(n_valid={result.n_valid}, n_failed={result.n_failed})"
-                )
-
-                # Print segmentation keys
-                if result.segment_results:
-                    for demographic_key in result.segment_results.keys():
-                        print(f"  Segmented by {demographic_key}")
-
-                validation_results[question_id] = result
-
-            except Exception as e:
-                print(f"[ERROR] Failed to validate {question_id}: {e}")
-                logger.exception("Failed to validate %s", question_id)
-                # Record it so a question lost wholesale shows up in run_errors_*.jsonl rather
-                # than only as a missing column in the summary.
-                recorder.record_failure(None, question_id, "question", e)
-                continue
-
-        error_records = recorder.records
-        print_error_summary(recorder)
 
     token_summary = token_recorder.summary()
 
@@ -876,9 +623,7 @@ def run_excel_validation_pipeline(config_path: str,
                 include_tiers=bool(config.llm.subscription_tiers),
                 failed_persona_indices=failed_persona_indices,
                 open_ended_question_ids=open_ended_question_ids,
-                all_option_orders_by_question=(
-                    all_option_orders_by_question if memory_mode == "full" else None
-                ),
+                all_option_orders_by_question=all_option_orders_by_question,
                 # Gated on the mode, not on emptiness: passing this on a hard_choice run would add
                 # an all-None `<qid>_probs` column to every baseline export and break the anchor
                 # guarantee the downstream scorer rests on (an older run must score identically).

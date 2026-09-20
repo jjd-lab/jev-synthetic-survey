@@ -50,7 +50,7 @@ the only place both appear, so that a number in a report file can be traced back
 | GPT-4.1 probabilities | `BC`, `gpt41_probs_chained` | GPT-4.1 asked to state a probability for each option |
 | GPT-4.1 hard answer | `AC`, `gpt41_hard_chained` | GPT-4.1 asked to pick one option, no probabilities |
 | stateful | `chained` | the model sees its own earlier answers as it works through the questionnaire |
-| stateless | | each question is asked independently |
+| stateless | | the model never sees its own earlier answers; each question is asked on its own |
 | a cell | | one respondent answering one question |
 
 Jev's two elicitation primitives keep their TypeSafe names, `Choice` and `Noul`, because that is

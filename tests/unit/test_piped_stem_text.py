@@ -4,9 +4,8 @@ Twin's pricing block randomizes its price per respondent, so `question_catalog.j
 one arbitrary draw that only 0.757% of respondents saw. The mapping therefore carries
 `{stem_value}` and the price is substituted per persona at run time.
 
-Half of these tests are about the OTHER surveys: the substitution touches
-`_build_persona_survey_inputs`, which every stateless question also goes
-through, so "inert unless the stem carries the token" is the property that has to hold.
+Half of these tests are about the OTHER surveys: the substitution has to be inert unless the
+stem actually carries the token, which is the property `_fill_stem` is pinned on below.
 """
 
 import json
@@ -17,7 +16,6 @@ import pytest
 
 from src.core.survey_runner_excel import (
     STEM_VALUE_TOKEN,
-    _build_persona_survey_inputs,
     _fill_stem,
 )
 from src.data.preprocessors.twin2k import preprocess
@@ -106,33 +104,6 @@ def test_respondent_skips_unfilled_stem_cells():
 
 
 # The batched stateless path — where the substitution actually happens
-
-@pytest.mark.unit
-def test_batch_inputs_carry_a_different_price_per_persona():
-    personas = [
-        _persona("r1", {"QID9_1": "8.45"}),
-        _persona("r2", {"QID9_1": "7.39"}),
-        _persona("r3", {"QID9_1": "0.00"}),
-    ]
-    inputs, _ = _build_persona_survey_inputs(
-        personas, PRICED_STEM, ["Yes", "No"], shuffle=False, question_id="QID9_1"
-    )
-    assert [i["question"] for i in inputs] == [
-        "The product is priced at: $8.45. Would you purchase it?",
-        "The product is priced at: $7.39. Would you purchase it?",
-        "The product is priced at: $0.00. Would you purchase it?",
-    ]
-
-
-@pytest.mark.unit
-def test_batch_inputs_identical_across_personas_without_the_token():
-    """Regression guard at the exact line the substitution was added to."""
-    personas = [_persona("r1"), _persona("r2")]
-    inputs, _ = _build_persona_survey_inputs(
-        personas, PLAIN_STEM, ["A", "B"], shuffle=False
-    )
-    assert {i["question"] for i in inputs} == {PLAIN_STEM}
-
 
 # The shipped mappings
 

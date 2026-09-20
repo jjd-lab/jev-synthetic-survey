@@ -117,13 +117,18 @@ class FullSurveyConfig(BaseModel):
     execution: ExecutionConfig = ExecutionConfig()
 
     # Fields for the stateful path
-    memory_mode: Literal["full", "stateless"] = "stateless"  # Default: stateless
+    # Every arm is a per-persona walk. The batched, question-major path was removed once no arm
+    # used it: `chain_own_answers: false` gives the same elicitation on this path, and only this
+    # path reaches `response_mode`, per-cell option orders and cache pinning. Kept as a field, and
+    # still required to say "full", so an older config fails loudly instead of quietly running a
+    # different experiment.
+    memory_mode: Literal["full"] = "full"
     include_request_id: bool = False  # Prepend a per-call UUID to the prompt (dedup buster). Default
     # False (stateful: sequential per-persona, every prompt already unique, so the UUID only defeats
     # prefix caching). Set True for stateless batch + n_variations, which keeps identical
     # (persona, question) calls from collapsing to one cached completion).
     chain_own_answers: bool = True  # Feed a persona's own answers back into later prompts. Only read
-    # on the stateful path (`memory_mode: full`). True = the chained arms' behaviour. False
+    # True = the chained arms' behaviour. False
     # keeps the prompt constant across a walk, which is how the twin2k `prior_answers` arm gets
     # respondent-major prefix caching while still eliciting exactly like the stateless `baseline` arm.
     batch_grids: bool = True  # Combine a question's `grid_group` siblings into one LLM call. Only

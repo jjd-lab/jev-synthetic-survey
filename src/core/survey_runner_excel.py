@@ -7,7 +7,7 @@ This module supports two modes:
 
 import random
 import uuid
-from typing import Callable, List, Literal, Optional, Any, Dict, Sequence, Tuple
+from typing import List, Literal, Optional, Any, Dict, Sequence, Tuple
 
 ResponseMode = Literal["hard_choice", "choice_plus_confidence", "verbalized_probs", "weighted_draw"]
 
@@ -15,7 +15,6 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableLambda
 from pydantic import BaseModel, Field, create_model
 
-from src.utils.batch_processor import BatchProcessor
 from src.utils.llm_factory import create_llm_instance, apply_langchain_retry, structured_output_method
 from src.utils.progress import (
     ProgressHandler,
@@ -178,49 +177,6 @@ def _fill_stem(question: str, persona: dict, question_id: Optional[str]) -> str:
             f"`stem_values_dir` set?"
         )
     return question.replace(STEM_VALUE_TOKEN, value)
-
-
-def _build_persona_survey_inputs(
-    personas: List[dict],
-    question: str,
-    options: List[str],
-    shuffle: bool = True,
-    anchors=(),
-    question_id: Optional[str] = None,
-) -> tuple:
-    """Build batch inputs and option order maps for survey LLM calls.
-
-    `question_id` is needed only to look up per-respondent piped text; it defaults to None so
-    every existing caller keeps the shared-stem behaviour.
-    """
-    batch_inputs = []
-    option_orders = []
-
-    for persona in personas:
-        # Unseeded on purpose: this stateless path has no per-respondent RNG (unlike
-        # run_stateful_survey). The global module satisfies the helper's .shuffle contract.
-        if shuffle:
-            order = _shuffled_option_order(options, random, anchors)
-        else:
-            order = list(range(len(options)))
-        shuffled_options = [options[idx] for idx in order]
-
-        # Unpack demographics with defaults for missing fields
-        # This allows prompts to reference fields that may not exist in all surveys
-        demographics = persona["demographics"].copy()
-
-        batch_inputs.append({
-            **demographics,
-            # Prior answers only; this path asks each question independently, so nothing
-            # from THIS run is ever added. Empty unless the mapping defines screeners.
-            "conversation_history": render_history(persona),
-            "question": _fill_stem(question, persona, question_id),
-            "options": format_options_numbered(shuffled_options),
-            "request_id": f"{persona['respid']}_multi_{uuid.uuid4().hex[:8]}",
-        })
-        option_orders.append(order)
-
-    return batch_inputs, option_orders
 
 
 def _create_multi_variation_model(
@@ -557,218 +513,6 @@ def _canonical_slot_indices(rendered: List[str], canonical: List[str]) -> List[i
     by_label = {label: idx for idx, label in enumerate(canonical)}
     return [by_label.get(label, -1) for label in rendered]
 
-
-def _run_survey_multi_var(
-    personas: List[dict],
-    question: str,
-    options: List[str],
-    survey_prompt_template: str,
-    response_model_factory: Callable,
-    extract_choice: Callable,
-    error_sentinel,
-    question_label: str,
-    shuffle: bool,
-    anchors=(),
-    model: str = None,
-    temperature: float = 0.9,
-    n_variations: int = 4,
-    subscription_tiers: Optional[List[str]] = None,
-    max_concurrency: Optional[int] = None,
-    max_retries: Optional[int] = None,
-    question_id: Optional[str] = None,
-    error_recorder: Optional[RunErrorRecorder] = None,
-) -> tuple:
-    """Run survey with multiple variations generated in a single LLM call per persona."""
-    ResponseModel = response_model_factory(len(options), n_variations, subscription_tiers)
-
-    llm = create_llm_instance(model=model, temperature=temperature, max_retries=max_retries)
-    # Retries land on BatchProcessor's pool threads, which this function doesn't own, so the
-    # recorder's thread-local (respid, item_id) context can't be set around them: retry counts
-    # here are run-level totals. Failures are still attributed exactly, via record_failure below.
-    structured_llm = apply_langchain_retry(
-        llm.with_structured_output(ResponseModel, method=structured_output_method(model)),
-        max_retries=max_retries,
-        on_retry=error_recorder.retry_hook if error_recorder is not None else None,
-    )
-    prompt = ChatPromptTemplate.from_template(survey_prompt_template)
-    chain = prompt | structured_llm
-
-    print(f"Running {question_label} survey for {len(personas)} personas with {n_variations} variations each...")
-    print("Using multi-variation mode (1 LLM call per persona)")
-    print(f"Question: {question}")
-
-    batch_inputs, option_orders = _build_persona_survey_inputs(
-        personas, question, options, shuffle=shuffle, anchors=anchors,
-        question_id=question_id,
-    )
-
-    processor = BatchProcessor(max_concurrency=max_concurrency, label="calls")
-    responses = processor.process(batch_inputs, chain)
-
-    choices = []
-    explanations = []
-    tier_list = []
-    persona_indices = []
-    variation_ids = []
-
-    for persona_idx, response in enumerate(responses):
-        try:
-            # BatchProcessor returns a failed item as its Exception; re-raising here keeps the
-            # real cause (e.g. a 429) instead of masking it as "Response is None".
-            if isinstance(response, Exception):
-                raise response
-            if response is None or not hasattr(response, 'variations'):
-                raise ValueError("Response is None or missing variations")
-
-            for var_idx, variation in enumerate(response.variations):
-                choice_value = extract_choice(variation, option_orders[persona_idx], options)
-                choices.append(choice_value)
-                explanations.append(f"[Var{var_idx}] {variation.explanation}")
-                tier_list.append(getattr(variation, 'subscription_tier', None))
-                persona_indices.append(persona_idx)
-                variation_ids.append(var_idx)
-
-        except Exception as e:
-            print(f"Warning: Failed to process response for persona {personas[persona_idx]['respid']}: {e}")
-            if error_recorder is not None:
-                error_recorder.record_failure(
-                    personas[persona_idx].get('respid'), question_id, "question", e
-                )
-            for var_idx in range(n_variations):
-                choices.append(error_sentinel)
-                explanations.append(f"Failed: {str(e)}")
-                tier_list.append(None)
-                persona_indices.append(persona_idx)
-                variation_ids.append(var_idx)
-
-    valid_count = len([c for c in choices if c != error_sentinel])
-    print(f"[OK] Collected {valid_count} valid responses")
-    return choices, explanations, tier_list, persona_indices, variation_ids
-
-
-def run_survey_for_question(personas: List[dict],
-                             question_id: str,
-                             question_mapper,
-                             survey_prompt_template: str,
-                             model: str = None,
-                             temperature: float = 0.7,
-                             n_variations: int = 1,
-                             subscription_tiers: Optional[List[str]] = None,
-                             max_concurrency: Optional[int] = None,
-                             max_retries: Optional[int] = None,
-                             preserve_anchors: bool = False,
-                             error_recorder: Optional[RunErrorRecorder] = None) -> tuple:
-    """Run survey for a single question (auto-detect single vs multi choice)
-
-    `error_recorder`, when given, collects per-(respid, question) failures in place — the caller
-    owns it and reads `.records` at run end, so this function's return shape is unchanged.
-    """
-    question_text = question_mapper.get_question_text(question_id)
-    options = question_mapper.get_choice_options_list(question_id)
-    question_type = question_mapper.get_question_type(question_id)
-    shuffle = question_mapper.get_shuffle_options(question_id)
-    # Anchor pinning is opt-in per config; off leaves `anchor_options` inert.
-    anchors = question_mapper.get_anchor_options(question_id) if preserve_anchors else ()
-
-    if question_type == "single":
-        choices, explanations, subscription_tier_list, persona_indices, variation_ids = run_survey_single_choice_multi_var(
-            personas, question_text, options, survey_prompt_template,
-            model, temperature, n_variations, shuffle,
-            anchors=anchors,
-            subscription_tiers=subscription_tiers,
-            max_concurrency=max_concurrency,
-            max_retries=max_retries,
-            question_id=question_id,
-            error_recorder=error_recorder,
-        )
-    elif question_type == "multi":
-        choices, explanations, subscription_tier_list, persona_indices, variation_ids = run_survey_multi_choice_multi_var(
-            personas, question_text, options, survey_prompt_template,
-            model, temperature, n_variations, shuffle,
-            anchors=anchors,
-            subscription_tiers=subscription_tiers,
-            max_concurrency=max_concurrency,
-            max_retries=max_retries,
-            question_id=question_id,
-            error_recorder=error_recorder,
-        )
-    else:
-        raise ValueError(f"Unknown question type: {question_type}")
-
-    return choices, explanations, subscription_tier_list, persona_indices, variation_ids, question_type
-
-
-def run_survey_single_choice_multi_var(personas: List[dict],
-                                         question: str,
-                                         options: List[str],
-                                         survey_prompt_template: str,
-                                         model: str = None,
-                                         temperature: float = 0.9,
-                                         n_variations: int = 4,
-                                         shuffle: bool = False,
-                                         anchors=(),
-                                         subscription_tiers: Optional[List[str]] = None,
-                                         max_concurrency: Optional[int] = None,
-                                         max_retries: Optional[int] = None,
-                                         question_id: Optional[str] = None,
-                                         error_recorder: Optional[RunErrorRecorder] = None) -> tuple:
-    """Run single-choice survey with multiple variations generated in single LLM call"""
-    scale_note = " (no shuffle)" if not shuffle else ""
-    question_label = f"single-choice{scale_note}"
-    return _run_survey_multi_var(
-        personas, question, options, survey_prompt_template,
-        create_multi_variation_single_choice_model,
-        _extract_single_choice,
-        "Error",
-        question_label,
-        shuffle=shuffle,
-        anchors=anchors,
-        model=model,
-        temperature=temperature,
-        n_variations=n_variations,
-        subscription_tiers=subscription_tiers,
-        max_concurrency=max_concurrency,
-        max_retries=max_retries,
-        question_id=question_id,
-        error_recorder=error_recorder,
-    )
-
-
-def run_survey_multi_choice_multi_var(personas: List[dict],
-                                        question: str,
-                                        options: List[str],
-                                        survey_prompt_template: str,
-                                        model: str = None,
-                                        temperature: float = 0.9,
-                                        n_variations: int = 4,
-                                        shuffle: bool = False,
-                                        anchors=(),
-                                        subscription_tiers: Optional[List[str]] = None,
-                                        max_concurrency: Optional[int] = None,
-                                        max_retries: Optional[int] = None,
-                                        question_id: Optional[str] = None,
-                                        error_recorder: Optional[RunErrorRecorder] = None) -> tuple:
-    """Run multi-choice survey with multiple variations generated in single LLM call"""
-    return _run_survey_multi_var(
-        personas, question, options, survey_prompt_template,
-        create_multi_variation_multi_choice_model,
-        _extract_multi_choice,
-        ["Error"],
-        "multi-choice",
-        shuffle=shuffle,
-        anchors=anchors,
-        model=model,
-        temperature=temperature,
-        n_variations=n_variations,
-        subscription_tiers=subscription_tiers,
-        max_concurrency=max_concurrency,
-        max_retries=max_retries,
-        question_id=question_id,
-        error_recorder=error_recorder,
-    )
-
-
-# Stateful Survey Runner (routing + conversation history)
 
 def _pin_cache_to_respid(llm, respid: Any):
     """Return a copy of `llm` that sends `prompt_cache_key` = respid, sharing its connection pool.

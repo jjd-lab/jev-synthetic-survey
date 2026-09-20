@@ -60,9 +60,11 @@ Not run, and deliberately so.
 4. **A multi-option-only re-test**, since that is the half Jev won. The `Score` primitive is the
    obvious instrument, but TypeSafe states that thresholds do not transfer between primitive types,
    so its numbers could not be compared to these.
-5. **Probability elicitation in the stateless path**, wanted independently of this result and now
-   with a measured warning attached: asking for probabilities cost 4.4 accuracy points on the
-   stateful path, so a stateless rollout should re-measure that rather than assume it. See
+5. **Probability elicitation on an unchained arm**, wanted independently of this result and now
+   reachable: every arm runs the per-persona walk, so setting `chain_own_answers: false` gives an
+   arm that never sees its own earlier answers and can still be asked for a vector. Worth doing
+   with a measured warning attached: asking for probabilities cost 4.4 accuracy points on a
+   chained arm, and that should be re-measured here rather than assumed. See
    [elicitation effects](../survey/04-elicitation-effects.md).
 6. **A walk that commits sampled draws into the history** rather than the model's own stated
    answer. Untestable offline, and the natural follow-up if soft aggregation proves
