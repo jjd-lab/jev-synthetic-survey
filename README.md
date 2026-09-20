@@ -235,7 +235,7 @@ floating-point rounding.
 per respondent and question cell, carrying the probability vector, the committed answer, the human's
 answer, the option order as presented, and the model version. Each arm is 24,596 cells and the five
 come to 70 MB, small enough to ship here rather than from a dataset host. The scorer also reads
-`.jsonl.gz`, which is how the panel file under `prior_answers_stateless/` is stored.
+`.jsonl.gz`, which is how the 2,058-respondent arms are stored, those being 68 to 115 MB raw.
 [`runs/README.md`](runs/README.md) maps every file to the claim it supports.
 
 The price diagnostic also needs the dataset itself, for the per-respondent piped prices.

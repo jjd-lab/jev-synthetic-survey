@@ -34,9 +34,10 @@ that the walk finished. The `arm` field inside each record keeps its original ru
 
 These five ship uncompressed, at about 15 MB each. Git zlib-compresses blobs anyway, so an
 already-gzipped file costs it slightly more to store than the plain text, and a `.jsonl` can be
-grepped and read on the web without a decompression step. The 2,058-respondent panel file under
-`prior_answers_stateless/` stays gzipped, where the trade runs the other way: 71 MB raw against
-2.4 MB.
+grepped and read on the web without a decompression step. The rule flips for the
+2,058-respondent arms, which are 68 to 115 MB raw: those stay gzipped, in
+`prior_answers_stateless/` and `jev_vs_gpt41_n2058/`. GitHub refuses a push carrying any file
+over 100 MB, so for the largest of them compression is not a preference.
 
 **The hard-answer arm is not its own run.** `gpt41_hard.jsonl` is the first 300 respondents of
 the `demographics_stateful` panel run below, extracted: all 24,596 cells carry identical answers,
@@ -89,6 +90,44 @@ spend cap.
 `content_filter_errors/` holds the cells Azure's content filter refused, from two superseded runs.
 They are kept because the filter deletes specific respondents deterministically rather than at
 random, which is a limitation of the panel arms rather than an incident.
+
+## `jev_vs_gpt41_n2058/`: the same two models over the whole panel
+
+The n=300 comparison above, rerun across every respondent. Two arms, all 2,058 people, **168,768
+answer cells each**, which is the same per-respondent count as the n=300 arms: 108 questions minus
+the ones no given respondent was asked, since 48 of the 108 columns are between-subject.
+
+| File | Arm | What was asked |
+|---|---|---|
+| `jev_noul.jsonl.gz` | Jev Noul | one probability of "yes", options not offered |
+| `gpt41_hard.jsonl.gz` | GPT-4.1 hard answer | pick one option, no probabilities (extracted, not its own run) |
+
+The Jev arm ran as `jev_noul_chained` on `jev-1.13.0` against the `demographics_stateful` persona
+cache, and finished clean: 2,058 `done: true` markers, one per respondent, and zero error records.
+
+**The hard-answer arm is again an extraction, not a run.** It is the `demographics_stateful` panel
+run read back per cell, so it carries that arm's settings including batched grids. Its `probs`
+field is `null` on every record, so it supports accuracy comparisons and nothing distributional.
+The n=300 `gpt41_hard.jsonl` is a strict subset of it: all 24,596 of those cells appear here with
+identical committed answers, checked cell by cell.
+
+Both ship gzipped, against the plain `.jsonl` of the n=300 arms. Raw they are 115 MB and 68 MB,
+and the first is past the 100 MB file limit GitHub refuses a push over, so the trade runs the same
+way as for `prior_answers_stateless/`. `prob_scoring.py` reads `.jsonl` and `.jsonl.gz` without
+being told which.
+
+[`reports/score_nc_vs_ac_n2058.json`](../reports/score_nc_vs_ac_n2058.json) scores the pair. Its
+main use is as a check on the n=300 slice, and the slice holds up: Jev Noul moves from 0.1530 to
+0.1523 on the distribution gap, 0.1472 to 0.1418 on calibration, and 67.28% to 67.64% on accuracy
+across a 6.9-fold increase in respondents, despite those 300 being demographically unrepresentative
+of the panel.
+
+It is **not** a model comparison, for the same reason the n=300 hard arm is not one: with `probs`
+null on every cell, GPT-4.1's soft scores are computed against a one-hot spike, which measures
+whether it has a distribution and not how good one is. The ordinal gap is where that bites, and it
+is why 0.6507 against Jev's 0.6766 should not be read as GPT-4.1 winning the ordinal half. The
+verdict continues to rest on the n=300 comparison, where both models answered under the same
+elicitation and both produced a real vector.
 
 ## Reading a run back
 
