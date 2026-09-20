@@ -75,9 +75,9 @@ figure was loose.
 
 ```bash
 python scripts/twin2k/prob_scoring.py score \
-    --arm jev_described=runs/jev_vs_gpt41_n300/jev_choice_described.jsonl.gz \
-    --arm jev=runs/jev_vs_gpt41_n300/jev_choice.jsonl.gz \
-    --arm bc=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl.gz \
+    --arm jev_described=runs/jev_vs_gpt41_n300/jev_choice_described.jsonl \
+    --arm jev=runs/jev_vs_gpt41_n300/jev_choice.jsonl \
+    --arm bc=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl \
     --bootstrap 1000 --seed 20260919 --ece-bins 10 \
     --out /tmp/check.json
 ```
@@ -211,4 +211,4 @@ reports the exact figure before anything is sent.
 ## Reproduce
 
 See the Reproduce block under Result, above. The arm ships as
-`runs/jev_vs_gpt41_n300/jev_choice_described.jsonl.gz`.
+`runs/jev_vs_gpt41_n300/jev_choice_described.jsonl`.

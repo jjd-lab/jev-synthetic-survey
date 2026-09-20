@@ -217,9 +217,9 @@ makes "no better" a different proposition than it would be at parity.
 
 ```bash
 python scripts/twin2k/prob_scoring.py score \
-    --arm jev_chained=runs/jev_vs_gpt41_n300/jev_choice.jsonl.gz \
-    --arm gpt41_probs_chained=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl.gz \
-    --arm gpt41_hard_chained=runs/jev_vs_gpt41_n300/gpt41_hard.jsonl.gz \
+    --arm jev_chained=runs/jev_vs_gpt41_n300/jev_choice.jsonl \
+    --arm gpt41_probs_chained=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl \
+    --arm gpt41_hard_chained=runs/jev_vs_gpt41_n300/gpt41_hard.jsonl \
     --bootstrap 1000 --seed 20260919 --ece-bins 10 --out /tmp/check.json
 ```
 

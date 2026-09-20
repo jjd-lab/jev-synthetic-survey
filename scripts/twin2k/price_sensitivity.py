@@ -14,9 +14,9 @@ the ranking is sound and only the operating point is wrong.
 Usage, from the repo root:
 
     python scripts/twin2k/price_sensitivity.py \\
-        --arm jev_choice=runs/jev_vs_gpt41_n300/jev_choice.jsonl.gz \\
-        --arm jev_noul=runs/jev_vs_gpt41_n300/jev_noul.jsonl.gz \\
-        --arm gpt41_probs=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl.gz
+        --arm jev_choice=runs/jev_vs_gpt41_n300/jev_choice.jsonl \\
+        --arm jev_noul=runs/jev_vs_gpt41_n300/jev_noul.jsonl \\
+        --arm gpt41_probs=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl
 
 Also needs the parquet chunks under `data/twin2k500/wave_split` for the per-respondent prices --
 run `fetch_twin2k.py` first.

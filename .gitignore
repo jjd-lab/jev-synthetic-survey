@@ -59,6 +59,6 @@ private/
 !.claude/skills/
 # macOS Finder metadata
 .DS_Store
-# Loose copies of the gzipped run files; the .gz are what ship.
-runs/**/*.jsonl
-!runs/gpt41_panel_n2058/content_filter_errors/*.jsonl
+# The n=300 arms ship uncompressed: git zlib-compresses blobs anyway, so an already-gzipped
+# file costs it MORE to store, and a plain .jsonl is greppable and readable on the web.
+# The 2,058-respondent panel file stays gzipped: 71 MB raw against 2.4 MB is not worth it.

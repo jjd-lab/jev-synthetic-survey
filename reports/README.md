@@ -13,16 +13,16 @@ tables below map each file to the run it came from.
 
 | File | Arms | Scored from |
 |---|---|---|
-| `score_with_noul.json` | Jev Noul, Jev Choice, GPT-4.1 probabilities | `runs/jev_vs_gpt41_n300/{jev_noul,jev_choice,gpt41_probs}.jsonl.gz` |
-| `score_all_arms.json` | Jev Choice, GPT-4.1 probabilities, GPT-4.1 hard answer | `runs/jev_vs_gpt41_n300/{jev_choice,gpt41_probs,gpt41_hard}.jsonl.gz` |
-| `score_jc_vs_ac.json` | Jev Choice, GPT-4.1 hard answer | `runs/jev_vs_gpt41_n300/{jev_choice,gpt41_hard}.jsonl.gz` |
-| `score_with_described.json` | Jev Choice described, Jev Choice, GPT-4.1 probabilities | `runs/jev_vs_gpt41_n300/{jev_choice_described,jev_choice,gpt41_probs}.jsonl.gz` |
+| `score_with_noul.json` | Jev Noul, Jev Choice, GPT-4.1 probabilities | `runs/jev_vs_gpt41_n300/{jev_noul,jev_choice,gpt41_probs}.jsonl` |
+| `score_all_arms.json` | Jev Choice, GPT-4.1 probabilities, GPT-4.1 hard answer | `runs/jev_vs_gpt41_n300/{jev_choice,gpt41_probs,gpt41_hard}.jsonl` |
+| `score_jc_vs_ac.json` | Jev Choice, GPT-4.1 hard answer | `runs/jev_vs_gpt41_n300/{jev_choice,gpt41_hard}.jsonl` |
+| `score_with_described.json` | Jev Choice described, Jev Choice, GPT-4.1 probabilities | `runs/jev_vs_gpt41_n300/{jev_choice_described,jev_choice,gpt41_probs}.jsonl` |
 
 ```bash
 python scripts/twin2k/prob_scoring.py score \
-    --arm jev_noul=runs/jev_vs_gpt41_n300/jev_noul.jsonl.gz \
-    --arm jev=runs/jev_vs_gpt41_n300/jev_choice.jsonl.gz \
-    --arm bc=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl.gz \
+    --arm jev_noul=runs/jev_vs_gpt41_n300/jev_noul.jsonl \
+    --arm jev=runs/jev_vs_gpt41_n300/jev_choice.jsonl \
+    --arm bc=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl \
     --bootstrap 1000 --seed 20260919 --ece-bins 10 --out /tmp/check.json
 ```
 

@@ -39,8 +39,8 @@ Usage:
         --arm gpt41_probs_chained --out /tmp/gpt41_probs.jsonl --sample 300
 
     python scripts/twin2k/prob_scoring.py score \\
-        --arm jev_chained=runs/jev_vs_gpt41_n300/jev_choice.jsonl.gz \\
-        --arm gpt41_probs_chained=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl.gz \\
+        --arm jev_chained=runs/jev_vs_gpt41_n300/jev_choice.jsonl \\
+        --arm gpt41_probs_chained=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl \\
         --out /tmp/report.json
 """
 
@@ -85,7 +85,8 @@ LOGLOSS_CLIP = 1e-3
 def open_jsonl(path) -> "object":
     """Open a run file, transparently handling gzip.
 
-    Accepts `.jsonl` as written by a live run, or `.jsonl.gz` as shipped in `runs/`.
+    The n=300 arms ship as plain `.jsonl`; the 2,058-respondent panel file stays gzipped, since
+    it is 71 MB raw. Both read the same way.
     """
     path = Path(path)
     if path.suffix == ".gz":

@@ -80,7 +80,7 @@ class PersonaConfig(BaseModel):
 
 class LLMConfig(BaseModel):
     """LLM settings"""
-    model: str = "azure/gpt-4.1"
+    model: str = "gpt-4.1"
     temperature: float = 0.7
     persona_temperature: Optional[float] = None
     survey_temperature: Optional[float] = None

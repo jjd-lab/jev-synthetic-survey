@@ -38,7 +38,7 @@ reading its numbers. The check that vectors sum to 1 is vacuous on its two-optio
 do so by construction rather than by the model's doing, and this is the one arm whose committed
 answer cannot disagree with its own vector.
 
-Runs: `runs/jev_vs_gpt41_n300/jev_noul.jsonl.gz`.
+Runs: `runs/jev_vs_gpt41_n300/jev_noul.jsonl`.
 
 ## Metrics
 
@@ -164,9 +164,9 @@ long way. Expect the others to matter too.
 
 ```bash
 python scripts/twin2k/prob_scoring.py score \
-    --arm jev_noul=runs/jev_vs_gpt41_n300/jev_noul.jsonl.gz \
-    --arm jev=runs/jev_vs_gpt41_n300/jev_choice.jsonl.gz \
-    --arm bc=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl.gz \
+    --arm jev_noul=runs/jev_vs_gpt41_n300/jev_noul.jsonl \
+    --arm jev=runs/jev_vs_gpt41_n300/jev_choice.jsonl \
+    --arm bc=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl \
     --bootstrap 1000 --seed 20260919 --ece-bins 10 --out /tmp/check.json
 ```
 

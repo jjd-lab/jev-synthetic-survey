@@ -132,9 +132,9 @@ downloaded and no account.
 pip install -r requirements.txt
 
 python scripts/twin2k/prob_scoring.py score \
-    --arm jev_noul=runs/jev_vs_gpt41_n300/jev_noul.jsonl.gz \
-    --arm jev=runs/jev_vs_gpt41_n300/jev_choice.jsonl.gz \
-    --arm bc=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl.gz \
+    --arm jev_noul=runs/jev_vs_gpt41_n300/jev_noul.jsonl \
+    --arm jev=runs/jev_vs_gpt41_n300/jev_choice.jsonl \
+    --arm bc=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl \
     --bootstrap 1000 --seed 20260919 --ece-bins 10 \
     --out /tmp/check.json
 ```
@@ -157,9 +157,9 @@ The price diagnostic also needs the dataset itself, for the per-respondent piped
 ```bash
 python scripts/twin2k/fetch_twin2k.py            # Twin-2K-500, CC BY 4.0
 python scripts/twin2k/price_sensitivity.py \
-    --arm jev_choice=runs/jev_vs_gpt41_n300/jev_choice.jsonl.gz \
-    --arm jev_noul=runs/jev_vs_gpt41_n300/jev_noul.jsonl.gz \
-    --arm gpt41_probs=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl.gz
+    --arm jev_choice=runs/jev_vs_gpt41_n300/jev_choice.jsonl \
+    --arm jev_noul=runs/jev_vs_gpt41_n300/jev_noul.jsonl \
+    --arm gpt41_probs=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl
 ```
 
 ## Credentials
@@ -178,6 +178,13 @@ cp .env.example .env
 [`.env.example`](.env.example) documents the optional settings. A full 300-respondent Jev arm cost
 $4.01; the `gpt-4.1` comparator arm is inferred at roughly $136.
 
+The configs ship a plain `gpt-4.1`, so `.env.example` as written runs against stock OpenAI. Every
+number in this repo was collected as `azure/gpt-4.1` through a provider; the model id is the only
+thing that differs, and it changes no routing, since `structured_output_method` branches only on a
+`bedrock/` prefix. On a personal key, lower `max_concurrency` in the YAML from 50 to 8-16 — it
+holds that many whole persona-walks open at once, and a personal account's rate limit is far below
+a provider's.
+
 ## Run a new arm
 
 ```bash
@@ -185,6 +192,20 @@ python scripts/twin2k/probe_jev.py --arm my_run --chain --primitive noul --sampl
 python main.py --config configs/twin2k/gpt41_probs.yaml \
     --checkpoint-dir outputs/twin2k/checkpoints --resume
 ```
+
+To collect only the respondents an earlier run did not reach, both runners take the panel from the
+top and skip what is already done. The Jev probe resumes from its own output, per persona, keyed on
+`--arm` + `--repeat-tag` + `--order-salt` + whether `--describe-criteria` was set:
+
+```bash
+python scripts/twin2k/probe_jev.py --arm jev_noul_chained --chain --primitive noul \
+    --sample 2058 --out <the arm's existing .jsonl>   # prints "300 already complete, 1758 to run"
+```
+
+`main.py` has no such marker, so it takes the window explicitly — `--sample 2058 --skip 300` is
+respondents 301-2058. Option order is seeded per respid
+([`survey_runner_excel.py`](src/core/survey_runner_excel.py)), so those cells are identical to the
+same rows of a full run.
 
 The Jev probe refuses to load a config outside `configs/twin2k/`, and refuses any endpoint that is
 not TypeSafe. Twin-2K-500 is the only data cleared to be sent there, and the code and the tests

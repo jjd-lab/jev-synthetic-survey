@@ -263,6 +263,7 @@ class PipelineDisplay:
 
 def run_excel_validation_pipeline(config_path: str,
                                    sample_size: int = None,
+                                   skip_respondents: int = 0,
                                    question_ids: list = None,
                                    use_cached_personas: bool = True,
                                    checkpoint_dir: str = None,
@@ -316,7 +317,8 @@ def run_excel_validation_pipeline(config_path: str,
         effective_sample = sample_size if sample_size is not None else config.survey.data_source.max_rows
         respondents = loader.load_respondents(
             sheet_name=config.survey.data_source.sheet_name,
-            max_rows=effective_sample
+            max_rows=effective_sample,
+            skip_rows=skip_respondents,
         )
 
         print(f"[OK] Loaded {len(respondents)} respondents")
@@ -701,6 +703,12 @@ Examples:
 
     parser.add_argument("--config", required=True, help="Path to config YAML file")
     parser.add_argument("--sample", type=int, help="Limit to first N respondents (for testing)")
+    parser.add_argument("--skip", type=int, default=0, metavar="N",
+                        help="Skip the first N respondents of the --sample window, so "
+                             "--sample 2058 --skip 300 is respondents 301-2058. For "
+                             "collecting only the respondents an earlier run did not reach; "
+                             "option order is seeded per respid, so the skipped run's cells "
+                             "are identical to the same rows in a full run.")
     parser.add_argument("--questions", help="Comma-separated list of question IDs to validate (e.g., MU1,MU2)")
     parser.add_argument("--no-cache", action="store_true", help="Skip persona cache and always regenerate personas")
     parser.add_argument("--checkpoint-dir", help="Enable resumable runs; base dir for checkpoints. Stateful mode checkpoints per batch of personas (batch size = llm.max_concurrency); stateless mode checkpoints per question and resumes per (question, respid) cell.")
@@ -714,6 +722,14 @@ Examples:
     if not args.checkpoint_dir and (args.resume or args.run_id):
         parser.error("--resume and --run-id require --checkpoint-dir")
 
+    # --skip is an offset into the --sample window. Without --sample that window is the
+    # config's max_rows, which every shipped config sets to 50 as a smoke run -- so
+    # `--skip 300` alone would silently select no respondents at all.
+    if args.skip and args.sample is None:
+        parser.error("--skip requires --sample (it offsets into the --sample window)")
+    if args.skip and args.sample is not None and args.skip >= args.sample:
+        parser.error(f"--skip {args.skip} selects nothing from --sample {args.sample}")
+
     # Default run-id to the config filename stem (deterministic, so --resume finds the same dir).
     run_id = args.run_id or os.path.splitext(os.path.basename(args.config))[0]
 
@@ -724,6 +740,7 @@ Examples:
     results = run_excel_validation_pipeline(
         config_path=args.config,
         sample_size=args.sample,
+        skip_respondents=args.skip,
         question_ids=question_ids,
         use_cached_personas=not args.no_cache,
         checkpoint_dir=args.checkpoint_dir,

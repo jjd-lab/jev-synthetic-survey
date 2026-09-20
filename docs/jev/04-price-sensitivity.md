@@ -72,9 +72,9 @@ to mean anything.
 ```bash
 python scripts/twin2k/fetch_twin2k.py            # Twin-2K-500, CC BY 4.0
 python scripts/twin2k/price_sensitivity.py \
-    --arm jev_choice=runs/jev_vs_gpt41_n300/jev_choice.jsonl.gz \
-    --arm jev_noul=runs/jev_vs_gpt41_n300/jev_noul.jsonl.gz \
-    --arm gpt41_probs=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl.gz
+    --arm jev_choice=runs/jev_vs_gpt41_n300/jev_choice.jsonl \
+    --arm jev_noul=runs/jev_vs_gpt41_n300/jev_noul.jsonl \
+    --arm gpt41_probs=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl
 ```
 
 Reproduces the table above. The `--arm` labels are free text and become the column headings.

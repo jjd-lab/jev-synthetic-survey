@@ -34,12 +34,16 @@ class ExcelSurveyLoader:
         self.preprocess = preprocess
         self.df = None
 
-    def load_data(self, sheet_name: Optional[str] = None, max_rows: Optional[int] = None) -> pd.DataFrame:
+    def load_data(self, sheet_name: Optional[str] = None, max_rows: Optional[int] = None,
+                  skip_rows: int = 0) -> pd.DataFrame:
         """Load Excel or CSV file into DataFrame
 
         Args:
             sheet_name: Sheet name to load (default: first sheet) - ignored for CSV files
             max_rows: Maximum number of rows to load (default: all rows)
+            skip_rows: Drop this many rows from the FRONT of the ``max_rows`` slice, so
+                ``max_rows=2058, skip_rows=300`` is rows 301-2058. Lets a run collect
+                only the respondents a previous one did not reach.
 
         Returns:
             pandas DataFrame
@@ -74,6 +78,14 @@ class ExcelSurveyLoader:
             self.df = self.df.head(max_rows)
             print(f"Limited to first {max_rows} rows")
 
+        if skip_rows:
+            # After `head`, so the pair names an absolute window of the file rather than
+            # a count that shifts with the offset. Row identity is positional here; every
+            # downstream join is on respid, so a skipped run sees exactly the rows a full
+            # one would have seen in those positions.
+            self.df = self.df.iloc[skip_rows:]
+            print(f"Skipped the first {skip_rows} rows, {len(self.df)} remaining")
+
         print(f"Loaded {len(self.df)} rows, {len(self.df.columns)} columns")
         return self.df
 
@@ -102,17 +114,19 @@ class ExcelSurveyLoader:
         print(f"Successfully parsed {len(respondents)} respondents ({errors} errors)")
         return respondents
 
-    def load_respondents(self, sheet_name: Optional[str] = None, max_rows: Optional[int] = None) -> List[Respondent]:
+    def load_respondents(self, sheet_name: Optional[str] = None, max_rows: Optional[int] = None,
+                         skip_rows: int = 0) -> List[Respondent]:
         """Convenience method: Load Excel and return Respondent objects
 
         Args:
             sheet_name: Sheet name to load (default: first sheet)
             max_rows: Maximum number of rows to load (default: all rows)
+            skip_rows: Rows to drop from the front of the ``max_rows`` slice.
 
         Returns:
             List of Respondent objects
         """
-        self.load_data(sheet_name=sheet_name, max_rows=max_rows)
+        self.load_data(sheet_name=sheet_name, max_rows=max_rows, skip_rows=skip_rows)
         self._apply_preprocess()
         return self.get_respondents()
 

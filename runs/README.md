@@ -15,11 +15,11 @@ Five arms, 300 respondents, the same 108 questions, every model seeing its own e
 
 | File | Arm | What was asked |
 |---|---|---|
-| `jev_choice.jsonl.gz` | Jev Choice | pick among the listed options |
-| `jev_choice_described.jsonl.gz` | Jev Choice described | the same, with a derived description per option on the 40 pricing columns (built after seeing the Choice result) |
-| `jev_noul.jsonl.gz` | Jev Noul | one probability of "yes", options not offered (built after seeing the Choice result) |
-| `gpt41_probs.jsonl.gz` | GPT-4.1 probabilities | state a probability per option |
-| `gpt41_hard.jsonl.gz` | GPT-4.1 hard answer | pick one option (not a separate run, see below) |
+| `jev_choice.jsonl` | Jev Choice | pick among the listed options |
+| `jev_choice_described.jsonl` | Jev Choice described | the same, with a derived description per option on the 40 pricing columns (built after seeing the Choice result) |
+| `jev_noul.jsonl` | Jev Noul | one probability of "yes", options not offered (built after seeing the Choice result) |
+| `gpt41_probs.jsonl` | GPT-4.1 probabilities | state a probability per option |
+| `gpt41_hard.jsonl` | GPT-4.1 hard answer | pick one option (not a separate run, see below) |
 | `respondents_300.txt` | | the respondent ids, in the order the runner walked them |
 
 All five arms hold 24,596 answer cells: 300 respondents against the same 108 questions, minus the
@@ -32,7 +32,13 @@ that the walk finished. The `arm` field inside each record keeps its original ru
 
 `gpt41_probs_source/` holds the workbooks the GPT-4.1 probabilities arm was converted from.
 
-**The hard-answer arm is not its own run.** `gpt41_hard.jsonl.gz` is the first 300 respondents of
+These five ship uncompressed, at about 15 MB each. Git zlib-compresses blobs anyway, so an
+already-gzipped file costs it slightly more to store than the plain text, and a `.jsonl` can be
+grepped and read on the web without a decompression step. The 2,058-respondent panel file under
+`prior_answers_stateless/` stays gzipped, where the trade runs the other way: 71 MB raw against
+2.4 MB.
+
+**The hard-answer arm is not its own run.** `gpt41_hard.jsonl` is the first 300 respondents of
 the `demographics_stateful` panel run below, extracted: all 24,596 cells carry identical answers,
 checked cell by cell. So it shares that arm's settings, including batched grids, which is one of
 the two ways it differs from the probabilities arm. Only four runs ever touched these 300
@@ -88,8 +94,8 @@ random, which is a limitation of the panel arms rather than an incident.
 
 ```bash
 python scripts/twin2k/prob_scoring.py score \
-    --arm jev=runs/jev_vs_gpt41_n300/jev_choice.jsonl.gz \
-    --arm bc=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl.gz \
+    --arm jev=runs/jev_vs_gpt41_n300/jev_choice.jsonl \
+    --arm bc=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl \
     --bootstrap 1000 --seed 20260919 --ece-bins 10 --out /tmp/check.json
 ```
 

@@ -23,8 +23,8 @@ respondent ids and cell keys rather than on counts.
 
 | Arm | What was asked | Grids | Run file |
 |---|---|---|---|
-| **GPT-4.1 hard answer** | pick one option, no probabilities | batched | [`runs/jev_vs_gpt41_n300/gpt41_hard.jsonl.gz`](../../runs/jev_vs_gpt41_n300/gpt41_hard.jsonl.gz) |
-| **GPT-4.1 probabilities** | state a probability per option, then name a choice | unbatched, one call per cell | [`runs/jev_vs_gpt41_n300/gpt41_probs.jsonl.gz`](../../runs/jev_vs_gpt41_n300/gpt41_probs.jsonl.gz) |
+| **GPT-4.1 hard answer** | pick one option, no probabilities | batched | [`runs/jev_vs_gpt41_n300/gpt41_hard.jsonl`](../../runs/jev_vs_gpt41_n300/gpt41_hard.jsonl) |
+| **GPT-4.1 probabilities** | state a probability per option, then name a choice | unbatched, one call per cell | [`runs/jev_vs_gpt41_n300/gpt41_probs.jsonl`](../../runs/jev_vs_gpt41_n300/gpt41_probs.jsonl) |
 
 The probabilities arm was run from
 [`configs/twin2k/gpt41_probs.yaml`](../../configs/twin2k/gpt41_probs.yaml);
@@ -105,9 +105,9 @@ reporting, and an accuracy figure carried across that boundary is not comparable
 
 ```bash
 python scripts/twin2k/prob_scoring.py score \
-    --arm jev_chained=runs/jev_vs_gpt41_n300/jev_choice.jsonl.gz \
-    --arm gpt41_probs_chained=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl.gz \
-    --arm gpt41_hard_chained=runs/jev_vs_gpt41_n300/gpt41_hard.jsonl.gz \
+    --arm jev_chained=runs/jev_vs_gpt41_n300/jev_choice.jsonl \
+    --arm gpt41_probs_chained=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl \
+    --arm gpt41_hard_chained=runs/jev_vs_gpt41_n300/gpt41_hard.jsonl \
     --bootstrap 1000 --seed 20260919 --ece-bins 10 --out /tmp/check.json
 ```
 

@@ -137,7 +137,7 @@ class TestWalkFidelity:
                 twin.mapper,
                 twin.router,
                 twin.config.survey_prompt,
-                model="azure/gpt-4.1",
+                model="gpt-4.1",
                 max_retries=0,
                 # Exactly the BC arm's settings: one call per cell, chaining on, no anchors.
                 batch_grids=False,

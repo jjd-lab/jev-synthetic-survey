@@ -423,7 +423,11 @@ survey_prompt: |
   </current_question>
 
 llm:
-  model: "azure/gpt-4.1"
+  # Plain OpenAI model id, for a stock https://api.openai.com/v1 key. Every result shipped
+  # in runs/ and reports/ was collected as `azure/gpt-4.1` through a provider instead; the
+  # docs keep that name because it is what those numbers came from. Routing is unchanged
+  # either way -- `structured_output_method` only branches on a `bedrock/` prefix.
+  model: "gpt-4.1"
   persona_temperature: 0.3
   survey_temperature: 0.7
   n_variations: 1
