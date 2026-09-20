@@ -42,8 +42,6 @@ BASELINE = Path("configs/twin2k/demographics_stateless.yaml")
 
 DEMOGRAPHIC_MAPPING = 'demographic_mapping: "configs/twin2k/twin2k_demographic_mapping.json"'
 PERSONA_MAPPING = 'demographic_mapping: "configs/twin2k/twin2k_demographic_mapping_persona.json"'
-NO_CHAINING = 'memory_mode: "stateless"'
-CHAINING = 'memory_mode: "full"'
 BASELINE_OUTPUT = 'output_dir: "outputs/twin2k/demographics_stateless"'
 
 # Always FIND one whole line, never a multi-line block: this file is LF today and CRLF after a
@@ -53,112 +51,80 @@ BASELINE_OUTPUT = 'output_dir: "outputs/twin2k/demographics_stateless"'
 #
 # The baseline's two concurrency-comment lines and its cap are named because BOTH variants rewrite
 # them, so one baseline edit does not have to be chased through two tables.
-CAP_COMMENT_1 = "  # The only concurrency knob: .batch() caps in-flight calls with a rolling pool, so this is the"
-CAP_COMMENT_2 = "  # number of (persona, question) calls in flight at once for this question."
-CAP_VALUE = "max_concurrency: 100"
+CAP_COMMENT_1 = "  # The only concurrency knob. A slot holds a whole persona-walk (~82 sequential calls), not a"
+CAP_COMMENT_2 = "  # single call, so this is 50 concurrent walks. 50 is this pipeline's proven-stable value;"
+CAP_VALUE = "max_concurrency: 50"
 
-# The cap means different things either side of memory_mode, so chaining the model forces it down
-# with the same edit -- carrying it here is what keeps the two from drifting apart by hand.
-CHAINED_CAP = [
-    (CAP_COMMENT_1,
-     "  # Stateful slots hold a whole persona-walk, so this is 50 concurrent walks, not 50 calls."),
-    (CAP_COMMENT_2,
-     "  # 50 is this pipeline's proven-stable value; c=100 stalled the provider on that same path."),
-    (CAP_VALUE, "max_concurrency: 50"),
-]
+# Every arm is a respondent-major walk now; the baseline is the one that does not chain. So a
+# variant says only what it changes about the walk, and the two flags the baseline sets to false
+# are the tokens the chaining arms flip.
+NO_CHAIN = "chain_own_answers: false"
+NO_BATCH = "batch_grids: false"
 
-# `prior_answers` runs on the STATEFUL path, for the cache rather than for chaining, and then
-# cancels everything else `memory_mode: full` would change so the arm still differs from `baseline`
-# in exactly one respect: the prior answers. Four settings carry that, and every one of them lived
-# as a hand-edit to the generated file until now -- which is the failure this script exists to
-# prevent, and which would have reverted the arm to stateless on the next regeneration.
+# `prior_answers_stateless` differs from the baseline in ONE respect: what the persona contains.
+# It inherits the baseline's no-chaining, per-member-grid walk unchanged, and adds cache pinning
+# because its ~20,275-token persona block is what makes a warm prefix worth routing for.
 PRIOR_ANSWERS_STATEFUL = [
-    (CAP_COMMENT_1,
-     [
-         "  # The only concurrency knob: .batch() caps in-flight units with a rolling pool. This arm is",
-         "  # respondent-major, so a slot is a whole persona-walk (~82 sequential calls), NOT a single call.",
-         "  # It USED TO double as a cost knob: the prompt-cache hit rate fell as walks in flight rose --",
-         "  # 92.5% at c=1, 89.3% at c=2, 54.6% at c=32, 50.5% at c=50 -- and a miss bills 4x. The cause was",
-         "  # provider routing, not prefix eviction (32 concurrent calls on ONE shared prefix, with nothing to",
-         "  # evict, still hit only 53%), measured with a probe not kept here. `prompt_cache_key_by_respid`",
-     ]),
-    (CAP_COMMENT_2,
-     [
-         "  # below fixes it at the source, so c=32 now holds 92.3% -- the c=1 rate. Raise this for speed",
-         "  # alone; do NOT lower it for cost without re-measuring, because that curve no longer exists.",
-         "  # It is also the checkpoint cohort size, so it bounds what a mid-cohort spend cap can waste.",
-     ]),
-    (CAP_VALUE, "max_concurrency: 32"),
-    ("# Batched path: one LLM call per (persona, question), no answer chaining. Twin needs no",
-     [
-         "# Respondent-major for COST, not for chaining. This arm's ~20,275-token prior-answer block is",
-         "# identical on all 108 of a respondent's calls, and OpenAI's automatic prompt caching serves a",
-         "# repeated prefix at 1/4 the input rate — but only if the calls arrive close together. The stateless",
-         "# runner is question-major (one pass over the whole panel per question), so a respondent's next call",
-     ]),
-    ("# routing, so chaining is the only thing `full` adds — which is what the `_chained` run",
-     [
-         "# comes after 2,057 competing 20k prefixes; the stateful runner walks one respondent's questions",
-         "# back-to-back. Measured hit rates: 26/30 question-major vs 30/30 respondent-major, and only the",
-         "# latter is scale-invariant.",
-         "#",
-     ]),
-    ("# isolates.",
-     [
-         "# The two flags below cancel everything ELSE `full` would change, so elicitation still matches the",
-         "# stateless `baseline` arm and the grounding-ladder comparison holds. Without them this would",
-         "# silently become a different experiment, not a cheaper run of the same one.",
-     ]),
-    (NO_CHAINING,
-     [
-         "memory_mode: \"full\"",
-         "",
-         "# No answer chaining — that is what the `_chained` arm isolates, and this arm must differ from",
-         "# `baseline` in exactly one respect: the prior answers. Also keeps the prompt constant across the",
-         "# walk, so the cache serves the whole history block.",
-         "chain_own_answers: false",
-         "",
-         "# Ask each grid member individually, as the stateless runner does. Left true, the 7 grid groups would",
-         "# collapse 40 of 108 questions into 7 calls — ~30% cheaper, but a different elicitation from",
-         "# `baseline` on those 40 columns.",
-         "batch_grids: false",
-     ]),
+    (DEMOGRAPHIC_MAPPING, PERSONA_MAPPING),
     ("include_request_id: false",
      [
          "include_request_id: false",
          "",
-         "# Keep each respondent's 82 calls on one deployment. The provider load-balances across at least two,",
-         "# and a cache entry lives only on the deployment that wrote it, so half this arm's calls were missing",
-         "# a warm prefix purely by landing elsewhere. Measured over 638 walks (52,502 calls) at c=32: the",
-         "# hit rate goes 54.6% -> 92.3% and the bill $2.24 -> $1.19/walk, i.e. concurrency now costs",
-         "# nothing -- 92.5% is also what c=1 gives, so this recovers the whole gap rather than part of it.",
-         "# Per-respondent, not one global key: prefixes differ per respondent, so a shared key would crowd",
-         "# them onto one deployment. Changes cost, never answers -- the key is not part of the prompt.",
+         "# Keep each respondent's 82 calls on one deployment. The provider load-balances across at least",
+         "# two, and a cache entry lives only on the deployment that wrote it, so half this arm's calls",
+         "# were missing a warm prefix purely by landing elsewhere. Measured over 638 walks (52,502",
+         "# calls) at c=32: the hit rate goes 54.6% -> 92.3% and the bill $2.24 -> $1.19/walk. Changes",
+         "# cost, never answers -- the key is not part of the prompt.",
          "prompt_cache_key_by_respid: true",
+     ]),
+    (CAP_COMMENT_1,
+     "  # Slots hold a whole persona-walk, so this is 32 concurrent walks, not 32 calls. Lower than"),
+    (CAP_COMMENT_2,
+     "  # the others: it is also the checkpoint cohort size, bounding what a spend cap can waste."),
+    (CAP_VALUE, "max_concurrency: 32"),
+]
+
+# `demographics_stateful` is the baseline with chaining switched on. That one flag is the whole
+# arm: it is what isolates "the model sees its own earlier answers" from everything else.
+CHAINED = [
+    (NO_CHAIN,
+     [
+         "# Feed the model its own earlier answers. This single flag is what separates this arm from",
+         "# the baseline, which is otherwise the identical walk.",
+         "chain_own_answers: true",
+     ]),
+    (NO_BATCH,
+     [
+         "# Grids batched, as the runner does by default: the 7 grid groups become 7 calls covering 40",
+         "# of the 108 questions. This is the one way the arm departs from the baseline's elicitation,",
+         "# which is why it is a loose sanity check against `gpt41_probs` rather than a second",
+         "# comparator.",
+         "batch_grids: true",
      ]),
 ]
 
-# `probs_chained` is `chained` asked for a DISTRIBUTION instead of an answer, and is the comparator
-# for the Jev probe (`scripts/twin2k/probe_jev.py`): Jev's native probability vector against gpt-4.1
-# verbalizing one. That comparison only measures the model if the two arms differ in nothing else,
-# which is what the two extra flags buy -- `batch_grids: false` matches the probe's one-call-per-cell
-# walk, and the shared persona cache keeps the twins themselves identical.
+# `gpt41_probs` is `demographics_stateful` asked for a DISTRIBUTION instead of an answer, and is
+# the comparator for the Jev probe (`scripts/twin2k/probe_jev.py`): Jev's native probability vector
+# against gpt-4.1 verbalizing one. That comparison only measures the model if the two arms differ
+# in nothing else, which is what keeping the baseline's per-member grids buys -- it matches the
+# probe's one-call-per-cell walk -- while the shared persona cache keeps the twins identical.
 PROBS_CHAINED = [
-    (NO_CHAINING,
+    (NO_CHAIN,
      [
-         "memory_mode: \"full\"",
-         "",
-         "# Ask each grid member individually, as the Jev probe does. Left true, the 7 grid groups would",
-         "# collapse 40 of the 108 columns into 7 calls -- a different elicitation from the probe on 37% of",
-         "# the instrument. And a grid writes ONE combined history turn, so the damage would not stay in",
-         "# those 40: every later cell's history would differ too. This is the deliberate departure from",
-         "# `chained`, which leaves the default true -- so `chained` is a loose sanity check here, not a",
-         "# second comparator.",
+         "# Chained, like `demographics_stateful`: the answer entering the history is still the model's",
+         "# own `choice`, never a draw from the vector.",
+         "chain_own_answers: true",
+     ]),
+    (NO_BATCH,
+     [
+         "# Grids stay per-member, unlike `demographics_stateful`, because that is what the Jev probe",
+         "# does. Batched, the 7 grid groups would collapse 40 of the 108 columns into 7 calls, a",
+         "# different elicitation from the probe on 37% of the instrument -- and a grid writes ONE",
+         "# combined history turn, so the damage would not stay in those 40.",
          "batch_grids: false",
          "",
          "# The point of the arm: gpt-4.1 ASKED to state a distribution, against a model whose native",
-         "# output is one. Everything else matches `chained` -- same prompt, same walk, and the answer",
-         "# entering the history is still the model's own `choice`, never a draw from the vector.",
+         "# output is one.",
          "response_mode: \"verbalized_probs\"",
      ]),
     ("include_request_id: false",
@@ -173,18 +139,18 @@ PROBS_CHAINED = [
      ]),
 ]
 
-# (name, one-line description, [(find, replace), ...])
 VARIANTS = [
     ("prior_answers_stateless",
      "the respondent's own past answers in the persona — the paper's published twin (71.72%)",
-     [(DEMOGRAPHIC_MAPPING, PERSONA_MAPPING), *PRIOR_ANSWERS_STATEFUL]),
+     PRIOR_ANSWERS_STATEFUL),
     ("demographics_stateful",
      "demographics only, but the model sees its own earlier answers — not in the paper",
-     [(NO_CHAINING, CHAINING), *CHAINED_CAP]),
+     CHAINED),
     ("gpt41_probs",
      "chained, but asked for a probability vector — the comparator for the Jev probe",
-     [*PROBS_CHAINED, *CHAINED_CAP]),
+     PROBS_CHAINED),
 ]
+
 
 BASELINE_HEADER = "# Twin-2K-500 — BASELINE: demographics only, no answer chaining"
 BANNER = "# GENERATED by scripts/twin2k/build_twin2k_variants.py — edit the baseline, then re-run."

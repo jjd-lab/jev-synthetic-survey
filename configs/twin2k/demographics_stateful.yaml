@@ -429,18 +429,37 @@ llm:
   persona_temperature: 0.3
   survey_temperature: 0.7
   n_variations: 1
-  # Stateful slots hold a whole persona-walk, so this is 50 concurrent walks, not 50 calls.
-  # 50 is this pipeline's proven-stable value; c=100 stalled the provider on that same path.
+  # The only concurrency knob. A slot holds a whole persona-walk (~82 sequential calls), not a
+  # single call, so this is 50 concurrent walks. 50 is this pipeline's proven-stable value;
+  # c=100 stalled the provider on the same path.
   max_concurrency: 50
 
 execution:
   save_output: true
   output_dir: "outputs/twin2k/demographics_stateful"
 
-# Batched path: one LLM call per (persona, question), no answer chaining. Twin needs no
-# routing, so chaining is the only thing `full` adds — which is what the `_chained` run
-# isolates.
+# Respondent-major walk, with chaining switched off. This arm asks one LLM call per
+# (persona, question) and never shows the model its own earlier answers, which is what
+# defines it; `demographics_stateful` is the same arm with chaining on.
+#
+# It runs on the walk rather than the batched path because only the walk reaches
+# `response_mode`, per-cell option orders and cache pinning. The two flags below cancel
+# everything else `full` would otherwise change, so the elicitation is unaffected.
 memory_mode: "full"
+
+# Never show the model its own earlier answers. That is the difference this arm is
+# defined by, and `demographics_stateful` is the same config with this set true.
+# Feed the model its own earlier answers. This single flag is what separates this arm from
+# the baseline, which is otherwise the identical walk.
+chain_own_answers: true
+
+# Ask each grid member individually. Left true, the 7 grid groups would collapse 40 of the
+# 108 questions into 7 calls, a different elicitation on 37% of the instrument.
+# Grids batched, as the runner does by default: the 7 grid groups become 7 calls covering 40
+# of the 108 questions. This is the one way the arm departs from the baseline's elicitation,
+# which is why it is a loose sanity check against `gpt41_probs` rather than a second
+# comparator.
+batch_grids: true
 
 # Prompts are already unique per (persona, question) at n_variations=1, so a UUID
 # would only defeat prefix caching.

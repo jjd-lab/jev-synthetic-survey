@@ -428,18 +428,31 @@ llm:
   persona_temperature: 0.3
   survey_temperature: 0.7
   n_variations: 1
-  # The only concurrency knob: .batch() caps in-flight calls with a rolling pool, so this is the
-  # number of (persona, question) calls in flight at once for this question.
-  max_concurrency: 100
+  # The only concurrency knob. A slot holds a whole persona-walk (~82 sequential calls), not a
+  # single call, so this is 50 concurrent walks. 50 is this pipeline's proven-stable value;
+  # c=100 stalled the provider on the same path.
+  max_concurrency: 50
 
 execution:
   save_output: true
   output_dir: "outputs/twin2k/demographics_stateless"
 
-# Batched path: one LLM call per (persona, question), no answer chaining. Twin needs no
-# routing, so chaining is the only thing `full` adds — which is what the `_chained` run
-# isolates.
-memory_mode: "stateless"
+# Respondent-major walk, with chaining switched off. This arm asks one LLM call per
+# (persona, question) and never shows the model its own earlier answers, which is what
+# defines it; `demographics_stateful` is the same arm with chaining on.
+#
+# It runs on the walk rather than the batched path because only the walk reaches
+# `response_mode`, per-cell option orders and cache pinning. The two flags below cancel
+# everything else `full` would otherwise change, so the elicitation is unaffected.
+memory_mode: "full"
+
+# Never show the model its own earlier answers. That is the difference this arm is
+# defined by, and `demographics_stateful` is the same config with this set true.
+chain_own_answers: false
+
+# Ask each grid member individually. Left true, the 7 grid groups would collapse 40 of the
+# 108 questions into 7 calls, a different elicitation on 37% of the instrument.
+batch_grids: false
 
 # Prompts are already unique per (persona, question) at n_variations=1, so a UUID
 # would only defeat prefix caching.

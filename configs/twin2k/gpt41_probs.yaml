@@ -429,30 +429,40 @@ llm:
   persona_temperature: 0.3
   survey_temperature: 0.7
   n_variations: 1
-  # Stateful slots hold a whole persona-walk, so this is 50 concurrent walks, not 50 calls.
-  # 50 is this pipeline's proven-stable value; c=100 stalled the provider on that same path.
+  # The only concurrency knob. A slot holds a whole persona-walk (~82 sequential calls), not a
+  # single call, so this is 50 concurrent walks. 50 is this pipeline's proven-stable value;
+  # c=100 stalled the provider on the same path.
   max_concurrency: 50
 
 execution:
   save_output: true
   output_dir: "outputs/twin2k/gpt41_probs"
 
-# Batched path: one LLM call per (persona, question), no answer chaining. Twin needs no
-# routing, so chaining is the only thing `full` adds — which is what the `_chained` run
-# isolates.
+# Respondent-major walk, with chaining switched off. This arm asks one LLM call per
+# (persona, question) and never shows the model its own earlier answers, which is what
+# defines it; `demographics_stateful` is the same arm with chaining on.
+#
+# It runs on the walk rather than the batched path because only the walk reaches
+# `response_mode`, per-cell option orders and cache pinning. The two flags below cancel
+# everything else `full` would otherwise change, so the elicitation is unaffected.
 memory_mode: "full"
 
-# Ask each grid member individually, as the Jev probe does. Left true, the 7 grid groups would
-# collapse 40 of the 108 columns into 7 calls -- a different elicitation from the probe on 37% of
-# the instrument. And a grid writes ONE combined history turn, so the damage would not stay in
-# those 40: every later cell's history would differ too. This is the deliberate departure from
-# `chained`, which leaves the default true -- so `chained` is a loose sanity check here, not a
-# second comparator.
+# Never show the model its own earlier answers. That is the difference this arm is
+# defined by, and `demographics_stateful` is the same config with this set true.
+# Chained, like `demographics_stateful`: the answer entering the history is still the model's
+# own `choice`, never a draw from the vector.
+chain_own_answers: true
+
+# Ask each grid member individually. Left true, the 7 grid groups would collapse 40 of the
+# 108 questions into 7 calls, a different elicitation on 37% of the instrument.
+# Grids stay per-member, unlike `demographics_stateful`, because that is what the Jev probe
+# does. Batched, the 7 grid groups would collapse 40 of the 108 columns into 7 calls, a
+# different elicitation from the probe on 37% of the instrument -- and a grid writes ONE
+# combined history turn, so the damage would not stay in those 40.
 batch_grids: false
 
 # The point of the arm: gpt-4.1 ASKED to state a distribution, against a model whose native
-# output is one. Everything else matches `chained` -- same prompt, same walk, and the answer
-# entering the history is still the model's own `choice`, never a draw from the vector.
+# output is one.
 response_mode: "verbalized_probs"
 
 # Prompts are already unique per (persona, question) at n_variations=1, so a UUID
