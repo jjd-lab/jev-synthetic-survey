@@ -86,9 +86,13 @@ def _rows(qid, options, forecasts, humans, arm="test"):
 def test_the_recorded_panel_reproduces_paper_accuracy_exactly(tmp_path):
     """`convert` + `score` must land on the SAME accuracy `paper_accuracy.py` recorded.
 
-    Not "close to": bit-identical. The two scorers share `score_pairs` and the task taxonomy, so any
-    drift in how this module reads a details file, matches option labels, or drops an unscorable cell
-    moves this number -- which is exactly what an equality assertion catches and a tolerance hides.
+    The two scorers share `score_pairs` and the task taxonomy, so any drift in how this module reads
+    a details file, matches option labels, or drops an unscorable cell moves this number. The
+    tolerance is 1e-9 percentage points, which is not a hedge: summing 168,768 cells in a different
+    order reorders the rounding, and CI measured 72.92141543546079 against a recorded
+    ...77 on Python 3.11 where 3.13 reproduced it exactly. Losing a single cell would move the
+    figure by about 6e-4, five orders of magnitude above this bound, so every drift the assertion
+    exists to catch still fails it.
 
     The 10 `QID198_*` columns are the reason `match_option` exists: pandas types them float64, so
     their labels arrive as `1.0` against a mapping that says `"1"`. `paper_accuracy` compares two
@@ -112,8 +116,8 @@ def test_the_recorded_panel_reproduces_paper_accuracy_exactly(tmp_path):
 
     scored = accuracy_anchor(columns, entries, "prior_answers")
     recorded = next(iter(json.loads(ANCHOR_RECORDED.read_text(encoding="utf-8")).values()))
-    assert scored["accuracy_pct"] == recorded["overall"]
-    assert scored["loo_majority_pct"] == recorded["majority_overall"]
+    assert scored["accuracy_pct"] == pytest.approx(recorded["overall"], abs=1e-9)
+    assert scored["loo_majority_pct"] == pytest.approx(recorded["majority_overall"], abs=1e-9)
     assert scored["tasks"] == 16
 
 
