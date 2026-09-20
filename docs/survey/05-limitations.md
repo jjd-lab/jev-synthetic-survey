@@ -64,6 +64,12 @@ Two identical runs of the same arm differ. For Jev, measured over 2,040 comparab
 per-cell distribution gap between two runs is 0.055 and the top answer flips 7.5% of the time.
 Scaled to 300 respondents, the column-level noise floor is roughly 0.006.
 
+That 0.055 is an upper bound, and a later run measured a tighter one. The described-`Choice` arm
+sends 25 two-option columns a byte-identical payload, so their movement is pure nondeterminism with
+no path dependence mixed in: **0.011 per cell**, about five times smaller. Prefer it when asking
+whether an effect clears the noise, and treat anything previously dismissed against 0.055 as worth
+a second look.
+
 Any difference smaller than that floor is not a result. Both the run-to-run figure and the
 option-order figure it is compared against are upper bounds: the arm intended to isolate them
 carried its own history forward by mistake, so path dependence inflates both. The comparison

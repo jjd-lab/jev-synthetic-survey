@@ -192,14 +192,16 @@ enforce that rather than convention.
 
 ## What we would do next
 
-1. **Describe the options.** Jev currently sees bare `"Yes"` and `"No"` labels, with all the meaning
-   sitting in the prose stem. A constant offset in what counts as yes is what a description should
-   move, and it is the cheapest experiment left at about $4.
-2. **Re-run the distribution test with `Noul`** as the registered elicitation, and fix the
+1. **Re-run the distribution test with `Noul`** as the registered elicitation, and fix the
    aggregation rule in advance. That choice accounts for the entire disagreement in the result
    above.
-3. **More respondents.** 48 between-subject columns draw only 16 to 25 respondents at this sample
+2. **More respondents.** 48 between-subject columns draw only 16 to 25 respondents at this sample
    size, which is where the per-column test is noisiest.
+
+Describing the options was the obvious first candidate and has since been run, pre-registered, and
+[it changes nothing](docs/jev/06-option-descriptions.md): the pricing bias moved +0.185 to +0.183
+and the gap did not move at all. That closes the objection that `Choice` was merely
+under-specified.
 
 [The full list](docs/jev/05-what-this-licenses.md#what-to-run-next).
 
