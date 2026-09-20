@@ -35,7 +35,7 @@ below are all short enough to look right while being wrong; that pair of numbers
 
 Usage:
     python scripts/twin2k/prob_scoring.py convert \\
-        --details runs/jev_vs_gpt41_n300/gpt41_probs_source/respondent_details_20260919_112211.xlsx \\
+        --details runs/jev_vs_gpt41_n300/gpt41_probs/respondent_details_20260919_112211.xlsx \\
         --arm gpt41_probs_chained --out /tmp/gpt41_probs.jsonl --sample 300
 
     python scripts/twin2k/prob_scoring.py score \\

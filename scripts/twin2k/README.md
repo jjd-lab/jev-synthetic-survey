@@ -13,6 +13,7 @@ evaluation used them, not because reproducing it requires them.
 | [`prob_scoring.py`](prob_scoring.py) | the scorer behind every figure in the write-up. `score` reads one or more arms and emits the distribution gaps, calibration, Brier and accuracy; `convert` turns a run workbook into per-cell JSONL |
 | [`paper_accuracy.py`](paper_accuracy.py) | scores an arm with the *paper's* accuracy definition instead of this repo's, so the two can be read against each other |
 | [`individual_signal.py`](individual_signal.py) | per-task individual-level correlation, for the question of whether an arm predicts a person rather than a population |
+| [`segment_diversity.py`](segment_diversity.py) | whether an arm's demographic segments differ from each other the way the humans' do, against a shuffled-label noise floor |
 | [`price_sensitivity.py`](price_sensitivity.py) | the pricing diagnostic: whether an arm's purchase probability tracks the price it was shown. The only scoring script that needs the dataset, for the per-respondent prices |
 
 ## Collecting a new arm, which needs credentials

@@ -13,7 +13,7 @@ shared prompt cannot drift between arms.
 | `demographics_stateless.yaml` | `chain_own_answers: false`, `batch_grids: false` | [`runs/gpt41_panel_n2058/demographics_stateless/`](../../runs/gpt41_panel_n2058/demographics_stateless/) | `paper_accuracy_full_arm1.json`, `individual_signal_full_arm1.json` |
 | `demographics_stateful.yaml` | `chain_own_answers: true`, `batch_grids: true` | [`runs/gpt41_panel_n2058/demographics_stateful/`](../../runs/gpt41_panel_n2058/demographics_stateful/) | `paper_accuracy_full_chained.json`, `individual_signal_full_chained.json` |
 | `prior_answers_stateless.yaml` | persona carries 620 prior answers, not just the 14 demographics | [`runs/gpt41_panel_n2058/prior_answers_stateless/`](../../runs/gpt41_panel_n2058/prior_answers_stateless/) | `paper_accuracy_full_prior_answers.json`, `individual_signal_full_prior_answers.json` |
-| `gpt41_probs.yaml` | `response_mode: verbalized_probs`, grids unbatched | [`runs/jev_vs_gpt41_n300/gpt41_probs_source/`](../../runs/jev_vs_gpt41_n300/gpt41_probs_source/), converted to `gpt41_probs.jsonl` | `score_with_noul`, `score_all_arms`, `score_jc_vs_ac`, `score_with_described`, and the n=300 half of the verdict |
+| `gpt41_probs.yaml` | `response_mode: verbalized_probs`, grids unbatched | [`runs/jev_vs_gpt41_n300/gpt41_probs/`](../../runs/jev_vs_gpt41_n300/gpt41_probs/), converted to `gpt41_probs.jsonl` | `score_with_noul`, `score_all_arms`, `score_jc_vs_ac`, `score_with_described`, and the n=300 half of the verdict |
 
 `arm1` in the report filenames is the demographics-stateless arm, named before the arms were.
 [`reports/README.md`](../../reports/README.md) maps every report back to its run and gives the

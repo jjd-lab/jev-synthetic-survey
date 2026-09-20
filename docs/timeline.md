@@ -12,7 +12,7 @@ produced, so it is checkable rather than asserted.
 | 4 Sep, 13:16 | **demographics, stateful** | 2,058 | `runs/gpt41_panel_n2058/demographics_stateful/` |
 | 6 to 8 Sep | **prior answers, stateless**, resumed across six sessions under a daily spend cap | 2,058 | `runs/gpt41_panel_n2058/prior_answers_stateless/`, one `run_tokens_*.json` per resumption |
 | 19 Sep, 10:59 | 5-respondent trial of the GPT-4.1 probabilities arm | 5 | not shipped; it is the trial whose −3.4 pt accuracy signal did not survive |
-| 19 Sep, 11:22 | **GPT-4.1 probabilities** | 300 | `runs/jev_vs_gpt41_n300/gpt41_probs_source/` |
+| 19 Sep, 11:22 | **GPT-4.1 probabilities** | 300 | `runs/jev_vs_gpt41_n300/gpt41_probs/` |
 | 19 Sep, morning | **Jev Choice**, the arm the two tests were fixed on | 300 | `runs/jev_vs_gpt41_n300/jev_choice.jsonl` |
 | 19 Sep, evening | **Jev Noul**, built after seeing Jev Choice lose the yes/no half | 300 | `runs/jev_vs_gpt41_n300/jev_noul.jsonl` |
 | 19 to 20 Sep | diagnostics over runs already collected: price sensitivity, the elicitation cost, the instrument's own noise | | `reports/` |

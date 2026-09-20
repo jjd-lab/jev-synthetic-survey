@@ -30,7 +30,8 @@ that the walk finished. The `arm` field inside each record keeps its original ru
 (`jev_chained`, `gpt41_probs_chained`, `gpt41_hard_chained`, `jev_noul_chained`,
 `jev_choice_described`) because the scored reports key off it.
 
-`gpt41_probs_source/` holds the workbooks the GPT-4.1 probabilities arm was converted from.
+`gpt41_probs/` holds the workbooks `gpt41_probs.jsonl` was converted from -- the same arm in
+its two forms, the runner's output and the scored JSONL.
 
 These five ship uncompressed, at about 15 MB each. Git zlib-compresses blobs anyway, so an
 already-gzipped file costs it slightly more to store than the plain text, and a `.jsonl` can be

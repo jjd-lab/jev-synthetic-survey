@@ -19,6 +19,7 @@ The full write-up is in [`docs/`](docs/README.md), split into a
 | to have never thought about synthetic survey respondents | [New to this?](#new-to-this-start-here), just below |
 | the result, all five arms, one table | [All five arms](#all-five-arms) |
 | the write-up, paper style, with every caveat | [`docs/`](docs/README.md) |
+| the crosstab view: do the arms' demographic groups differ like real ones? | [Matching the population is not the same as matching its groups](#matching-the-population-is-not-the-same-as-matching-its-groups) |
 | to re-derive every number yourself, no account needed | [Reproduce it](#reproduce-it) |
 | the raw per-cell answers, model beside human | [`runs/`](runs/README.md) |
 | the scored reports behind each figure | [`reports/`](reports/README.md) |
@@ -184,6 +185,32 @@ than the batching.
 If you ask a model to verbalize its uncertainty, expect its committed answer to move. We measured
 that on one model and one instrument; treat it as a hypothesis worth checking on yours rather than
 as a settled law. [Details](docs/survey/04-elicitation-effects.md).
+
+## Matching the population is not the same as matching its groups
+
+Every metric above is computed on the panel as a whole. A survey is normally read as crosstabs, and
+an arm can match the overall marginal exactly while handing every demographic group the same answer.
+So we measured how far apart each arm puts its segments, against how far apart the real ones are,
+with a shuffled-label noise floor to say how much of the human gap is signal at all.
+
+| separation ratio, all 2,058 respondents | Jev `Noul` | `gpt-4.1` hard |
+|---|---|---|
+| political views | 1.20 | **2.64** |
+| party | 1.14 | **2.42** |
+| race | **0.23** | 0.69 |
+| sex | **0.30** | 0.69 |
+| age | **0.40** | 1.10 |
+
+1.0 would reproduce the human gap. The two models fail in opposite directions. `gpt-4.1` spreads
+Republicans and Democrats about two and a half times further apart than they really are, on a
+battery that is not about politics, which would show up as polarization that is not in the data. Jev
+does the reverse everywhere else, compressing race, sex and age to a third of the real gap. That 2x
+gap between the models is not an elicitation artifact: it holds at 1.79 against 0.86 when both arms
+are soft.
+
+Read the low ratios with the noise floor in hand. This holdout is a cognitive-bias battery built so
+answers should not track who you are, so on most variables there is little group difference to
+reproduce. [The full measurement](docs/survey/06-segment-diversity.md).
 
 ## Limits
 

@@ -18,6 +18,8 @@ tables below map each file to the run it came from.
 | `score_jc_vs_ac.json` | Jev Choice, GPT-4.1 hard answer | `runs/jev_vs_gpt41_n300/{jev_choice,gpt41_hard}.jsonl` |
 | `score_with_described.json` | Jev Choice described, Jev Choice, GPT-4.1 probabilities | `runs/jev_vs_gpt41_n300/{jev_choice_described,jev_choice,gpt41_probs}.jsonl` |
 | `score_nc_vs_ac_n2058.json` | Jev Noul, GPT-4.1 hard answer, **all 2,058 respondents** | `runs/jev_vs_gpt41_n2058/jev_noul.jsonl.gz`, `gpt41_hard.jsonl` |
+| `segment_diversity_n2058.json` | Jev Noul, GPT-4.1 hard answer, by demographic segment | the same two files |
+| `segment_diversity_n300.json` | Jev Choice, Jev Noul, GPT-4.1 probabilities, by segment | `runs/jev_vs_gpt41_n300/{jev_choice,jev_noul,gpt41_probs}.jsonl` |
 
 ```bash
 python scripts/twin2k/prob_scoring.py score \

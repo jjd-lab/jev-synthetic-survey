@@ -13,6 +13,7 @@ specific model and the verdict on it.
 | [03 Grounding panel](survey/03-grounding-panel.md) | experiment 1: what persona content buys you, GPT-4.1 over all 2,058 respondents |
 | [04 Elicitation effects](survey/04-elicitation-effects.md) | how you ask changes what the model answers, and the structured-output failures that follow |
 | [05 Limitations](survey/05-limitations.md) | what this instrument and sample cannot tell you, whatever model you run |
+| [06 Segment diversity](survey/06-segment-diversity.md) | do the demographic segments of a synthetic panel differ the way real ones do? Flattening on most variables, caricature on politics |
 
 ## Jev track
 

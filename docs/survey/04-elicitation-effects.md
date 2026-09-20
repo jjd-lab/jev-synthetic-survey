@@ -29,7 +29,7 @@ respondent ids and cell keys rather than on counts.
 The probabilities arm was run from
 [`configs/twin2k/gpt41_probs.yaml`](../../configs/twin2k/gpt41_probs.yaml);
 the workbooks it was converted from are under
-[`runs/jev_vs_gpt41_n300/gpt41_probs_source/`](../../runs/jev_vs_gpt41_n300/gpt41_probs_source/).
+[`runs/jev_vs_gpt41_n300/gpt41_probs/`](../../runs/jev_vs_gpt41_n300/gpt41_probs/).
 The hard-answer arm is the same stateful demographics arm with no probability mode set, and its run
 records carry no probability vector at all. [`runs/README.md`](../../runs/README.md) maps both.
 
