@@ -183,6 +183,12 @@ main { margin-left: var(--rail); }
   font-family: var(--serif);
   font-size: 1.55rem;
 }
+/* The compared subset is the headline; the sample it came from is context, not a second stat. */
+.stat-note {
+  font-size: 0.62em;
+  color: color-mix(in srgb, var(--paper) 45%, transparent);
+  white-space: nowrap;
+}
 .hero-note {
   max-width: 38rem;
   color: color-mix(in srgb, var(--paper) 55%, transparent);
