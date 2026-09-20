@@ -48,8 +48,10 @@ Reachability check (no survey data, one throwaway sentence):
 """
 
 import json
+from typing import Optional
 import os
 import random
+import re
 import time
 import urllib.parse
 
@@ -128,6 +130,32 @@ def classify_status(status: int, body: str) -> str:
     return "bad_response"
 
 
+
+def derive_description(label: str) -> Optional[str]:
+    """One option label restated as a claim about this respondent, or None.
+
+    The manipulation of the described-`Choice` arm, in full, and a pure function of the label so
+    that no description is ever written by hand. The rule is fixed in
+    docs/jev/06-option-descriptions-plan.md and was committed before this code existed:
+
+      1. strip a leading "Yes, " or "No, ";
+      2. require what remains to be a first-person clause ("I would ...");
+      3. restate it in the third person, as a claim about the question just asked.
+
+    Anything that does not match returns None, which `build_payload` sends as a null description,
+    exactly as the undescribed arms did. Falling through is the point: a fallback that invented
+    wording would be a second, unstated manipulation. On the shipped instrument this derives both
+    labels of the 40 pricing columns and nothing else -- the other 25 two-option columns carry bare
+    tokens ("more", "the small tray") that cannot be restated without adding meaning.
+    """
+    stripped = re.sub(r"^(Yes|No),\s*", "", label.strip())
+    match = re.match(r"^I\s+(\S.*)$", stripped)
+    if not match:
+        return None
+    return (
+        f"This respondent {match.group(1)}, for the situation described in the question."
+    )
+
 class JevClient:
     """One HTTP session, reused. Thread-safe enough for the probe's use: `requests.Session` is
     documented as not guaranteed thread-safe, so the probe gives each worker thread its own client
@@ -150,8 +178,15 @@ class JevClient:
             "Content-Type": "application/json",
         })
 
-    def build_payload(self, state: str, question: str, options: list[str]) -> dict:
-        """The exact JSON body. Separated from `ask_choice` so tests can assert on it offline."""
+    def build_payload(self, state: str, question: str, options: list[str],
+                      descriptions: Optional[dict[str, Optional[str]]] = None) -> dict:
+        """The exact JSON body. Separated from `ask_choice` so tests can assert on it offline.
+
+        `descriptions` maps an option label to its `criteria` value. Omitted, every option gets
+        `None`, which is what the shipped Jev arms sent -- so the default payload is byte-identical
+        to theirs and adding this parameter cannot disturb them. A label absent from the map, or
+        mapped to None, also gets `None`.
+        """
         if not options:
             raise JevError("bad_response", "no options given")
         if len(set(options)) != len(options):
@@ -168,15 +203,19 @@ class JevClient:
                 QUESTION_KEY: {
                     "type": "choice",
                     "instructions": question,
-                    # None, not a description: the survey's own option text IS the label, and the
-                    # docs sanction null "because the option names are clear on their own".
-                    # Inventing rubric text here would be a prompt the gpt-4.1 arm never saw.
-                    "criteria": {option: None for option in options},
+                    # None by default: the survey's own option text IS the label, and the docs
+                    # sanction null "because the option names are clear on their own". A non-null
+                    # description is a deliberate manipulation, derived from the instrument by
+                    # `derive_description` and switched on per arm, never invented here.
+                    "criteria": {
+                        option: (descriptions or {}).get(option) for option in options
+                    },
                 },
             },
         }
 
-    def ask_choice(self, state: str, question: str, options: list[str]) -> dict:
+    def ask_choice(self, state: str, question: str, options: list[str],
+                   descriptions: Optional[dict[str, Optional[str]]] = None) -> dict:
         """One Choice question against one state.
 
         Returns {"probs": {label: float}, "choice": label, "confidence": float, "model": str,
@@ -184,7 +223,7 @@ class JevClient:
         source's vector is from summing to 1 is a finding the scorer reports, not something to
         quietly normalise here.
         """
-        payload = self.build_payload(state, question, options)
+        payload = self.build_payload(state, question, options, descriptions)
         return self._request(
             payload, lambda response, elapsed: self._parse(response, options, elapsed)
         )

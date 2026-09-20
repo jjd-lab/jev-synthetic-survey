@@ -26,11 +26,18 @@ Descriptions are **derived by code from the instrument**, never written by hand.
 description text, so nobody can tune it against a result they have already seen. The derivation is
 committed before the run and is the experimental manipulation in full.
 
-**Where descriptions are supplied.** Wherever the rule below derives one from the label, and
-nowhere else. Run against the shipped mapping before writing any run code, that is **exactly the 40
-pricing columns**: their labels are first-person clauses ("Yes, I would purchase the product"), and
-every other two-option column's labels are bare tokens the rule cannot restate without inventing
-text ("more"/"fewer", "the small tray"/"the large tray").
+**Where descriptions are supplied.** On two-option columns, wherever the rule below derives one
+from the label, and nowhere else. Run against the shipped mapping before writing any run code, that
+is **exactly the 40 pricing columns**: their labels are first-person clauses ("Yes, I would purchase
+the product"), and every other two-option column's labels are bare tokens the rule cannot restate
+without inventing text ("more"/"fewer", "the small tray"/"the large tray").
+
+The two-option restriction is part of the rule, not an accident of it. Checked against the
+instrument, the derivation also fires on three ordered scales, `QID157`, `QID158` and `QID291`,
+whose options read "I favor program A" and "I would probably take the vaccine". Describing those
+would widen the manipulation past the question being asked, which is where a yes/no boundary sits,
+and would shrink the control set the criteria below are read against. So the arm describes only
+columns that have a boundary to move.
 
 So the manipulation lands precisely on the block where the diagnosed failure is, and the instrument
 decided that, not a preference. The other 68 columns keep `None`, exactly as the Jev Choice arm sent

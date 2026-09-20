@@ -102,6 +102,7 @@ class _Args:
         self.arm = "jev_chained"
         self.chain = True
         self.primitive = "choice"
+        self.describe_criteria = False
         self.repeat_tag = "r1"
         self.order_salt = ""
         self.__dict__.update(kw)
@@ -299,12 +300,14 @@ class _FakeClient:
         self.noul = noul
         self.states = []
         self.asked = []
+        self.described = None
 
-    def ask_choice(self, state, question, options):
+    def ask_choice(self, state, question, options, descriptions=None):
         if self.fail_at is not None and len(self.states) == self.fail_at:
             raise JevError(self.kind, "boom")
         self.states.append(state)
         self.asked.append(("choice", options))
+        self.described = descriptions
         return {"probs": {opt: 1.0 if i == 0 else 0.0 for i, opt in enumerate(options)},
                 "choice": options[0], "confidence": 1.0, "model": "jev-1.13.0",
                 "input_tokens": 10, "latency_ms": 5}

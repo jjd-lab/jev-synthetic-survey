@@ -59,6 +59,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from scripts.twin2k.jev_client import (  # noqa: E402
+    derive_description,
     CONTEXT_BUDGET_STATE_AND_QUESTION,
     CONTEXT_BUDGET_TOTAL,
     MODEL,
@@ -265,7 +266,21 @@ def walk_persona(client, persona, question_list, mapper, router, state_template,
                 # column; randomising it averages the asymmetry out and makes it measurable.
                 answer = client.ask_noul(state, question_text, options[0], options[1])
             else:
-                answer = client.ask_choice(state, question_text, options)
+                # `descriptions` is None unless --describe-criteria, and `derive_description`
+                # returns None for any label it cannot restate. Both paths send `criteria`
+                # values of null, byte-identical to the undescribed arms, so every column the
+                # rule does not reach is a true control rather than an approximate one.
+                # Two-option columns only. The plan targets the yes/no boundary -- "where does
+                # 'yes' begin" -- and fixes the 43 multi-option columns as a control. The rule
+                # also derives labels on three ordered scales (QID157, QID158, QID291, whose
+                # options read "I would ..." / "I favor program A"), and describing those would
+                # both widen the manipulation past the boundary question and shrink the control
+                # set the criteria are read against.
+                descriptions = (
+                    {option: derive_description(option) for option in options}
+                    if args.describe_criteria and len(options) == 2 else None
+                )
+                answer = client.ask_choice(state, question_text, options, descriptions)
         except JevError as exc:
             # Abort the walk. Every later cell's state would carry the gap.
             return rows, {"qid": qid, "kind": exc.kind, "message": str(exc)[:300]}
@@ -340,10 +355,15 @@ def dry_run(personas, question_list, mapper, router, state_template, args) -> in
                 own_answers.append((question_text, options[0]))
                 continue
             state = render_state(state_template, persona, own_answers)
-            # `criteria` labels are billed too, so the option text belongs in the estimate.
+            # `criteria` is billed on both sides: the option text as keys, and under
+            # --describe-criteria the derived descriptions as values. Both belong in the estimate,
+            # or the flag looks free.
+            described = "".join(
+                derive_description(option) or "" for option in options
+            ) if args.describe_criteria and len(options) == 2 else ""
             tokens = approx_tokens(state) + approx_tokens(question_text) + approx_tokens(
                 "".join(options)
-            )
+            ) + approx_tokens(described)
             total_tokens += tokens
             if tokens > worst[0]:
                 worst = (tokens, persona["respid"], qid)
@@ -379,6 +399,10 @@ def main() -> int:
     parser.add_argument("--persona-cache", default=None,
                        help="Existing persona cache. Required in practice: regenerating personas "
                             "needs the provider and would break the same-persona control.")
+    parser.add_argument("--describe-criteria", action="store_true",
+                       help="Send a derived description per option, where the rule reaches one. "
+                            "On the shipped instrument that is the 40 pricing columns and nothing "
+                            "else; see docs/jev/06-option-descriptions-plan.md.")
     parser.add_argument("--primitive", choices=("choice", "noul"), default="choice",
                        help="`noul` asks the 65 two-option columns as a yes/no condition instead "
                             "of a Choice, and leaves the 43 multiclass columns on Choice. Tests "
