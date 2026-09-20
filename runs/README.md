@@ -108,10 +108,10 @@ field is `null` on every record, so it supports accuracy comparisons and nothing
 The n=300 `gpt41_hard.jsonl` is a strict subset of it: all 24,596 of those cells appear here with
 identical committed answers, checked cell by cell.
 
-The hard-answer arm ships as a plain `.jsonl` like the n=300 arms, at 68 MB. Only `jev_noul` is
-gzipped, because at 115 MB raw it is past the 100 MB file limit GitHub refuses a push over, so the
-trade runs the same way as for `prior_answers_stateless/`. `prob_scoring.py` reads `.jsonl` and
-`.jsonl.gz` without being told which.
+The hard-answer arm ships as a plain `.jsonl` like the n=300 arms and like
+`prior_answers_stateless/cells.jsonl`, at 68 MB. `jev_noul.jsonl.gz` is the one file in the repo
+that is gzipped, and not by preference: at 115 MB raw it is past the 100 MB limit GitHub refuses a
+push over. `prob_scoring.py` reads `.jsonl` and `.jsonl.gz` without being told which.
 
 [`reports/score_nc_vs_ac_n2058.json`](../reports/score_nc_vs_ac_n2058.json) scores the pair. Its
 main use is as a check on the n=300 slice, and the slice holds up: Jev Noul moves from 0.1530 to
