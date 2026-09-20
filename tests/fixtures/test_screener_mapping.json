@@ -37,7 +37,7 @@
     }
   },
   "S4": {
-    "question": "How often do you visit Disney parks?",
+    "question": "How often do you visit theme parks?",
     "type": "screener",
     "choices": {
       "1": "First time visitor",
@@ -90,11 +90,11 @@
       "1": "Thrill rides",
       "2": "Character experiences",
       "3": "Shows and entertainment",
-      "4": "Immersive lands (Star Wars, Pandora)"
+      "4": "Immersive themed lands"
     }
   },
   "S10": {
-    "question": "How do you prioritize spending on a Disney vacation?",
+    "question": "How do you prioritize spending on a theme park vacation?",
     "type": "screener",
     "choices": {
       "1": "Budget-focused, minimize costs",

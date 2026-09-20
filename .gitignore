@@ -62,6 +62,9 @@ notebooks/
 data/
 !src/data/
 CLAUDE.md
+# Working material that is not for publication: the session plan, bundle manifests, anything
+# naming a private survey. Nothing in here may be committed.
+private/
 # .claude is ignored except skills/ — a negation can only re-include a path whose parent
 # directory was not itself excluded, so this must be `.claude/*` (direct children) rather
 # than `.claude`. settings.local.json stays ignored.

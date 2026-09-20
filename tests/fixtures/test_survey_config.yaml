@@ -25,7 +25,7 @@ personas:
     {screener_responses}
 
 survey_prompt: |
-  You are a Disney guest.
+  You are a theme park guest.
 
   DEMOGRAPHICS:
   - Age: {age}

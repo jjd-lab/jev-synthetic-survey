@@ -1,11 +1,11 @@
 {
   "MU1": {
-    "question": "Which Disney World vacation package would you choose?",
+    "question": "Which theme park vacation package would you choose?",
     "type": "single",
     "choices": {
-      "1": "Value Package: 3-day park hopper, moderate hotel ($1,500)",
-      "2": "Standard Package: 5-day park hopper, deluxe hotel, dining plan ($3,500)",
-      "3": "Premium Package: 7-day park hopper, deluxe resort, dining + Genie+, special experiences ($6,000)"
+      "1": "Value Package: 3-day park pass, moderate hotel ($1,500)",
+      "2": "Standard Package: 5-day park pass, deluxe hotel, dining plan ($3,500)",
+      "3": "Premium Package: 7-day park pass, deluxe resort, dining + priority access, special experiences ($6,000)"
     }
   },
   "MU2": {
@@ -14,7 +14,7 @@
     "choice_columns": ["MU2_choice1", "MU2_choice2", "MU2_choice3", "MU2_choice4"],
     "choices": {
       "MU2_choice1": "Dining plan included",
-      "MU2_choice2": "Genie+ skip-the-line access",
+      "MU2_choice2": "Skip-the-line access",
       "MU2_choice3": "Character dining experiences",
       "MU2_choice4": "Special after-hours events"
     }
@@ -24,14 +24,14 @@
     "type": "multi",
     "choice_columns": ["MU3_choice1", "MU3_choice2", "MU3_choice3", "MU3_choice4"],
     "choices": {
-      "MU3_choice1": "Magic Kingdom",
-      "MU3_choice2": "EPCOT",
-      "MU3_choice3": "Hollywood Studios",
-      "MU3_choice4": "Animal Kingdom"
+      "MU3_choice1": "The classic castle park",
+      "MU3_choice2": "The science and world-cultures park",
+      "MU3_choice3": "The movie studios park",
+      "MU3_choice4": "The wildlife park"
     }
   },
   "MU4": {
-    "question": "What is your primary motivation for visiting Disney World?",
+    "question": "What is your primary motivation for visiting a theme park resort?",
     "type": "single",
     "choices": {
       "1": "Family bonding and creating memories",
@@ -41,7 +41,7 @@
     }
   },
   "MU5": {
-    "question": "How do you prefer to plan your Disney vacation?",
+    "question": "How do you prefer to plan your theme park vacation?",
     "type": "single",
     "choices": {
       "1": "Highly planned with advance reservations",
