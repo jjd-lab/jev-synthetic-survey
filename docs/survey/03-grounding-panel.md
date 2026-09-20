@@ -37,7 +37,7 @@ Each folder holds the respondent-level workbook, the validation summary, and the
 arm ran from. The prior-answers folder also holds the per-cell file, 168,768 cells across all 2,058
 respondents. [`runs/README.md`](../../runs/README.md) maps every file.
 
-**There is no prior-answers plus stateful cell.** On top of 620 real prior answers, the model's own
+There is no prior-answers plus stateful cell. On top of 620 real prior answers, the model's own
 earlier answers add near-zero information, and it is by far the slowest path. The result below
 weakens that argument, which is noted in the interpretation.
 
@@ -126,7 +126,7 @@ predictor that never looks at the person.** +2.66 points closes nine tenths of t
 arm's deficit to the floor and clears the paper's best published twin by 1.2 points. It is still
 *below* the floor, so no arm on this instrument carries net individual signal on this metric.
 
-**Accuracy and diversity are bought by different things, and neither lever buys both.** Seeing its
+Accuracy and diversity are bought by different things, and neither lever buys both. Seeing its
 own earlier answers unpins a third of the collapsed columns (24 to 16) and a third of the blind
 spots (44 to 31) while losing accuracy. Prior answers gain 2.66 points of accuracy while collapsing
 one *more* column than the demographics arm (24 to 25) and lowering multi-option diversity (entropy
@@ -135,7 +135,7 @@ single answer in both stateless arms, but 8 of 16 in the stateful one. Knowing w
 before does not stop the model playing the rational optimum; seeing its *own* answers does. These
 are two independent defects with two independent levers.
 
-**Most of the +2.66 is not individual prediction.** Three tasks carry all of it: Pricing (+9.08 over
+Most of the +2.66 is not individual prediction. Three tasks carry all of it: Pricing (+9.08 over
 the floor, across 40 of 108 columns), Less is more (+13.08) and False consensus (+4.31). Everything
 else sits at or below the floor. And Pricing's correlation with the human falls from +0.325 raw to
 +0.069 once each respondent's own randomized price is held fixed, so the largest column-weighted
@@ -156,7 +156,7 @@ price rank is held fixed, leaving +0.048.
 marginal to 1.2 points (35.6% against 34.4% choosing Yes) at a rank correlation of **−0.016**: the
 right distribution assigned to the wrong people, on one column at n=1,027.
 
-**Accuracy and correlation disagree about which task is best grounded, and correlation is right.**
+Accuracy and correlation disagree about which task is best grounded, and correlation is right.
 False consensus (+2.61 edge, correlation +0.456, entropy ratio 0.920) is the one task with real
 individual signal, and the one whose answer 14 demographics genuinely carry, since party
 identification and political views predict policy attitudes. Less is more scores a larger +10.18
@@ -186,7 +186,7 @@ produces 44 blind-spotted columns at a multi-option entropy ratio of 0.678, and 
 distribution gap when the missed option is small, which is why blind spots are reported separately
 rather than trusted to the distance.
 
-**Two tasks are pinned, and only one of them is inert across arms.** Anchoring (4 columns) and
+Two tasks are pinned, and only one of them is inert across arms. Anchoring (4 columns) and
 Probability matching (16) both collapse to one answer in the demographics-stateless arm, and it is
 the human mode, so their +0.00 edge is construction rather than agreement; together they are 12.5% of
 the equal weight. Only Anchoring stays that way, reproducing at 78.13% with all 4 columns collapsed
@@ -195,7 +195,7 @@ soon as the model sees its own prior answers (8 of 16 collapsed, −1.59 points 
 arm), which is what makes it the task that separates the arms. It is also near-unpredictable in
 principle: the human retest itself loses to the majority there, by −1.74.
 
-**The crossed cell is now the one configuration worth reconsidering.** The standing argument against
+The crossed cell is now the one configuration worth reconsidering. The standing argument against
 running prior answers *and* statefulness together was that the model's own earlier answers add
 near-zero information on top of 620 real ones, supported by statefulness contributing −0.22 points
 where it had no prior answers to compete with. This result weakens that: the two levers move
@@ -206,13 +206,13 @@ sequentially at prior-answers prompt sizes.
 
 ## Caveats
 
-**Neither contrast is pinned by a significance test.** Both panel figures are equal-weight means over
+Neither contrast is pinned by a significance test. Both panel figures are equal-weight means over
 16 task means. The paired test has not been run at n=2,058. **+2.66 points is 1.5 times the size of
 the whole statefulness effect and moves in the predicted direction, but it is untested.** Any paired
 test must use the 60 always-asked columns only: an arm of a between-subject group draws roughly 16 to
 25 respondents, which no paired test can use.
 
-**A 50-respondent pilot could not have resolved either contrast, and got one sign wrong.** At 50
+A 50-respondent pilot could not have resolved either contrast, and got one sign wrong. At 50
 respondents the paired test on pricing, the only task with enough columns to test, gave a change in
 distribution gap of +0.0060 for prior answers (p = 0.091, sign *against* prior answers) and +0.0020
 for statefulness (p = 0.801), with the 20 non-pricing questions canceling (p = 0.189, p = 0.940). The
@@ -251,16 +251,16 @@ the arms, none in the third. The refused cells from two superseded runs are kept
 [`runs/gpt41_panel_n2058/content_filter_errors/`](../../runs/gpt41_panel_n2058/content_filter_errors/)
 because a deterministic deletion is a limitation of these arms rather than an incident.
 
-**The 48 between-subject columns are read differently from the other 60**, and per-arm fit says
+The 48 between-subject columns are read differently from the other 60, and per-arm fit says
 nothing about whether the model responds to the manipulation at all. See
 [01 Dataset and instrument](01-dataset-and-instrument.md).
 
-**No prior-answers result predating the current persona is comparable to one after it.** That arm's
+No prior-answers result predating the current persona is comparable to one after it. That arm's
 persona grew from 322 to 480 to 620 answers, and from 12.5k to 19.3k to about 22.1k tokens, across
 two changes. The two demographics arms read a different mapping file and are untouched, so only that
 one arm ever needs re-running.
 
-**Accuracy here is not comparable to the paper's own figures in value**, only in kind. Temperature
+Accuracy here is not comparable to the paper's own figures in value, only in kind. Temperature
 0.7, shuffled options and one call per respondent-question all differ from the paper's setting, and
 those choices were made to keep the three arms mutually comparable rather than to chase an absolute
 number. See the difference table on

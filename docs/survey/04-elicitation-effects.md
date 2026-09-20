@@ -33,7 +33,7 @@ the workbooks it was converted from are under
 The hard-answer arm is the same stateful demographics arm with no probability mode set, and its run
 records carry no probability vector at all. [`runs/README.md`](../../runs/README.md) maps both.
 
-**The two arms differ in two ways, not one**, which is why the result below is a decomposition
+The two arms differ in two ways, not one, which is why the result below is a decomposition
 rather than an attribution. The probabilities arm also unbatched its grids, asking one call per cell
 where the hard-answer arm asked a grid's rows together. Grid batching is in play on exactly one block
 of this instrument: the 40 pricing columns.
@@ -49,7 +49,7 @@ reported below, and they agree.
 
 ## Results
 
-**Asking for probabilities costs 4.42 points of committed accuracy.**
+Asking for probabilities costs 4.42 points of committed accuracy.
 
 | | GPT-4.1 hard answer | GPT-4.1 probabilities | difference |
 |---|---|---|---|
@@ -140,7 +140,7 @@ response model for that question type needed an answer and an explanation. The m
 prose and packed both into the single answer string, omitting the explanation field entirely. The
 prompt and the schema disagreed, and the model obeyed the prompt.
 
-**C: a length the schema never stated.** `azure/gpt-4.1`, 7 cells. The probability-vector field was
+C: a length the schema never stated. `azure/gpt-4.1`, 7 cells. The probability-vector field was
 declared as a plain list of numbers, so the emitted schema carried no minimum or maximum item count.
 The required length lived only in the field's description prose plus a validator that runs on the
 client, after generation. On the two longest option lists the model emitted one number too many, 25

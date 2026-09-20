@@ -74,7 +74,7 @@ Sticks. The product is priced at: $X. Would you or would you not purchase this p
 options "Yes, I would purchase the product" and "No, I would not purchase the product". Forty
 distinct product categories, each with its own price.
 
-**The price is piped per respondent.** It is randomized per person and per product, spanning **$0.00
+The price is piped per respondent. It is randomized per person and per product, spanning **$0.00
 to $59.98** across respondents, so the task runs from obvious buys to obvious refusals. Each product
 carries 161 to 197 distinct prices across the panel, and the shipped question catalog holds one
 arbitrary draw that only 0.757% of cells ever saw. Any result produced before the pipeline

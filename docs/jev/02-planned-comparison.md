@@ -49,7 +49,7 @@ comparison holds; the absolute levels describe that slice only.
 Defined in [the metrics page](../survey/02-metrics.md). Three points that bear directly on reading
 the tables:
 
-**Accuracy is computed from each arm's own vector** (its largest entry), for all four arms. The
+Accuracy is computed from each arm's own vector (its largest entry), for all four arms. The
 model's stated choice is a separate field, produced after the vector, and no code links the two,
 so an arm can state a vector and then name an option that is not its maximum:
 
@@ -63,12 +63,12 @@ so an arm can state a vector and then name an option that is not its maximum:
 GPT-4.1 contradicts its own vector about five times as often as Jev does, but either rule moves
 accuracy by about a tenth of a point, so nothing in the verdict turns on the choice of rule.
 
-**Calibration error is only meaningful for the arms that have a vector.** GPT-4.1 hard answer
+Calibration error is only meaningful for the arms that have a vector. GPT-4.1 hard answer
 always states 100% confidence, so its figure restates "this arm has no distribution". Rebinning
 separates the cases cleanly: pooled calibration error moves by 0.0015 or less for Jev Choice,
 GPT-4.1 probabilities and Jev Noul when the bins change, and by 0.2829 for GPT-4.1 hard answer.
 
-**The two column groups are one split under two names.** The 65 two-option columns are the same
+The two column groups are one split under two names. The 65 two-option columns are the same
 set as the "nominal" columns; the 43 multi-option columns are the same set as the "ordinal" ones.
 No scored column in this instrument accepts more than one answer.
 
@@ -109,7 +109,7 @@ tasks, is 0.2029, four times the 0.05 threshold.
 
 Read the first three columns for the verdict and the fourth as the follow-up.
 
-**Jev is better on multi-option items and worse on two-option ones**, and two independent families
+Jev is better on multi-option items and worse on two-option ones, and two independent families
 of measure agree in both directions. On the 43 multi-option columns Jev wins the ordinal
 distribution gap (0.6864 against 0.7272, better in 26 of 43 columns, p=0.031), and that advantage
 is what carries its all-cell Brier win. On two-option items the Murphy decomposition puts GPT-4.1

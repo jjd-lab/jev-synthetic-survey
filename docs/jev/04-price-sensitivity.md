@@ -35,7 +35,7 @@ answers. Then the mean probability of yes, and its signed difference from the hu
 | signed bias against humans | +0.185 | +0.175 | −0.073 | |
 | columns biased high | 36/40 | 37/40 | 10/40 | |
 
-**Jev reads the price, and reads it harder than the humans do.** Its price response is stronger
+Jev reads the price, and reads it harder than the humans do. Its price response is stronger
 than the real respondents' in all 40 columns. What it gets wrong is the level: a near-constant
 offset of +0.175 on Jev Noul, which is 95% of that arm's entire pricing distribution gap of 0.185.
 It is not noise, not per-column idiosyncrasy, and not a failure to process the number. Jev thinks

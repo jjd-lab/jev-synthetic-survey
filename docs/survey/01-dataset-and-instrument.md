@@ -71,7 +71,7 @@ same section and its Figure 2 use **17 tasks**, so 177 is a typo. And 98 columns
 questions only if false consensus, listed in Table 1 as "10 (5-point Likert) + 10 (slider)", is
 counted as its 10 underlying policy items rather than its 20 columns.
 
-**This repo derives the same partition a second way and asserts the two are equal.**
+This repo derives the same partition a second way and asserts the two are equal.
 [`build_twin2k_config.py`](../../scripts/twin2k/build_twin2k_config.py) returns every column whose
 catalog block sits outside the six persona blocks (Personality, Economic preferences, Economic
 preferences intro, Cognitive tests, Forward Flow, Demographics). That is 126 columns, set-equal to

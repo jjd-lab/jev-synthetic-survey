@@ -69,7 +69,7 @@ distance = sum over scale points of |human cumulative share − model cumulative
 
 Lower is better. It is built from the same soft marginals as the distribution gap.
 
-**The two gaps are never averaged together.** One is bounded by 1 and the other is in scale
+The two gaps are never averaged together. One is bounded by 1 and the other is in scale
 positions, so a mean over both is a number with no unit. Every comparison in this repo is made
 within a bucket for the same reason.
 
@@ -91,10 +91,10 @@ its own top label, which asks "is the option I was most sure of right as often a
 
 Two implementation choices matter for reading any calibration number:
 
-**Bin layout is reported twice.** The default is 10 equal-width bins, the reliability-diagram
+Bin layout is reported twice. The default is 10 equal-width bins, the reliability-diagram
 convention. Equal-width bins leave most cells in one or two bins when a model is confident, which
 can hide a miscalibration or invent one, so an equal-count cross-check is always reported beside it.
-**A verdict that flips between the two is not a verdict.** What that looks like in practice, on the
+A verdict that flips between the two is not a verdict. What that looks like in practice, on the
 four arms of the model comparison:
 
 | pooled calibration error | 10 equal-width bins | equal-count bins | move |
@@ -108,7 +108,7 @@ The first three are stable and mean what they say. The last one collapses, becau
 ever states 0% or 100% occupies just the two extreme bins, so its calibration number is a
 restatement of "this arm has no distribution" rather than a calibration result.
 
-**The headline is equal-task-weighted, not pooled**, for the reason in the aggregation section
+The headline is equal-task-weighted, not pooled, for the reason in the aggregation section
 below; the pooled figure is reported beside it, and a large gap between the two is itself a finding.
 
 After first use: **the calibration error**.
@@ -264,7 +264,7 @@ gap when the missed option is small, and because which answer went missing is th
 the finding: an abandoned end of a rating scale and an unpicked middle option are different defects
 with different fixes.
 
-**The blind-spot and collapse flags are gated at 50 valid respondents per column.** Below that they
+The blind-spot and collapse flags are gated at 50 valid respondents per column. Below that they
 read as "not computed", not as "clear". That gate is what makes the 48 between-subject condition
 columns a plumbing proof rather than a result at small sample sizes.
 
@@ -289,12 +289,12 @@ Two consequences a reader has to hold on to:
 
 ## Two rules about uncertainty
 
-**Bootstrap over respondents, never over cells.** Roughly 84 cells come from one respondent and are
+Bootstrap over respondents, never over cells. Roughly 84 cells come from one respondent and are
 correlated, so resampling cells would understate an interval several-fold. Arm differences resample
 the *same* respondents, which is what makes a paired margin readable. The shipped reports use 1,000
 resamples at seed 20260919.
 
-**Raw vectors go in, and are normalized only at the point of use.** How far a source's probability
+Raw vectors go in, and are normalized only at the point of use. How far a source's probability
 vector is from summing to 1 is itself a result, so the raw sum is reported as a distribution rather
 than quietly repaired upstream.
 

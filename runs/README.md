@@ -9,7 +9,7 @@ downloads it. The files below are derived outputs and carry that dataset's human
 alongside each model answer, so they are redistributed under the same CC BY 4.0 terms, with
 attribution to the dataset authors.
 
-## `jev_vs_gpt41_n300/` — the comparison the verdict rests on (19 Sep 2026)
+## `jev_vs_gpt41_n300/`: the comparison the verdict rests on (19 Sep 2026)
 
 Four arms, 300 respondents, the same 108 questions, every model seeing its own earlier answers.
 
@@ -24,7 +24,7 @@ Four arms, 300 respondents, the same 108 questions, every model seeing its own e
 All four arms hold 24,596 answer cells: 300 respondents against the same 108 questions, minus the
 cells no respondent was asked. One record per cell, holding the probability vector, the committed
 answer, the human's answer, the option order as presented, and the model version. The two Jev
-files carry 300 further records with `done: true` rather than a `qid` — one per respondent, marking
+files carry 300 further records with `done: true` rather than a `qid`, one per respondent, marking
 that the walk finished. The `arm` field inside each record keeps its original run name
 (`jev_chained`, `gpt41_probs_chained`, `gpt41_hard_chained`, `jev_noul_chained`) because the scored
 reports key off it.
@@ -49,12 +49,12 @@ rows 1801–2058, so this is a property of the ordering, not a coincidence of th
 
 What this does and does not affect: every claim in the write-up is a **paired** comparison between
 arms on these same 300 respondents, and pairing is what the bootstrap resamples, so the verdict is
-unaffected. Absolute levels are not — accuracy and calibration numbers here describe this slice,
+unaffected. Absolute levels are not: accuracy and calibration numbers here describe this slice,
 not the US adult population, and should not be read against the full-panel numbers below. The
 leave-one-out floor the n=300 arms are judged against is computed on these same 300 for that
 reason.
 
-## `gpt41_panel_n2058/` — what persona content buys you (3–8 Sep 2026)
+## `gpt41_panel_n2058/`: what persona content buys you (3–8 Sep 2026)
 
 GPT-4.1 over the whole panel, three arms varying two things one at a time: what the persona
 contains, and whether the model sees its own earlier answers.
@@ -70,7 +70,7 @@ earlier answers add near-zero information, and it is by far the slowest path.
 
 Each folder holds the respondent-level workbook, the validation summary, and the persona cache it
 ran from. `prior_answers_stateless/` also holds `cells.jsonl.gz` (168,768 cells, all 2,058
-respondents) and the per-resumption token records — that arm ran across several days under a daily
+respondents) and the per-resumption token records. That arm ran across several days under a daily
 spend cap.
 
 `content_filter_errors/` holds the cells Azure's content filter refused, from two superseded runs.

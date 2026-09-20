@@ -1,6 +1,6 @@
 # Re-asking the yes/no questions a different way
 
-**This arm was built after seeing Jev lose the two-option half of the planned comparison.** It is
+This arm was built after seeing Jev lose the two-option half of the planned comparison. It is
 a follow-up, not a test fixed in advance, and it cannot change [the verdict](02-planned-comparison.md).
 It does explain a large part of it. Read every number here as what it is: a hypothesis formed
 after looking at the data, then measured.
