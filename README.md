@@ -71,28 +71,31 @@ the three different ways this dataset's questions can be counted.
 
 ---
 
-## The registered test fails, on one number
+## The strong claim fails
 
-The test that decides it asked whether Jev's native vector beats a verbalized one in **both** halves
-of the instrument. On the two-option half it does not: 0.1985 against `gpt-4.1`'s 0.1789. That is
-the registered comparison, it fails, and nothing below undoes it.
+Two tests were fixed in writing before any data was collected. Both failed, so the strong claim does not
+hold: a native probability vector does **not** beat a verbalized one across both halves of this
+instrument. Jev loses the two-option half, 0.1985 against `gpt-4.1`'s 0.1789, and that is the column
+the test turns on. The second test, on calibration, failed for all four arms at once, which makes it
+a statement about demographics-only grounding rather than about any model.
 
-It is also the only column the registered arm loses. On the same 300 respondents and the same
-prompt, Jev `Choice` beats verbalized `gpt-4.1` on the ordinal half (0.6864 against 0.7272), on
-calibration (0.2029 against 0.2393), on Brier (0.7550 against 0.8108) and on accuracy (67.59%
-against 64.78%), at a thirty-fourth of the cost. The second registered test, on calibration, failed
-for all four arms at once, which makes it a statement about demographics-only grounding rather than
-about any model.
+That is the whole of the negative result, and it is the least interesting thing here.
 
-And the half it lost was lost to the question form. Re-asked as a `Noul`, one probability with no
-options offered, the same model on the same respondents beats verbalized `gpt-4.1` on every one of
-those five measures, including the distribution gap the test turned on: 0.1530 against 0.1789. That
-arm was built after seeing the result and so cannot discharge the registered hypothesis, which is
-why the test stands as failed.
+**The soft claim survives, and it is the one worth acting on.** Two-option distribution is the single
+column the registered arm loses. On the same 300 respondents, under the same prompt, Jev `Choice`
+beats verbalized `gpt-4.1` on the other five: the ordinal half 0.6864 against 0.7272, calibration
+0.2029 against 0.2393, Brier 0.7550 against 0.8108, accuracy 67.59% against 64.78% — at a
+thirty-fourth of the cost.
 
-**So the hypothesis is rejected, not the model.** What was rejected is the claim that a native
-vector beats a verbalized one across both halves when Jev is handed `gpt-4.1`'s input and asked
-every yes/no item the wrong way. [Details and both tests in full](docs/jev/02-planned-comparison.md).
+And the column it loses, it loses to the question form rather than to the model. Re-asked as a
+`Noul`, one probability with no options offered, the same model on the same respondents takes that
+column too: 0.1530 against 0.1789, at the same price and with no accuracy penalty. That arm was
+built after seeing the result, so it cannot discharge the registered hypothesis, and the failure
+of the strong claim stands.
+
+So both readings are true at once, and the second is the finding: **the strong claim fails, and the
+soft claim — use this model, ask it the right way — is what the data supports.**
+[Details and both tests in full](docs/jev/02-planned-comparison.md).
 
 ## All five arms
 
@@ -403,7 +406,7 @@ Everything above is measured. This part is opinion, kept separate on purpose.
 
 I think Jev is a strong option and I would use it. It costs about 34 times less, it produced no
 errors in 24,596 cells, it wins the ordinal half outright, and the yes/no half it lost closes almost
-entirely once you stop asking those questions the wrong way. The reject stands and I am not going to
+entirely once you stop asking those questions the wrong way. The verdict stands and I am not going to
 soften it. Given `gpt-4.1`'s input and a `Choice` on every yes/no item, Jev did not win. But that
 comparison held the prompt fixed to be fair to the model, which means it left every one of
 TypeSafe's own prompting options untouched. The one we changed afterwards moved the losing half by

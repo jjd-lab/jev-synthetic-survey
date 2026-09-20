@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Jev on a synthetic survey</title>
-  <meta name="description" content="Does a decision-only model's native probability vector beat gpt-4.1 asked to write one out? 300 paired respondents, 24,596 cells. The registered test fails on the yes/no half — the one column of six that Jev loses. Re-asked the right way it wins that column too, at a thirty-fourth of the cost.">
+  <meta name="description" content="Does a decision-only model's native probability vector beat gpt-4.1 asked to write one out? 300 paired respondents, 24,596 cells. The strong claim fails, on one column of six. The soft claim, that it is the better instrument asked the right way, is what the data supports.">
   <link rel="canonical" href="https://jjd-lab.github.io/jev-synthetic-survey/">
   <meta property="og:title" content="Jev on a synthetic survey">
   <meta property="og:description" content="A $4 native-probability model vs a $136 verbalized-probability run. The cheap one lost the registered test on one column of six, and won the other five.">
@@ -13,7 +13,7 @@
   <meta property="og:image" content="https://jjd-lab.github.io/jev-synthetic-survey/assets/og.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Jev on a synthetic survey">
-  <meta name="twitter:description" content="Native vs verbalized probabilities on Twin-2K-500. The registered test fails on one column of six; the same model wins the rest at 1/34 the cost.">
+  <meta name="twitter:description" content="Native vs verbalized probabilities on Twin-2K-500. The strong claim fails on one column of six; the same model wins the rest at 1/34 the cost.">
   <meta name="twitter:image" content="https://jjd-lab.github.io/jev-synthetic-survey/assets/og.png">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,14 +48,15 @@
         <p class="lede">
           We asked TypeSafe’s Jev, a decision-only model, and <code>gpt-4.1</code> to play the
           same 300 survey respondents. Jev returns a probability vector because that is all it
-          does. We asked the chat model to write one out. Two tests were written down first, and
-          both failed — on one of the six columns measured. Jev won the other five, at a
-          thirty-fourth of the cost.
+          does. We asked the chat model to write one out. Two tests were written down first.
+          Both failed, so the strong claim does not hold. It failed on one of the six columns
+          measured; Jev won the other five, at a thirty-fourth of the cost, and that soft claim is
+          the interesting one.
         </p>
 
         <div class="hero-board">
-          <div class="stamp" aria-label="Registered test: fails on the two-option half">
-            <span>Registered test</span>
+          <div class="stamp" aria-label="The strong claim fails">
+            <span>Strong claim</span>
             <strong>Fails</strong>
           </div>
           <dl class="hero-stats">
@@ -71,8 +72,8 @@
           The registered arm is Jev <code>Choice</code> against verbalized <code>gpt-4.1</code>
           probabilities, and the column it loses is the two-option distribution gap the test turns
           on. Re-asked as a <code>Noul</code> it wins that column too, but after the fact, so the
-          registered test stands as failed. What follows teaches the instrument, then the
-          full-panel <code>gpt-4.1</code> run, then that comparison.
+          failure stands. What follows teaches the instrument, then the full-panel
+          <code>gpt-4.1</code> run, then that comparison.
         </p>
       </div>
     </section>
@@ -266,7 +267,7 @@
         <p class="chapter-no">04</p>
         <h2>Where Jev is still the interesting option</h2>
         <p>
-          The reject stands. These are the measured reasons it is not the end of the story.
+          The failure of the strong claim stands. These are the measured reasons it is not the end of the story.
           The last paragraph on this page is opinion, and is labeled as such.
         </p>
       </header>

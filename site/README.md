@@ -36,7 +36,7 @@ Set that URL as the repository homepage. The first deploy runs on a push to
 
 Suggested repository description:
 
-> Does a native probability vector beat a verbalized one? Jev vs gpt-4.1 on Twin-2K-500. The registered test fails on one column of six.
+> Does a native probability vector beat a verbalized one? Jev vs gpt-4.1 on Twin-2K-500. The strong claim fails, on one column of six.
 
 Suggested topics: `synthetic-survey`, `digital-twins`, `llm`, `calibration`, `jev`.
 

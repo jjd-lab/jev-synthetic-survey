@@ -1,10 +1,13 @@
 # The planned comparison, and the verdict
 
-**Verdict: the registered hypothesis is rejected.** Both tests fail, so on the comparison as
-written, Jev's native probability vector is not better than GPT-4.1's stated one. The scope is
-narrow and worth stating with it: the registered arm loses one of the six measured columns, the
-two-option distribution gap the test turns on, and wins the other five. For that one column the
-recommendation is unchanged — stay with verbalized probabilities and soft aggregation.
+**Verdict: the strong claim fails.** Both tests fail. Jev's native probability vector is not better than GPT-4.1's
+stated one on the comparison as registered, and for the two-option column the test turns on the
+recommendation is unchanged: stay with verbalized probabilities and soft aggregation.
+
+That is the strong claim, and its failure is the smaller half of the result. The registered arm
+loses exactly one of the six measured columns and wins the other five, at a thirty-fourth of the
+cost — so the weaker claim, that this is the better instrument once asked properly, is the one the
+data actually speaks to. It is not what was registered, and it is not discharged here.
 
 ## Question
 

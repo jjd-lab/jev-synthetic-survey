@@ -143,7 +143,7 @@ def build_figures() -> dict:
         "question": (
             "Does Jev's native probability vector beat gpt-4.1 asked to write one out?"
         ),
-        "verdict": "registered_hypothesis_rejected",
+        "verdict": "strong_claim_fails",
         "references": {
             "repo": "https://github.com/jjd-lab/jev-synthetic-survey",
             "pages": "https://jjd-lab.github.io/jev-synthetic-survey/",

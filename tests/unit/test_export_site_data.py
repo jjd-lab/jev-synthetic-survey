@@ -23,7 +23,7 @@ def test_headlines_match_readme(exporter):
     arms = figures["comparison"]["arms"]
     panel = figures["panel"]["arms"]
 
-    assert figures["verdict"] == "registered_hypothesis_rejected"
+    assert figures["verdict"] == "strong_claim_fails"
     assert round(arms["jev_choice"]["soft_nominal"], 4) == 0.1985
     assert round(arms["gpt41_probs"]["soft_nominal"], 4) == 0.1789
     assert round(arms["jev_noul"]["soft_nominal"], 4) == 0.1530
@@ -44,6 +44,6 @@ def test_write_figures_round_trips(exporter, tmp_path):
     exporter.write_figures(out)
     assert out.is_file()
     payload = exporter.load_json(out)
-    assert payload["verdict"] == "registered_hypothesis_rejected"
+    assert payload["verdict"] == "strong_claim_fails"
     assert payload["comparison"]["n"] == 300
     assert payload["panel"]["n"] == 2058
