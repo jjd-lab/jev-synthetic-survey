@@ -14,6 +14,46 @@ The full write-up is in [`docs/`](docs/README.md), split into a
 
 ---
 
+## New to this? Start here
+
+**What a synthetic survey respondent is.** A language model asked to fill in a questionnaire as if
+it were a particular person. You give it some facts about a real human, it answers questions that
+human also answered, and you compare the two. The appeal is that real panels are slow and
+expensive, so a model that could stand in for one would let you pretest a survey before fielding
+it. Whether it can is an open question, and this repo is one measurement of it.
+
+**The data is not ours, and neither is the benchmark design.** Everything here runs on
+[Twin-2K-500](https://huggingface.co/datasets/LLM-Digital-Twin/Twin-2K-500), built for this exact
+question by Toubia et al. (*Twin-2K-500*, [arXiv 2505.17479](https://arxiv.org/abs/2505.17479),
+CC BY 4.0). They surveyed 2,058 US adults on Prolific across four waves in February 2025, over 500
+questions each, then held one block out: a battery of classic behavioral-economics tasks. The rest
+of a person's answers is what you may use to build their twin. The held-out block is the exam. We
+did not collect any of it and we do not redistribute it;
+[`fetch_twin2k.py`](scripts/twin2k/fetch_twin2k.py) downloads it from the authors.
+
+**What a run does here.** For each of 300 respondents, build a persona out of their 14 demographic
+items, walk that persona through 108 of the held-out questions one at a time, and record what the
+model answered beside what the human actually answered. One pass over all 300 people is an **arm**.
+Five arms ship in this repo and they differ only in which model was asked, and how.
+
+**What is being compared.** Two ways of getting a probability out of a model. Jev is decision-only:
+it writes no prose and returns a number per option natively, because that is all it is built to do.
+`gpt-4.1` is a general chat model, so we asked it to write those same numbers out in words. The
+question is whether the native vector beats the verbalized one.
+
+**Why the tables below lead with a distribution gap instead of accuracy.** Nobody can predict how
+one individual answers a trick question. The humans themselves only reproduce their own earlier
+answer 81.68% of the time, and every arm here scores below a baseline that ignores the persona
+entirely. What a survey is actually for is the population number, the share who picked option A. So
+the metric that decides things is how far an arm's *distribution* of answers sits from the humans',
+and an arm can win that while losing per-person accuracy.
+
+[The dataset and the instrument](docs/survey/01-dataset-and-instrument.md) has the full design and
+the three different ways this dataset's questions can be counted.
+[The metrics page](docs/survey/02-metrics.md) defines every number below.
+
+---
+
 ## The verdict is reject
 
 The test that decides it asked whether Jev's native vector beats a verbalized one in **both** halves
@@ -23,6 +63,37 @@ recommendation is unchanged: stay with verbalized probabilities and soft aggrega
 The second test, on calibration, also failed, and for all four arms at once. That one is a statement
 about demographics-only grounding rather than about any model.
 [Details and both tests in full](docs/jev/02-planned-comparison.md).
+
+## All five arms
+
+Accuracy is last in this table on purpose. A synthetic panel earns its keep when the *distribution*
+it produces matches the population's, so the first two columns are the ones the verdict turns on:
+how far an arm's answer distribution sits from the humans' on the 65 two-option questions (soft
+TVD), and how far it sits on the 43 questions whose options are ordered (soft Wasserstein-1). Lower
+is better everywhere except the last column.
+
+| Arm | distribution gap | ordinal gap | calibration (ECE) | Brier | accuracy | cost |
+|---|---|---|---|---|---|---|
+| Jev `Choice` (the registered arm) | 0.1985 | 0.6864 | 0.2029 | 0.7550 | 67.59% | $4.01 |
+| Jev `Choice` + option descriptions | 0.1985 | 0.6822 | 0.2032 | 0.7553 | 67.51% | $4.03 |
+| Jev `Noul` | **0.1530** | **0.6812** | **0.1472** | **0.7385** | 67.28% | $4.02 |
+| `gpt-4.1` probabilities | 0.1789 | 0.7272 | 0.2393 | 0.8108 | 64.78% | ~$136 |
+| `gpt-4.1` hard answer | 0.2037 | 0.6987 | 0.3741 | 1.1664 | **69.32%** | not measured |
+
+300 respondents, 108 columns, 24,596 cells in every arm, equal weight per task. Three things the
+table will mislead you about if you read it alone:
+
+- **The hard-answer arm has no probability vector.** Its ECE and Brier score a one-hot spike, so
+  they measure the absence of a distribution rather than the quality of one. It is in the table
+  because it is the arm that wins accuracy, which is the whole point about accuracy. It was
+  extracted from a larger panel run rather than collected on its own, so it has no separate cost.
+- **The arm that wins accuracy is last on the distribution gap, on calibration and on Brier.** All
+  five sit below the persona-blind leave-one-out floor of 73.59%, so none of them predicts an
+  individual. The distribution columns are where the arms actually separate.
+- **The descriptions arm changed 40 of the 108 columns**, the pricing block, because the
+  description is derived from the option label and most labels yield none. The other 68 columns got
+  a byte-identical payload, which is the control that proves the run was clean rather than a
+  result. [What it did and did not move](docs/jev/06-option-descriptions.md).
 
 ## Asking the same question a different way closed most of the gap
 
@@ -145,11 +216,11 @@ where the file was read from and in the shipped report still names the working d
 scored in, and occasionally the last digit of a p-value, which moves with the platform's
 floating-point rounding.
 
-[`runs/jev_vs_gpt41_n300/`](runs/jev_vs_gpt41_n300/) holds the four arms of that comparison as
-gzipped JSONL, one record per respondent and question cell, carrying the probability vector, the
-committed answer, the human's answer, the option order as presented, and the model version. Each arm
-is 24,596 cells; the four are 3.1 MB gzipped against 56.7 MB raw, which is why they ship here rather
-than from a dataset host. The scorer reads either form.
+[`runs/jev_vs_gpt41_n300/`](runs/jev_vs_gpt41_n300/) holds the five arms as plain JSONL, one record
+per respondent and question cell, carrying the probability vector, the committed answer, the human's
+answer, the option order as presented, and the model version. Each arm is 24,596 cells and the five
+come to 70 MB, small enough to ship here rather than from a dataset host. The scorer also reads
+`.jsonl.gz`, which is how the larger 2,058-respondent panel runs are stored.
 [`runs/README.md`](runs/README.md) maps every file to the claim it supports.
 
 The price diagnostic also needs the dataset itself, for the per-respondent piped prices.
@@ -161,6 +232,23 @@ python scripts/twin2k/price_sensitivity.py \
     --arm jev_noul=runs/jev_vs_gpt41_n300/jev_noul.jsonl \
     --arm gpt41_probs=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl
 ```
+
+What each step costs, measured on a 2023 laptop:
+
+| Step | Needs | Time | Cost |
+|---|---|---|---|
+| score the three arms above | nothing downloaded, no account | 1m 45s | free |
+| `pytest` | nothing | 22s, 398 tests, no network | free |
+| `fetch_twin2k.py` | 205 MB of disk | a few minutes on a home connection | free |
+| the price diagnostic, once fetched | the dataset | under a second | free |
+| a new 300-respondent Jev arm | `TYPESAFE_API_KEY` | about 35 min at 16 walks | about $4 |
+| a new 300-respondent `gpt-4.1` arm | `API_KEY` | about 22 min at 50 | about $136 at list rates |
+
+The two run costs are the whole reason the comparison is interesting: they buy the same 24,596
+cells. Jev bills input only at $0.042 per million tokens with output free, which is where the
+34-fold gap comes from. The `gpt-4.1` figure is inferred from list rates rather than billed
+through, so read it as an order of magnitude. `probe_jev.py --dry-run` prints the exact Jev cost
+before anything is sent.
 
 ## Credentials
 
@@ -175,15 +263,20 @@ cp .env.example .env
 | `TYPESAFE_API_KEY` | Jev | the probe also accepts `JEV_KEY` |
 | `API_BASE_URL`, `API_KEY` | the `gpt-4.1` comparator | any OpenAI-compatible endpoint |
 
-[`.env.example`](.env.example) documents the optional settings. A full 300-respondent Jev arm cost
-$4.01; the `gpt-4.1` comparator arm is inferred at roughly $136.
+[`.env.example`](.env.example) documents the optional settings. The table above has what a full arm
+costs and how long it takes.
 
 The configs ship a plain `gpt-4.1`, so `.env.example` as written runs against stock OpenAI. Every
-number in this repo was collected as `azure/gpt-4.1` through a provider; the model id is the only
-thing that differs, and it changes no routing, since `structured_output_method` branches only on a
-`bedrock/` prefix. On a personal key, lower `max_concurrency` in the YAML from 50 to 8-16 — it
-holds that many whole persona-walks open at once, and a personal account's rate limit is far below
-a provider's.
+number in this repo was collected as `azure/gpt-4.1` through a provider, and the model id is the
+only thing that differs. It is sent verbatim as the model, so it *is* the routing key at a
+provider — to reproduce the shipped runs, restore the prefix along with the provider `API_BASE_URL`.
+What it does not change is structured output: `structured_output_method` branches only on a
+`bedrock/` prefix, so both ids take the same hard-enforced `json_schema` path the probability arm
+depends on.
+
+On a personal key, lower `max_concurrency` in the YAML (50 in three arms, 32 in
+`prior_answers_stateless`) to 8-16 — a slot holds a whole persona-walk, not one call, and a
+personal account's rate limit is far below a provider's.
 
 ## Run a new arm
 
@@ -206,6 +299,13 @@ python scripts/twin2k/probe_jev.py --arm jev_noul_chained --chain --primitive no
 respondents 301-2058. Option order is seeded per respid
 ([`survey_runner_excel.py`](src/core/survey_runner_excel.py)), so those cells are identical to the
 same rows of a full run.
+
+Give a skipped run its **own `--run-id`**. A checkpoint record is keyed by its position in the
+run's persona list, so position 0 is respondent 1 in a full run and respondent 301 under
+`--skip 300`; sharing a dir would make the export drop one of every colliding pair. The run dir
+records the window it was built for and refuses a mismatch, so this fails loudly rather than
+quietly. The two runs' workbooks are then merged after the fact, by
+`prob_scoring.py convert` and concatenation — see [`runs/README.md`](runs/README.md).
 
 The Jev probe refuses to load a config outside `configs/twin2k/`, and refuses any endpoint that is
 not TypeSafe. Twin-2K-500 is the only data cleared to be sent there, and the code and the tests

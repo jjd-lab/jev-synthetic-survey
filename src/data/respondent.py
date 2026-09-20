@@ -20,7 +20,6 @@ class Respondent:
             row_data: Dictionary from Excel row (column names as keys)
             question_mapper: QuestionMapper instance for decoding responses
         """
-        # Try multiple possible ID column names (respid, "Response ID", ...)
         self.respid = row_data.get(
             "respid",
             row_data.get("repid",
@@ -34,17 +33,14 @@ class Respondent:
         # Keep repid as alias for backward compatibility
         self.repid = self.respid
 
-        # Explicit demographics (extracted from specific screener questions)
-        # Example: {age: "35-44", income: "$75k-$100k", family_type: "Young family"}
+        # {age: "35-44", income: "$75k-$100k", family_type: "Young family"}
         self.demographics = question_mapper.extract_demographics(row_data)
 
-        # Screener profile (non-demographic questions)
-        # Example: {S4: {question: "...", answer: "..."}, S5: {...}, ...}
+        # {S4: {question: "...", answer: "..."}, S5: {...}, ...}
         self.screener_profile = question_mapper.extract_screener_profile(row_data)
 
-        # Ground truth responses
-        # Single choice: {MU1: "Premium Package"}
-        # Multi choice: {MU2: ["Dining plan", "Character experiences"]}
+        # {MU1: "Premium Package"}, or {MU2: ["Dining plan", ...]} where the question
+        # is multi-select.
         self.ground_truth = question_mapper.extract_ground_truth(row_data)
 
         # Per-respondent question text: {QID9_1: "8.45", ...}. Empty for every survey whose
