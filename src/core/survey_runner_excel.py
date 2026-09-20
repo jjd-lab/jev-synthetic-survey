@@ -5,7 +5,6 @@ This module supports two modes:
 2. Stateful mode: Sequential per-persona, full conversation history, routing-aware
 """
 
-import json
 import random
 import uuid
 from typing import Callable, List, Literal, Optional, Any, Dict, Sequence, Tuple
@@ -14,7 +13,7 @@ ResponseMode = Literal["hard_choice", "choice_plus_confidence", "verbalized_prob
 
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableLambda
-from pydantic import BaseModel, Field, create_model, field_validator
+from pydantic import BaseModel, Field, create_model
 
 from src.utils.batch_processor import BatchProcessor
 from src.utils.llm_factory import create_llm_instance, apply_langchain_retry, structured_output_method
@@ -101,114 +100,6 @@ def _field_names_in_order(model_fields: Dict[str, Any]) -> List[str]:
     return list(model_fields.keys())
 
 
-def _repair_json(s: str):
-    """Best-effort parse of a not-quite-valid JSON string; return the parsed value or None.
-
-    Targets the malformed shapes seen from Haiku 4.5 under function_calling, which emits the whole
-    `variations` argument as a JSON *string* that is usually valid but sometimes has:
-      - trailing commas before a closing ] or }   (e.g. `..."}, ]}]`)
-      - a stray double-quote between closers        (e.g. `..."}"]` where `}]` was due)
-      - a wrong closer — `]` where `}` was due or vice-versa (e.g. `..."]}]`)
-      - too many / too few trailing closers         (truncated or over-closed output)
-    Strategy: strip trailing commas and stray quotes-between-closers, then rebuild the bracket
-    structure with a stack that *substitutes* a mismatched closer with the one the innermost opener
-    actually needs, drops stray closers, and appends any missing closers at the end. Closers inside
-    string literals are ignored. Returns None if the rebuilt text still won't parse — the caller
-    then leaves the raw value for Pydantic to reject (logged as today). Purely additive: a
-    well-formed string parses on the plain path and never reaches here.
-    """
-    import re as _re
-
-    # 1) Strip trailing commas: `, ]` -> `]` and `, }` -> `}` (and no-space variants).
-    candidate = _re.sub(r",\s*([\]}])", r"\1", s).strip()
-    try:
-        return json.loads(candidate)
-    except (json.JSONDecodeError, ValueError):
-        pass
-
-    # 2) Single string-aware pass that rebuilds the bracket structure with a stack — substituting a
-    #    mismatched closer with the one the innermost opener needs, dropping stray closers, dropping
-    #    a stray double-quote wedged directly before a closer/comma (Haiku's `}"]` -> `}]`), and
-    #    appending any missing closers at the end. String contents are tracked so real quotes,
-    #    brackets, and commas inside values are never altered.
-    chars = candidate
-    n = len(chars)
-    out = []
-    stack = []  # openers seen, e.g. '[' / '{'
-    close_for = {"[": "]", "{": "}"}
-    in_str = False
-    esc = False
-    i = 0
-    while i < n:
-        ch = chars[i]
-        if in_str:
-            out.append(ch)
-            if esc:
-                esc = False
-            elif ch == "\\":
-                esc = True
-            elif ch == '"':
-                in_str = False
-            i += 1
-            continue
-        if ch == '"':
-            # A quote outside a string that is immediately followed (ignoring spaces) by a closer or
-            # comma can't begin a real value — it's Haiku's spurious trailing quote. Drop it.
-            j = i + 1
-            while j < n and chars[j].isspace():
-                j += 1
-            if j < n and chars[j] in "]},":
-                i += 1
-                continue
-            in_str = True
-            out.append(ch)
-        elif ch in "[{":
-            stack.append(ch)
-            out.append(ch)
-        elif ch in "]}":
-            if not stack:
-                i += 1
-                continue  # stray closer with nothing open — drop it
-            opener = stack.pop()
-            out.append(close_for[opener])  # emit the correct closer regardless of which was written
-        else:
-            out.append(ch)
-        i += 1
-    # Append closers for anything still open (truncated output), innermost first.
-    while stack:
-        out.append(close_for[stack.pop()])
-
-    rebuilt = "".join(out)
-    try:
-        return json.loads(rebuilt)
-    except (json.JSONDecodeError, ValueError):
-        return None
-
-
-class _LenientVariationsBase(BaseModel):
-    """Recover models that emit `variations` as a JSON string instead of a native list.
-
-    Some models (e.g. Haiku 4.5 under function_calling) serialize the whole tool-call argument as a
-    string. We json-decode a stringified list before validation; if that fails we attempt a
-    lightweight repair (trailing commas / unbalanced brackets — see `_repair_json`). Anything that
-    still won't parse falls through unchanged so Pydantic raises its normal error (and the run's
-    error recorder logs it as today). Inert for the json_schema path (native lists), so it never
-    changes OpenAI/Azure behavior. check_fields=False: `variations` is defined on the create_model()
-    subclasses, not this base.
-    """
-
-    @field_validator("variations", mode="before", check_fields=False)
-    @classmethod
-    def _coerce_stringified_variations(cls, v):
-        if isinstance(v, str):
-            try:
-                return json.loads(v)
-            except (json.JSONDecodeError, ValueError):
-                repaired = _repair_json(v)
-                return repaired if repaired is not None else v
-        return v
-
-
 # Per-question framing guidance injected as {framing_guidance}. Personal = self-report;
 # societal = prediction/opinion about most people or society (e.g. Q23).
 _FRAMING_GUIDANCE = {
@@ -273,8 +164,7 @@ def prior_answer_history(persona: dict) -> List[Tuple[str, Any]]:
     mapping entries, so `screener_profile` already holds them as {question, answer} in
     survey order.
 
-    Called only by `render_history`, which owns the choice between this verbatim rendering
-    and the summarized one. Returns an empty list when a persona has no screener answers.
+    Called only by `render_history`. Returns an empty list when a persona has no screener answers.
     """
     profile = persona.get("screener_profile") or {}
     return [
@@ -290,17 +180,10 @@ def render_history(
 ) -> str:
     """One channel for everything this persona has already 'said'.
 
-    Two renderings of the same `screener_profile`, chosen by config: with
-    `screener_summarization_prompt`, `screener_summary` holds an LLM compression; without it,
-    the verbatim Q:/A: pairs. `own_answers` is this run's chain (stateful only) and always
-    follows, so picking summary mode can never silently drop answer chaining.
+    The persona's own earlier answers render as verbatim Q:/A: pairs, and `own_answers`, this
+    run's chain on the stateful path, always follows them.
     """
-    summary = persona.get("screener_summary") or ""
-    prior = [] if summary.strip() else prior_answer_history(persona)
-    chain = build_prompt_with_history([*prior, *own_answers])
-    # `strip()` here too, matching the `prior` test above: a whitespace-only summary counts as "no
-    # summary" when choosing the rendering, so it must not also be prepended as a blank block.
-    return "\n\n".join(part for part in (summary, chain) if part.strip())
+    return build_prompt_with_history([*prior_answer_history(persona), *own_answers])
 
 
 def _default_subscription_tier(subscription_tiers: List[str]) -> str:
@@ -460,7 +343,7 @@ def _create_multi_variation_model(
 
     return create_model(
         'MultiVariationResponse',
-        __base__=_LenientVariationsBase,
+        __base__=BaseModel,
         variations=(List[VariationAnswer], Field(
             ..., min_length=n_variations, max_length=n_variations,
             description=f"Exactly {n_variations} possible answer variations",
@@ -583,7 +466,7 @@ def create_grid_response_model(
 
     return create_model(
         "GridResponse",
-        __base__=_LenientVariationsBase,
+        __base__=BaseModel,
         variations=(List[GridVariation], Field(
             ..., min_length=n_variations, max_length=n_variations,
             description=f"Exactly {n_variations} grid-answer variation(s)",
@@ -614,7 +497,7 @@ def create_open_ended_response_model(
 
     return create_model(
         "OpenEndedResponse",
-        __base__=_LenientVariationsBase,
+        __base__=BaseModel,
         variations=(List[VariationAnswer], Field(
             ..., min_length=n_variations, max_length=n_variations,
             description=f"Exactly {n_variations} open-ended answer variation(s)",

@@ -145,7 +145,6 @@ def generate_respondent_detail_excel(
     all_persona_indices_by_question: Optional[Dict[str, List[int]]] = None,
     all_variation_ids_by_question: Optional[Dict[str, List[int]]] = None,
     all_probs_by_question: Optional[Dict[str, List]] = None,
-    include_screener: bool = True,
     include_tiers: bool = True,
     failed_persona_indices: Optional[Set[int]] = None,
     open_ended_question_ids: Optional[List[str]] = None,
@@ -157,7 +156,6 @@ def generate_respondent_detail_excel(
     - If n_variations=2, each respondent gets 2 rows
     - Respondent ID + variation_id identify each row uniquely
     - Demographics (age, income, family_type, etc.)
-    - Screener summary (only when include_screener)
     - For each survey question:
         - Synthetic response (for this variation)
         - Ground truth response (same for all variations)
@@ -173,7 +171,6 @@ def generate_respondent_detail_excel(
         all_subscription_tiers_by_question: Dict of {question_id: list of ALL subscription tiers}
         all_persona_indices_by_question: Dict of {question_id: list of persona indices}
         all_variation_ids_by_question: Dict of {question_id: list of variation IDs}
-        include_screener: Emit the screener_summary column (only for surveys with a screener)
         include_tiers: Emit per-question subscription_tier columns (opt-in prompt feature)
     """
     print("\nGenerating detailed respondent Excel report (with all variations)...")
@@ -217,8 +214,6 @@ def generate_respondent_detail_excel(
                 row[f'demo_{demo_key}'] = demo_value
 
             # Add persona information
-            if include_screener:
-                row['screener_summary'] = persona['screener_summary']
 
             for question_id, result in detail_results.items():
                 _set_question_columns(
@@ -247,7 +242,7 @@ def generate_respondent_detail_excel(
     # Start with ID columns (including variation_id), then demographics, then persona info, then questions
     id_cols = ['respid', 'response_id', 'variation_id']
     demo_cols = [col for col in df.columns if col.startswith('demo_')]
-    persona_cols = ['screener_summary'] if include_screener else []
+    persona_cols = []
 
     # Question columns in order
     question_cols = []
@@ -404,7 +399,6 @@ def export_all_results(
     all_variation_ids_by_question: Optional[Dict[str, List[int]]] = None,
     all_probs_by_question: Optional[Dict[str, List]] = None,
     all_option_orders_by_question: Optional[Dict[str, List]] = None,
-    include_screener: bool = True,
     include_tiers: bool = True,
     failed_persona_indices: Optional[Set[int]] = None,
     open_ended_question_ids: Optional[List[str]] = None,
@@ -421,7 +415,6 @@ def export_all_results(
         all_subscription_tiers_by_question: Dict of {question_id: list of ALL subscription tiers}
         all_persona_indices_by_question: Dict of {question_id: list of persona indices}
         all_variation_ids_by_question: Dict of {question_id: list of variation IDs}
-        include_screener: Emit the screener_summary column (opt-in)
         include_tiers: Emit per-question subscription_tier columns (opt-in)
         open_ended_question_ids: Open-ended question ids to render in the detail sheet.
             They have no ValidationResult (no metric) so they'd otherwise be omitted; the
@@ -444,7 +437,6 @@ def export_all_results(
         all_variation_ids_by_question,
         all_probs_by_question=all_probs_by_question,
         all_option_orders_by_question=all_option_orders_by_question,
-        include_screener=include_screener,
         include_tiers=include_tiers,
         failed_persona_indices=failed_persona_indices,
         open_ended_question_ids=open_ended_question_ids,

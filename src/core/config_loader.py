@@ -76,7 +76,6 @@ class SurveyConfig(BaseModel):
 class PersonaConfig(BaseModel):
     """Persona generation configuration"""
     source: str = "excel"
-    screener_summarization_prompt: Optional[str] = None  # Optional for surveys with no screener questions
 
 
 class LLMConfig(BaseModel):

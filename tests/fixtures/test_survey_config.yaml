@@ -19,11 +19,6 @@ survey:
 personas:
   source: "excel"
 
-  screener_summarization_prompt: |
-    Summarize these screener responses in 2 bullet points:
-
-    {screener_responses}
-
 survey_prompt: |
   You are a theme park guest.
 

@@ -2,22 +2,19 @@
 
 from typing import List, Optional
 from src.data.respondent import Respondent
-from src.core.persona_summarizer import batch_summarize_screeners
 
 _DISPLAY_WIDTH = 80
 
 
 def generate_personas_from_respondents(respondents: List[Respondent],
-                                        screener_summarization_prompt: str = None,
                                         model: str = None,
                                         temperature: float = 0.3,
                                         max_concurrency: Optional[int] = None,
                                         max_retries: Optional[int] = None) -> List[dict]:
-    """Generate personas from list of respondents using LLM to summarize screener profiles
+    """Generate personas from list of respondents.
 
     Args:
         respondents: List of Respondent objects
-        screener_summarization_prompt: Optional template for screener summarization
         model: LLM model to use
         temperature: Temperature for persona generation (factual summarization, default: 0.3)
 
@@ -27,24 +24,9 @@ def generate_personas_from_respondents(respondents: List[Respondent],
     print(f"\nGenerating personas from {len(respondents)} respondents...")
     print("=" * _DISPLAY_WIDTH)
 
-    # Batch summarize screener profiles (skip if no prompt - some surveys have no screener)
-    if screener_summarization_prompt:
-        print("\nSummarizing screener profiles...")
-        screener_profiles = [r.screener_profile for r in respondents]
-
-        screener_summaries = batch_summarize_screeners(
-            screener_profiles,
-            screener_prompt_template=screener_summarization_prompt,
-            model=model,
-            temperature=temperature,
-            max_concurrency=max_concurrency,
-            max_retries=max_retries,
-        )
-
-        print(f"[OK] Generated {len(screener_summaries)} screener summaries")
-    else:
-        print("\n[INFO] No screener summarization prompt - skipping (direct demographics mode)")
-        screener_summaries = ["" for _ in respondents]  # Empty summaries
+    # `screener_summary` stays on the persona, always empty: it is a column of the persona cache
+    # format that shipped caches carry, and `render_history` renders the verbatim Q:/A: pairs.
+    screener_summaries = ["" for _ in respondents]
 
     print("\nBuilding persona objects...")
     personas = [
