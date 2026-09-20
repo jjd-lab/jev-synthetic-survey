@@ -1,0 +1,72 @@
+{
+  "QID11": {
+    "question": "Which part of the United States do you currently live in?",
+    "type": "demographic",
+    "demographic_key": "region"
+  },
+  "QID12": {
+    "question": "What is the sex that you were assigned at birth?",
+    "type": "demographic",
+    "demographic_key": "sex"
+  },
+  "QID13": {
+    "question": "How old are you?",
+    "type": "demographic",
+    "demographic_key": "age"
+  },
+  "QID14": {
+    "question": "What is the highest level of schooling or degree that you have completed?",
+    "type": "demographic",
+    "demographic_key": "education"
+  },
+  "QID15": {
+    "question": "What is your race or origin?",
+    "type": "demographic",
+    "demographic_key": "race"
+  },
+  "QID16": {
+    "question": "Are you a citizen of the United States?",
+    "type": "demographic",
+    "demographic_key": "citizen"
+  },
+  "QID17": {
+    "question": "Which of these best describes you?",
+    "type": "demographic",
+    "demographic_key": "marital"
+  },
+  "QID18": {
+    "question": "What is your present religion, if any?",
+    "type": "demographic",
+    "demographic_key": "religion"
+  },
+  "QID19": {
+    "question": "Aside from weddings and funerals, how often do you attend religious services?",
+    "type": "demographic",
+    "demographic_key": "religious_attendance"
+  },
+  "QID20": {
+    "question": "In politics today, do you consider yourself a",
+    "type": "demographic",
+    "demographic_key": "party"
+  },
+  "QID21": {
+    "question": "Last year, what was your total family income from all sources, before taxes?",
+    "type": "demographic",
+    "demographic_key": "income"
+  },
+  "QID22": {
+    "question": "In general, would you describe your political views as",
+    "type": "demographic",
+    "demographic_key": "political_views"
+  },
+  "QID23": {
+    "question": "Including yourself, how many people currently live in your household?",
+    "type": "demographic",
+    "demographic_key": "household_size"
+  },
+  "QID24": {
+    "question": "What is your current employment status?",
+    "type": "demographic",
+    "demographic_key": "employment"
+  }
+}

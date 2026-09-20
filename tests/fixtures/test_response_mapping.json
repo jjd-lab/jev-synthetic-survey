@@ -1,0 +1,52 @@
+{
+  "MU1": {
+    "question": "Which Disney World vacation package would you choose?",
+    "type": "single",
+    "choices": {
+      "1": "Value Package: 3-day park hopper, moderate hotel ($1,500)",
+      "2": "Standard Package: 5-day park hopper, deluxe hotel, dining plan ($3,500)",
+      "3": "Premium Package: 7-day park hopper, deluxe resort, dining + Genie+, special experiences ($6,000)"
+    }
+  },
+  "MU2": {
+    "question": "Which amenities are important to you? (Select all that apply)",
+    "type": "multi",
+    "choice_columns": ["MU2_choice1", "MU2_choice2", "MU2_choice3", "MU2_choice4"],
+    "choices": {
+      "MU2_choice1": "Dining plan included",
+      "MU2_choice2": "Genie+ skip-the-line access",
+      "MU2_choice3": "Character dining experiences",
+      "MU2_choice4": "Special after-hours events"
+    }
+  },
+  "MU3": {
+    "question": "Which parks would you prioritize visiting?",
+    "type": "multi",
+    "choice_columns": ["MU3_choice1", "MU3_choice2", "MU3_choice3", "MU3_choice4"],
+    "choices": {
+      "MU3_choice1": "Magic Kingdom",
+      "MU3_choice2": "EPCOT",
+      "MU3_choice3": "Hollywood Studios",
+      "MU3_choice4": "Animal Kingdom"
+    }
+  },
+  "MU4": {
+    "question": "What is your primary motivation for visiting Disney World?",
+    "type": "single",
+    "choices": {
+      "1": "Family bonding and creating memories",
+      "2": "Experiencing new attractions and entertainment",
+      "3": "Relaxation and escape from daily life",
+      "4": "Special celebration (birthday, anniversary, etc.)"
+    }
+  },
+  "MU5": {
+    "question": "How do you prefer to plan your Disney vacation?",
+    "type": "single",
+    "choices": {
+      "1": "Highly planned with advance reservations",
+      "2": "Some planning with flexibility",
+      "3": "Spontaneous, go with the flow"
+    }
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "S1": {
+    "question": "What is your age?",
+    "type": "demographic",
+    "demographic_key": "age",
+    "choices": {
+      "1": "18-24",
+      "2": "25-34",
+      "3": "35-44",
+      "4": "45-54",
+      "5": "55-64",
+      "6": "65+"
+    }
+  },
+  "S2": {
+    "question": "What is your household income?",
+    "type": "demographic",
+    "demographic_key": "income",
+    "choices": {
+      "1": "Under $50k",
+      "2": "$50k-$75k",
+      "3": "$75k-$100k",
+      "4": "$100k-$150k",
+      "5": "Over $150k"
+    }
+  },
+  "S3": {
+    "question": "What is your family type?",
+    "type": "demographic",
+    "demographic_key": "family_type",
+    "choices": {
+      "1": "Single",
+      "2": "Couple",
+      "3": "Young family (kids under 12)",
+      "4": "Family with teens",
+      "5": "Empty nester"
+    }
+  },
+  "S4": {
+    "question": "How often do you visit Disney parks?",
+    "type": "screener",
+    "choices": {
+      "1": "First time visitor",
+      "2": "Once every few years",
+      "3": "Once a year",
+      "4": "Annual passholder"
+    }
+  },
+  "S5": {
+    "question": "What type of accommodation do you prefer?",
+    "type": "screener",
+    "choices": {
+      "1": "Budget/Value hotels",
+      "2": "Moderate hotels",
+      "3": "Deluxe/Luxury resorts"
+    }
+  },
+  "S6": {
+    "question": "How important are dining experiences to you?",
+    "type": "screener",
+    "choices": {
+      "1": "Not important",
+      "2": "Somewhat important",
+      "3": "Very important"
+    }
+  },
+  "S7": {
+    "question": "What is your preferred vacation duration?",
+    "type": "screener",
+    "choices": {
+      "1": "Weekend (2-3 days)",
+      "2": "Short trip (4-5 days)",
+      "3": "Week long (6-7 days)",
+      "4": "Extended stay (8+ days)"
+    }
+  },
+  "S8": {
+    "question": "When do you typically travel?",
+    "type": "screener",
+    "choices": {
+      "1": "Peak season (holidays, summer)",
+      "2": "Shoulder season (spring, fall)",
+      "3": "Off-peak season (winter excluding holidays)"
+    }
+  },
+  "S9": {
+    "question": "What attractions are most important to your group?",
+    "type": "screener",
+    "choices": {
+      "1": "Thrill rides",
+      "2": "Character experiences",
+      "3": "Shows and entertainment",
+      "4": "Immersive lands (Star Wars, Pandora)"
+    }
+  },
+  "S10": {
+    "question": "How do you prioritize spending on a Disney vacation?",
+    "type": "screener",
+    "choices": {
+      "1": "Budget-focused, minimize costs",
+      "2": "Balanced approach",
+      "3": "Premium experiences, cost less important"
+    }
+  }
+}

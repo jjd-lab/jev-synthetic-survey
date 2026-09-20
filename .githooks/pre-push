@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+# Refuse to push if this repo's commit identity or remote owner is not the expected one.
+#
+# GitHub's own "block pushes that expose my email" setting does not cover the case this
+# exists for: it fires only when the author email is a private email on the SAME account,
+# so an address belonging to a different account passes it unchecked.
+#
+# Requires `git config core.hooksPath .githooks`; a clone without it runs no hook at all.
+
+set -uo pipefail
+
+EXPECTED_NAME="jjd-lab"
+EXPECTED_EMAIL="43431200+jjd-lab@users.noreply.github.com"
+EXPECTED_OWNER="jjd-lab"
+# Held in .git/config, not here: this file is committed, so hardcoding the strings would
+# publish the identity the check exists to catch. Unset, the check is skipped.
+#   git config --local hooks.forbiddenPattern 'name|other-name'
+FORBIDDEN=$(git config --get hooks.forbiddenPattern || true)
+
+remote_name="${1:-}"
+remote_url="${2:-}"
+fail=0
+
+say() { printf '%s\n' "$*" >&2; }
+
+# --- 1. the remote must belong to the right account -------------------------------
+if [ -n "$remote_url" ] && ! printf '%s' "$remote_url" | grep -qi "[:/]${EXPECTED_OWNER}/"; then
+    say "BLOCKED: remote '$remote_name' is $remote_url"
+    say "         expected a repository owned by '$EXPECTED_OWNER'."
+    say "         Check 'gh auth status' -- you may be authenticated as the wrong account."
+    fail=1
+fi
+
+# --- 2. every commit being pushed must carry the right identity --------------------
+zero=$(git hash-object --stdin </dev/null | tr '[:xdigit:]' '0')
+while read -r _local_ref local_sha _remote_ref remote_sha; do
+    [ "$local_sha" = "$zero" ] && continue          # branch deletion: nothing to inspect
+
+    if [ "$remote_sha" = "$zero" ]; then
+        range="$local_sha"                          # new branch: check every reachable commit
+        list=$(git rev-list --max-count=500 "$range")
+    else
+        list=$(git rev-list "$remote_sha..$local_sha")
+    fi
+
+    for sha in $list; do
+        an=$(git show -s --format='%an' "$sha")
+        ae=$(git show -s --format='%ae' "$sha")
+        cn=$(git show -s --format='%cn' "$sha")
+        ce=$(git show -s --format='%ce' "$sha")
+
+        if [ "$an" != "$EXPECTED_NAME" ] || [ "$ae" != "$EXPECTED_EMAIL" ] \
+           || [ "$cn" != "$EXPECTED_NAME" ] || [ "$ce" != "$EXPECTED_EMAIL" ]; then
+            say "BLOCKED: ${sha:0:9} has the wrong identity"
+            say "         author:    $an <$ae>"
+            say "         committer: $cn <$ce>"
+            say "         expected:  $EXPECTED_NAME <$EXPECTED_EMAIL>"
+            fail=1
+        fi
+
+        if [ -n "$FORBIDDEN" ] \
+           && git show -s --format='%an%n%ae%n%cn%n%ce%n%B' "$sha" | grep -qiE "$FORBIDDEN"; then
+            say "BLOCKED: ${sha:0:9} mentions a forbidden identity string"
+            fail=1
+        fi
+    done
+done
+
+if [ "$fail" -ne 0 ]; then
+    say ""
+    say "Nothing was pushed. To repair the most recent commit:"
+    say "    git config user.name  '$EXPECTED_NAME'"
+    say "    git config user.email '$EXPECTED_EMAIL'"
+    say "    git commit --amend --reset-author --no-edit"
+    exit 1
+fi
+
+exit 0

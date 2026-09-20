@@ -1,0 +1,52 @@
+# Test survey config — uses committed fixtures (CI-safe)
+
+survey:
+  name: "Test Survey Validation"
+
+  data_source:
+    excel_file: "tests/fixtures/minimal_respondents.xlsx"
+    demographic_mapping: "tests/fixtures/test_screener_mapping.json"
+    question_mapping: "tests/fixtures/test_response_mapping.json"
+    sheet_name: null
+    max_rows: null
+
+  questions:
+    - id: "MU1"
+      type: "single"
+    - id: "MU2"
+      type: "multi"
+
+personas:
+  source: "excel"
+
+  screener_summarization_prompt: |
+    Summarize these screener responses in 2 bullet points:
+
+    {screener_responses}
+
+survey_prompt: |
+  You are a Disney guest.
+
+  DEMOGRAPHICS:
+  - Age: {age}
+  - Household Income: {income}
+  - Family Type: {family_type}
+
+  YOUR PREFERENCES & BEHAVIOR:
+  {conversation_history}
+
+  Survey Question: {question}
+
+  {options}
+
+  Return structured output with choice number(s) and explanation.
+
+llm:
+  model: "bedrock/us.anthropic.claude-haiku-4-5"
+  persona_temperature: 0.3
+  survey_temperature: 0.7
+  n_variations: 3
+
+execution:
+  save_output: true
+  output_dir: "outputs"

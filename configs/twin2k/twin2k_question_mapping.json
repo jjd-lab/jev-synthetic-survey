@@ -1,0 +1,1542 @@
+{
+  "QID9_1": {
+    "question": "Please consider the following product category: Dairy Products. Suppose you are in a grocery store, and you see the following product in that category: Land O Lakes Salted Stick Butter, 16 oz, 4 Sticks. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_1"
+  },
+  "QID9_2": {
+    "question": "Please consider the following product category: Pain Remedies - Headache. Suppose you are in a grocery store, and you see the following product in that category: Tylenol Extra Strength Caplets with 500 mg Acetaminophen, 100 Ct. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_2"
+  },
+  "QID9_3": {
+    "question": "Please consider the following product category: Cat Food - Wet Type. Suppose you are in a grocery store, and you see the following product in that category: Purina Fancy Feast Chicken Feast Classic Grain Free Wet Cat Food Pate - 3 oz. Can. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_3"
+  },
+  "QID9_4": {
+    "question": "Please consider the following product category: Frozen Italian Entrees. Suppose you are in a grocery store, and you see the following product in that category: Smart Ones Three Cheese Ziti Marinara Frozen Meal, 9 Oz Box. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_4"
+  },
+  "QID9_5": {
+    "question": "Please consider the following product category: Refrigerated Deli Meats. Suppose you are in a grocery store, and you see the following product in that category: Goya Cooked Ham 16 oz. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_5"
+  },
+  "QID9_6": {
+    "question": "Please consider the following product category: Snacks - Potato Chips. Suppose you are in a grocery store, and you see the following product in that category: Lay's Classic Potato Snack Chips, Party Size, 13 oz Bag. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_6"
+  },
+  "QID9_7": {
+    "question": "Please consider the following product category: Bottled Water. Suppose you are in a grocery store, and you see the following product in that category: OZARKA Brand 100% Natural Spring Water, 16.9-ounce plastic bottles (Pack of 35). The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_7"
+  },
+  "QID9_8": {
+    "question": "Please consider the following product category: Pet Supplies - Dog Food. Suppose you are in a grocery store, and you see the following product in that category: Purina Dog Chow Complete, Dry Dog Food for Adult Dogs High Protein, Real Chicken, 44 lb Bag. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_8"
+  },
+  "QID9_9": {
+    "question": "Please consider the following product category: Fresh Fruit. Suppose you are in a grocery store, and you see the following product in that category: Fresh Raspberries, 12 oz Container. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_9"
+  },
+  "QID9_10": {
+    "question": "Please consider the following product category: Lunchmeat - Sliced - Refrigerated. Suppose you are in a grocery store, and you see the following product in that category: Oscar Mayer Chopped Ham & Water product Deli Lunch Meat, 16 Oz Package. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_10"
+  },
+  "QID9_11": {
+    "question": "Please consider the following product category: Refrigerated Entrees. Suppose you are in a grocery store, and you see the following product in that category: John Soules Foods Chicken Breast Fajita Strips, Refrigerated, 16oz, 18g Protein per 3oz Serving Size. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_11"
+  },
+  "QID9_12": {
+    "question": "Please consider the following product category: Beer. Suppose you are in a grocery store, and you see the following product in that category: Stella Artois Lager, 12 Pack, 11.2 fl oz Glass Bottles, 5% ABV, Domestic Beer. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_12"
+  },
+  "QID9_13": {
+    "question": "Please consider the following product category: Cereal - Ready to Eat. Suppose you are in a grocery store, and you see the following product in that category: Cinnamon Toast Crunch Breakfast Cereal, Crispy Cinnamon Cereal, Family Size, 18.8 oz. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_13"
+  },
+  "QID9_14": {
+    "question": "Please consider the following product category: Cleaning Supplies. Suppose you are in a grocery store, and you see the following product in that category: ARM & HAMMER Pure Baking Soda, For Baking, Cleaning & Deodorizing, 1 lb Box. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_14"
+  },
+  "QID9_15": {
+    "question": "Please consider the following product category: Frozen Novelties. Suppose you are in a grocery store, and you see the following product in that category: Pop-Ice Assorted Fruit Freezer Ice Pops, Gluten-Free Snack, 1.5 oz, 80 Count Fruit Pops. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_15"
+  },
+  "QID9_16": {
+    "question": "Please consider the following product category: Soft Drinks - Carbonated. Suppose you are in a grocery store, and you see the following product in that category: Coca-Cola Soda Pop, 12 fl oz, 12 Pack Cans. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_16"
+  },
+  "QID9_17": {
+    "question": "Please consider the following product category: Toilet Tissue. Suppose you are in a grocery store, and you see the following product in that category: Angel Soft Toilet Paper, 9 Mega Rolls, Soft and Strong Toilet Tissue. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_17"
+  },
+  "QID9_18": {
+    "question": "Please consider the following product category: Baby Milk and Milk Flavoring. Suppose you are in a grocery store, and you see the following product in that category: Horizon Organic Shelf-Stable Whole Milk Boxes, 8 oz., 12 Pack. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_18"
+  },
+  "QID9_19": {
+    "question": "Please consider the following product category: Ground and Whole Bean Coffee. Suppose you are in a grocery store, and you see the following product in that category: Folgers Classic Roast Ground Coffee, Medium Roast, 40.3-Ounce Canister. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_19"
+  },
+  "QID9_20": {
+    "question": "Please consider the following product category: Frozen Foods. Suppose you are in a grocery store, and you see the following product in that category: Great Value All Natural Chicken Wing Sections, 4 lb (Frozen). The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_20"
+  },
+  "QID9_21": {
+    "question": "Please consider the following product category: Yogurt - Refrigerated. Suppose you are in a grocery store, and you see the following product in that category: Chobani Non-Fat Greek Yogurt, Vanilla Blended 32 oz, Plastic. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_21"
+  },
+  "QID9_22": {
+    "question": "Please consider the following product category: Dairy - Milk - Refrigerated. Suppose you are in a grocery store, and you see the following product in that category: Great Value Milk Whole Vitamin D Gallon. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_22"
+  },
+  "QID9_23": {
+    "question": "Please consider the following product category: Soft Drinks - Low Calorie. Suppose you are in a grocery store, and you see the following product in that category: Coca-Cola Zero Sugar Soda Pop, 16.9 fl oz, 6 Pack Cans. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_23"
+  },
+  "QID9_24": {
+    "question": "Please consider the following product category: Paper Towels. Suppose you are in a grocery store, and you see the following product in that category: Bounty Select-a-Size Paper Towels, 12 Double Rolls, White. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_24"
+  },
+  "QID9_25": {
+    "question": "Please consider the following product category: Candy - Non-Chocolate. Suppose you are in a grocery store, and you see the following product in that category: HARIBO Goldbears Original Gummy Bears, 28.8oz Stand Up Bag. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_25"
+  },
+  "QID9_26": {
+    "question": "Please consider the following product category: Bakery - Fresh Cakes. Suppose you are in a grocery store, and you see the following product in that category: Little Debbie Zebra Cakes, 13 oz. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_26"
+  },
+  "QID9_27": {
+    "question": "Please consider the following product category: Fruit Drinks. Suppose you are in a grocery store, and you see the following product in that category: Kool Aid Jammers Variety Pack with Tropical Punch, Grape & Cherry Kids Drink 0% Juice Box Pouches, 30 Ct Box, 6 fl oz Pouches. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_27"
+  },
+  "QID9_28": {
+    "question": "Please consider the following product category: Snacks - Tortilla Chips. Suppose you are in a grocery store, and you see the following product in that category: Doritos Nacho Cheese Tortilla Snack Chips, Party Size, 14.5 oz Bag. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_28"
+  },
+  "QID9_29": {
+    "question": "Please consider the following product category: Refrigerated Bacon. Suppose you are in a grocery store, and you see the following product in that category: Oscar Mayer Fully Cooked Original Bacon, 2.52 oz Box. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_29"
+  },
+  "QID9_30": {
+    "question": "Please consider the following product category: Soup. Suppose you are in a grocery store, and you see the following product in that category: Maruchan Ramen Noodle Chicken Flavor Soup, 3 Oz, 12 Count Shelf Stable Package. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_30"
+  },
+  "QID9_31": {
+    "question": "Please consider the following product category: Light Beer (Low Calorie/Alcohol). Suppose you are in a grocery store, and you see the following product in that category: Bud Light Beer, 24 Pack, 12 fl oz Aluminum Cans, 4.2% ABV, Domestic Lager. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_31"
+  },
+  "QID9_32": {
+    "question": "Please consider the following product category: Candy - Chocolate. Suppose you are in a grocery store, and you see the following product in that category: Hershey's Milk Chocolate Candy, Bars 1.55 oz, 6 Count. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_32"
+  },
+  "QID9_33": {
+    "question": "Please consider the following product category: Batteries. Suppose you are in a grocery store, and you see the following product in that category: Duracell Coppertop AA Battery, Long Lasting Double A Batteries, 16 Pack. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_33"
+  },
+  "QID9_34": {
+    "question": "Please consider the following product category: Fresh Eggs. Suppose you are in a grocery store, and you see the following product in that category: Eggland's Best Classic Extra Large White Eggs, 12 count. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_34"
+  },
+  "QID9_35": {
+    "question": "Please consider the following product category: Fruit Juice. Suppose you are in a grocery store, and you see the following product in that category: Capri Sun Variety Pack with Fruit Punch, Strawberry Kiwi & Pacific Cooler Juice Box Pouches, 30 ct Box, 6 fl oz Pouches. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_35"
+  },
+  "QID9_36": {
+    "question": "Please consider the following product category: Cold Remedies - Adult. Suppose you are in a grocery store, and you see the following product in that category: Equate Value Size Honey Lemon Cough Drops with Menthol, 160 Count. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_36"
+  },
+  "QID9_37": {
+    "question": "Please consider the following product category: Cookies. Suppose you are in a grocery store, and you see the following product in that category: Little Debbie Oatmeal Creme Pies, 12 ct, 16.2 oz. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_37"
+  },
+  "QID9_38": {
+    "question": "Please consider the following product category: Frankfurters - Refrigerated. Suppose you are in a grocery store, and you see the following product in that category: Oscar Mayer Classic Uncured Beef Franks Hot Dogs, 10 ct Pack. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_38"
+  },
+  "QID9_39": {
+    "question": "Please consider the following product category: Ice Cream. Suppose you are in a grocery store, and you see the following product in that category: Haagen Dazs Coffee Ice Cream, Gluten Free, Kosher, 14.0 oz. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_39"
+  },
+  "QID9_40": {
+    "question": "Please consider the following product category: Detergents - Heavy Duty - Liquid. Suppose you are in a grocery store, and you see the following product in that category: Purex Liquid Laundry Detergent Plus OXI, Stain Defense Technology, 128 Fluid Ounces, 85 Wash Loads. The product is priced at: ${stem_value}. Would you or would you not purchase this product?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes, I would purchase the product",
+      "2": "No, I would not purchase the product"
+    },
+    "column": "QID9_40"
+  },
+  "QID196": {
+    "question": "Assume that you are presented with two trays of black and white marbles, a large tray that contains 100 marbles and a small tray that contains 10 marbles. The marbles are spread in a single layer in each tray. You must draw out one marble (without peeking, of course) from either tray. If you draw a black marble you win $2. Consider a condition in which the small tray contains 1 black marble and 9 white marbles, and the large tray contains 8 black marbles and 92 white marbles. From which tray would you prefer to select a marble in a real situation?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "the small tray",
+      "2": "the large tray"
+    },
+    "column": "QID196"
+  },
+  "QID291": {
+    "question": "Imagine that there will be a deadly flu going around your area next winter. Your doctor says that you have a 10% chance (10 out of 100) of dying from this flu. However, a new flu vaccine has been developed and tested. If taken, the vaccine prevents you from catching the deadly flu. However, there is one serious risk involved with taking this vaccine. The vaccine is made from a somewhat weaker type of flu virus, and there is a 5% (5 out of 100) risk of the vaccine causing you to die from the weaker type of flu. Imagine that this vaccine is completely covered by health insurance. If you had to decide now, which would you choose?",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "I would definitely not take the vaccine. I would thus accept the 10% chance of dying from this flu.",
+      "2": "I would probably not take the vaccine. I would thus accept the 10% chance of dying from this flu.",
+      "3": "I would probably take the vaccine. I would thus accept the 5% chance of dying from the weaker flu in the vaccine",
+      "4": "I would definitely take the vaccine. I would thus accept the 5% chance of dying from the weaker flu in the vaccine."
+    },
+    "column": "QID291"
+  },
+  "QID287_1": {
+    "question": "Would you support or oppose... — Placing a tax on carbon emissions?",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Strongly oppose",
+      "2": "Somewhat oppose",
+      "3": "Neither oppose nor support",
+      "4": "Somewhat support",
+      "5": "Strongly support"
+    },
+    "column": "QID287_1",
+    "grid_group": "QID287",
+    "grid_label": "Placing a tax on carbon emissions?"
+  },
+  "QID287_2": {
+    "question": "Would you support or oppose... — Ensuring 40% of all new clean energy infrastructure development spending goes to low-income communities?",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Strongly oppose",
+      "2": "Somewhat oppose",
+      "3": "Neither oppose nor support",
+      "4": "Somewhat support",
+      "5": "Strongly support"
+    },
+    "column": "QID287_2",
+    "grid_group": "QID287",
+    "grid_label": "Ensuring 40% of all new clean energy infrastructure development spending goes to low-income communities?"
+  },
+  "QID287_3": {
+    "question": "Would you support or oppose... — Federal investments to ensure a carbon-pollution free electricity sector by 2035?",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Strongly oppose",
+      "2": "Somewhat oppose",
+      "3": "Neither oppose nor support",
+      "4": "Somewhat support",
+      "5": "Strongly support"
+    },
+    "column": "QID287_3",
+    "grid_group": "QID287",
+    "grid_label": "Federal investments to ensure a carbon-pollution free electricity sector by 2035?"
+  },
+  "QID287_4": {
+    "question": "Would you support or oppose... — A ‘Medicare for All’ system in which all Americans would get healthcare from a government-run plan?",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Strongly oppose",
+      "2": "Somewhat oppose",
+      "3": "Neither oppose nor support",
+      "4": "Somewhat support",
+      "5": "Strongly support"
+    },
+    "column": "QID287_4",
+    "grid_group": "QID287",
+    "grid_label": "A ‘Medicare for All’ system in which all Americans would get healthcare from a government-run plan?"
+  },
+  "QID287_5": {
+    "question": "Would you support or oppose... — A ‘public option’, which would allow Americans to buy into a government-run healthcare plan if they choose to do so?",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Strongly oppose",
+      "2": "Somewhat oppose",
+      "3": "Neither oppose nor support",
+      "4": "Somewhat support",
+      "5": "Strongly support"
+    },
+    "column": "QID287_5",
+    "grid_group": "QID287",
+    "grid_label": "A ‘public option’, which would allow Americans to buy into a government-run healthcare plan if they choose to do so?"
+  },
+  "QID287_6": {
+    "question": "Would you support or oppose... — Immigration reforms that would provide a path to U.S. citizenship for undocumented immigrants currently in the United States?",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Strongly oppose",
+      "2": "Somewhat oppose",
+      "3": "Neither oppose nor support",
+      "4": "Somewhat support",
+      "5": "Strongly support"
+    },
+    "column": "QID287_6",
+    "grid_group": "QID287",
+    "grid_label": "Immigration reforms that would provide a path to U.S. citizenship for undocumented immigrants currently in the United States?"
+  },
+  "QID287_7": {
+    "question": "Would you support or oppose... — A law that requires companies to provide paid family leave for parents?",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Strongly oppose",
+      "2": "Somewhat oppose",
+      "3": "Neither oppose nor support",
+      "4": "Somewhat support",
+      "5": "Strongly support"
+    },
+    "column": "QID287_7",
+    "grid_group": "QID287",
+    "grid_label": "A law that requires companies to provide paid family leave for parents?"
+  },
+  "QID287_10": {
+    "question": "Would you support or oppose... — A 2% tax on the assets of individuals with a net worth of more than $50 million?",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Strongly oppose",
+      "2": "Somewhat oppose",
+      "3": "Neither oppose nor support",
+      "4": "Somewhat support",
+      "5": "Strongly support"
+    },
+    "column": "QID287_10",
+    "grid_group": "QID287",
+    "grid_label": "A 2% tax on the assets of individuals with a net worth of more than $50 million?"
+  },
+  "QID287_11": {
+    "question": "Would you support or oppose... — Increasing deportations for those in the US illegally?",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Strongly oppose",
+      "2": "Somewhat oppose",
+      "3": "Neither oppose nor support",
+      "4": "Somewhat support",
+      "5": "Strongly support"
+    },
+    "column": "QID287_11",
+    "grid_group": "QID287",
+    "grid_label": "Increasing deportations for those in the US illegally?"
+  },
+  "QID287_12": {
+    "question": "Would you support or oppose... — Offering seniors healthcare vouchers to purchase private healthcare plans in place of traditional medicare coverage?",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Strongly oppose",
+      "2": "Somewhat oppose",
+      "3": "Neither oppose nor support",
+      "4": "Somewhat support",
+      "5": "Strongly support"
+    },
+    "column": "QID287_12",
+    "grid_group": "QID287",
+    "grid_label": "Offering seniors healthcare vouchers to purchase private healthcare plans in place of traditional medicare coverage?"
+  },
+  "QID288_1": {
+    "question": "Please rate the following technology or products from \"not at all beneficial\" to \"extremely beneficial\" — bicycles",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "not at all beneficial",
+      "2": "low benefit",
+      "3": "slightly beneficial",
+      "4": "neutral",
+      "5": "moderately beneficial",
+      "6": "very beneficial",
+      "7": "extremely beneficial"
+    },
+    "column": "QID288_1",
+    "grid_group": "QID288",
+    "grid_label": "bicycles"
+  },
+  "QID288_2": {
+    "question": "Please rate the following technology or products from \"not at all beneficial\" to \"extremely beneficial\" — alcoholic beverages",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "not at all beneficial",
+      "2": "low benefit",
+      "3": "slightly beneficial",
+      "4": "neutral",
+      "5": "moderately beneficial",
+      "6": "very beneficial",
+      "7": "extremely beneficial"
+    },
+    "column": "QID288_2",
+    "grid_group": "QID288",
+    "grid_label": "alcoholic beverages"
+  },
+  "QID288_3": {
+    "question": "Please rate the following technology or products from \"not at all beneficial\" to \"extremely beneficial\" — chemical plants",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "not at all beneficial",
+      "2": "low benefit",
+      "3": "slightly beneficial",
+      "4": "neutral",
+      "5": "moderately beneficial",
+      "6": "very beneficial",
+      "7": "extremely beneficial"
+    },
+    "column": "QID288_3",
+    "grid_group": "QID288",
+    "grid_label": "chemical plants"
+  },
+  "QID288_4": {
+    "question": "Please rate the following technology or products from \"not at all beneficial\" to \"extremely beneficial\" — pesticides",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "not at all beneficial",
+      "2": "low benefit",
+      "3": "slightly beneficial",
+      "4": "neutral",
+      "5": "moderately beneficial",
+      "6": "very beneficial",
+      "7": "extremely beneficial"
+    },
+    "column": "QID288_4",
+    "grid_group": "QID288",
+    "grid_label": "pesticides"
+  },
+  "QID289_1": {
+    "question": "Please rate the following technology or products from \"not at all risky\" to \"extremely risky\" — bicycles",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "not at all risky",
+      "2": "low risk",
+      "3": "slightly risky",
+      "4": "neutral",
+      "5": "moderately risky",
+      "6": "very risky",
+      "7": "extremely risky"
+    },
+    "column": "QID289_1",
+    "grid_group": "QID289",
+    "grid_label": "bicycles"
+  },
+  "QID289_2": {
+    "question": "Please rate the following technology or products from \"not at all risky\" to \"extremely risky\" — alcoholic beverages",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "not at all risky",
+      "2": "low risk",
+      "3": "slightly risky",
+      "4": "neutral",
+      "5": "moderately risky",
+      "6": "very risky",
+      "7": "extremely risky"
+    },
+    "column": "QID289_2",
+    "grid_group": "QID289",
+    "grid_label": "alcoholic beverages"
+  },
+  "QID289_3": {
+    "question": "Please rate the following technology or products from \"not at all risky\" to \"extremely risky\" — chemical plants",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "not at all risky",
+      "2": "low risk",
+      "3": "slightly risky",
+      "4": "neutral",
+      "5": "moderately risky",
+      "6": "very risky",
+      "7": "extremely risky"
+    },
+    "column": "QID289_3",
+    "grid_group": "QID289",
+    "grid_label": "chemical plants"
+  },
+  "QID289_4": {
+    "question": "Please rate the following technology or products from \"not at all risky\" to \"extremely risky\" — pesticides",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "not at all risky",
+      "2": "low risk",
+      "3": "slightly risky",
+      "4": "neutral",
+      "5": "moderately risky",
+      "6": "very risky",
+      "7": "extremely risky"
+    },
+    "column": "QID289_4",
+    "grid_group": "QID289",
+    "grid_label": "pesticides"
+  },
+  "QID157": {
+    "question": "Imagine that the U.S. is preparing for the outbreak of an unusual disease, which is expected to kill 600 people. Two alternative programs to combat the disease have been proposed. Assume that the exact scientific estimate of the consequences of the programs are as follows: If Program A is adopted, 200 people will be saved. If Program B is adopted, there is 1/3 probability that 600 people will be saved, and 2/3 probability that no people will be saved. Which of the two programs would you favor?",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "I strongly favor program A",
+      "2": "I favor program A",
+      "3": "I slightly favor program A",
+      "4": "I slightly favor program B",
+      "5": "I favor program B",
+      "6": "I strongly favor program B"
+    },
+    "column": "QID157",
+    "condition_group": "Disease",
+    "condition_arm": "gain"
+  },
+  "QID158": {
+    "question": "Imagine that the U.S. is preparing for the outbreak of an unusual disease, which is expected to kill 600 people. Two alternative programs to combat the disease have been proposed. Assume that the exact scientific estimate of the consequences of the programs are as follows: If Program A is adopted, 400 people will die. If Program B is adopted, there is 1/3 probability that nobody people will die, and 2/3 probability that 600 people be die. Which of the two programs would you favor?",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "I strongly favor program A",
+      "2": "I favor program A",
+      "3": "I slightly favor program A",
+      "4": "I slightly favor program B",
+      "5": "I favor program B",
+      "6": "I strongly favor program B"
+    },
+    "column": "QID158",
+    "condition_group": "Disease",
+    "condition_arm": "loss"
+  },
+  "QID161": {
+    "question": "A 55-year-old man had a heart condition. He had to stop working because of chest pain. He enjoyed his work and did not want to stop. His pain also interfered with other things, such as travel and recreation. A type of bypass operation would relieve his pain and increase his life expectancy from age 65 to age 70. However, 8% of the people who have this operation die from the operation itself. His physician decided to go ahead with the operation. The operation succeeded. Evaluate the physician's decision to go ahead with the operation.",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Incorrect, a very bad decision",
+      "2": "Incorrect, all things considered",
+      "3": "Incorrect, but not unreasonable",
+      "4": "The decision and its opposite are equally good",
+      "5": "Correct, but the opposite would be reasonable too",
+      "6": "Correct, all things considered",
+      "7": "Clearly correct, an excellent decision"
+    },
+    "column": "QID161",
+    "condition_group": "OutcomeBias",
+    "condition_arm": "success"
+  },
+  "QID162": {
+    "question": "A 55-year-old man had a heart condition. He had to stop working because of chest pain. He enjoyed his work and did not want to stop. His pain also interfered with other things, such as travel and recreation. A type of bypass operation would relieve his pain and increase his life expectancy from age 65 to age 75. However, 2% of the people who have this operation die from the operation itself. His physician decided to go ahead with the operation. The operation did not succeed and the patient died. Evaluate the physician's decision to go ahead with the operation.",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Incorrect, a very bad decision",
+      "2": "Incorrect, all things considered",
+      "3": "Incorrect, but not unreasonable",
+      "4": "The decision and its opposite are equally good",
+      "5": "Correct, but the opposite would be reasonable too",
+      "6": "Correct, all things considered",
+      "7": "Clearly correct, an excellent decision"
+    },
+    "column": "QID162",
+    "condition_group": "OutcomeBias",
+    "condition_arm": "failure"
+  },
+  "QID163": {
+    "question": "Do you think there are more or fewer than 12 African countries in the United Nations?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "more",
+      "2": "fewer"
+    },
+    "column": "QID163",
+    "condition_group": "AnchoringAfrica",
+    "condition_arm": "low"
+  },
+  "QID165": {
+    "question": "Do you think there are more or fewer than 65 African countries in the United Nations?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "more",
+      "2": "fewer"
+    },
+    "column": "QID165",
+    "condition_group": "AnchoringAfrica",
+    "condition_arm": "high"
+  },
+  "QID167": {
+    "question": "Is the tallest redwood tree in the world more or less than 85 feet tall?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "more",
+      "2": "less"
+    },
+    "column": "QID167",
+    "condition_group": "AnchoringRedwood",
+    "condition_arm": "low"
+  },
+  "QID169": {
+    "question": "Is the tallest redwood tree in the world more or less than 1000 feet tall?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "more",
+      "2": "less"
+    },
+    "column": "QID169",
+    "condition_group": "AnchoringRedwood",
+    "condition_arm": "high"
+  },
+  "QID183": {
+    "question": "Imagine that you go to purchase a calculator for $30. The calculator salesperson informs you that the calculator you wish to buy is on sale for $20 at the other branch of the store which is ten minutes away by car. Would you drive to the other store?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes",
+      "2": "No"
+    },
+    "column": "QID183",
+    "condition_group": "AbsoluteVsRelative",
+    "condition_arm": "calculator"
+  },
+  "QID184": {
+    "question": "Imagine that you go to purchase a jacket for $250. The jacket salesperson informs you that the jacket you wish to buy is on sale for $240 at the other branch of the store which is ten minutes away by car. Would you drive to the other store?",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "Yes",
+      "2": "No"
+    },
+    "column": "QID184",
+    "condition_group": "AbsoluteVsRelative",
+    "condition_arm": "jacket"
+  },
+  "QID192": {
+    "question": "Choose between:",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "One million dollars for sure",
+      "2": "89% probability of one million dollars 10% probablity of five miillion dollars 1% probability of nothing"
+    },
+    "column": "QID192",
+    "condition_group": "Allais",
+    "condition_arm": "form1"
+  },
+  "QID193": {
+    "question": "Choose between:",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "11% probability of one million dollars 89% probability of nothing",
+      "2": "10% probablity of five miillion dollars 90% probability of nothing"
+    },
+    "column": "QID193",
+    "condition_group": "Allais",
+    "condition_arm": "form2"
+  },
+  "QID194": {
+    "question": "According to a comprehensive study by the U.S. Department of Transportation, Ford Explorers are 8 times more likely than a typical family car to kill occupants of another car in a crash. The Department of Transportation in Germany is considering recommending a ban on the sale of the Ford Explorer in Germany. Do you think that Germany should ban the sale of the Ford Explorer?",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "definitely no",
+      "2": "no",
+      "3": "probably no",
+      "4": "probably yes",
+      "5": "yes",
+      "6": "definitely yes"
+    },
+    "column": "QID194",
+    "condition_group": "Myside",
+    "condition_arm": "ford"
+  },
+  "QID195": {
+    "question": "According to a comprehensive study by the U.S. Department of Transportation, a particular German car is 8 times more likely than a typical family car to kill occupants of another car in a crash. The U.S. Department of Transportation is considering recommending a ban on the sale of this German car. Do you think that the U.S. should ban the sale of the German car?",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "definitely no",
+      "2": "no",
+      "3": "probably no",
+      "4": "probably yes",
+      "5": "yes",
+      "6": "definitely yes"
+    },
+    "column": "QID195",
+    "condition_group": "Myside",
+    "condition_arm": "german"
+  },
+  "QID171": {
+    "question": "Please rate your level of disagreement or agreement with the following statement: \"I would find a game that had a 7/36 chance of winning $9 and a 29/36 chance of winning nothing extremely attractive.\"",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Disagree strongly",
+      "2": "Disagree a little",
+      "3": "Neither agree nor disagree",
+      "4": "Agree a little",
+      "5": "Agree strongly"
+    },
+    "column": "QID171",
+    "condition_group": "LessIsMore",
+    "condition_arm": "A"
+  },
+  "QID172": {
+    "question": "Please rate your level of disagreement or agreement with the following statement: \"I would find a game that had a 7/36 chance of winning $9 and a 29/36 chance of losing $0.05 extremely attractive.\"",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Disagree strongly",
+      "2": "Disagree a little",
+      "3": "Neither agree nor disagree",
+      "4": "Agree a little",
+      "5": "Agree strongly"
+    },
+    "column": "QID172",
+    "condition_group": "LessIsMore",
+    "condition_arm": "B"
+  },
+  "QID173": {
+    "question": "Please rate your level of disagreement or agreement with the following statement: \"I would find a game that had a 7/36 chance of winning $9 and a 29/36 chance of losing $0.25 extremely attractive.\"",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Disagree strongly",
+      "2": "Disagree a little",
+      "3": "Neither agree nor disagree",
+      "4": "Agree a little",
+      "5": "Agree strongly"
+    },
+    "column": "QID173",
+    "condition_group": "LessIsMore",
+    "condition_arm": "C"
+  },
+  "QID174": {
+    "question": "Imagine that highway safety experts have determined that a substantial number of people are at risk of dying in a type of automobile fire. A requirement that every car have a built-in fire extinguisher (estimated cost, $300) would save the 150 people who would otherwise die every year in this type of automobile fire. Rate the following statement about yourself: I would be supportive of this requirement.",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Disagree strongly",
+      "2": "Disagree a little",
+      "3": "Neither agree nor disagree",
+      "4": "Agree a little",
+      "5": "Agree strongly"
+    },
+    "column": "QID174",
+    "condition_group": "ProportionDominance1",
+    "condition_arm": "A"
+  },
+  "QID175": {
+    "question": "Imagine that highway safety experts have determined that a substantial number of people are at risk of dying in a type of automobile fire. A requirement that every car have a built-in fire extinguisher (estimated cost, $300) would save 98% of the 150 people who would otherwise die every year in this type of automobile fire. Rate the following statement about yourself: I would be supportive of this requirement.",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Disagree strongly",
+      "2": "Disagree a little",
+      "3": "Neither agree nor disagree",
+      "4": "Agree a little",
+      "5": "Agree strongly"
+    },
+    "column": "QID175",
+    "condition_group": "ProportionDominance1",
+    "condition_arm": "B"
+  },
+  "QID176": {
+    "question": "Imagine that highway safety experts have determined that a substantial number of people are at risk of dying in a type of automobile fire. A requirement that every car have a built-in fire extinguisher (estimated cost, $300) would save 95% of the 150 people who would otherwise die every year in this type of automobile fire. Rate the following statement about yourself: I would be supportive of this requirement.",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Disagree strongly",
+      "2": "Disagree a little",
+      "3": "Neither agree nor disagree",
+      "4": "Agree a little",
+      "5": "Agree strongly"
+    },
+    "column": "QID176",
+    "condition_group": "ProportionDominance1",
+    "condition_arm": "C"
+  },
+  "QID177": {
+    "question": "You have recently graduated from university, obtained a good job, and are buying a new car. A newly designed seatbelt has just become available that would save the lives of the 500 drivers a year who are involved in a type of head-on-collision. (Approximately half of these fatalities involve drivers who were not at fault.) The newly designed seatbelt is not yet standard on most car models. However, it is available as a $500 option for the car model that you are ordering. How likely is it that you would order your new car with this optional seatbelt?",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "very unlikely",
+      "2": "unlikely",
+      "3": "somewhat unlikely",
+      "4": "somewhat likely",
+      "5": "likely",
+      "6": "very likely"
+    },
+    "column": "QID177",
+    "condition_group": "ProportionDominance2",
+    "condition_arm": "A"
+  },
+  "QID178": {
+    "question": "You have recently graduated from university, obtained a good job, and are buying a new car. A newly designed seatbelt has just become available that would save the lives of 98% of the 500 drivers a year who are involved in a type of head-on-collision. (Approximately half of these fatalities involve drivers who were not at fault.) The newly designed seatbelt is not yet standard on most car models. However, it is available as a $500 option for the car model that you are ordering. How likely is it that you would order your new car with this optional seatbelt?",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "very unlikely",
+      "2": "unlikely",
+      "3": "somewhat unlikely",
+      "4": "somewhat likely",
+      "5": "likely",
+      "6": "very likely"
+    },
+    "column": "QID178",
+    "condition_group": "ProportionDominance2",
+    "condition_arm": "B"
+  },
+  "QID179": {
+    "question": "You have recently graduated from university, obtained a good job, and are buying a new car. A newly designed seatbelt has just become available that would save the lives of 95% of the 500 drivers a year who are involved in a type of head-on-collision. (Approximately half of these fatalities involve drivers who were not at fault.) The newly designed seatbelt is not yet standard on most car models. However, it is available as a $500 option for the car model that you are ordering. How likely is it that you would order your new car with this optional seatbelt?",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "very unlikely",
+      "2": "unlikely",
+      "3": "somewhat unlikely",
+      "4": "somewhat likely",
+      "5": "likely",
+      "6": "very likely"
+    },
+    "column": "QID179",
+    "condition_group": "ProportionDominance2",
+    "condition_arm": "C"
+  },
+  "QID189": {
+    "question": "Imagine that when you went to the movies last week, you were inadvertently exposed to a rare and fatal virus. The possibility of actually contracting the disease is 1 in 1,000, but once you have the illness there is no known cure. On the other hand, you can, readily and now, be given an injection that stops the development of the illness. Unfortunately, these injections are only available in very small quantities and are sold to the highest bidder. What is the highest price you would be prepared to pay for such an injection? [You can get a long-term, low-interest loan if needed.]:",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "$10",
+      "2": "$100",
+      "3": "$1,000",
+      "4": "$10,000",
+      "5": "$50,000",
+      "6": "$100,000",
+      "7": "$250,000",
+      "8": "$500,000",
+      "9": "$1,000,000",
+      "10": "$5,000,000 or more"
+    },
+    "column": "QID189",
+    "condition_group": "ThalerWTAWTP",
+    "condition_arm": "wtp_certainty"
+  },
+  "QID190": {
+    "question": "Imagine that a group of research scientists in the School of Medicine are running a laboratory experiment on a vaccine for a rare and fatal virus. The possibility of actually contracting the disease from the vaccine is 1 in 1,000, but once you have the disease there is no known cure. The scientists are seeking volunteers to test the vaccine on. What is the lowest amount that you would have to be paid before you would take part in this experiment?",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "$10",
+      "2": "$100",
+      "3": "$1,000",
+      "4": "$10,000",
+      "5": "$50,000",
+      "6": "$100,000",
+      "7": "$250,000",
+      "8": "$500,000",
+      "9": "$1,000,000",
+      "10": "$5,000,000 or more"
+    },
+    "column": "QID190",
+    "condition_group": "ThalerWTAWTP",
+    "condition_arm": "wta_certainty"
+  },
+  "QID191": {
+    "question": "Imagine that when you went to the movies last week, you were inadvertently exposed to a rare and fatal virus. The possibility of actually contracting the disease is 4 in 1,000, but once you have the illness there is no known cure. On the other hand, you can, readily and now, be given an injection that reduces the possibility of contracting the disease to 3 in 1,000. Unfortunately, these injections are only available in very small quantities and are sold to the highest bidder. What is the highest price you would be prepared to pay for such an injection?",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "$10",
+      "2": "$100",
+      "3": "$1,000",
+      "4": "$10,000",
+      "5": "$50,000",
+      "6": "$100,000",
+      "7": "$250,000",
+      "8": "$500,000",
+      "9": "$1,000,000",
+      "10": "$5,000,000 or more"
+    },
+    "column": "QID191",
+    "condition_group": "ThalerWTAWTP",
+    "condition_arm": "wtp_noncertainty"
+  },
+  "QID159_1": {
+    "question": "Linda is 31 years old, single, outspoken, and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations. Please complete the statements below. — It is ___ that Linda is a teacher in an elementary school",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Extremely improbable",
+      "2": "Very improbable",
+      "3": "Somewhat probable",
+      "4": "Moderately probable",
+      "5": "Very probable",
+      "6": "Extremely probable"
+    },
+    "column": "QID159_1",
+    "grid_group": "QID159",
+    "grid_label": "It is ___ that Linda is a teacher in an elementary school",
+    "condition_group": "Linda",
+    "condition_arm": "no_conjunction"
+  },
+  "QID159_2": {
+    "question": "Linda is 31 years old, single, outspoken, and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations. Please complete the statements below. — It is ___ that Linda works in a bookstore and takes Yoga classes",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Extremely improbable",
+      "2": "Very improbable",
+      "3": "Somewhat probable",
+      "4": "Moderately probable",
+      "5": "Very probable",
+      "6": "Extremely probable"
+    },
+    "column": "QID159_2",
+    "grid_group": "QID159",
+    "grid_label": "It is ___ that Linda works in a bookstore and takes Yoga classes",
+    "condition_group": "Linda",
+    "condition_arm": "no_conjunction"
+  },
+  "QID159_3": {
+    "question": "Linda is 31 years old, single, outspoken, and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations. Please complete the statements below. — It is ___ that Linda is a bank teller",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Extremely improbable",
+      "2": "Very improbable",
+      "3": "Somewhat probable",
+      "4": "Moderately probable",
+      "5": "Very probable",
+      "6": "Extremely probable"
+    },
+    "column": "QID159_3",
+    "grid_group": "QID159",
+    "grid_label": "It is ___ that Linda is a bank teller",
+    "condition_group": "Linda",
+    "condition_arm": "no_conjunction"
+  },
+  "QID160_1": {
+    "question": "Linda is 31 years old, single, outspoken, and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations. Please complete the statements below. — It is ___ that Linda is a teacher in an elementary school",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Extremely improbable",
+      "2": "Very improbable",
+      "3": "Somewhat probable",
+      "4": "Moderately probable",
+      "5": "Very probable",
+      "6": "Extremely probable"
+    },
+    "column": "QID160_1",
+    "grid_group": "QID160",
+    "grid_label": "It is ___ that Linda is a teacher in an elementary school",
+    "condition_group": "Linda",
+    "condition_arm": "conjunction"
+  },
+  "QID160_2": {
+    "question": "Linda is 31 years old, single, outspoken, and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations. Please complete the statements below. — It is ___ that Linda works in a bookstore and takes Yoga classes",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Extremely improbable",
+      "2": "Very improbable",
+      "3": "Somewhat probable",
+      "4": "Moderately probable",
+      "5": "Very probable",
+      "6": "Extremely probable"
+    },
+    "column": "QID160_2",
+    "grid_group": "QID160",
+    "grid_label": "It is ___ that Linda works in a bookstore and takes Yoga classes",
+    "condition_group": "Linda",
+    "condition_arm": "conjunction"
+  },
+  "QID160_3": {
+    "question": "Linda is 31 years old, single, outspoken, and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations. Please complete the statements below. — It is ___ that Linda is a bank teller and is active in the feminist movement",
+    "type": "single",
+    "ordered_scale": true,
+    "shuffle_options": false,
+    "choices": {
+      "1": "Extremely improbable",
+      "2": "Very improbable",
+      "3": "Somewhat probable",
+      "4": "Moderately probable",
+      "5": "Very probable",
+      "6": "Extremely probable"
+    },
+    "column": "QID160_3",
+    "grid_group": "QID160",
+    "grid_label": "It is ___ that Linda is a bank teller and is active in the feminist movement",
+    "condition_group": "Linda",
+    "condition_arm": "conjunction"
+  },
+  "QID198_1": {
+    "question": "Consider the following hypothetical situation: A deck with 10 cards is randomly shuffled 10 separate times. The 10 cards are composed of 7 cards with the number “1” on the down side and 3 cards with the number “2” on the down side. Each time the 10 cards are reshuffled, your task is to predict the number on the down side of the top card. Imagine that you will receive $100 for each downside number you correctly predict, and that you want to earn as much money as possible. What would you predict after ... — shuffle #1",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "1",
+      "2": "2"
+    },
+    "column": "QID198_1",
+    "grid_group": "QID198",
+    "grid_label": "shuffle #1",
+    "condition_group": "ProbabilityMatching",
+    "condition_arm": "problem1"
+  },
+  "QID198_2": {
+    "question": "Consider the following hypothetical situation: A deck with 10 cards is randomly shuffled 10 separate times. The 10 cards are composed of 7 cards with the number “1” on the down side and 3 cards with the number “2” on the down side. Each time the 10 cards are reshuffled, your task is to predict the number on the down side of the top card. Imagine that you will receive $100 for each downside number you correctly predict, and that you want to earn as much money as possible. What would you predict after ... — shuffle #2",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "1",
+      "2": "2"
+    },
+    "column": "QID198_2",
+    "grid_group": "QID198",
+    "grid_label": "shuffle #2",
+    "condition_group": "ProbabilityMatching",
+    "condition_arm": "problem1"
+  },
+  "QID198_3": {
+    "question": "Consider the following hypothetical situation: A deck with 10 cards is randomly shuffled 10 separate times. The 10 cards are composed of 7 cards with the number “1” on the down side and 3 cards with the number “2” on the down side. Each time the 10 cards are reshuffled, your task is to predict the number on the down side of the top card. Imagine that you will receive $100 for each downside number you correctly predict, and that you want to earn as much money as possible. What would you predict after ... — shuffle #3",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "1",
+      "2": "2"
+    },
+    "column": "QID198_3",
+    "grid_group": "QID198",
+    "grid_label": "shuffle #3",
+    "condition_group": "ProbabilityMatching",
+    "condition_arm": "problem1"
+  },
+  "QID198_4": {
+    "question": "Consider the following hypothetical situation: A deck with 10 cards is randomly shuffled 10 separate times. The 10 cards are composed of 7 cards with the number “1” on the down side and 3 cards with the number “2” on the down side. Each time the 10 cards are reshuffled, your task is to predict the number on the down side of the top card. Imagine that you will receive $100 for each downside number you correctly predict, and that you want to earn as much money as possible. What would you predict after ... — shuffle #4",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "1",
+      "2": "2"
+    },
+    "column": "QID198_4",
+    "grid_group": "QID198",
+    "grid_label": "shuffle #4",
+    "condition_group": "ProbabilityMatching",
+    "condition_arm": "problem1"
+  },
+  "QID198_5": {
+    "question": "Consider the following hypothetical situation: A deck with 10 cards is randomly shuffled 10 separate times. The 10 cards are composed of 7 cards with the number “1” on the down side and 3 cards with the number “2” on the down side. Each time the 10 cards are reshuffled, your task is to predict the number on the down side of the top card. Imagine that you will receive $100 for each downside number you correctly predict, and that you want to earn as much money as possible. What would you predict after ... — shuffle #5",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "1",
+      "2": "2"
+    },
+    "column": "QID198_5",
+    "grid_group": "QID198",
+    "grid_label": "shuffle #5",
+    "condition_group": "ProbabilityMatching",
+    "condition_arm": "problem1"
+  },
+  "QID198_6": {
+    "question": "Consider the following hypothetical situation: A deck with 10 cards is randomly shuffled 10 separate times. The 10 cards are composed of 7 cards with the number “1” on the down side and 3 cards with the number “2” on the down side. Each time the 10 cards are reshuffled, your task is to predict the number on the down side of the top card. Imagine that you will receive $100 for each downside number you correctly predict, and that you want to earn as much money as possible. What would you predict after ... — shuffle #6",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "1",
+      "2": "2"
+    },
+    "column": "QID198_6",
+    "grid_group": "QID198",
+    "grid_label": "shuffle #6",
+    "condition_group": "ProbabilityMatching",
+    "condition_arm": "problem1"
+  },
+  "QID198_7": {
+    "question": "Consider the following hypothetical situation: A deck with 10 cards is randomly shuffled 10 separate times. The 10 cards are composed of 7 cards with the number “1” on the down side and 3 cards with the number “2” on the down side. Each time the 10 cards are reshuffled, your task is to predict the number on the down side of the top card. Imagine that you will receive $100 for each downside number you correctly predict, and that you want to earn as much money as possible. What would you predict after ... — shuffle #7",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "1",
+      "2": "2"
+    },
+    "column": "QID198_7",
+    "grid_group": "QID198",
+    "grid_label": "shuffle #7",
+    "condition_group": "ProbabilityMatching",
+    "condition_arm": "problem1"
+  },
+  "QID198_8": {
+    "question": "Consider the following hypothetical situation: A deck with 10 cards is randomly shuffled 10 separate times. The 10 cards are composed of 7 cards with the number “1” on the down side and 3 cards with the number “2” on the down side. Each time the 10 cards are reshuffled, your task is to predict the number on the down side of the top card. Imagine that you will receive $100 for each downside number you correctly predict, and that you want to earn as much money as possible. What would you predict after ... — shuffle #8",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "1",
+      "2": "2"
+    },
+    "column": "QID198_8",
+    "grid_group": "QID198",
+    "grid_label": "shuffle #8",
+    "condition_group": "ProbabilityMatching",
+    "condition_arm": "problem1"
+  },
+  "QID198_9": {
+    "question": "Consider the following hypothetical situation: A deck with 10 cards is randomly shuffled 10 separate times. The 10 cards are composed of 7 cards with the number “1” on the down side and 3 cards with the number “2” on the down side. Each time the 10 cards are reshuffled, your task is to predict the number on the down side of the top card. Imagine that you will receive $100 for each downside number you correctly predict, and that you want to earn as much money as possible. What would you predict after ... — shuffle #9",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "1",
+      "2": "2"
+    },
+    "column": "QID198_9",
+    "grid_group": "QID198",
+    "grid_label": "shuffle #9",
+    "condition_group": "ProbabilityMatching",
+    "condition_arm": "problem1"
+  },
+  "QID198_10": {
+    "question": "Consider the following hypothetical situation: A deck with 10 cards is randomly shuffled 10 separate times. The 10 cards are composed of 7 cards with the number “1” on the down side and 3 cards with the number “2” on the down side. Each time the 10 cards are reshuffled, your task is to predict the number on the down side of the top card. Imagine that you will receive $100 for each downside number you correctly predict, and that you want to earn as much money as possible. What would you predict after ... — shuffle #10",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "1",
+      "2": "2"
+    },
+    "column": "QID198_10",
+    "grid_group": "QID198",
+    "grid_label": "shuffle #10",
+    "condition_group": "ProbabilityMatching",
+    "condition_arm": "problem1"
+  },
+  "QID203_1": {
+    "question": "Consider the following situation: A die with 4 red faces and 2 green faces will be rolled 6 times. Before each roll you will be asked to predict which color (red or green) will show up once the die is rolled. Which color is most likely to show up after ... — roll #1",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "red",
+      "2": "green"
+    },
+    "column": "QID203_1",
+    "grid_group": "QID203",
+    "grid_label": "roll #1",
+    "condition_group": "ProbabilityMatching",
+    "condition_arm": "problem2"
+  },
+  "QID203_2": {
+    "question": "Consider the following situation: A die with 4 red faces and 2 green faces will be rolled 6 times. Before each roll you will be asked to predict which color (red or green) will show up once the die is rolled. Which color is most likely to show up after ... — roll #2",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "red",
+      "2": "green"
+    },
+    "column": "QID203_2",
+    "grid_group": "QID203",
+    "grid_label": "roll #2",
+    "condition_group": "ProbabilityMatching",
+    "condition_arm": "problem2"
+  },
+  "QID203_3": {
+    "question": "Consider the following situation: A die with 4 red faces and 2 green faces will be rolled 6 times. Before each roll you will be asked to predict which color (red or green) will show up once the die is rolled. Which color is most likely to show up after ... — roll #3",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "red",
+      "2": "green"
+    },
+    "column": "QID203_3",
+    "grid_group": "QID203",
+    "grid_label": "roll #3",
+    "condition_group": "ProbabilityMatching",
+    "condition_arm": "problem2"
+  },
+  "QID203_4": {
+    "question": "Consider the following situation: A die with 4 red faces and 2 green faces will be rolled 6 times. Before each roll you will be asked to predict which color (red or green) will show up once the die is rolled. Which color is most likely to show up after ... — roll #4",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "red",
+      "2": "green"
+    },
+    "column": "QID203_4",
+    "grid_group": "QID203",
+    "grid_label": "roll #4",
+    "condition_group": "ProbabilityMatching",
+    "condition_arm": "problem2"
+  },
+  "QID203_5": {
+    "question": "Consider the following situation: A die with 4 red faces and 2 green faces will be rolled 6 times. Before each roll you will be asked to predict which color (red or green) will show up once the die is rolled. Which color is most likely to show up after ... — roll #5",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "red",
+      "2": "green"
+    },
+    "column": "QID203_5",
+    "grid_group": "QID203",
+    "grid_label": "roll #5",
+    "condition_group": "ProbabilityMatching",
+    "condition_arm": "problem2"
+  },
+  "QID203_6": {
+    "question": "Consider the following situation: A die with 4 red faces and 2 green faces will be rolled 6 times. Before each roll you will be asked to predict which color (red or green) will show up once the die is rolled. Which color is most likely to show up after ... — roll #6",
+    "type": "single",
+    "ordered_scale": false,
+    "shuffle_options": true,
+    "choices": {
+      "1": "red",
+      "2": "green"
+    },
+    "column": "QID203_6",
+    "grid_group": "QID203",
+    "grid_label": "roll #6",
+    "condition_group": "ProbabilityMatching",
+    "condition_arm": "problem2"
+  }
+}
