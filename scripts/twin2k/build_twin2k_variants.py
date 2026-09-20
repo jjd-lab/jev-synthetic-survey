@@ -87,8 +87,6 @@ PRIOR_ANSWERS_STATEFUL = [
          "  # below fixes it at the source, so c=32 now holds 92.3% -- the c=1 rate. Raise this for speed",
          "  # alone; do NOT lower it for cost without re-measuring, because that curve no longer exists.",
          "  # It is also the checkpoint cohort size, so it bounds what a mid-cohort spend cap can waste.",
-         "  # 32 runs 640 walks in ~63 min for ~$760 measured, so one day's $1,000 provider cap buys about",
-         "  # 800 walks. See wiki/topics/stateful-persona-parallelism.md.",
      ]),
     (CAP_VALUE, "max_concurrency: 32"),
     ("# Batched path: one LLM call per (persona, question), no answer chaining. Twin needs no",

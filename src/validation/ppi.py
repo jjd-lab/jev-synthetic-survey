@@ -106,7 +106,7 @@ def pearson(a: np.ndarray, b: np.ndarray) -> float:
 
     Callers pass per-option hit vectors indexed by respondent, so the margin is across
     respondents within one option — the strict one. Do not compare the resulting r to an
-    across-questions-within-participant figure: wiki/topics/correlation-margin-artifact.md.
+    across-questions-within-participant figure: the two margins are not comparable.
     """
     if len(a) < 2 or a.std() == 0 or b.std() == 0:
         return float("nan")

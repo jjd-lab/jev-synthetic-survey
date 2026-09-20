@@ -601,7 +601,7 @@ def calculate_phi_correlation(synthetic_list: List[Any],
     across-participants figures (Peng r=0.20) and *not* to across-questions-within-participant
     ones (Park 0.83). Measured on a separate panel, the latter margin scores 0.263 on row-shuffled
     personas versus 0.327 real, i.e. 80% of it is base-rate profile rather than individual
-    fidelity: wiki/topics/correlation-margin-artifact.md.
+    fidelity.
     """
     n = len(synthetic_list)
     correlations = {}

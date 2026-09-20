@@ -2,9 +2,9 @@
 
 Twin-2K-500 (LLM-Digital-Twin/Twin-2K-500) is a public, ungated, CC BY 4.0
 dataset of 2,058 US respondents who answered a ~500-item battery across four
-waves. `wiki/topics/public-survey-data-analogues.md` picked it as the public
-analogue of a real survey validation because it is respondent-level and mixes
-single- and multi-select formats — the two things the validation needs.
+waves. It was picked as the public analogue of a real survey validation because
+it is respondent-level and mixes single- and multi-select formats, the two things
+the validation needs.
 
 Three small files carry the instrument and the human answers (~26 MB). The
 `wave_split/` parquet chunks (~189 MB) are also needed, for one reason: they are

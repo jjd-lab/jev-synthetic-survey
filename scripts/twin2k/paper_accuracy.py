@@ -16,7 +16,7 @@ Two aggregation rules do the real work, and both come from the paper:
   1. EQUAL WEIGHT PER TASK. 40 of our 108 columns are the pricing study, so a per-question mean is
      37% one experiment. Averaging within task first is also why 16 tasks, not 19: nonseparability's
      benefits and risks halves count once, as do anchoring's two scenarios and proportion dominance's
-     two problems. See the two task tables below and wiki/topics/twin2k-paper-vs-our-setting.md.
+     two problems. See the two task tables below and docs/survey/01-dataset-and-instrument.md.
   2. RANGE IS `n_options - 1`. Deviation is in scale positions, so a 5-point item's worst answer
      scores 0 and an adjacent one 0.75. All 65 of our nominal columns are binary, so they all take
      the exact-match branch; all 43 ordinal columns carry an ordered `choices` list, so they all take

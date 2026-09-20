@@ -14,9 +14,9 @@ the ranking is sound and only the operating point is wrong.
 Usage, from the repo root:
 
     python scripts/twin2k/price_sensitivity.py \\
-        --arm JC=runs/jev_vs_gpt41_n300/jev_choice.jsonl.gz \\
-        --arm NC=runs/jev_vs_gpt41_n300/jev_noul.jsonl.gz \\
-        --arm BC=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl.gz
+        --arm jev_choice=runs/jev_vs_gpt41_n300/jev_choice.jsonl.gz \\
+        --arm jev_noul=runs/jev_vs_gpt41_n300/jev_noul.jsonl.gz \\
+        --arm gpt41_probs=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl.gz
 
 Also needs the parquet chunks under `data/twin2k500/wave_split` for the per-respondent prices --
 run `fetch_twin2k.py` first.
@@ -142,16 +142,16 @@ def main() -> int:
 
     print(f"\n{len(rows[0]['columns'] * [0])} pricing columns, "
           f"human yes-rate {rows[0]['human_yes_rate']:.3f}\n")
-    print(f"{'':22s}" + "".join(f"{r['arm']:>10s}" for r in rows))
+    print(f"{'':22s}" + "".join(f"{r['arm']:>13s}" for r in rows))
     for label, key, fmt in [
-        ("corr(price, P(yes))", "corr_price_mean", "{:10.3f}"),
-        ("negative in", "corr_negative_in", "{:>10s}"),
-        ("mean P(yes)", "mean_p_yes", "{:10.3f}"),
-        ("signed bias", "signed_bias", "{:+10.3f}"),
-        ("columns biased high", "columns_biased_high", "{:10d}"),
-        ("accuracy @0.50", "accuracy_at_half", "{:10.2%}"),
-        ("accuracy @best", "accuracy_at_best", "{:10.2%}"),
-        ("best threshold", "best_threshold", "{:10.2f}"),
+        ("corr(price, P(yes))", "corr_price_mean", "{:13.3f}"),
+        ("negative in", "corr_negative_in", "{:>13s}"),
+        ("mean P(yes)", "mean_p_yes", "{:13.3f}"),
+        ("signed bias", "signed_bias", "{:+13.3f}"),
+        ("columns biased high", "columns_biased_high", "{:13d}"),
+        ("accuracy @0.50", "accuracy_at_half", "{:13.2%}"),
+        ("accuracy @best", "accuracy_at_best", "{:13.2%}"),
+        ("best threshold", "best_threshold", "{:13.2f}"),
     ]:
         print(f"{label:22s}" + "".join(fmt.format(r[key]) for r in rows))
 

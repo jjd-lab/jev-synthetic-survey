@@ -37,7 +37,7 @@
 # The instrument table, the 16-task inventory, the holdout/persona partition and the
 # paper-vs-us comparison live in ONE place. Read it before interpreting anything from this
 # run, and add to it rather than restating it here:
-#   wiki/topics/twin2k-paper-vs-our-setting.md
+#   docs/survey/01-dataset-and-instrument.md
 #
 # FOUR RULES FOR READING THIS RUN'S OUTPUT. Each is a way the numbers mislead if ignored; the
 # reasoning and the worked figures are on that page.
@@ -46,7 +46,7 @@
 #      pooled average is 37% one experiment. Average within task, then across tasks — which
 #      is also how the paper aggregates its 17.
 #   2. NEVER READ A PER-RESPONDENT HIT RATE. This arm is demographics-only, which the
-#      playbook supports for AGGREGATE comparisons only (wiki/topics/llm-survey-playbook.md).
+#      grounding level supports for AGGREGATE comparisons only.
 #   3. READ THE ARM PAIRS SIDE BY SIDE. Per-arm fit is NOT the framing effect and cannot
 #      detect a frame-blind twin: one that ignores the frame scores unremarkably against
 #      BOTH arms while reproducing none of the effect. No contrast metric is shipped — the

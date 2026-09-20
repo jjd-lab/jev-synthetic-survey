@@ -138,7 +138,7 @@ class FullSurveyConfig(BaseModel):
     # landing elsewhere -- which is what drags the hit rate from 92.5% at one walk in flight to 54.6%
     # at 32. A routing hint, not a cache setting: it cannot create or extend an entry, so the worst
     # case is that the provider ignores it. Off by default because it changes no answer, only the bill,
-    # and every arm should opt in on its own measurement. See wiki/topics/stateful-persona-parallelism.md.
+    # and every arm should opt in on its own measurement.
     preserve_anchors: bool = False  # Pin `anchor_options` (mapping JSON) to the end of the shuffled
     # option list instead of letting them float. Default False = uniform shuffle over all options.
     # Opt-in because it changes prompt option order, so results are not comparable across the flip;
