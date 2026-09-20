@@ -293,6 +293,17 @@
 
       <figure class="frame">
         <figcaption>
+          <strong>Break the panel down by demographic group and Jev is the closer instrument
+          everywhere.</strong> Inside each segment — each age band, each party, each region — its
+          answer distribution sits nearer the humans’ than gpt-4.1’s does, on 13 of 13 demographic
+          variables with no exceptions. Median distance 0.233 against 0.295, over all 2,058
+          respondents. If the deliverable is “what share of this group said yes”, this is the arm
+          that gets it right.
+        </figcaption>
+      </figure>
+
+      <figure class="frame">
+        <figcaption>
           On the 40 pricing columns Jev tracks price more tightly than the humans, at the
           wrong operating point: it is far too willing to buy. The ranking is sound; the
           threshold is not.
@@ -322,6 +333,7 @@
         <li>The holdout is a cognitive-bias battery. Answers are not supposed to track who you are. Individual prediction fails for every arm.</li>
         <li><code>Noul</code> was built after seeing the result. Option descriptions were pre-registered later and changed nothing.</li>
         <li>Jev was given the same plain input gpt-4.1 got. TypeSafe’s own prompting levers are mostly untested, not refuted.</li>
+        <li><strong>Neither arm should be used for crosstabs.</strong> Being right inside a group is not the same as getting the gaps between groups right, and both fail the second one in opposite directions. Jev flattens: it reproduces 40% of the real spread between demographic groups by variable, and 21% by task, dropping to 3–9% on four of the sixteen tasks — a breakdown built on it would read “no demographic effect” where the humans show one. gpt-4.1 exaggerates: 2.87× the real gap on party, 2.68× on political views, reporting a polarization that is not in the data. On the four anchoring columns it gave all 2,058 respondents the same answer, 4,116 cells with no variation at all.</li>
       </ul>
       <div class="cta">
         <a class="btn primary" href="https://github.com/jjd-lab/jev-synthetic-survey">The repository</a>
