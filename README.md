@@ -71,15 +71,28 @@ the three different ways this dataset's questions can be counted.
 
 ---
 
-## The verdict is reject
+## The registered test fails, on one number
 
 The test that decides it asked whether Jev's native vector beats a verbalized one in **both** halves
-of the instrument. It does not. Jev loses the yes/no half, 0.1985 against `gpt-4.1`'s 0.1789, so the
-recommendation is unchanged: stay with verbalized probabilities and soft aggregation.
+of the instrument. On the two-option half it does not: 0.1985 against `gpt-4.1`'s 0.1789. That is
+the registered comparison, it fails, and nothing below undoes it.
 
-The second test, on calibration, also failed, and for all four arms at once. That one is a statement
-about demographics-only grounding rather than about any model.
-[Details and both tests in full](docs/jev/02-planned-comparison.md).
+It is also the only column the registered arm loses. On the same 300 respondents and the same
+prompt, Jev `Choice` beats verbalized `gpt-4.1` on the ordinal half (0.6864 against 0.7272), on
+calibration (0.2029 against 0.2393), on Brier (0.7550 against 0.8108) and on accuracy (67.59%
+against 64.78%), at a thirty-fourth of the cost. The second registered test, on calibration, failed
+for all four arms at once, which makes it a statement about demographics-only grounding rather than
+about any model.
+
+And the half it lost was lost to the question form. Re-asked as a `Noul`, one probability with no
+options offered, the same model on the same respondents beats verbalized `gpt-4.1` on every one of
+those five measures, including the distribution gap the test turned on: 0.1530 against 0.1789. That
+arm was built after seeing the result and so cannot discharge the registered hypothesis, which is
+why the test stands as failed.
+
+**So the hypothesis is rejected, not the model.** What was rejected is the claim that a native
+vector beats a verbalized one across both halves when Jev is handed `gpt-4.1`'s input and asked
+every yes/no item the wrong way. [Details and both tests in full](docs/jev/02-planned-comparison.md).
 
 ## All five arms
 

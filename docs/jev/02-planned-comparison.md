@@ -1,8 +1,10 @@
 # The planned comparison, and the verdict
 
-**Verdict: reject.** Jev's native probability vector is not better than GPT-4.1's stated one. Both
-tests fail. The recommendation is unchanged: stay with verbalized probabilities and soft
-aggregation.
+**Verdict: the registered hypothesis is rejected.** Both tests fail, so on the comparison as
+written, Jev's native probability vector is not better than GPT-4.1's stated one. The scope is
+narrow and worth stating with it: the registered arm loses one of the six measured columns, the
+two-option distribution gap the test turns on, and wins the other five. For that one column the
+recommendation is unchanged — stay with verbalized probabilities and soft aggregation.
 
 ## Question
 
