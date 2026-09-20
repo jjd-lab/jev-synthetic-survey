@@ -54,7 +54,7 @@ model answered beside what the human actually answered. One pass over all 300 pe
 Five arms ship in this repo and they differ only in which model was asked, and how.
 
 **What is being compared.** Two ways of getting a probability out of a model. Jev is decision-only:
-it writes no prose and returns a number per option natively, because that is all it is built to do.
+it generates no text at all, returning a typed value and a number per option natively.
 `gpt-4.1` is a general chat model, so we asked it to write those same numbers out in words. The
 question is whether the native vector beats the verbalized one.
 
