@@ -79,11 +79,12 @@ answer: the arithmetic is fine and the decision boundary is not.
 | signed bias | +0.185 | +0.175 | −0.073 | |
 | columns biased high | 36/40 | 37/40 | 10/40 | |
 
-The bias is a near-constant +0.175, which accounts for 95% of that arm's entire pricing error. Jev
-predicts a purchase far more often than these respondents reported making one. Re-committing at a
-shifted threshold recovers 8.45 points of its pricing accuracy and gives `gpt-4.1` 0.03 points,
-which says the ranking is sound and only the operating point is wrong. That threshold is fitted
-in-sample, so it bounds the failure rather than scoring it.
+The bias is near-constant, +0.185 asking as a `Choice` and +0.175 as a `Noul`, and on the `Noul`
+arm it accounts for 95% of that arm's entire pricing error. Jev predicts a purchase far more often
+than these respondents reported making one. Re-committing at a shifted threshold recovers 5.89
+points of `Choice` pricing accuracy and 8.45 of `Noul`'s, while giving `gpt-4.1` 0.03 points, which
+says the ranking is sound and only the operating point is wrong. That threshold is fitted in-sample,
+so it bounds the failure rather than scoring it.
 [Details](docs/jev/04-price-sensitivity.md).
 
 ## A result that is not about Jev

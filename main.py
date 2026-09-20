@@ -941,10 +941,10 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python main.py --config configs/excel_validation.yaml --questions MU1
-  python main.py --config configs/excel_validation.yaml --questions MU2
-  python main.py --config configs/excel_validation.yaml --no-cache
-  python main.py --config configs/excel_validation.yaml --sample 100
+  python main.py --config configs/twin2k/twin2k_survey_config.yaml
+  python main.py --config configs/twin2k/twin2k_survey_config_chained.yaml --sample 100
+  python main.py --config configs/twin2k/twin2k_survey_config_probs_chained.yaml --resume
+  python main.py --config configs/twin2k/twin2k_survey_config.yaml --questions QID9_1 --no-cache
         """
     )
 

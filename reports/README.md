@@ -3,9 +3,11 @@
 Scored output. Every figure quoted in the write-up comes from one of these files, and each one is
 reproducible from the runs in [`runs/`](../runs/) with the command shown.
 
-The `source` field inside the older reports records the path the file was scored from at the time,
-under `outputs/`, which is this repo's gitignored working directory. The same runs now ship under
-`runs/gpt41_panel_n2058/`; the table below maps them.
+These files record where they were scored from, and that path is stale in every one of them: it
+names `outputs/`, this repo's gitignored working directory, from before the runs were arranged for
+publication. The `individual_signal_*` files carry it in a `source` field, the `paper_accuracy_*`
+files in their top-level key. The same runs now ship under `runs/gpt41_panel_n2058/`, and the
+tables below map each file to the run it came from.
 
 ## The comparison that decides the verdict
 
@@ -29,7 +31,7 @@ changes the file. The labels above are the ones the shipped reports were scored 
 Every statistic reproduces. Two fields will not match byte for byte: each arm's `path`, which
 records where the file was read from, and occasionally the last digit of a p-value, which moves
 with the platform's floating-point rounding. Verified for `score_with_noul.json` and
-`score_all_arms.json` on 2026-09-20: of several thousand values, only the three `path` strings and
+`score_all_arms.json`: of several thousand values, only the three `path` strings and
 one p-value's final digit differed.
 
 ## The full-panel GPT-4.1 runs
@@ -44,12 +46,21 @@ one p-value's final digit differed.
 | `task_deep_dive_full.md` | all three | the same workbooks, per task |
 
 ```bash
-python scripts/twin2k/paper_accuracy.py \
-    --details runs/gpt41_panel_n2058/demographics_stateless/respondent_details_20260904_091556.xlsx
+# --json is what writes the file; without it both scripts only print.
+python scripts/twin2k/paper_accuracy.py --ceiling \
+    --details runs/gpt41_panel_n2058/demographics_stateless/respondent_details_20260904_091556.xlsx \
+    --json /tmp/paper_accuracy_full_arm1.json
 python scripts/twin2k/individual_signal.py \
     --details runs/gpt41_panel_n2058/demographics_stateless/respondent_details_20260904_091556.xlsx \
-    --summary runs/gpt41_panel_n2058/demographics_stateless/validation_summary_20260904_091556.xlsx
+    --summary runs/gpt41_panel_n2058/demographics_stateless/validation_summary_20260904_091556.xlsx \
+    --json /tmp/individual_signal_full_arm1.json
 ```
+
+`--ceiling` is needed to reproduce the `ceiling` block the shipped `paper_accuracy_*` files carry,
+and it reads the raw wave files, so run `fetch_twin2k.py` first. The top-level key in those files
+is built from the run folder's name, so re-scoring now yields `demographics_stateless (...)` where
+the shipped file says `demographics_only (...)`: the folder was renamed after they were written.
+The contents under that key are unchanged.
 
 `paper_accuracy_full_prior_answers.json` is also the anchor for the scorer's own test: the
 leave-one-out and accuracy figures in it must reproduce exactly from the shipped workbook, which

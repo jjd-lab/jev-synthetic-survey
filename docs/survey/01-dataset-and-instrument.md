@@ -137,7 +137,7 @@ tests` and once for a free-text personality item whose column is the `_TEXT` var
 that keys the catalog by question id keeps one entry and silently drops the other, which is what
 makes these columns look absent.
 
-Verified against the shipped dataset on 2026-09-20: 760 CSV columns excluding the respondent id,
+Verified against the shipped dataset: 760 CSV columns excluding the respondent id,
 every one of them claimed by some catalog entry, and exactly those 10 ids duplicated.
 
 The single filter that cuts 126 down to 108 is **no option list the decoder can match**. Two

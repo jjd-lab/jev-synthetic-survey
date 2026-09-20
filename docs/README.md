@@ -29,17 +29,12 @@ tasks they belong to.
 
 ## The order the work was done
 
-The sequence matters for reading the claims, because one arm was built after seeing another's
-result.
+The grounding panel came first, then the planned comparison, then the Jev Noul re-ask, which was
+built only after seeing that Jev had lost the yes/no half. The diagnostics were run over runs
+already collected.
 
-| When | What ran |
-|---|---|
-| 3 to 8 Sep 2026 | the GPT-4.1 grounding panel, 2,058 respondents, three arms (survey track, page 03) |
-| 19 Sep 2026, morning | the planned comparison: Jev Choice against GPT-4.1 probabilities, with GPT-4.1 hard answer as a sanity check (Jev track, page 02) |
-| 19 Sep 2026, evening | the Jev Noul re-ask, built after seeing that Jev lost the yes/no half (Jev track, page 03) |
-| 19 to 20 Sep 2026 | diagnostics over the runs already collected: price sensitivity, elicitation cost, instrument noise |
-
-Only the planned comparison carries the verdict. Everything after it is labeled as what it is.
+That order is why only the planned comparison carries the verdict. Everything after it is labeled
+as what it is.
 
 ## Names used throughout
 

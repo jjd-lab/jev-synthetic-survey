@@ -1,6 +1,6 @@
 # Runtime dependencies. Development tools are in requirements-dev.txt.
 #
-# Scoring the shipped runs needs only numpy, scipy and pyyaml. The rest is needed to run a
+# Scoring the shipped runs needs only numpy, scipy and pandas. The rest is needed to run a
 # new arm.
 
 # LangChain ecosystem (1.x LTS), pinned exactly: the gpt-4.1 arms were run against these
@@ -27,3 +27,6 @@ pyarrow>=14.0.0
 # Direct HTTP for the TypeSafe/Jev endpoint (scripts/twin2k/jev_client.py), which is reached
 # outside the LangChain client path.
 requests>=2.31.0
+# Imported directly by src/utils/llm_factory.py for its retry wrapper. Arrives transitively
+# from langchain-core, so declaring it only stops a future prune from breaking retries.
+tenacity>=8.0

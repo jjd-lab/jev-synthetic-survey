@@ -1,6 +1,6 @@
 # What is in `runs/`
 
-Two experiments, run months apart, on the same instrument. Each folder holds the output as the
+Two experiments on the same instrument, the panel first. Each folder holds the output as the
 runner wrote it; `reports/` holds what was scored from it.
 
 Twin-2K-500 itself is not here. It is CC BY 4.0 (Toubia et al.,
@@ -9,7 +9,7 @@ downloads it. The files below are derived outputs and carry that dataset's human
 alongside each model answer, so they are redistributed under the same CC BY 4.0 terms, with
 attribution to the dataset authors.
 
-## `jev_vs_gpt41_n300/`: the comparison the verdict rests on (19 Sep 2026)
+## `jev_vs_gpt41_n300/`: the comparison the verdict rests on
 
 Four arms, 300 respondents, the same 108 questions, every model seeing its own earlier answers.
 
@@ -54,7 +54,7 @@ not the US adult population, and should not be read against the full-panel numbe
 leave-one-out floor the n=300 arms are judged against is computed on these same 300 for that
 reason.
 
-## `gpt41_panel_n2058/`: what persona content buys you (3–8 Sep 2026)
+## `gpt41_panel_n2058/`: what persona content buys you
 
 GPT-4.1 over the whole panel, three arms varying two things one at a time: what the persona
 contains, and whether the model sees its own earlier answers.
