@@ -12,6 +12,18 @@ The full write-up is in [`docs/`](docs/README.md), split into a
 [survey track](docs/README.md#survey-track) for what transfers to any model on this benchmark and a
 [Jev track](docs/README.md#jev-track) for the verdict on this one.
 
+**Where to go from here.** This page is the summary; each row below is the thing itself.
+
+| If you want | Go to |
+|---|---|
+| to have never thought about synthetic survey respondents | [New to this?](#new-to-this-start-here), just below |
+| the result, all five arms, one table | [All five arms](#all-five-arms) |
+| the write-up, paper style, with every caveat | [`docs/`](docs/README.md) |
+| to re-derive every number yourself, no account needed | [Reproduce it](#reproduce-it) |
+| the raw per-cell answers, model beside human | [`runs/`](runs/README.md) |
+| the scored reports behind each figure | [`reports/`](reports/README.md) |
+| the code: scorer, Jev probe, survey engine | [`scripts/twin2k/`](scripts/twin2k/README.md), [`src/`](src/) |
+
 ---
 
 ## New to this? Start here
@@ -279,16 +291,16 @@ cp .env.example .env
 costs and how long it takes.
 
 The configs ship a plain `gpt-4.1`, so `.env.example` as written runs against stock OpenAI. Every
-number in this repo was collected as `azure/gpt-4.1` through a provider, and the model id is the
+number in this repo was collected as `azure/gpt-4.1` through a hosted endpoint, and the model id is the
 only thing that differs. It is sent verbatim as the model, so it *is* the routing key at a
-provider — to reproduce the shipped runs, restore the prefix along with the provider `API_BASE_URL`.
+that endpoint — to reproduce the shipped runs, restore the prefix along with its `API_BASE_URL`.
 What it does not change is structured output: `structured_output_method` branches only on a
 `bedrock/` prefix, so both ids take the same hard-enforced `json_schema` path the probability arm
 depends on.
 
 On a personal key, lower `max_concurrency` in the YAML (50 in three arms, 32 in
 `prior_answers_stateless`) to 8-16 — a slot holds a whole persona-walk, not one call, and a
-personal account's rate limit is far below a provider's.
+personal account's rate limit is far below a shared endpoint's.
 
 ## Run a new arm
 
@@ -361,7 +373,7 @@ yes/no.
 | [`docs/`](docs/README.md) | the write-up: the survey track, the Jev track, and the question inventory |
 | [`runs/`](runs/README.md) | the raw per-cell output of every arm, and what each file supports |
 | [`reports/`](reports/README.md) | the scored reports behind every figure, and how to regenerate them |
-| [`scripts/twin2k/`](scripts/twin2k/) | the Jev client, the probe, the scorer, and the price diagnostic |
+| [`scripts/twin2k/`](scripts/twin2k/README.md) | the scorer, the Jev probe, the price diagnostic, and the config builders |
 | [`configs/twin2k/`](configs/twin2k/) | the arm configurations, one per run |
 | [`src/`](src/), [`main.py`](main.py) | the survey engine the `gpt-4.1` arms run on |
 | [`tests/`](tests/) | `pytest`, offline, no network |

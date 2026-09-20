@@ -99,4 +99,7 @@ python scripts/twin2k/prob_scoring.py score \
     --bootstrap 1000 --seed 20260919 --ece-bins 10 --out /tmp/check.json
 ```
 
-`reports/README.md` maps each scored report back to the runs it came from.
+[`reports/README.md`](../reports/README.md) maps each scored report back to the runs it came from.
+
+Back to [the repo overview](../README.md), or to [the write-up](../docs/README.md) for what these
+runs were collected to answer.

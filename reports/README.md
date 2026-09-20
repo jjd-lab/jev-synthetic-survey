@@ -73,3 +73,6 @@ is what `tests/unit/test_twin2k_prob_scoring.py` checks.
 not shipped (`respondent_details_demographics_only_matched50.xlsx`,
 `respondent_details_chained_matched50.xlsx`, and a superseded prior-answers run). It is kept
 because the write-up quotes it, but it cannot be re-run here.
+
+Back to [the repo overview](../README.md), [the write-up](../docs/README.md), or
+[`runs/README.md`](../runs/README.md) for the raw per-cell files these were scored from.

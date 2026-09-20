@@ -43,3 +43,5 @@ independently timestamps them, since the repository was created after the runs f
 "fixed in advance" as the authors' account, supported by a scorer that implements exactly those
 rules and by both tests being reported as failed. It is not an external registration, and the pages
 here avoid calling it one.
+
+Back to [the documentation index](README.md).
