@@ -21,6 +21,7 @@ The full write-up is in [`docs/`](docs/README.md), split into a
 | the write-up, paper style, with every caveat | [`docs/`](docs/README.md) |
 | the crosstab view: do the arms' demographic groups differ like real ones? | [Matching the population is not the same as matching its groups](#matching-the-population-is-not-the-same-as-matching-its-groups) |
 | to re-derive every number yourself, no account needed | [Reproduce it](#reproduce-it) |
+| to re-run the arms themselves, command by command | [`docs/reproducing.md`](docs/reproducing.md) |
 | the raw per-cell answers, model beside human | [`runs/`](runs/README.md) |
 | the scored reports behind each figure | [`reports/`](reports/README.md) |
 | the code: scorer, Jev probe, survey engine | [`scripts/twin2k/`](scripts/twin2k/README.md), [`src/`](src/) |
@@ -252,7 +253,7 @@ python scripts/twin2k/prob_scoring.py score \
     --out /tmp/check.json
 ```
 
-That reproduces [`reports/score_with_noul.json`](reports/score_with_noul.json). Every number quoted
+That reproduces [`reports/jev_vs_gpt41_n300/score_with_noul.json`](reports/jev_vs_gpt41_n300/score_with_noul.json). Every number quoted
 above comes out of it. Two fields will not match byte for byte: each arm's `path`, which records
 where the file was read from and in the shipped report still names the working directory the run was
 scored in, and occasionally the last digit of a p-value, which moves with the platform's
@@ -401,6 +402,7 @@ yes/no.
 |---|---|
 | [`docs/`](docs/README.md) | the write-up: the survey track, the Jev track, and the question inventory |
 | [`runs/`](runs/README.md) | the raw per-cell output of every arm, and what each file supports |
+| [`docs/reproducing.md`](docs/reproducing.md) | the command behind every run, and what a re-run will not match |
 | [`reports/`](reports/README.md) | the scored reports behind every figure, and how to regenerate them |
 | [`scripts/twin2k/`](scripts/twin2k/README.md) | the scorer, the Jev probe, the price diagnostic, and the config builders |
 | [`configs/twin2k/`](configs/twin2k/README.md) | the arm configurations, and which run and report each one produced |

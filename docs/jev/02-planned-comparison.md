@@ -237,5 +237,5 @@ python scripts/twin2k/prob_scoring.py score \
     --bootstrap 1000 --seed 20260919 --ece-bins 10 --out /tmp/check.json
 ```
 
-Writes the equivalent of [`reports/score_all_arms.json`](../../reports/score_all_arms.json). See
+Writes the equivalent of [`reports/jev_vs_gpt41_n300/score_all_arms.json`](../../reports/jev_vs_gpt41_n300/score_all_arms.json). See
 [reports/README.md](../../reports/README.md) for what does and does not match byte for byte.

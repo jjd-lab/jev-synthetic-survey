@@ -1,5 +1,7 @@
 # What is in `runs/`
 
+To re-run any of these, see [`docs/reproducing.md`](../docs/reproducing.md).
+
 Two experiments on the same instrument, the panel first. Each folder holds the output as the
 runner wrote it; `reports/` holds what was scored from it.
 
@@ -114,7 +116,7 @@ The hard-answer arm ships as a plain `.jsonl` like the n=300 arms and like
 that is gzipped, and not by preference: at 115 MB raw it is past the 100 MB limit GitHub refuses a
 push over. `prob_scoring.py` reads `.jsonl` and `.jsonl.gz` without being told which.
 
-[`reports/score_nc_vs_ac_n2058.json`](../reports/score_nc_vs_ac_n2058.json) scores the pair. Its
+[`reports/jev_vs_gpt41_n2058/score_nc_vs_ac_n2058.json`](../reports/jev_vs_gpt41_n2058/score_nc_vs_ac_n2058.json) scores the pair. Its
 main use is as a check on the n=300 slice, and the slice holds up: Jev Noul moves from 0.1530 to
 0.1523 on the distribution gap, 0.1472 to 0.1418 on calibration, and 67.28% to 67.64% on accuracy
 across a 6.9-fold increase in respondents, despite those 300 being demographically unrepresentative

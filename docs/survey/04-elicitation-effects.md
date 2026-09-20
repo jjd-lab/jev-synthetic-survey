@@ -111,7 +111,7 @@ python scripts/twin2k/prob_scoring.py score \
     --bootstrap 1000 --seed 20260919 --ece-bins 10 --out /tmp/check.json
 ```
 
-That reproduces [`reports/score_all_arms.json`](../../reports/score_all_arms.json), which holds both
+That reproduces [`reports/jev_vs_gpt41_n300/score_all_arms.json`](../../reports/jev_vs_gpt41_n300/score_all_arms.json), which holds both
 accuracy readings for all three arms and the per-task breakdown the pricing split above is taken
 from. The `--arm` labels become the keys in the output, so the labels above are the ones the shipped
 report was scored with. [`reports/README.md`](../../reports/README.md) maps every report back to its

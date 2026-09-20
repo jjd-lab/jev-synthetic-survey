@@ -170,4 +170,4 @@ python scripts/twin2k/prob_scoring.py score \
     --bootstrap 1000 --seed 20260919 --ece-bins 10 --out /tmp/check.json
 ```
 
-Writes the equivalent of [`reports/score_with_noul.json`](../../reports/score_with_noul.json).
+Writes the equivalent of [`reports/jev_vs_gpt41_n300/score_with_noul.json`](../../reports/jev_vs_gpt41_n300/score_with_noul.json).

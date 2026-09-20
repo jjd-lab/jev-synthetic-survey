@@ -82,7 +82,7 @@ python scripts/twin2k/prob_scoring.py score \
     --out /tmp/check.json
 ```
 
-Writes the equivalent of [`reports/score_with_described.json`](../../reports/score_with_described.json).
+Writes the equivalent of [`reports/jev_vs_gpt41_n300/score_with_described.json`](../../reports/jev_vs_gpt41_n300/score_with_described.json).
 The boundary figures come from `price_sensitivity.py` with the same four arms.
 
 ## The question

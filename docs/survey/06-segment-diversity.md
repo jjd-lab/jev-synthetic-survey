@@ -40,7 +40,7 @@ keeps the sampling error, so it measures the second directly.
 ## Results
 
 All 2,058 respondents, 108 columns
-([`reports/segment_diversity_n2058.json`](../../reports/segment_diversity_n2058.json)):
+([`reports/jev_vs_gpt41_n2058/segment_diversity_n2058.json`](../../reports/jev_vs_gpt41_n2058/segment_diversity_n2058.json)):
 
 | Variable | humans | noise floor | Jev `Noul` | ratio | GPT-4.1 hard | ratio |
 |---|---|---|---|---|---|---|
@@ -60,7 +60,7 @@ reaches 25 people. Marital status and household size behave like income and are 
 
 The same measurement on the 300-respondent arms, where **every arm is soft**, so nothing about the
 comparison depends on elicitation
-([`reports/segment_diversity_n300.json`](../../reports/segment_diversity_n300.json)):
+([`reports/jev_vs_gpt41_n300/segment_diversity_n300.json`](../../reports/jev_vs_gpt41_n300/segment_diversity_n300.json)):
 
 | Variable | Jev `Choice` | Jev `Noul` | GPT-4.1 probabilities |
 |---|---|---|---|

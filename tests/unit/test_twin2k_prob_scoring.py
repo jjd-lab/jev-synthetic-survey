@@ -46,7 +46,8 @@ from scripts.twin2k.prob_scoring import (
 REPO_ROOT = Path(__file__).resolve().parents[2]
 ANCHOR_DETAILS = (REPO_ROOT / "runs" / "gpt41_panel_n2058" / "prior_answers_stateless"
                   / "respondent_details_20260908_074918.xlsx")
-ANCHOR_RECORDED = REPO_ROOT / "reports" / "paper_accuracy_full_prior_answers.json"
+ANCHOR_RECORDED = (REPO_ROOT / "reports" / "gpt41_panel_n2058"
+                   / "paper_accuracy_full_prior_answers.json")
 
 # Real Twin qids, so `task_of` resolves without a stub. Four within-subject tasks are reachable
 # without condition groups, which is enough to test the equal-weighting rule.

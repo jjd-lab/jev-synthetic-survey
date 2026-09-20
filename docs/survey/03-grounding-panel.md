@@ -117,7 +117,7 @@ The demographics-stateless arm in more detail, since it is the reference the oth
 | diversity | entropy ratio 0.445 two-option, 0.678 multi-option | 24 of 108 columns collapsed, 44 carry a blind spot |
 
 Per-task and per-column numbers for all three arms, side by side, are in
-[`reports/task_deep_dive_full.md`](../../reports/task_deep_dive_full.md).
+[`reports/gpt41_panel_n2058/task_deep_dive_full.md`](../../reports/gpt41_panel_n2058/task_deep_dive_full.md).
 
 ## Interpretation
 
@@ -283,10 +283,10 @@ folder and workbook timestamps:
 
 | Report | Arm | Scored from |
 |---|---|---|
-| [`reports/paper_accuracy_full_arm1.json`](../../reports/paper_accuracy_full_arm1.json), [`reports/individual_signal_full_arm1.json`](../../reports/individual_signal_full_arm1.json) | demographics, stateless | `runs/gpt41_panel_n2058/demographics_stateless/` |
-| [`reports/paper_accuracy_full_chained.json`](../../reports/paper_accuracy_full_chained.json), [`reports/individual_signal_full_chained.json`](../../reports/individual_signal_full_chained.json) | demographics, stateful | `runs/gpt41_panel_n2058/demographics_stateful/` |
-| [`reports/paper_accuracy_full_prior_answers.json`](../../reports/paper_accuracy_full_prior_answers.json), [`reports/individual_signal_full_prior_answers.json`](../../reports/individual_signal_full_prior_answers.json) | prior answers, stateless | `runs/gpt41_panel_n2058/prior_answers_stateless/` |
-| [`reports/task_deep_dive_full.md`](../../reports/task_deep_dive_full.md) | all three | the same workbooks, per task |
+| [`reports/gpt41_panel_n2058/paper_accuracy_full_arm1.json`](../../reports/gpt41_panel_n2058/paper_accuracy_full_arm1.json), [`reports/gpt41_panel_n2058/individual_signal_full_arm1.json`](../../reports/gpt41_panel_n2058/individual_signal_full_arm1.json) | demographics, stateless | `runs/gpt41_panel_n2058/demographics_stateless/` |
+| [`reports/gpt41_panel_n2058/paper_accuracy_full_chained.json`](../../reports/gpt41_panel_n2058/paper_accuracy_full_chained.json), [`reports/gpt41_panel_n2058/individual_signal_full_chained.json`](../../reports/gpt41_panel_n2058/individual_signal_full_chained.json) | demographics, stateful | `runs/gpt41_panel_n2058/demographics_stateful/` |
+| [`reports/gpt41_panel_n2058/paper_accuracy_full_prior_answers.json`](../../reports/gpt41_panel_n2058/paper_accuracy_full_prior_answers.json), [`reports/gpt41_panel_n2058/individual_signal_full_prior_answers.json`](../../reports/gpt41_panel_n2058/individual_signal_full_prior_answers.json) | prior answers, stateless | `runs/gpt41_panel_n2058/prior_answers_stateless/` |
+| [`reports/gpt41_panel_n2058/task_deep_dive_full.md`](../../reports/gpt41_panel_n2058/task_deep_dive_full.md) | all three | the same workbooks, per task |
 
 `arm1` in those filenames is the demographics-stateless arm, named before the arms were.
 Adding `--ceiling` to the accuracy command recomputes the human test-retest figure, which must land

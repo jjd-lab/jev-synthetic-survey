@@ -15,6 +15,12 @@ specific model and the verdict on it.
 | [05 Limitations](survey/05-limitations.md) | what this instrument and sample cannot tell you, whatever model you run |
 | [06 Segment diversity](survey/06-segment-diversity.md) | do the demographic segments of a synthetic panel differ the way real ones do? Flattening on most variables, caricature on politics |
 
+## Reproducing
+
+| Page | What it covers |
+|---|---|
+| [Reproducing the runs](reproducing.md) | the command behind every artifact in `runs/`, its prerequisites, and what a re-run will not match |
+
 ## Jev track
 
 | Page | What it covers |

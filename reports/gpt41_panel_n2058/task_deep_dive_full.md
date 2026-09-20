@@ -438,4 +438,4 @@ from distinguishing respondents.
 - **Unscorable cells are dropped, not counted wrong.** `prior_answers` scores 168,768 pairs and drops
   53,496 (missing, `Error`, or off-list).
 
-Return to [the grounding panel write-up](../docs/survey/03-grounding-panel.md).
+Return to [the grounding panel write-up](../../docs/survey/03-grounding-panel.md).
