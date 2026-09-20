@@ -1,6 +1,5 @@
 """Respondent data model"""
 
-from typing import Dict, Any
 
 # Columns a preprocessor may add to carry per-respondent QUESTION TEXT (Qualtrics "piped
 # text"), as opposed to per-respondent answers. Only Twin-2K-500's pricing block needs it:

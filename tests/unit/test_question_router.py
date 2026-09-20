@@ -11,7 +11,6 @@ Tests all routing patterns:
 import pytest
 from src.core.question_router import QuestionRouter
 from src.core.config_loader import RoutingRule, SkipIfRule, ShowIfRule, MaskByRule
-from src.data.question_mapper import QuestionMapper
 
 
 class MockQuestionMapper:

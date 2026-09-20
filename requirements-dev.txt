@@ -1,0 +1,6 @@
+-r requirements.txt
+
+pytest>=8.0
+pytest-cov>=4.0
+pytest-xdist>=3.8  # opt-in `-n auto`; not in addopts, see pytest.ini
+ruff>=0.6

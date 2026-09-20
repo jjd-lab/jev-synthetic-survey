@@ -1,41 +1,29 @@
-# LangChain ecosystem (1.x LTS)
+# Runtime dependencies. Development tools are in requirements-dev.txt.
+#
+# Scoring the shipped runs needs only numpy, scipy and pyyaml. The rest is needed to run a
+# new arm.
+
+# LangChain ecosystem (1.x LTS), pinned exactly: the gpt-4.1 arms were run against these
+# versions and structured-output behavior has moved between minor releases before.
 langchain==1.3.7
 langchain-core==1.4.6
-langgraph==1.2.4
 langchain-openai==1.3.0
 
-ddgs==9.6.1
 pydantic>=2.0.0
 python-dotenv>=1.0.0
 scipy>=1.11.0
 numpy>=1.24.0
 pyyaml>=6.0.0
-
-# Hackathon MVP additions
 pandas>=2.0.0
-matplotlib>=3.7.0
-jupyter>=1.0.0
 
-# Excel validation additions
-openpyxl>=3.1.0  # Excel file reading
+openpyxl>=3.1.0  # reads the respondent-level workbooks under runs/
 
 # Public-data fetch (scripts/twin2k/fetch_twin2k.py); `data/` is git-ignored, so a fresh
 # clone has to download Twin-2K-500 before any twin2k config will run.
 huggingface-hub>=1.28.0
 # Declared for `pd.read_parquet` in src/data/preprocessors/twin2k.py (the per-respondent
-# pricing prices). It was already installed, but only as a transitive dep of streamlit
-# below — so dropping the dashboard would have broken the Twin pricing path.
+# pricing prices).
 pyarrow>=14.0.0
 # Direct HTTP for the TypeSafe/Jev endpoint (scripts/twin2k/jev_client.py), which is reached
-# outside the LangChain client path. Already installed as a transitive dep, so declaring it only
-# stops a future prune from breaking the Jev probe.
+# outside the LangChain client path.
 requests>=2.31.0
-
-# Interactive validation dashboard
-streamlit>=1.32.0
-plotly>=5.18.0
-
-# dev (testing)
-pytest>=8.0
-pytest-cov>=4.0
-pytest-xdist>=3.8  # opt-in `-n auto`; not in addopts, see pytest.ini

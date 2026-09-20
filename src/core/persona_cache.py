@@ -43,7 +43,7 @@ def load_personas_from_excel(
 
         required_cols = ['respid', 'response_id', 'screener_summary']
         if not all(col in df.columns for col in required_cols):
-            print(f"[WARN] Cache missing required columns, will regenerate personas")
+            print("[WARN] Cache missing required columns, will regenerate personas")
             return None
 
         respondent_map = {r.respid: r for r in respondents}

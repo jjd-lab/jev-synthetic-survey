@@ -755,7 +755,7 @@ def _run_survey_multi_var(
     chain = prompt | structured_llm
 
     print(f"Running {question_label} survey for {len(personas)} personas with {n_variations} variations each...")
-    print(f"Using multi-variation mode (1 LLM call per persona)")
+    print("Using multi-variation mode (1 LLM call per persona)")
     print(f"Question: {question}")
 
     batch_inputs, option_orders = _build_persona_survey_inputs(

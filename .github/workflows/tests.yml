@@ -1,0 +1,33 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # 3.11 is the floor: src/core/survey_runner_excel.py uses star expressions in
+        # subscripts. 3.13 is what the shipped runs were scored on.
+        python-version: ["3.11", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - run: pip install -r requirements-dev.txt
+
+      - run: ruff check .
+
+      # Offline by design: no test reaches the network, and conftest.py provides placeholder
+      # credentials so a bare checkout is green. Tests marked live_llm are excluded by
+      # pytest.ini and need a real key.
+      - run: pytest -q

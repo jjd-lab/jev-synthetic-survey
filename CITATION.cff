@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you refer to this evaluation, please cite it as below."
+title: "Jev on a synthetic survey: does a native probability vector beat a verbalized one?"
+abstract: >-
+  A comparison of a decision-only model that returns a probability vector natively
+  (TypeSafe Jev 1.13.0) against gpt-4.1 asked to state one, over 300 respondents and 108
+  questions of the Twin-2K-500 synthetic-survey benchmark. Two decision criteria were
+  written down before the runs; both failed. A follow-up arm shows that most of the
+  shortfall on yes/no questions was the form of the question rather than the model.
+type: dataset
+authors:
+  - name: "jjd-lab"
+version: "1.0.0"
+date-released: "2026-09-20"
+license: MIT
+keywords:
+  - synthetic survey
+  - digital twins
+  - large language models
+  - calibration
+  - probability elicitation
+references:
+  - type: article
+    title: "Twin-2K-500: A dataset for building digital twins of over 2,000 people based on their answers to over 500 questions"
+    authors:
+      - family-names: Toubia
+        given-names: Olivier
+    year: 2025
+    url: "https://arxiv.org/abs/2505.17479"
+    notes: >-
+      The benchmark this evaluation runs on, CC BY 4.0. Not redistributed here in raw form;
+      scripts/twin2k/fetch_twin2k.py downloads it from the source.

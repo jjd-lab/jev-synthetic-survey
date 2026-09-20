@@ -176,7 +176,7 @@ def generate_respondent_detail_excel(
         include_screener: Emit the screener_summary column (only for surveys with a screener)
         include_tiers: Emit per-question subscription_tier columns (opt-in prompt feature)
     """
-    print(f"\nGenerating detailed respondent Excel report (with all variations)...")
+    print("\nGenerating detailed respondent Excel report (with all variations)...")
 
     # Open-ended questions have no ValidationResult (no metric), so they're absent from
     # validation_results and would be dropped from the sheet. Render them with a stand-in
@@ -275,8 +275,6 @@ def generate_respondent_detail_excel(
     with pd.ExcelWriter(output_path, engine='openpyxl') as writer:
         df.to_excel(writer, sheet_name='Respondent Details', index=False)
 
-        # Get workbook and worksheet for formatting
-        workbook = writer.book
         worksheet = writer.sheets['Respondent Details']
 
         # Auto-adjust column widths
@@ -307,7 +305,7 @@ def generate_summary_excel(
         validation_results: Dictionary of {question_id: ValidationResult}
         output_path: Path to save Excel file
     """
-    print(f"\nGenerating summary validation Excel...")
+    print("\nGenerating summary validation Excel...")
 
     # Overall summary
     #

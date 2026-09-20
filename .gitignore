@@ -31,21 +31,8 @@ wheels/
 !.cursor/rules/**
 !.cursor/skills/
 !.cursor/skills/**
-# Outputs
+# Outputs. A live run writes here; what ships is copied into runs/ deliberately.
 outputs*/
-hillclimb/runs/**/*.xlsx
-hillclimb/runs/**/checkpoints/
-hillclimb/runs/**/run*.log*
-# Same class as the workbooks and run.log above: a run artifact that has to be moved between machines
-# out of band, never committed. `run*.log*` does not cover it (no `.log` in the name), so exp-003's
-# copy showed up as the one untracked file in an otherwise clean tree — noise in exactly the place
-# where `git status` is what tells you the scoring tree is clean. Its content is quoted where it
-# matters: provenance.accepted_run_errors and the G8 line in log.md.
-hillclimb/runs/**/run_errors_*.jsonl
-# Derived from the scorecard + workbook + script that are all already tracked, so versioning it would
-# add a second copy of numbers git can already reproduce. Named for the script rather than by extension
-# so it cannot swallow a future run artifact that does want tracking.
-hillclimb/runs/**/multi_cardinality_*
 # Jupyter
 .ipynb_checkpoints/
 # Testing
@@ -54,7 +41,7 @@ hillclimb/runs/**/multi_cardinality_*
 htmlcov/
 # Agent debug logs
 debug-*.log
-# Tee'd run logs (see CLAUDE.md "Monitoring long runs") - a run artifact, never committed
+# Tee'd run logs - a run artifact, never committed
 logs/
 # Temporary files
 temp/

@@ -806,8 +806,6 @@ def paired_comparison(arms: dict, resamples: int, seed: int) -> dict:
 
 
 def _compare(left, left_columns, right, right_columns, resamples, seed) -> dict:
-    from scipy.stats import wilcoxon
-
     shared_qids = sorted(set(left_columns) & set(right_columns))
     shared_respids = (
         {r for q in shared_qids for r in left_columns[q]["respids"]}

@@ -1,0 +1,23 @@
+# This project is a research artifact, not a library: there is no build backend and nothing
+# here is installable. Dependencies live in requirements.txt. This file carries the project
+# metadata a reader looks for, and the linter's configuration.
+
+[project]
+name = "jev-synthetic-survey"
+version = "1.0.0"
+description = "Does a decision-only model's native probability vector beat a verbalized one on a synthetic survey?"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+keywords = ["synthetic-survey", "llm-evaluation", "calibration", "twin-2k-500"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+extend-exclude = ["private"]
+
+[tool.ruff.lint]
+# Deliberately narrow: real defects only. This code accompanies a published result, so a
+# style sweep would bury the diff that matters. F catches unused and undefined names, E9
+# catches syntax and IO errors.
+select = ["F", "E9"]

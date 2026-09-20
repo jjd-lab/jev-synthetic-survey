@@ -262,9 +262,9 @@ def main() -> int:
     distributional = None
     if args.summary:
         distributional = distributional_per_task(Path(args.summary), entries)
-        print(f"\n=== distributional fit (ours; distance 0 = identical panels) ===")
-        print(f"  h_ratio = h_syn / h_hum (1.0 = twins as varied as humans); blind = columns where "
-              f"a real option got ~no synthetic mass; kl is nominal-only by construction")
+        print("\n=== distributional fit (ours; distance 0 = identical panels) ===")
+        print("  h_ratio = h_syn / h_hum (1.0 = twins as varied as humans); blind = columns where "
+              "a real option got ~no synthetic mass; kl is nominal-only by construction")
         print(f"\n{'task':<30} {'bucket':<8} {'cols':>5} {'distance':>9} {'individual':>11} "
               f"{'metric':<10} {'h_ratio':>8} {'kl':>7} {'blind':>6} {'collapsed':>10}")
         for (task, bucket), row in sorted(distributional.items()):

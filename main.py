@@ -293,7 +293,7 @@ def run_excel_validation_pipeline(config_path: str,
         print(f"[ERROR] Failed to load config: {e}")
         return None
 
-    print(f"\n[OK] Configuration loaded")
+    print("\n[OK] Configuration loaded")
     print(f"  Survey: {config.survey.name}")
     print(f"  Data Source: {config.survey.data_source.excel_file}")
     print(f"  Questions: {len(config.survey.questions)}")
