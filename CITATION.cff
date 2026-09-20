@@ -8,6 +8,7 @@ abstract: >-
   written down before the runs; both failed. A follow-up arm shows that most of the
   shortfall on yes/no questions was the form of the question rather than the model.
 type: dataset
+repository-code: "https://github.com/jjd-lab/jev-synthetic-survey"
 authors:
   - name: "jjd-lab"
 version: "1.0.0"

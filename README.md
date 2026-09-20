@@ -386,8 +386,10 @@ machinery this evaluation does not exercise.
 ## How to cite
 
 > Jev on a synthetic survey: does a native probability vector beat a verbalized one? 2026.
+> https://github.com/jjd-lab/jev-synthetic-survey
 
-Add the repository URL when citing; this copy does not record one.
+[`CITATION.cff`](CITATION.cff) carries the same in machine-readable form, which is what GitHub's
+"Cite this repository" button reads.
 
 The dataset is not ours. Cite it as Toubia, O., et al. *Twin-2K-500*,
 [arXiv 2505.17479](https://arxiv.org/abs/2505.17479).
