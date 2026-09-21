@@ -102,14 +102,7 @@ this repo actually found, rather than the elicitation it spent most of its runs 
 direct test of the caveat TypeSafe states themselves: *"calibration is measured across groups of
 predictions; it does not guarantee that an individual answer is correct."*
 
-The usual way to spend that data is to fine-tune a language model on it, and this dataset's own
-paper already did. Its LLM fine-tuning arm scores **69.61%** on the paper's scoring, below seven of
-the nine prompting arms in the same table and below the 73.27% a persona-blind baseline reaches
-here. That is the wall this repo kept hitting, approached from the other side, and it is a reason to
-suspect the ceiling is the instrument and the grounding rather than the amount of tuning.
-
-What has not been tried is putting the same data behind a decision-only model: fine-tuning Jev on
-survey responses, transaction histories and experiment assignments, or pre-training with the method
+That means training, not prompting: fine-tuning Jev on that data, or pre-training with the method
 Jev uses rather than a next-token objective. The argument for it is not cost. It is that the output
 type is already the quantity a survey is read for, a probability per option, so the training signal
 and the scored quantity would be the same object instead of one being decoded out of free text
