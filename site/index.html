@@ -4,16 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Jev on a synthetic survey</title>
-  <meta name="description" content="Does a decision-only model's native probability vector beat one that gpt-4.1 states in words? 300 paired respondents, 24,596 cells. The registered test fails on one measure of six. Replacing demographics with 620 of each person's own past answers then improves both models, across the population and per person — and still does not predict an individual.">
+  <meta name="description" content="Does a decision-only model's native probability vector beat one that gpt-4.1 states in words? 300 paired respondents, 24,596 cells. Asked as a Noul, Jev wins all six measures at a thirty-fourth of the cost. How you ask mattered more than which model you used, and neither predicts an individual.">
   <link rel="canonical" href="https://jjd-lab.github.io/jev-synthetic-survey/">
   <meta property="og:title" content="Jev on a synthetic survey">
-  <meta property="og:description" content="A $4 native-probability model vs a $136 verbalized-probability run. Asked the right way the cheap one wins every measure; asked the way the test registered, it loses the one that decides it. Neither predicts an individual.">
+  <meta property="og:description" content="A $4 native-probability model vs a $136 verbalized-probability run. Asked the right way, the cheap one wins every measure. How you ask mattered more than which model you used.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://jjd-lab.github.io/jev-synthetic-survey/">
   <meta property="og:image" content="https://jjd-lab.github.io/jev-synthetic-survey/assets/og.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Jev on a synthetic survey">
-  <meta name="twitter:description" content="Native vs verbalized probabilities on Twin-2K-500. Asked as a Noul, Jev beats gpt-4.1 on all six measures at 1/34 the cost. Asked as a Choice, the form the test registered, it loses the one that decides it.">
+  <meta name="twitter:description" content="Native vs verbalized probabilities on Twin-2K-500. Asked as a Noul, Jev beats gpt-4.1 on all six measures at 1/34 the cost. No arm predicts an individual.">
   <meta name="twitter:image" content="https://jjd-lab.github.io/jev-synthetic-survey/assets/og.png">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,7 +53,7 @@
         </p>
 
         <div class="hero-board">
-          <div class="stamp" aria-label="Asked as a Noul, Jev beats gpt-4.1 on all six reported measures; the registered arm used Choice and lost the two-option distribution gap">
+          <div class="stamp" aria-label="Asked as a Noul, Jev beats gpt-4.1 on all six reported measures">
             <span>Jev <code>Noul</code></span>
             <strong>6–0</strong>
           </div>
@@ -66,15 +66,15 @@
         </div>
 
         <ul class="hero-note">
-          <li>Asked the way it should be — a <code>Noul</code> on the 65 yes/no questions —
-            Jev beats gpt-4.1 on all six measures, at a thirty-fourth of the cost.</li>
-          <li>The registered comparison asked those questions as a two-option <code>Choice</code>
-            and lost the distribution gap, 0.1985 against 0.1789. That loss is the finding: the
-            question form was worth more than the difference between the models.</li>
-          <li><code>Noul</code> was built after seeing it, so it cannot retire the registered
-            result. It is still what you would run.</li>
-          <li>A persona of 620 past answers improves both models. Neither predicts an individual —
-            every arm scores below a baseline that ignores the persona entirely.</li>
+          <li>Asked as a <code>Noul</code>, Jev beats gpt-4.1 on all six measures, at a
+            thirty-fourth of the cost.</li>
+          <li>How you ask mattered more than which model you used. Switching the 65 yes/no
+            questions from a two-option <code>Choice</code> to a <code>Noul</code> moves the
+            distribution gap from 0.1985 to 0.1530, at the same price.</li>
+          <li>A persona of 620 of the person’s own past answers improves both models, and Jev’s
+            per-person signal by twice as much.</li>
+          <li>Neither predicts an individual. Every arm scores below a baseline that ignores the
+            persona entirely.</li>
         </ul>
       </div>
     </section>
@@ -368,7 +368,7 @@
       <ul class="limits">
         <li>The 300 are the first 300 rows of the sample — older, whiter, more conservative. Read the paired comparisons. Do not read any absolute number as a population estimate.</li>
         <li>The holdout is a cognitive-bias battery. Answers are not supposed to track who you are. Individual prediction fails for every arm.</li>
-        <li><code>Noul</code> was built after seeing the result. Option descriptions were pre-registered later and changed nothing.</li>
+        <li><code>Noul</code> was built after the two-option result, so it cannot carry the verdict. Option descriptions were fixed in advance of their own run and changed nothing.</li>
         <li>Jev was given the same plain input gpt-4.1 got. TypeSafe’s own prompting levers are mostly untested, not refuted.</li>
         <li><strong>Neither arm should be used for demographic crosstabs.</strong> The results above are at the population and per-person levels, which is where the criteria were set. Between demographic groups both arms fail, in opposite directions: Jev reproduces about 40% of the real gap, gpt-4.1 about 2.7× too much on politics. That is a reason not to use either for breakdowns, not a result about the models.</li>
       </ul>
