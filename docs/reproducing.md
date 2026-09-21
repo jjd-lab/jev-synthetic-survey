@@ -160,7 +160,7 @@ the spread between those figures is entirely prompt length:
 | | Tokens per cell | Cost |
 |---|---|---|
 | persona and question alone, unchained | 670 | about $0.69 |
-| chained, averaged over a 108-question walk | 3,891 | $4.01 measured |
+| chained, averaged over a 108-question walk (Jev Noul) | 3,891 | $4.02 measured |
 | 620 prior answers in the persona, unchained | 23,624 | $24.40 measured |
 
 `--dry-run` prints the estimate before anything is sent, and excludes a fixed per-request overhead

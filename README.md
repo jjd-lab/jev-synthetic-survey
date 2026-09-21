@@ -166,7 +166,8 @@ The verdict is a conjunction, so losing one half of it is not the same as losing
 - It answers about ten times faster per call, 0.26 s measured across all 24,596 cells against
   roughly 2.7 s inferred for `gpt-4.1`. The two arms' wall clocks look close only because they ran
   at different concurrency, so do not read those as a speed comparison.
-- It produced no errors and no aborted walks in either of its two arms, 24,596 cells each.
+- It answered every cell in all three comparison arms, 24,596 each, with no errors and no aborted
+  walks. The long-persona arm hit rate limits on 8 personas, and every one cleared on retry.
 - It tracks price more tightly than the respondents themselves do. The pricing block pipes a
   randomized price into each stem, and Jev's purchase probability follows it at r = −0.55 against
   the humans' −0.33, in 40 of 40 columns.
@@ -213,14 +214,14 @@ with a shuffled-label noise floor to say how much of the human gap is signal at 
 
 | separation ratio, all 2,058 respondents | Jev `Noul` | `gpt-4.1` hard |
 |---|---|---|
-| political views | 1.20 | **2.64** |
-| party | 1.14 | **2.42** |
-| race | **0.23** | 0.69 |
+| political views | 1.23 | **2.68** |
+| party | 1.35 | **2.87** |
+| race | **0.23** | 0.68 |
 | sex | **0.30** | 0.69 |
 | age | **0.40** | 1.10 |
 
 1.0 would reproduce the human gap. The two models fail in opposite directions. `gpt-4.1` spreads
-Republicans and Democrats about two and a half times further apart than they really are, on a
+Republicans and Democrats about 2.8 times further apart than they really are, on a
 battery that is not about politics, which would show up as polarization that is not in the data. Jev
 does the reverse everywhere else, compressing race, sex and age to a third of the real gap. That 2x
 gap between the models is not an elicitation artifact: it holds at 1.79 against 0.86 when both arms
@@ -270,8 +271,10 @@ python scripts/twin2k/prob_scoring.py score \
     --out /tmp/check.json
 ```
 
-That reproduces [`reports/jev_vs_gpt41_n300/score_with_noul.json`](reports/jev_vs_gpt41_n300/score_with_noul.json). Every number quoted
-above comes out of it. Two fields will not match byte for byte: each arm's `path`, which records
+That reproduces [`reports/jev_vs_gpt41_n300/score_with_noul.json`](reports/jev_vs_gpt41_n300/score_with_noul.json), which holds every
+figure quoted above for Jev `Choice`, Jev `Noul` and `gpt-4.1` probabilities. The described arm, the
+hard-answer arm and the segment table come from the other reports listed in
+[`reports/`](reports/README.md). Two fields will not match byte for byte: each arm's `path`, which records
 where the file was read from and in the shipped report still names the working directory the run was
 scored in, and occasionally the last digit of a p-value, which moves with the platform's
 floating-point rounding.
@@ -299,7 +302,7 @@ What each step costs, measured on a 2023 laptop:
 | Step | Needs | Time | Cost |
 |---|---|---|---|
 | score the three arms above | nothing downloaded, no account | 1m 45s | free |
-| `pytest` | nothing | 22s, 398 tests, no network | free |
+| `pytest` | nothing | under a minute, no network | free |
 | `fetch_twin2k.py` | 205 MB of disk | a few minutes on a home connection | free |
 | the price diagnostic, once fetched | the dataset | under a second | free |
 | a new 300-respondent Jev arm | `TYPESAFE_API_KEY` | 6 to 8 min at 16 walks | about $4 |
@@ -312,9 +315,9 @@ through, so read it as an order of magnitude. `probe_jev.py --dry-run` prints th
 before anything is sent.
 
 Because output is free and the rate is flat, a Jev arm's price is just its tokens per cell, and
-most of a chained arm's tokens are its own earlier answers rather than its persona. The `Choice`
+most of a chained arm's tokens are its own earlier answers rather than its persona. The `Noul`
 arm starts each walk at 670 tokens — persona and question together — and reaches 7,406 by the 83rd
-question, averaging 3,891. Run the same arm stateless and it is about $0.69 rather than $4.01. Swap
+question, averaging 3,891. Run the same arm stateless and it is about $0.69 rather than $4.02. Swap
 the 14 demographic fields for 620 prior answers and it is $24.40, because a 21k-token state is
 re-sent on every cell; see [08 Grounding](docs/jev/08-grounding.md). Persona content and
 accumulated self-history are both just context, and both are billed the same way.

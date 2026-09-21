@@ -153,6 +153,10 @@ wrong scores 2. Lower is better. Confident error is punished far harder than dou
 arm can be the most accurate of a set and still score worst on Brier: an arm that only ever commits,
 with no probabilities, has every miss cost the full 2.
 
+One figure is on a different scale. The Brier on the two-option cells, which the Murphy
+decomposition below starts from, scores only the probability of "yes", so it runs 0 to 1 and "no
+opinion" scores 0.25, not 0.5. It is labelled as the two-option Brier wherever it is quoted.
+
 An arm with no probability vector is scored as a one-hot forecast. That is the honest reading and the
 only one that makes such an arm scoreable at all, but it means any Brier or calibration number
 against it measures "has a distribution at all" rather than the quality of one.

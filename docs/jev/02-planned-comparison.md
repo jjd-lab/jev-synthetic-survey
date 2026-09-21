@@ -110,7 +110,7 @@ tasks, is 0.2029, four times the 0.05 threshold.
 | ordinal distribution gap, 43 cols | 0.6864 | 0.7272 | 0.6987 | 0.6812 |
 | Brier, all cells | 0.7550 | 0.8108 | 1.1664 | 0.7385 |
 | log loss | 1.6439 | 1.8152 | 4.0286 | 1.5486 |
-| Brier on the 15,896 two-option cells | 0.3052 | 0.2741 | 0.3456 | 0.2671 |
+| Brier on the 15,896 two-option cells (0 to 1 scale) | 0.3052 | 0.2741 | 0.3456 | 0.2671 |
 | Murphy reliability (lower better) | 0.0759 | 0.0544 | 0.1205 | 0.0385 |
 | Murphy resolution (higher better) | 0.0190 | 0.0293 | 0.0246 | 0.0210 |
 | calibration error, two-option, equal-task | 0.2029 | 0.2393 | 0.3741 | 0.1472 |
@@ -193,7 +193,8 @@ output), not billed through, so read it as an order of magnitude. A 34-fold cost
 better" a different proposition than it would be at parity.
 
 Note what the Jev figure is mostly buying. Both arms are chained, so each cell re-sends the walk so
-far: 670 input tokens at the first question, 7,406 by the 83rd, 3,891 on average. Roughly five
+far: 670 input tokens at the first question, 7,406 by the 83rd, 3,891 on average for Jev Noul and
+3,882 for Jev Choice. Roughly five
 sixths of the bill is the model re-reading its own earlier answers, not the persona. Unchained, the
 same 24,596 cells would be about 16.5M tokens and $0.69.
 

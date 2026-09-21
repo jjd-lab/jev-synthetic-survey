@@ -60,8 +60,8 @@
           <dl class="hero-stats">
             <div><dt>Respondents</dt><dd>300 <span class="stat-note">of 2,058</span></dd></div>
             <div><dt>Questions</dt><dd>108</dd></div>
-            <div><dt>Jev cost</dt><dd>$4.01</dd></div>
-            <div><dt>gpt-4.1 cost</dt><dd>~$136</dd></div>
+            <div><dt>Jev cost</dt><dd>$<span data-fig="comparison.arms.jev_noul.cost">4.02</span></dd></div>
+            <div><dt>gpt-4.1 cost</dt><dd>~$<span data-fig="comparison.arms.gpt41_probs.cost">136</span></dd></div>
           </dl>
         </div>
 
@@ -70,9 +70,9 @@
             thirty-fourth of the cost.</li>
           <li>How you ask mattered more than which model you used. Switching the 65 yes/no
             questions from a two-option <code>Choice</code> to a <code>Noul</code> moves the
-            distribution gap from 0.1985 to 0.1530, at the same price.</li>
-          <li>A persona of 620 of the person’s own past answers improves both models, and Jev’s
-            per-person signal by twice as much.</li>
+            distribution gap from <span data-fig="noul.choice_soft_nominal">0.1985</span> to <span data-fig="noul.noul_soft_nominal">0.1530</span>, at the same price.</li>
+          <li>A persona of 620 of the person’s own past answers lifts both models at both levels,
+            and Jev keeps pace with gpt-4.1.</li>
           <li>Neither predicts an individual. Every arm scores below a baseline that ignores the
             persona entirely.</li>
         </ul>
@@ -166,7 +166,7 @@
             In this invented cell the human said <strong>No</strong>. A survey mostly wants
             the <em>share</em> who said No, not whether we picked the right person. That is
             why the tables lead with a distribution gap, not accuracy. Humans themselves only
-            reproduce their earlier answers 81.68% of the time.
+            reproduce their earlier answers <span data-fig="constants.human_ceiling_pct">81.68</span>% of the time.
           </p>
           <div class="demo-bars" data-demo="human"></div>
           <p class="muted">
@@ -196,7 +196,7 @@
       <figure class="frame">
         <figcaption>
           Accuracy against the human test–retest ceiling and the paper’s published twin. Every
-          arm also lands under 73.59%, which is what you score by ignoring the persona entirely
+          arm also lands under <span data-fig="constants.panel_loo_floor_pct">73.27</span>%, which is what you score by ignoring the persona entirely
           and going with what everyone else answered — the sharper point, and the one §03 turns
           on.
         </figcaption>
@@ -232,8 +232,8 @@
           The test that decides it is a conjunction: Jev must win both the 65 yes/no
           columns and the 43 ordinal ones. It loses the yes/no half. The second test takes
           TypeSafe at its word: System One models are “trained for calibrated decisions”, so the
-          bar was set at 0.05. No arm comes close — Jev Noul 0.1472, Jev Choice 0.2029, gpt-4.1
-          0.2393 — and Jev is the better calibrated of the two models, by 39%, while still sitting
+          bar was set at 0.05. No arm comes close — Jev Noul <span data-fig="comparison.arms.jev_noul.ece">0.1472</span>, Jev Choice <span data-fig="comparison.arms.jev_choice.ece">0.2029</span>, gpt-4.1
+          <span data-fig="comparison.arms.gpt41_probs.ece">0.2393</span> — and Jev is the better calibrated of the two models, by 39%, while still sitting
           three times over the bar. TypeSafe qualifies the claim itself, and the qualification is
           the finding: “calibration is measured across groups of predictions; it does not guarantee
           that an individual answer is correct.” Failing for every arm at once is what makes this a
@@ -252,13 +252,13 @@
 
       <div class="pair-notes">
         <p>
-          Distribution gap, yes/no: Jev <code>Choice</code> 0.1985 against gpt-4.1 0.1789.
-          Wilcoxon p = 1.0000. Jev worse. The ordinal half goes the other way, 0.6864
-          against 0.7272, p = 0.031.
+          Distribution gap, yes/no: Jev <code>Choice</code> <span data-fig="comparison.arms.jev_choice.soft_nominal">0.1985</span> against gpt-4.1 <span data-fig="comparison.arms.gpt41_probs.soft_nominal">0.1789</span>.
+          Wilcoxon p = <span data-fig="comparison.paired_jev_choice_vs_gpt41_probs.soft_nominal_p">1.0000</span>. Jev worse. The ordinal half goes the other way, <span data-fig="comparison.arms.jev_choice.soft_ordinal">0.6864</span>
+          against <span data-fig="comparison.arms.gpt41_probs.soft_ordinal">0.7272</span>, p = <span data-fig="comparison.paired_jev_choice_vs_gpt41_probs.soft_ordinal_p">0.031</span>.
         </p>
         <p>
-          Accuracy is last on purpose. The arm that wins it, gpt-4.1 hard answer at 69.32%,
-          is last on the distribution gap. All five land under 73.59% on this 300-person slice,
+          Accuracy is last on purpose. The arm that wins it, gpt-4.1 hard answer at <span data-fig="comparison.arms.gpt41_hard.accuracy_pct">69.32</span>%,
+          is last on the distribution gap. All five land under <span data-fig="constants.comparison_loo_floor_pct">73.59</span>% on this 300-person slice,
           the score from ignoring the persona entirely.
         </p>
       </div>
@@ -286,8 +286,8 @@
           <strong>“Jev <code>Noul</code>” means <code>Noul</code> on the 65 yes/no columns and
           <code>Choice</code> on the other 43.</strong> A <code>Noul</code> takes a yes/no
           condition, so it cannot be asked of a multi-option question; the arm is 65% <code>Noul</code>
-          by cell. Making that swap moves the gap from 0.1985 to 0.1530. Saturation at probability
-          zero falls from 16.6% of cells to 0.0%. Same price. Built after seeing the loss,
+          by cell. Making that swap moves the gap from <span data-fig="noul.choice_soft_nominal">0.1985</span> to <span data-fig="noul.noul_soft_nominal">0.1530</span>. Saturation at probability
+          zero falls from <span data-fig="noul.choice_zero_pct">16.6</span>% of cells to <span data-fig="noul.noul_zero_pct">0.0</span>%. Same price. Built after seeing the loss,
           so it cannot carry the verdict.
         </figcaption>
         <div class="chart" id="chart-noul"></div>
@@ -296,7 +296,7 @@
       <figure class="frame">
         <figcaption>
           <strong>Swap the 14 demographic facts for 620 of the person’s own past answers and both
-          levels improve.</strong> Not enough to predict an individual: 0.1083 is near zero on most
+          levels improve.</strong> Not enough to predict an individual: <span data-fig="grounding.prior_rho">0.1045</span> is near zero on most
           tasks, and the arm stays below the persona-blind baseline. Both bars hold statefulness
           fixed, so grounding is the only thing that moved — gpt-4.1 shifts the same way, 0.0945 to
           0.1068.
@@ -318,7 +318,7 @@
           <strong>Break the sample down by demographic group and Jev is the closer instrument
           everywhere.</strong> Inside each segment — each age band, each party, each region — its
           answer distribution sits nearer the humans’ than gpt-4.1’s does, on 13 of 13 demographic
-          variables with no exceptions. Median distance 0.233 against 0.295, over all 2,058
+          variables with no exceptions. Median distance <span data-fig="segments.fidelity_jev">0.233</span> against <span data-fig="segments.fidelity_gpt41">0.295</span>, over all 2,058
           respondents. If the deliverable is “what share of this group said yes”, this is the arm
           that gets it right. The chart is the other half of the same measurement, and it goes the
           other way: Jev reproduces 40% of the real gap <em>between</em> groups, gpt-4.1 about
@@ -370,7 +370,7 @@
         <li>The holdout is a cognitive-bias battery. Answers are not supposed to track who you are. Individual prediction fails for every arm.</li>
         <li><code>Noul</code> was built after the two-option result, so it cannot carry the verdict. Option descriptions were fixed in advance of their own run and changed nothing.</li>
         <li>Jev was given the same plain input gpt-4.1 got. TypeSafe’s own prompting levers are mostly untested, not refuted.</li>
-        <li><strong>Neither arm should be used for demographic crosstabs.</strong> The results above are at the population and per-person levels, which is where the criteria were set. Between demographic groups both arms fail, in opposite directions: Jev reproduces about 40% of the real gap, gpt-4.1 about 2.7× too much on politics. That is a reason not to use either for breakdowns, not a result about the models.</li>
+        <li><strong>Neither arm should be used for demographic crosstabs.</strong> The results above are at the population and per-person levels, which is where the criteria were set. Between demographic groups both arms fail, in opposite directions: Jev reproduces about 40% of the real gap, gpt-4.1 about <span data-fig="segments.spread_gpt41_politics">2.8</span>× too much on politics. That is a reason not to use either for breakdowns, not a result about the models.</li>
       </ul>
       <div class="cta">
         <a class="btn primary" href="https://github.com/jjd-lab/jev-synthetic-survey">The repository</a>
