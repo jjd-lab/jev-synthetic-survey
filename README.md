@@ -314,6 +314,14 @@ cells. Jev bills input only at $0.042 per million tokens with output free, which
 through, so read it as an order of magnitude. `probe_jev.py --dry-run` prints the exact Jev cost
 before anything is sent.
 
+Because output is free and the rate is flat, a Jev arm's price is just its tokens per cell, and
+most of a chained arm's tokens are its own earlier answers rather than its persona. The registered
+arm starts each walk at 670 tokens — persona and question together — and reaches 7,406 by the 83rd
+question, averaging 3,891. Run the same arm stateless and it is about $0.69 rather than $4.01. Swap
+the 14 demographic fields for 620 prior answers and it is $24.40, because a 21k-token state is
+re-sent on every cell; see [08 Grounding](docs/jev/08-grounding.md). Persona content and
+accumulated self-history are both just context, and both are billed the same way.
+
 The two wall clocks are **not** a like-for-like speed comparison, and nothing here should be read
 as one. The arms ran at different concurrency, 16 in-flight walks against 50, so the Jev figure is
 the slower setting rather than the slower model. Per call Jev is the faster of the two by roughly

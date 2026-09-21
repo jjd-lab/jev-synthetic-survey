@@ -104,6 +104,26 @@ python scripts/twin2k/probe_jev.py --config configs/twin2k/demographics_stateful
     --out runs/jev_vs_gpt41_n2058/jev_noul.jsonl   # "300 already complete, 1758 to run"
 ```
 
+## The grounding arm
+
+One arm, stateless, grounded in 620 prior answers instead of 14 demographics. It reads a different
+config and a different persona cache from the four above, which is the whole point: the persona is
+byte-identical to the one the GPT-4.1 prior-answers arm saw.
+
+```bash
+python scripts/twin2k/probe_jev.py \
+    --config configs/twin2k/prior_answers_stateless.yaml \
+    --arm jev_noul_prior_answers --primitive noul --sample 300 \
+    --persona-cache runs/gpt41_panel_n2058/prior_answers_stateless/persona_cache.xlsx \
+    --concurrency 8 \
+    --out runs/jev_grounding_n300/jev_prior_answers.jsonl
+```
+
+No `--chain`: the arm is stateless by design, matching its GPT-4.1 counterpart. Concurrency 8 rather
+than 16 — at 16 the first pass lost 8 personas to rate limits on a 21k-token state, and re-running
+the same command cleared all 8 in 35 seconds. $24.40 and 17m 25s in total. Written up in
+[08 Grounding](jev/08-grounding.md).
+
 ## The hard-answer extractions
 
 Neither `gpt41_hard.jsonl` is a run. Both are the `demographics_stateful` panel run read back per
@@ -130,9 +150,21 @@ Drop `--sample` and `--respid-order` for the 2,058-respondent version.
 
 ## Recorded cost
 
-Measured for the n=300 arms: Jev Choice $4.01, Jev Choice described $4.03, Jev Noul $4.02, GPT-4.1
-probabilities roughly $136 inferred from list pricing. The hard-answer arm has no cost of its own,
-being an extraction.
+Measured for the n=300 arms: Jev Choice $4.01, Jev Choice described $4.03, Jev Noul $4.02, Jev on
+prior-answers grounding $24.40, GPT-4.1 probabilities roughly $136 inferred from list pricing. The
+hard-answer arm has no cost of its own, being an extraction.
+
+A Jev arm's cost is its input tokens and nothing else — output is free and the rate is flat — so
+the spread between those figures is entirely prompt length:
+
+| | Tokens per cell | Cost |
+|---|---|---|
+| persona and question alone, unchained | 670 | about $0.69 |
+| chained, averaged over a 108-question walk | 3,891 | $4.01 measured |
+| 620 prior answers in the persona, unchained | 23,624 | $24.40 measured |
+
+`--dry-run` prints the estimate before anything is sent, and excludes a fixed per-request overhead
+of roughly 300 tokens per cell, which is why the billed figure lands slightly above it.
 
 The full-panel arms have no recorded dollar figure. Their token counts are in each run's
 `run_tokens_*.json`.

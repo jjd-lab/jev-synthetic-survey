@@ -192,6 +192,11 @@ The GPT-4.1 figure is inferred from list rates ($2.00 per million input, $0.50 c
 output), not billed through, so read it as an order of magnitude. A 34-fold cost gap makes "no
 better" a different proposition than it would be at parity.
 
+Note what the Jev figure is mostly buying. Both arms are chained, so each cell re-sends the walk so
+far: 670 input tokens at the first question, 7,406 by the 83rd, 3,891 on average. Roughly five
+sixths of the bill is the model re-reading its own earlier answers, not the persona. Unchained, the
+same 24,596 cells would be about 16.5M tokens and $0.69.
+
 Wall clock is not a like-for-like comparison here and should not be read as one, because the arms
 ran at different concurrency: about 35 minutes for Jev Choice at 16 concurrent walks against 22
 minutes for GPT-4.1 at 50. Per call, the measurement runs the other way. Jev's records carry
