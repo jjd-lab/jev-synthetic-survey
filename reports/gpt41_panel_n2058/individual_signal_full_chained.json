@@ -1,7 +1,7 @@
 {
   "source": {
-    "details": "outputs/twin2k/chained/respondent_details_20260904_131620.xlsx",
-    "summary": "outputs/twin2k/chained/validation_summary_20260904_131620.xlsx",
+    "details": "runs/gpt41_panel_n2058/demographics_stateful/respondent_details_20260904_131620.xlsx",
+    "summary": "runs/gpt41_panel_n2058/demographics_stateful/validation_summary_20260904_131620.xlsx",
     "price_controlled": true
   },
   "correlation": {
@@ -114,11 +114,10 @@
     },
     "Probability matching": {
       "columns": 16,
-      "scored": 0,
-      "mean_rho": null,
-      "mean_rho_controlled": null,
+      "scored": 10,
+      "mean_rho": -0.006583223190796404,
+      "mean_rho_controlled": -0.006583223190796404,
       "unmeasurable": {
-        "thin": 10,
         "twin collapsed": 6
       }
     }

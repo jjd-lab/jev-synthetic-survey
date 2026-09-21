@@ -16,6 +16,10 @@ For one demographic variable and one scored column, split the respondents into s
 over the humans': 1.00 reproduces real group structure, below 1.00 flattens it, above 1.00
 exaggerates it. Both failures are wrong.
 
+Throughout this page, "Jev `Noul`" means `Noul` on the 65 two-option columns and `Choice` on the
+43 multi-option ones — 64.6% of cells and 35.4% respectively. `Noul` takes a yes/no condition, so it
+cannot be asked of a multi-option column.
+
 The **noise floor** — the same quantity with segment labels shuffled — is what makes the ratio
 readable, and on this instrument it is large. Twin-2K-500 holds out a cognitive-bias battery whose
 questions are built so answers should *not* track who you are, so on most variables there is little

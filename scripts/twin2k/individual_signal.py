@@ -45,6 +45,7 @@ Usage:
 """
 
 import argparse
+import gzip
 import importlib
 import json
 import math
@@ -57,6 +58,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent))  # `scripts/` is not a package
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))  # for `src.data.preprocessors`
 paper_accuracy = importlib.import_module("paper_accuracy")
+prob_scoring = importlib.import_module("prob_scoring")
 
 MIN_N_FOR_CORRELATION = 30
 STEM_PREFIX = "__stem__"
@@ -76,9 +78,21 @@ def column_correlation(
     """
     options = list(entry["choices"].values())
     positions = {option: index for index, option in enumerate(options)}
+
+    def to_position(column: pd.Series) -> pd.Series:
+        """Map cells onto option positions, via the same coercion the scorer uses.
+
+        `pd.read_excel` types a numeric-coded column as float64, so the 10 `QID198_*` columns
+        arrive as `1.0` against a mapping that calls the scale `"1"`. A bare `.map()` returns
+        NaN for every one of them, the column is then dropped as `thin`, and a whole task
+        leaves the mean without saying so. `match_option` is what `prob_scoring` already uses
+        for this; going through it keeps the two scorers reading the same cells.
+        """
+        return column.map(lambda raw: positions.get(prob_scoring.match_option(raw, options)))
+
     columns = {
-        "twin": frame[f"{question_id}_synthetic"].map(positions),
-        "human": frame[f"{question_id}_ground_truth"].map(positions),
+        "twin": to_position(frame[f"{question_id}_synthetic"]),
+        "human": to_position(frame[f"{question_id}_ground_truth"]),
     }
     if control is not None:
         columns["control"] = pd.to_numeric(control.reindex(frame.index), errors="coerce")
@@ -121,11 +135,48 @@ def load_stem_prices(stem_values_dir: str, source_csv: str) -> pd.DataFrame:
     return frame.set_index(frame["respid"].astype(str))[price_columns]
 
 
+def frame_from_jsonl(details_path: Path) -> pd.DataFrame:
+    """Build the wide frame this module expects from a per-cell JSONL arm.
+
+    `main.py` writes one row per respondent and two columns per question; `probe_jev.py`
+    writes one record per cell. Same content, transposed, so the correlation code below
+    does not need to know which runner produced the arm.
+
+    Records without a `qid` are skipped: the walk writes `done` markers per respondent and
+    an `aborted` marker carrying the failure reason, and neither is a scorable cell. A cell
+    that carries `error` is skipped for the same reason a blank Excel cell is.
+    """
+    opener = gzip.open if details_path.suffix == ".gz" else open
+    rows: Dict[str, Dict[str, object]] = {}
+    with opener(details_path, "rt", encoding="utf-8") as handle:
+        for line in handle:
+            if not line.strip():
+                continue
+            record = json.loads(line)
+            question_id = record.get("qid")
+            if question_id is None or record.get("error"):
+                continue
+            respid = str(record["respid"])
+            row = rows.setdefault(respid, {"respid": respid})
+            row[f"{question_id}_synthetic"] = record.get("choice")
+            row[f"{question_id}_ground_truth"] = record.get("human")
+    if not rows:
+        raise SystemExit(f"no scorable cells in {details_path}")
+    return pd.DataFrame.from_records(list(rows.values()))
+
+
+def load_details(details_path: Path) -> pd.DataFrame:
+    """Read an arm as a wide frame, from either runner's output format."""
+    if details_path.suffix == ".gz" or details_path.suffix == ".jsonl":
+        return frame_from_jsonl(details_path)
+    return pd.read_excel(details_path)
+
+
 def correlations_per_task(
     details_path: Path, entries: Dict[str, dict], prices: Optional[pd.DataFrame] = None
 ) -> Dict[str, dict]:
     """Aggregate per-column Spearman into per-task means, carrying the unmeasurable count."""
-    frame = pd.read_excel(details_path)
+    frame = load_details(details_path)
     frame.index = frame["respid"].astype(str)
     per_task: Dict[str, dict] = {}
     for question_id, entry in entries.items():
@@ -207,7 +258,11 @@ def distributional_per_task(summary_path: Path, entries: Dict[str, dict]) -> Dic
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--details", required=True, help="respondent_details_*.xlsx of a run")
+    parser.add_argument(
+        "--details",
+        required=True,
+        help="respondent_details_*.xlsx of a run, or a per-cell .jsonl/.jsonl.gz arm",
+    )
     parser.add_argument("--summary", help="validation_summary_*.xlsx of the same run")
     parser.add_argument(
         "--stem-values-dir", default=None,

@@ -5,10 +5,11 @@ quoted in the write-up comes from one of these files, and each is reproducible f
 the command shown below. To reproduce the runs themselves, see
 [`docs/reproducing.md`](../docs/reproducing.md).
 
-Each file records the path it was scored from, and that path is stale in all of them: it names
-`outputs/`, this repo's gitignored working directory, from before the runs were arranged for
-publication. The `individual_signal_*` files carry it in a `source` field, the `paper_accuracy_*`
-files in their top-level key. The tables below give the current location.
+Each file records the path it was scored from. The `individual_signal_*` files carry it in a
+`source` field and it is current, because those three were regenerated after a scoring fix. The
+`paper_accuracy_*` files carry it in their top-level key and it is still stale: it names `outputs/`,
+this repo's gitignored working directory, from before the runs were arranged for publication. The
+tables below give the current location either way.
 
 ## `jev_vs_gpt41_n300/` — the comparison that decides the verdict
 

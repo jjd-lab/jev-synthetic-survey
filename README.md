@@ -113,9 +113,10 @@ is better everywhere except the last column.
 | `gpt-4.1` probabilities | 0.1789 | 0.7272 | 0.2393 | 0.8108 | 64.78% | ~$136 |
 | `gpt-4.1` hard answer | 0.2037 | 0.6987 | 0.3741 | 1.1664 | **69.32%** | not measured |
 
-300 respondents, 108 columns, 24,596 cells in every arm, equal weight per task. Three things the
+300 respondents, 108 columns, 24,596 cells in every arm, equal weight per task. Four things the
 table will mislead you about if you read it alone:
 
+- **"Jev `Noul`" is `Noul` only where `Noul` applies.** A `Noul` takes a yes/no condition, so it can be asked on the 65 two-option columns and not on the 43 multi-option ones, which fall back to `Choice`. By cell the arm is 64.6% `Noul` and 35.4% `Choice`. The name is the elicitation that changed, not the elicitation of every cell.
 - **The hard-answer arm has no probability vector.** Its ECE and Brier score a one-hot spike, so
   they measure the absence of a distribution rather than the quality of one. It is in the table
   because it is the arm that wins accuracy, which is the whole point about accuracy. It was

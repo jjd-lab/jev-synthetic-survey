@@ -1,7 +1,7 @@
 {
   "source": {
-    "details": "outputs/twin2k/demographics_only/respondent_details_20260904_091556.xlsx",
-    "summary": "outputs/twin2k/demographics_only/validation_summary_20260904_091556.xlsx",
+    "details": "runs/gpt41_panel_n2058/demographics_stateless/respondent_details_20260904_091556.xlsx",
+    "summary": "runs/gpt41_panel_n2058/demographics_stateless/validation_summary_20260904_091556.xlsx",
     "price_controlled": true
   },
   "correlation": {
@@ -118,8 +118,7 @@
       "mean_rho": null,
       "mean_rho_controlled": null,
       "unmeasurable": {
-        "thin": 10,
-        "twin collapsed": 6
+        "twin collapsed": 16
       }
     }
   },

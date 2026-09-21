@@ -1,7 +1,7 @@
 {
   "source": {
-    "details": "outputs/twin2k/prior_answers/respondent_details_20260908_074918.xlsx",
-    "summary": "outputs/twin2k/prior_answers/validation_summary_20260908_074918.xlsx",
+    "details": "runs/gpt41_panel_n2058/prior_answers_stateless/respondent_details_20260908_074918.xlsx",
+    "summary": "runs/gpt41_panel_n2058/prior_answers_stateless/validation_summary_20260908_074918.xlsx",
     "price_controlled": true
   },
   "correlation": {
@@ -118,8 +118,7 @@
       "mean_rho": null,
       "mean_rho_controlled": null,
       "unmeasurable": {
-        "thin": 10,
-        "twin collapsed": 6
+        "twin collapsed": 16
       }
     }
   },

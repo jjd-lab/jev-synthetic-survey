@@ -42,6 +42,9 @@ keeps the sampling error, so it measures the second directly.
 All 2,058 respondents, 108 columns
 ([`reports/jev_vs_gpt41_n2058/segment_diversity_n2058.json`](../../reports/jev_vs_gpt41_n2058/segment_diversity_n2058.json)):
 
+"Jev `Noul`" is `Noul` on the 65 two-option columns and `Choice` on the 43 multi-option ones; a
+`Noul` takes a yes/no condition and cannot be asked of a multi-option column.
+
 | Variable | humans | noise floor | Jev `Noul` | ratio | GPT-4.1 hard | ratio |
 |---|---|---|---|---|---|---|
 | political views | 0.1146 | 0.0654 | 0.1405 | 1.23 | 0.3074 | **2.68** |
