@@ -26,8 +26,8 @@ function initWalkthrough(root) {
     if (prev) prev.disabled = index === 0;
     if (next) next.disabled = index === panels.length - 1;
     if (focusTab) tabs[index].focus();
-    else if (stranded === prev && prev.disabled) next?.focus();
-    else if (stranded === next && next.disabled) prev?.focus();
+    else if (prev && stranded === prev && prev.disabled) next?.focus();
+    else if (next && stranded === next && next.disabled) prev?.focus();
     drawDemos();
   }
 
