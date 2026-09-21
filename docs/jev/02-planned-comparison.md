@@ -108,7 +108,6 @@ tasks, is 0.2029, four times the 0.05 threshold.
 | Measure (equal weight per task) | Jev Choice | GPT-4.1 probs | GPT-4.1 hard | Jev Noul |
 |---|---|---|---|---|
 | accuracy (from the vector) | 67.59% | 64.78% | 69.32% | 67.28% |
-| leave-one-out majority (shared floor) | 73.59% | 73.59% | 73.59% | 73.59% |
 | distribution gap, 65 two-option cols | 0.1985 | 0.1789 | 0.2037 | 0.1530 |
 | ordinal distribution gap, 43 cols | 0.6864 | 0.7272 | 0.6987 | 0.6812 |
 | Brier, all cells | 0.7550 | 0.8108 | 1.1664 | 0.7385 |

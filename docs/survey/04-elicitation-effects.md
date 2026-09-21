@@ -98,8 +98,8 @@ reporting, and an accuracy figure carried across that boundary is not comparable
 - **Accuracy is the only metric this reads.** The hard-answer arm has no probability vector, so
   every distributional and calibration comparison against it measures "has a distribution at all"
   rather than the quality of one.
-- **No individual-level claim.** Both arms sit below the persona-blind leave-one-out floor of 73.59%
-  on these 300 respondents.
+- **No individual-level claim.** Nothing here is measured at the level of a single respondent; see
+  [limitations](06-limitations.md).
 
 ## Reproduce
 

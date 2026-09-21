@@ -116,9 +116,8 @@ table will mislead you about if you read it alone:
   they measure the absence of a distribution rather than the quality of one. It is in the table
   because it is the arm that wins accuracy, which is the whole point about accuracy. It was
   extracted from a larger panel run rather than collected on its own, so it has no separate cost.
-- **The arm that wins accuracy is last on the distribution gap, on calibration and on Brier.** All
-  five sit below the persona-blind leave-one-out floor of 73.59%, so none of them predicts an
-  individual. The distribution columns are where the arms actually separate.
+- **The arm that wins accuracy is last on the distribution gap, on calibration and on Brier.** The
+  distribution columns are where the arms actually separate, which is why they come first.
 - **The descriptions arm changed 40 of the 108 columns**, the pricing block, because the
   description is derived from the option label and most labels yield none. The other 68 columns got
   a byte-identical payload, which is the control that proves the run was clean rather than a

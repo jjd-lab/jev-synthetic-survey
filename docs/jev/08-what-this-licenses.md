@@ -25,10 +25,10 @@
 
 ## What it does not license
 
-- **No individual-level claim, for any arm.** Every arm sits below the persona-blind leave-one-out
-  majority of 73.59% (Jev Choice by 6.00 points, GPT-4.1 probabilities by 8.80, GPT-4.1 hard answer
-  by 4.27), and all of them fail the calibration test. That is a statement about demographics-only
-  grounding, not about any one model.
+- **No individual-level claim, for any arm.** Per-person rank correlation sits near zero on 15 of
+  the 16 tasks whatever the grounding, and every arm fails the calibration test. That is a
+  statement about demographics-only grounding, not about any one model. The accuracy baselines are
+  on the [metrics page](../survey/02-metrics.md).
 - **This is not a verdict on Jev prompted TypeSafe's way.** The comparison deliberately gave Jev
   the input GPT-4.1 got, which is what makes it a comparison of models. Described option labels and
   a structured state object remain untested, and the one lever that was pulled afterwards moved the
@@ -63,7 +63,7 @@ Not run, and deliberately so.
    duplicate. It answers two questions at once: whether statefulness earns its cost for Jev, and
    whether accuracy falls as the state grows. It is also the prerequisite for packing many
    questions into one shared state, which only makes sense unchained.
-3. **Does Jev read the individual?** Prior-answers grounding against the leave-one-out floor. Bring
+3. **Does Jev read the individual?** Prior-answers grounding, scored per person. Bring
    it back with question packing: unchained, all 108 questions on one shared state billed once,
    roughly $0.45 instead of roughly $25. TypeSafe warns that this arm's 20,000-token state is where
    accuracy starts falling with state size, so validate packed against solo vectors on about 200
@@ -87,11 +87,11 @@ The six items above all re-ask this question with a different elicitation, a dif
 a different aggregation. They share an assumption: that the model is fixed and the way I query it
 is the variable. The result that most deserves a follow-up is the one that assumption cannot reach.
 
-**Every arm fails at the individual level, and richer prompting did not fix it.** All five sit below
-the 73.59% a persona-blind baseline reaches by ignoring the twin entirely. The prior-answers arm is
-the closest thing here to an upper bound on prompting one's way out: 620 real past answers in place
-of 14 demographic fields bought **+2.66 accuracy points** and still landed under that panel's own
-floor of 73.27%. Segment diversity says the same thing from the other side — the arms place each demographic group at roughly
+**Every arm fails at the individual level, and richer prompting did not fix it.** Per-person
+correlation stays near zero on 15 of the 16 tasks however the persona is built. The prior-answers
+arm is the closest thing here to an upper bound on prompting one's way out: 620 real past answers
+in place of 14 demographic fields bought **+2.66 accuracy points** and moved that correlation by
++0.0113. Segment diversity says the same thing from the other side — the arms place each demographic group at roughly
 the right level while flattening the differences between groups to 40% of the real spread by
 variable and 21% by task. That is a model with no per-person signal to act on, not a model reasoning
 badly about signal it has.

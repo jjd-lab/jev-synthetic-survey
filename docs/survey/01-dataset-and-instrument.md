@@ -243,15 +243,6 @@ half. Every one of the 60 pairs across all 2,058 respondents. The 48 condition c
 no arm-switch pairs exist and each condition column rests on 651 to 1,056 pairs. That is independent
 confirmation that presence really is the randomization record.
 
-## The floor: a leave-one-out majority that never looks at the person
-
-The other reference point is a predictor that ignores the persona entirely and answers each column
-with the modal label of the *other* respondents. On this instrument it scores **73.27%** over the
-full 2,058-respondent panel and **73.59%** over the 300-respondent slice used in the model
-comparison. The human ceiling beats the same floor by **+8.41 points**, so that is how much headroom
-real individual signal is worth on this metric. The definition and the reason for the leave-one-out
-form are on the [metrics page](02-metrics.md).
-
 ## How this setting differs from the paper's
 
 | Axis | The paper | This repo | Consequence |

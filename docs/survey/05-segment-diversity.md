@@ -158,9 +158,8 @@ elicitation-confound check — is in [jev/07 Segment diversity](../jev/07-segmen
   stays at 0.40 and GPT-4.1's goes 1.06 to 1.10. At n=300 the same floor drops race outright and
   swings political views from 0.83 to 1.86, so that table stays at 25 and is used only to rule out
   the elicitation confound, never as a measurement in its own right.
-- **Nothing here is a prediction about individuals.** These are group rates. The individual-level
-  question is settled elsewhere and negatively: every arm sits below the persona-blind floor. See
-  [limitations](06-limitations.md).
+- **Nothing here is a prediction about individuals.** These are group rates; the individual-level
+  question is settled elsewhere and negatively. See [limitations](06-limitations.md).
 
 ## Reproduce
 

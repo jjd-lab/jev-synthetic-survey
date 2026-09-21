@@ -174,8 +174,7 @@ elicitation and a later run.
 richer grounding is a clear but small win: the distribution gap goes 0.1484 to 0.1368 and Brier
 0.7172 to 0.7041, both at p = 0.0000, and zero-probability cells fall 4.7-fold. At the individual
 level it is a clear but small win too, +0.0113 on rank correlation, and **it does not change what
-the arm is useful for**: 0.1045 is a correlation near zero on most tasks, and the arm still sits
-below the persona-blind baseline on accuracy.
+the arm is useful for**: 0.1045 is a correlation near zero on most tasks.
 
 Those two together are the finding. A 21k-token persona of the respondent's own answers buys real
 population fidelity and real per-person signal, in the same direction as it buys them for GPT-4.1,

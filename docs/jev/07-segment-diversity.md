@@ -92,8 +92,8 @@ Flattening and misplacement are separate defects, and each arm has one.
   "no demographic effect" when the humans show one.
 - **The pooled-marginal results are unaffected.** This measures a different thing from the
   distribution and calibration tests that carry the verdict; nothing here changes them.
-- **It is not an individual-level claim.** These are group rates. Every arm sits below the
-  persona-blind floor on individual accuracy; see [what this licenses](08-what-this-licenses.md).
+- **It is not an individual-level claim.** These are group rates; the individual level is settled
+  elsewhere and negatively, in [what this licenses](08-what-this-licenses.md).
 - **Scope.** One instrument, one model version, demographics-only grounding. A persona carrying
   620 prior answers separates segments less, not more, a median ratio of 0.185 against 0.282; see
   [grounding](06-grounding.md).

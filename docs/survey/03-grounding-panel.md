@@ -83,14 +83,14 @@ the distribution gap on two-option columns, the ordinal distribution gap on mult
 rank correlation with the human (price-controlled on the pricing block), the entropy ratio,
 collapsed columns and blind spots. Every figure is an equal weight across the 16 tasks.
 
-Two reminders that bear directly on the tables. **The floor, not the headline, is the number to
-read**: a persona-blind predictor scores 73.27% here. And **distances are lower-better while accuracy
-and correlation are higher-better**, so the columns below do not all point the same way.
+One reminder that bears directly on the tables: **distances are lower-better while accuracy and
+correlation are higher-better**, so the columns below do not all point the same way.
 
 ## Results
 
 All three arms ran on the whole 2,058-respondent panel on the current prompt, so both contrasts are
-measurable at panel scale and share one persona-blind floor of **73.27%**.
+measurable at panel scale and share one accuracy reference, the 73.27% defined on the
+[metrics page](02-metrics.md).
 
 | Arm | accuracy | edge vs floor | rank corr. (price-controlled) | distribution gap / ordinal gap | collapsed | blind spots |
 |---|--:|--:|--:|--:|--:|--:|
@@ -103,8 +103,8 @@ seeing its own earlier answers   = −0.22 points of accuracy
 the respondent's own past answers = +2.66 points of accuracy
 ```
 
-Reference points for the accuracy column: the human test-retest ceiling is 81.68%, the paper's best
-published twin is 71.72%, and the persona-blind floor is 73.27%.
+Reference points for the accuracy column: the human test-retest ceiling is 81.68% and the paper's
+best published twin is 71.72%.
 
 The demographics-stateless arm in more detail, since it is the reference the other two move from:
 
@@ -144,11 +144,10 @@ contributor is the weakest evidence of individual signal. False consensus is the
 mechanistically the right task: "what fraction of others agree with you" is a direct function of the
 attitudes those 620 columns encode.
 
-**Landing near a published figure while losing to the column's own modal answer is the whole
-reading.** The demographics arm sits 1.5 points from the paper's best published twin and 3.01 points
-below a persona-blind predictor. The accuracy number is close to the paper's because both are close
-to the majority, not because either is reading the individual. Only two tasks beat that arm's floor
-by more than 3 points (Less is more +10.18, Pricing +7.87), and pricing's edge is the shared
+**The accuracy number and the per-person signal point different ways.** The demographics arm
+lands 1.5 points from the paper's best published twin, while its price-controlled correlation with
+the human is +0.095, near zero on 15 of the 16 tasks. A close accuracy figure is not evidence that
+either twin is reading the individual. Only two tasks carry an edge above 3 points (Less is more +10.18, Pricing +7.87), and pricing's edge is the shared
 randomized price rather than the person: six sevenths of its raw +0.301 correlation disappears when
 price rank is held fixed, leaving +0.048.
 
