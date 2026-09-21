@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Jev vs GPT-4.1 on a synthetic survey</title>
-  <meta name="description" content="Jev vs GPT-4.1 as synthetic survey respondents: 300 people, 24,596 answers. How you ask mattered more than which model you used.">
+  <meta name="description" content="Jev vs GPT-4.1 as synthetic survey respondents, on the same 300 people. How you ask mattered more than which model you used.">
   <link rel="canonical" href="https://jjd-lab.github.io/jev-synthetic-survey/">
   <meta property="og:title" content="How you ask matters more than which model">
   <meta property="og:description" content="Jev vs GPT-4.1 on Twin-2K-500. Asked as a Noul, Jev leads GPT-4.1 probabilities on all six measures, at $4 billed against roughly $136 at list rates.">
@@ -13,14 +13,14 @@
   <meta property="og:image" content="https://jjd-lab.github.io/jev-synthetic-survey/assets/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="How you ask matters more than which model. Jev vs GPT-4.1, 300 respondents, 24,596 survey answers, $4 billed against about $136 at list rates, six measures to none against GPT-4.1 probabilities.">
+  <meta property="og:image:alt" content="How you ask matters more than which model. Jev vs GPT-4.1, the same 300 survey respondents, $4 billed against about $136 at list rates, six measures to none against GPT-4.1 probabilities.">
   <meta property="og:site_name" content="Jev on a synthetic survey">
   <meta name="author" content="jjd-lab">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="How you ask matters more than which model">
   <meta name="twitter:description" content="Jev vs GPT-4.1 on Twin-2K-500. Asked as a Noul, Jev leads GPT-4.1 probabilities on all six measures, at $4 billed against roughly $136 at list rates.">
   <meta name="twitter:image" content="https://jjd-lab.github.io/jev-synthetic-survey/assets/og.png">
-  <meta name="twitter:image:alt" content="How you ask matters more than which model. Jev vs GPT-4.1, 300 respondents, 24,596 survey answers, $4 billed against about $136 at list rates, six measures to none against GPT-4.1 probabilities.">
+  <meta name="twitter:image:alt" content="How you ask matters more than which model. Jev vs GPT-4.1, the same 300 survey respondents, $4 billed against about $136 at list rates, six measures to none against GPT-4.1 probabilities.">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -82,8 +82,8 @@
             distribution gap from <span data-fig="noul.choice_soft_nominal">0.1985</span> to <span data-fig="noul.noul_soft_nominal">0.1530</span>, at the same price.</li>
           <li>A persona of 620 of the person’s own past answers lifts both models at both levels,
             and Jev keeps pace with GPT-4.1.</li>
-          <li>No arm predicts an individual yet. Every one scores below a baseline that ignores the
-            persona entirely, and richer grounding is what closes the distance.</li>
+          <li>No arm predicts an individual yet. Per-person correlation with the human sits near
+            zero on 15 of the 16 tasks, whatever the persona carries.</li>
         </ul>
       </div>
     </section>
@@ -203,9 +203,9 @@
 
       <figure class="frame">
         <figcaption>
-          Accuracy against the human test–retest ceiling and the paper’s published twin. Every arm
-          also lands under <span data-fig="constants.panel_loo_floor_pct">73.27</span>%, the score
-          you get by ignoring the persona entirely and going with what everyone else answered.
+          Accuracy against the human test–retest ceiling and the paper’s published twin. The three
+          arms sit within 2.7 points of each other, and 9 to 12 points below what the humans manage
+          against their own earlier answers.
         </figcaption>
         <div class="chart" id="chart-floors"></div>
       </figure>
@@ -219,10 +219,10 @@
       </figure>
 
       <aside class="pull">
-        Every arm lands near the twin the paper published — and every arm loses to a rule that
-        ignores the persona and answers each question the way most people did. Both are close to
-        the majority; neither is reading the individual. Good for a population’s distribution, not
-        for a specific person.
+        Six hundred and twenty of a person’s own past answers buy +2.66 points of accuracy over
+        fourteen demographic facts. Letting the model read its own earlier answers buys less than a
+        quarter of a point. A demographics-grounded twin is usable for a population’s distribution,
+        not for predicting a specific person.
       </aside>
 
       <p class="source">
@@ -267,8 +267,7 @@
         </p>
         <p>
           Accuracy is last on purpose. The arm that wins it, GPT-4.1 hard answer at <span data-fig="comparison.arms.gpt41_hard.accuracy_pct">69.32</span>%,
-          is last on the distribution gap. All five land under <span data-fig="constants.comparison_loo_floor_pct">73.59</span>% on this 300-person slice,
-          the score from ignoring the persona entirely.
+          is last on the distribution gap.
         </p>
       </div>
 
@@ -306,7 +305,7 @@
         <figcaption>
           <strong>Swap the 14 demographic facts for 620 of the person’s own past answers and both
           levels improve.</strong> Not enough to predict an individual: <span data-fig="grounding.prior_rho">0.1045</span> is near zero on most
-          tasks, and the arm stays below the persona-blind baseline. Both bars hold statefulness
+          tasks. Both bars hold statefulness
           fixed, so grounding is the only thing that moved — GPT-4.1 shifts the same way, 0.0945 to
           0.1068.
         </figcaption>
