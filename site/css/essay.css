@@ -194,6 +194,11 @@ main { margin-left: var(--rail); }
   color: color-mix(in srgb, var(--paper) 55%, transparent);
   font-size: 0.92rem;
 }
+ul.hero-note {
+  padding-left: 1.05rem;
+  margin: 0;
+}
+ul.hero-note li { margin-bottom: 0.5rem; }
 
 .chapter {
   padding: 5.5rem 7vw 4.5rem;

@@ -8,7 +8,9 @@ play the same 300 survey respondents on the public
 questions, 16 behavioral-economics tasks, and 24,596 answered cells per arm. Jev returns a
 probability vector natively. We asked `gpt-4.1` to state one in words.
 
-We fixed two tests in writing before collecting any data. Both failed.
+Jev lost the two-option distribution gap, 0.1985 against `gpt-4.1`'s 0.1789, and won the other
+five measured columns at a thirty-fourth of the cost. Calibration came in at 0.1472 against a bar
+of 0.05, and missed it for every arm.
 
 The full write-up is in [`docs/`](docs/README.md), split into a
 [survey track](docs/README.md#survey-track) for what transfers to any model on this benchmark and a
@@ -73,11 +75,14 @@ the three different ways this dataset's questions can be counted.
 
 ## The strong claim fails
 
-Two tests were fixed in writing before any data was collected. Both failed, so the strong claim does not
-hold: a native probability vector does **not** beat a verbalized one across both halves of this
-instrument. Jev loses the two-option half, 0.1985 against `gpt-4.1`'s 0.1789, and that is the column
-the test turns on. The second test, on calibration, failed for all four arms at once, which makes it
-a statement about demographics-only grounding rather than about any model.
+Jev loses the two-option half, 0.1985 against `gpt-4.1`'s 0.1789. That is the measure the test
+turns on, so the strong claim does not hold: a native probability vector does **not** beat a
+verbalized one across both halves of this instrument. Calibration, the second test, came in at
+0.1472 against a bar of 0.05, and missed it for all four arms at once, which makes that one a
+statement about demographics-only grounding rather than about any model.
+
+Both tests were fixed in writing before any data was collected, which is why a later arm cannot
+retire them.
 
 That is the whole of the negative result, and it is the least interesting thing here.
 

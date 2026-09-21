@@ -48,14 +48,13 @@
         <p class="lede">
           We asked TypeSafe’s Jev, a decision-only model, and gpt-4.1 to play the same 300 survey
           respondents. Jev returns a probability per option because that is its output type.
-          gpt-4.1 is a chat model, so it was made to fill one into an enforced JSON schema. Two
-          tests were written down first. Both failed, on one of the six measures reported — and Jev
-          won the other five, at a thirty-fourth of the cost.
+          gpt-4.1 is a chat model, so it was made to fill one into an enforced JSON schema. Six
+          measures separate them.
         </p>
 
         <div class="hero-board">
           <div class="stamp" aria-label="Jev wins five of the six reported measures; gpt-4.1 wins the two-option distribution gap, which is the measure the registered test turns on">
-            <span>Measures</span>
+            <span>Overall</span>
             <strong>Jev 5–1</strong>
           </div>
           <dl class="hero-stats">
@@ -66,12 +65,15 @@
           </dl>
         </div>
 
-        <p class="hero-note">
-          The stamp is the registered test and nothing else: Jev <code>Choice</code> against
-          verbalized <code>gpt-4.1</code>, losing the two-option distribution gap. Two results sit
-          outside it — asking the yes/no questions a different way closes most of that gap, and a
-          richer persona improves both models without letting either predict an individual.
-        </p>
+        <ul class="hero-note">
+          <li>Jev won five of the six measures, and lost the one the comparison was built to
+            decide: the two-option distribution gap, 0.1985 against 0.1789.</li>
+          <li>Asking the yes/no questions as a <code>Noul</code> instead of a two-option
+            <code>Choice</code> closes most of that gap, at the same price.</li>
+          <li>A persona of 620 past answers improves both models. Neither predicts an
+            individual — every arm scores below a baseline that ignores the persona entirely.</li>
+          <li>Jev costs a thirty-fourth as much and produced no errors in 24,596 answers.</li>
+        </ul>
       </div>
     </section>
 
