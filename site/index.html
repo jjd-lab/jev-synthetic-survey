@@ -4,16 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Jev on a synthetic survey</title>
-  <meta name="description" content="Does a decision-only model's native probability vector beat gpt-4.1 asked to write one out? 300 paired respondents, 24,596 cells. The strong claim fails, on one column of six. The soft claim, that it is the better instrument asked the right way, is what the data supports.">
+  <meta name="description" content="Does a decision-only model's native probability vector beat one that gpt-4.1 states in words? 300 paired respondents, 24,596 cells. The strong claim fails, on one measure of six. The soft claim, that it is the better instrument asked the right way, is what the data supports.">
   <link rel="canonical" href="https://jjd-lab.github.io/jev-synthetic-survey/">
   <meta property="og:title" content="Jev on a synthetic survey">
-  <meta property="og:description" content="A $4 native-probability model vs a $136 verbalized-probability run. The cheap one lost the registered test on one column of six, and won the other five.">
+  <meta property="og:description" content="A $4 native-probability model vs a $136 verbalized-probability run. The cheap one lost the registered test on one measure of six, and won the other five.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://jjd-lab.github.io/jev-synthetic-survey/">
   <meta property="og:image" content="https://jjd-lab.github.io/jev-synthetic-survey/assets/og.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Jev on a synthetic survey">
-  <meta name="twitter:description" content="Native vs verbalized probabilities on Twin-2K-500. The strong claim fails on one column of six; the same model wins the rest at 1/34 the cost.">
+  <meta name="twitter:description" content="Native vs verbalized probabilities on Twin-2K-500. The strong claim fails on one measure of six; the same model wins the rest at 1/34 the cost.">
   <meta name="twitter:image" content="https://jjd-lab.github.io/jev-synthetic-survey/assets/og.png">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,15 +49,15 @@
           We asked TypeSafe’s Jev, a decision-only model, and gpt-4.1 to play the
           same 300 survey respondents. Jev returns a typed value and a probability per option and
           generates no text at all, so its vector is native rather than written. We asked the chat
-          model to write one out. Two tests were written down first.
-          Both failed, so the strong claim does not hold. It failed on one of the six columns
-          measured; Jev won the other five, at a thirty-fourth of the cost, and that soft claim is
+          model to state one in words. Two tests were written down first.
+          Both failed, so the strong claim does not hold. It failed on one of the six measures
+          reported; Jev won the other five, at a thirty-fourth of the cost, and that soft claim is
           the interesting one.
         </p>
 
         <div class="hero-board">
-          <div class="stamp" aria-label="Jev wins five of the six measured columns; gpt-4.1 wins the two-option distribution gap, which is the column the registered test turns on">
-            <span>Columns</span>
+          <div class="stamp" aria-label="Jev wins five of the six reported measures; gpt-4.1 wins the two-option distribution gap, which is the measure the registered test turns on">
+            <span>Measures</span>
             <strong>Jev 5–1</strong>
           </div>
           <dl class="hero-stats">
@@ -70,8 +70,8 @@
 
         <p class="hero-note">
           The registered arm is Jev <code>Choice</code> against verbalized <code>gpt-4.1</code>
-          probabilities, and the column it loses is the two-option distribution gap the test turns
-          on. Re-asked as a <code>Noul</code> it wins that column too, but after the fact, so the
+          probabilities, and the measure it loses is the two-option distribution gap the test
+          turns on. Re-asked as a <code>Noul</code> it wins that column too, but after the fact, so the
           failure stands. The headline arms were then re-run over all 2,058 respondents and the
           numbers held: 0.1530 to 0.1523 on the distribution gap, 0.1472 to 0.1418 on calibration,
           67.28% to 67.64% on accuracy, across a 6.9-fold increase in sample. What follows teaches

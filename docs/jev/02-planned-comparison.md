@@ -5,7 +5,7 @@ stated one on the comparison as registered, and for the two-option column the te
 recommendation is unchanged: stay with verbalized probabilities and soft aggregation.
 
 That is the strong claim, and its failure is the smaller half of the result. The registered arm
-loses exactly one of the six measured columns and wins the other five, at a thirty-fourth of the
+loses exactly one of the six reported measures and wins the other five, at a thirty-fourth of the
 cost — so the weaker claim, that this is the better instrument once asked properly, is the one the
 data actually speaks to. It is not what was registered, and it is not discharged here.
 

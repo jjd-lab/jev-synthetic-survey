@@ -6,7 +6,7 @@ We asked a decision-only model, TypeSafe's [Jev](https://typesafe.ai) `jev-1.13.
 play the same 300 survey respondents on the public
 [Twin-2K-500](https://huggingface.co/datasets/LLM-Digital-Twin/Twin-2K-500) benchmark. That is 108
 questions, 16 behavioral-economics tasks, and 24,596 answered cells per arm. Jev returns a
-probability vector natively. We asked `gpt-4.1` to write one out.
+probability vector natively. We asked `gpt-4.1` to state one in words.
 
 We fixed two tests in writing before collecting any data. Both failed.
 
@@ -55,7 +55,7 @@ Five arms ship in this repo and they differ only in which model was asked, and h
 
 **What is being compared.** Two ways of getting a probability out of a model. Jev is decision-only:
 it generates no text at all, returning a typed value and a number per option natively.
-`gpt-4.1` is a general chat model, so we asked it to write those same numbers out in words. The
+`gpt-4.1` is a general chat model, so we asked it to state those same numbers in words. The
 question is whether the native vector beats the verbalized one.
 
 **Why the tables below lead with a distribution gap instead of accuracy.** Nobody can predict how
@@ -82,12 +82,12 @@ a statement about demographics-only grounding rather than about any model.
 That is the whole of the negative result, and it is the least interesting thing here.
 
 **The soft claim survives, and it is the one worth acting on.** Two-option distribution is the single
-column the registered arm loses. On the same 300 respondents, under the same prompt, Jev `Choice`
+measure the registered arm loses. On the same 300 respondents, under the same prompt, Jev `Choice`
 beats verbalized `gpt-4.1` on the other five: the ordinal half 0.6864 against 0.7272, calibration
 0.2029 against 0.2393, Brier 0.7550 against 0.8108, accuracy 67.59% against 64.78% — at a
 thirty-fourth of the cost.
 
-And the column it loses, it loses to the question form rather than to the model. Re-asked as a
+And the measure it loses, it loses to the question form rather than to the model. Re-asked as a
 `Noul`, one probability with no options offered, the same model on the same respondents takes that
 column too: 0.1530 against 0.1789, at the same price and with no accuracy penalty. That arm was
 built after seeing the result, so it cannot discharge the registered hypothesis, and the failure
