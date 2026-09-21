@@ -68,9 +68,16 @@ Not run, and deliberately so.
    roughly $0.45 instead of roughly $25. TypeSafe warns that this arm's 20,000-token state is where
    accuracy starts falling with state size, so validate packed against solo vectors on about 200
    cells first, and settle item 2 before relying on the packing saving.
-4. **A multi-option-only re-test**, since that is the half Jev won. The `Score` primitive is the
-   obvious instrument, but TypeSafe states that thresholds do not transfer between primitive types,
-   so its numbers could not be compared to these.
+4. **How `Choice` behaves as the option count grows.** A `Choice` returns a distribution over
+   several defined options, so the 65 two-option columns are its narrowest case — and that is
+   exactly where it saturated, putting probability zero on one of the two options in 16.6% of
+   cells. On the 43 multi-option columns the same primitive wins the ordinal gap. But those 43 are
+   reported as one aggregate and never broken out by option count, though they run 4, 5, 6, 7 and
+   10 options wide. A re-test that varies only the number of options would say whether the
+   saturation measured on two options fades, persists or worsens as options are added, which is
+   the difference between a property of `Choice` and a property of asking a yes/no question with
+   it. `Score` is the other instrument to try, though TypeSafe states that thresholds do not
+   transfer between primitive types, so its numbers could not be compared to these.
 5. **Probability elicitation on an unchained arm**, wanted independently of this result and now
    reachable: every arm runs the per-persona walk, so setting `chain_own_answers: false` gives an
    arm that never sees its own earlier answers and can still be asked for a vector. Worth doing
@@ -91,6 +98,25 @@ Not run, and deliberately so.
    (+0.476 price-controlled, against near zero on the other 15). If related grounding lifts that
    correlation where unrelated grounding did not, the ceiling measured here is the mismatch
    between persona and exam rather than anything about the models.
+
+## A survey answer may be a poor place to spend a reasoning budget
+
+A heuristics-and-biases battery is not a reasoning exam. These tasks are built to catch the fast,
+intuitive answer — that is what makes them biases — so the answer a real respondent gives is
+usually one they did not deliberate over. A model that returns a judgment without reasoning its way
+there is closer to that behaviour than one that thinks first, and two measurements point the same
+way.
+
+The paper's own arms put reasoning below no reasoning: Text Persona with reasoning scores 70.39%
+against 71.72% for the same persona without it. And asking GPT-4.1 to state a probability before
+committing cost it 4.42 points of accuracy against simply picking an answer, 64.90% against 69.32%,
+measured here. In both cases the deliberation moved the model away from the human rather than
+toward them.
+
+Neither makes a decision-only output type correct. This repo measured a failure at the individual
+level for every arm, reasoning or not, and the section above argues the instrument is what bounds
+that. What the two results do unsettle is the usual instinct — add reasoning and the twin improves
+— which is not what either measurement shows on this instrument.
 
 ## Further out: change the model, not the prompt
 
