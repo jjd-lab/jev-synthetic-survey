@@ -26,12 +26,17 @@ and every cell re-sends the whole persona: 3,891 tokens per cell on demographics
 620 prior answers, so 95.7M tokens becomes 581.0M. **6.07x the tokens, 6.07x the cost.** Nothing
 about the model got more expensive.
 
-That linearity is itself a finding, because the comparator does not pay it. The GPT-4.1
-prior-answers panel run was **91.4% cached prompt tokens** — the repeated persona is billed once and
-read from cache thereafter. Jev's records carry an `input_tokens` field and no cache field, and the
-billed total matches the uncached sum to the cent. On a long fixed persona re-sent per question,
-prompt caching is worth more than the per-token rate, and it is the one place in this repo where
-Jev's 34-fold price advantage narrows sharply.
+That linearity is itself worth noting, because the comparator does not pay it. The GPT-4.1
+prior-answers run was **91.4% cached prompt tokens** across 2,348M prompt tokens: the repeated
+persona is billed once and read from cache thereafter. Jev's records carry an `input_tokens` field
+and no cache field, and the billed total matches the uncached sum to the cent.
+
+**The two are not a cost comparison.** That GPT-4.1 run covers all 2,058 respondents against this
+arm's 300, and the repo records no dollar figure for it at all — the panel arms never had one. What
+transfers between them is the caching *rate*, which does not depend on sample size. The honest claim
+is narrow: on a long fixed persona re-sent per question, prompt caching is worth more than the
+per-token rate, and this is the workload where Jev's cost advantage would narrow. Whether it
+narrows, and by how much, is not measured here.
 
 ## The arm carries no self-history at all
 
