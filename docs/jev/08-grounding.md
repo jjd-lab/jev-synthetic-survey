@@ -22,9 +22,17 @@ two-option columns and `Choice` on the 43 multi-option ones.
 | Mean latency | 0.38 s/cell, against 0.26 s/cell on the demographics arms |
 
 The cost is the state, and the arithmetic is exactly linear. Jev bills input only, at a flat rate,
-and every cell re-sends the whole persona: 3,891 tokens per cell on demographics against 23,624 on
-620 prior answers, so 95.7M tokens becomes 581.0M. **6.07x the tokens, 6.07x the cost.** Nothing
-about the model got more expensive.
+and every cell re-sends everything: 3,891 tokens per cell on demographics against 23,624 on 620
+prior answers, so 95.7M tokens becomes 581.0M. **6.07x the tokens, 6.07x the cost.** Nothing about
+the model got more expensive.
+
+Worth separating the two things that fill a prompt, because they price differently. The
+demographics persona is small — 670 tokens per cell at the first question of a walk, including the
+question itself. What makes that arm cost $4.02 rather than $0.69 is **chaining**: by the 83rd
+answer the prompt has grown to 7,406 tokens, and the arm averages 3,891. The prior-answers arm
+carries no chain at all and still costs six times more, because 620 real answers are a 21k-token
+state on every single cell. Persona content and accumulated self-history are both just context, and
+Jev bills both the same way.
 
 That linearity is itself worth noting, because the comparator does not pay it. The GPT-4.1
 prior-answers run was **91.4% cached prompt tokens** across 2,348M prompt tokens: the repeated
@@ -97,9 +105,11 @@ not measured on the same design:
   are older, whiter and more conservative than the panel.
 - **The task sets differ.** 13 tasks against 14; a task unmeasurable in one arm drops from the mean.
 
-**The clean test costs about $4.** A Jev demographics arm run stateless completes the 2×2 and
-isolates grounding from statefulness. The demographics state is 1k tokens rather than 21k, so it is
-cheap and fast. Until it exists, the +0.0389 above should be read as the direction, not the size.
+**The clean test costs about $0.69.** A Jev demographics arm run stateless completes the 2×2 and
+isolates grounding from statefulness. Its prompt is the persona and the question and nothing else:
+670 tokens per cell, measured from the first question of each existing walk, against the 3,891 the
+chained arm averages once it is carrying up to 83 of its own answers. 16.5M tokens in total. Until
+it exists, the +0.0389 above should be read as the direction, not the size.
 
 ## What it does not change
 
