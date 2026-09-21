@@ -298,8 +298,9 @@
           models track individuals better — the same direction, and neither by much.</strong>
           Per-person correlation rises from 0.063 to 0.102 for Jev and from 0.095 to 0.107 for
           gpt-4.1. Jev does it from a 21,000-token state while carrying no memory of its own earlier
-          answers at all. It costs 5.4× more, $24.40 against $4.02, because that state is re-sent on
-          every question. The two figures are not measured on the same design — Jev’s comparison
+          answers at all. It costs 6.1× more, $24.40 against $4.02, because that state is re-sent on
+          every question and Jev bills every token of it — gpt-4.1 served 91% of the same repeated
+          persona from cache. The two figures are not measured on the same design — Jev’s comparison
           also changed statefulness, and runs over 300 people against 2,058 — so read the direction,
           not the size.
         </figcaption>

@@ -21,8 +21,17 @@ two-option columns and `Choice` on the 43 multi-option ones.
 | Aborted | 8 personas, all rate limits, all cleared on retry at concurrency 8 |
 | Mean latency | 0.38 s/cell, against 0.26 s/cell on the demographics arms |
 
-The 5.4-fold cost is the state: 620 answers are re-sent on every one of the 82 cells per respondent.
-Nothing about the model got more expensive.
+The cost is the state, and the arithmetic is exactly linear. Jev bills input only, at a flat rate,
+and every cell re-sends the whole persona: 3,891 tokens per cell on demographics against 23,624 on
+620 prior answers, so 95.7M tokens becomes 581.0M. **6.07x the tokens, 6.07x the cost.** Nothing
+about the model got more expensive.
+
+That linearity is itself a finding, because the comparator does not pay it. The GPT-4.1
+prior-answers panel run was **91.4% cached prompt tokens** — the repeated persona is billed once and
+read from cache thereafter. Jev's records carry an `input_tokens` field and no cache field, and the
+billed total matches the uncached sum to the cent. On a long fixed persona re-sent per question,
+prompt caching is worth more than the per-token rate, and it is the one place in this repo where
+Jev's 34-fold price advantage narrows sharply.
 
 ## The arm carries no self-history at all
 
