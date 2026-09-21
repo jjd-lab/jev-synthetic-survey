@@ -302,9 +302,8 @@ under-specified.
 
 Everything above is measured. This part is opinion, kept separate on purpose.
 
-I think Jev is a strong option and I would use it. It costs about 34 times less, it
-answered every
-one of 24,596 cells without an error, it leads on the ordinal half outright, and asked as a `Noul`
+I think Jev is a strong option and I would use it. It costs about 34 times less, it answers in
+about a quarter of a second a call, it leads on the ordinal half outright, and asked as a `Noul`
 it leads GPT-4.1 probabilities on the yes/no half as well. The comparison as first set up, a
 `Choice` on every yes/no item, went GPT-4.1's way on the distribution gap, and that result stands.
 It also held the prompt fixed to be fair to both models, which left every one of TypeSafe's own
