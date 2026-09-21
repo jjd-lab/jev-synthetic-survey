@@ -109,24 +109,31 @@ Not run, and deliberately so.
    correlation where unrelated grounding did not, the ceiling measured here is the mismatch
    between persona and exam rather than anything about the models.
 
-## A survey answer may be a poor place to spend a reasoning budget
+## Answering a survey is a System One task
 
-A heuristics-and-biases battery is not a reasoning exam. These tasks are built to catch the fast,
-intuitive answer — that is what makes them biases — so the answer a real respondent gives is
-usually one they did not deliberate over. A model that returns a judgment without reasoning its way
-there is closer to that behaviour than one that thinks first, and two measurements point the same
-way.
+Most survey answers are not reasoned. A respondent reads an item, reacts, and moves on; the
+answer they give is a fast judgment rather than a conclusion they argued their way to. This
+holdout makes that literal — a heuristics-and-biases battery is built to catch the intuitive
+answer, since a bias *is* the gap between the fast answer and the deliberated one. So the thing
+being simulated here is a System One judgment.
 
-The paper's own arms put reasoning below no reasoning: Text Persona with reasoning scores 70.39%
-against 71.72% for the same persona without it. And asking GPT-4.1 to state a probability before
-committing cost it 4.42 points of accuracy against simply picking an answer, 64.90% against 69.32%,
-measured here. In both cases the deliberation moved the model away from the human rather than
-toward them.
+That is an argument for the shape of a decision-only model, independently of whether it wins.
+Jev returns a typed judgment and a probability over options, with no reasoning step and no text.
+Matching a survey response with that is a match in kind: the same sort of output, produced the
+same way, rather than a deliberation summarised into a choice after the fact. A chat model asked
+to play a respondent has to be talked out of reasoning; this one never starts.
 
-Neither makes a decision-only output type correct. This repo measured a failure at the individual
-level for every arm, reasoning or not, and the section above argues the instrument is what bounds
-that. What the two results do unsettle is the usual instinct — add reasoning and the twin improves
-— which is not what either measurement shows on this instrument.
+Two measurements are consistent with it. The paper's own arms put reasoning below no reasoning:
+Text Persona with reasoning scores 70.39% against 71.72% for the same persona without it. And
+asking GPT-4.1 to state a probability before committing cost it 4.42 points of accuracy against
+simply picking an answer, 64.90% against 69.32%, measured here. In both cases deliberation moved
+the model away from the human rather than toward them.
+
+Hold the size of that claim steady. It is an argument about fit, not a measured win: the test
+fixed in advance went GPT-4.1's way on the two-option half, and no arm here predicts an
+individual, reasoning or not. What the fit argument earns is a different default. The usual
+instinct is that a twin improves if you make it think harder, and on this instrument that
+instinct is backwards.
 
 ## Further out: change the model, not the prompt
 
