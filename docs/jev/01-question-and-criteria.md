@@ -49,10 +49,22 @@ conjunction on purpose. Winning one half and losing the other is not a win.
 **The calibration test.** Jev's calibration error on the 65 two-option columns, weighted equally
 across tasks, must be at most 0.05. Between 0.05 and 0.10 is marginal; above 0.10 is a failure.
 
-The bar is not arbitrary. TypeSafe documents the primitive as returning a *calibrated* probability
-per option, so this test takes that claim at face value and checks it on this instrument. A model
-that only ranks options correctly would fail it while still being useful; one whose stated
-probabilities mean what they say would pass.
+The bar is not arbitrary. TypeSafe states the objective in
+[`concepts/system-one.md`](https://docs.typesafe.ai/concepts/system-one.md):
+
+> System One models are trained for calibrated decisions: their probabilities are optimized against
+> outcomes to reflect uncertainty.
+
+> Calibration is measured across groups of predictions; it does not guarantee that an individual
+> answer is correct.
+
+This test checks the first sentence on this instrument, at the level the second one names: ECE over
+columns, equal weight per task, which is a group-level property rather than a claim about any one
+answer. Note what is *not* claimed anywhere in the primitive pages — neither
+[`choice.md`](https://docs.typesafe.ai/primitives/choice.md) nor
+[`noul.md`](https://docs.typesafe.ai/primitives/noul.md) uses the word, describing the outputs only
+as a probability per option and the probability that the answer is yes. A model that ranks options
+correctly but whose probabilities are compressed would fail this test while remaining useful.
 
 The verdict follows mechanically from the two:
 

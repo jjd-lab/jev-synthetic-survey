@@ -1,7 +1,10 @@
 """The only place that knows TypeSafe's wire format: one question, one HTTP POST.
 
-Jev is a "System One" model -- it returns a typed answer plus a calibrated probability per option
-instead of generating text. That makes it a candidate replacement for the `verbalized_probs`
+Jev is a "System One" model -- it returns a typed answer plus a probability per option instead of
+generating text. TypeSafe documents the training objective rather than a guarantee: System One
+models are "trained for calibrated decisions", and "calibration is measured across groups of
+predictions; it does not guarantee that an individual answer is correct"
+(https://docs.typesafe.ai/concepts/system-one.md). That makes it a candidate replacement for the `verbalized_probs`
 elicitation measured on an earlier survey, where gpt-4.1 is ASKED to state a distribution and returns
 one that does not sum to 1. Here the distribution is the model's native output.
 
