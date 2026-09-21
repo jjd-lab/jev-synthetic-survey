@@ -19,6 +19,16 @@
   0.1484 to 0.1368, per-person rank correlation 0.0933 to 0.1045 — at $0.00099 and 0.38 seconds per
   answer, with all 24,596 cells answered. Cheap and fast did not mean it could only handle a short
   persona. See [grounding](06-grounding.md).
+- **For multiple choice, use `Choice` and read the distribution. For check-all-that-apply, do not
+  assume a 0.5 cutoff.** Picking one of several options is the half Jev wins — ordinal gap 0.6864
+  against GPT-4.1's 0.7272 over the 43 multi-option columns — and it needs no threshold at all,
+  because the distribution is the deliverable. Check-all-that-apply is untested here and would take
+  one `Noul` per option, which *does* need a threshold, and the pricing block says 0.5 is the wrong
+  one for this model: mean P(yes) sits +0.185 above the humans' on Jev Choice, high in 36 of 40
+  columns and 37 of 40 on Noul. Re-committing at 0.79 instead recovers 8.45 points of Noul's
+  pricing accuracy and 5.89 of Choice's, where the same shift gives GPT-4.1 0.03. That threshold is
+  fitted in-sample, so read it as the size of the miscalibration rather than a number to reuse: fit
+  one on held-out columns. See [price sensitivity](04-price-sensitivity.md).
 - **Keep pricing broken out in any future work.** The 9.18 point accuracy gap on the piped-price
   block is the single largest effect measured here, and its cause is a boundary offset rather than
   arithmetic. See [price sensitivity](04-price-sensitivity.md).
