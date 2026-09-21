@@ -1,0 +1,138 @@
+{
+  "source": {
+    "details": "runs/jev_vs_gpt41_n300/jev_noul.jsonl",
+    "summary": null,
+    "price_controlled": true
+  },
+  "correlation": {
+    "Pricing": {
+      "columns": 40,
+      "scored": 40,
+      "mean_rho": 0.156208689693965,
+      "mean_rho_controlled": 0.014772710743273503,
+      "unmeasurable": {}
+    },
+    "Dominator neglect": {
+      "columns": 1,
+      "scored": 0,
+      "mean_rho": null,
+      "mean_rho_controlled": null,
+      "unmeasurable": {
+        "twin collapsed": 1
+      }
+    },
+    "Omission bias": {
+      "columns": 1,
+      "scored": 0,
+      "mean_rho": null,
+      "mean_rho_controlled": null,
+      "unmeasurable": {
+        "twin collapsed": 1
+      }
+    },
+    "False consensus": {
+      "columns": 10,
+      "scored": 10,
+      "mean_rho": 0.4501475685521329,
+      "mean_rho_controlled": 0.4501475685521329,
+      "unmeasurable": {}
+    },
+    "Nonseparability": {
+      "columns": 8,
+      "scored": 7,
+      "mean_rho": 0.07164144830277654,
+      "mean_rho_controlled": 0.07164144830277654,
+      "unmeasurable": {
+        "twin collapsed": 1
+      }
+    },
+    "Asian disease": {
+      "columns": 2,
+      "scored": 1,
+      "mean_rho": -0.05708077123366116,
+      "mean_rho_controlled": -0.05708077123366116,
+      "unmeasurable": {
+        "twin collapsed": 1
+      }
+    },
+    "Outcome bias": {
+      "columns": 2,
+      "scored": 2,
+      "mean_rho": -0.0015486201059395216,
+      "mean_rho_controlled": -0.0015486201059395216,
+      "unmeasurable": {}
+    },
+    "Anchoring": {
+      "columns": 4,
+      "scored": 1,
+      "mean_rho": -0.12015312201298572,
+      "mean_rho_controlled": -0.12015312201298572,
+      "unmeasurable": {
+        "twin collapsed": 3
+      }
+    },
+    "Absolute vs relative saving": {
+      "columns": 2,
+      "scored": 2,
+      "mean_rho": 0.0492926570786941,
+      "mean_rho_controlled": 0.0492926570786941,
+      "unmeasurable": {}
+    },
+    "Allais paradox": {
+      "columns": 2,
+      "scored": 1,
+      "mean_rho": 0.014849614689424404,
+      "mean_rho_controlled": 0.014849614689424404,
+      "unmeasurable": {
+        "twin collapsed": 1
+      }
+    },
+    "Myside bias": {
+      "columns": 2,
+      "scored": 2,
+      "mean_rho": 0.21697101901921234,
+      "mean_rho_controlled": 0.21697101901921234,
+      "unmeasurable": {}
+    },
+    "Less is more": {
+      "columns": 3,
+      "scored": 3,
+      "mean_rho": -0.031646237090091796,
+      "mean_rho_controlled": -0.031646237090091796,
+      "unmeasurable": {}
+    },
+    "Proportion dominance": {
+      "columns": 6,
+      "scored": 6,
+      "mean_rho": 0.15699378128454247,
+      "mean_rho_controlled": 0.15699378128454247,
+      "unmeasurable": {}
+    },
+    "WTA/WTP (Thaler)": {
+      "columns": 3,
+      "scored": 3,
+      "mean_rho": 0.004162646756335546,
+      "mean_rho_controlled": 0.004162646756335546,
+      "unmeasurable": {}
+    },
+    "Linda (conjunction)": {
+      "columns": 6,
+      "scored": 5,
+      "mean_rho": 0.05150863881147143,
+      "mean_rho_controlled": 0.05150863881147143,
+      "unmeasurable": {
+        "twin collapsed": 1
+      }
+    },
+    "Probability matching": {
+      "columns": 16,
+      "scored": 0,
+      "mean_rho": null,
+      "mean_rho_controlled": null,
+      "unmeasurable": {
+        "twin collapsed": 16
+      }
+    }
+  },
+  "distributional": null
+}

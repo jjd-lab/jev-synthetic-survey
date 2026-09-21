@@ -31,6 +31,7 @@ specific model and the verdict on it.
 | [04 Price sensitivity](jev/04-price-sensitivity.md) | the largest single effect measured: Jev reads price harder than humans do, at the wrong operating point |
 | [05 What this licenses](jev/05-what-this-licenses.md) | what the result supports, what it does not, and what to run next |
 | [06 Option descriptions](jev/06-option-descriptions.md) | experiment 4: does prompting Jev TypeSafe's way close the gap? Pre-registered, and it does not |
+| [08 Grounding](jev/08-grounding.md) | experiment 5: replace 14 demographic fields with 620 of the respondent's own prior answers. Both models gain per-person signal, in the same direction |
 | [07 Segment diversity](jev/07-segment-diversity.md) | does Jev reproduce the differences between demographic groups? It flattens them, worse by task than by variable |
 
 [Appendix: question inventory](appendix-question-inventory.md) lists all 108 columns and the 16

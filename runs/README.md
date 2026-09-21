@@ -91,6 +91,23 @@ ran from. `prior_answers_stateless/` also holds `cells.jsonl` (168,768 cells, al
 respondents) and the per-resumption token records. That arm ran across several days under a daily
 spend cap.
 
+## `jev_grounding_n300/`: what 620 prior answers buy Jev
+
+One arm. The same 300 respondents and the same `Noul`/`Choice` elicitation as
+`jev_vs_gpt41_n300/jev_noul.jsonl`, grounded in 620 of each respondent's own prior answers instead
+of 14 demographic fields, and run **stateless** so it sits beside the GPT-4.1 prior-answers arm.
+`history_len` is 0 on every cell.
+
+| File | Arm | Grounding |
+|---|---|---|
+| `jev_prior_answers.jsonl` | Jev `Noul` | 620 prior answers, 21k-token state, no self-history |
+| `respondents_300.txt` | | the respondent ids, in loader order |
+
+Cost $24.40 and 17m 25s at concurrency 16, against $4.02 for the demographics arm: the state is
+re-sent on each of the 82 cells per respondent. Scored in
+[`reports/jev_grounding_n300/`](../reports/jev_grounding_n300/), written up in
+[`docs/jev/08-grounding.md`](../docs/jev/08-grounding.md).
+
 ## `jev_vs_gpt41_n2058/`: the same two models over the whole panel
 
 The n=300 comparison above, rerun across every respondent. Two arms, all 2,058 people, **168,768

@@ -51,6 +51,17 @@ floor, because at that sample size 50 drops whole variables; see
 
 Scored with the same `prob_scoring.py score` command, pointed at the n=2058 arms.
 
+## `jev_grounding_n300/` — what richer grounding buys
+
+| File | Arms | Scored from |
+|---|---|---|
+| `score_grounding.json` | Jev on 620 prior answers against Jev on 14 demographics | `runs/jev_grounding_n300/jev_prior_answers.jsonl`, `runs/jev_vs_gpt41_n300/jev_noul.jsonl` |
+| `individual_signal_prior_answers.json` | the prior-answers arm, per person | `runs/jev_grounding_n300/jev_prior_answers.jsonl` |
+| `individual_signal_demographics.json` | the demographics arm, per person | `runs/jev_vs_gpt41_n300/jev_noul.jsonl` |
+
+The two `individual_signal_*` files here are scored from JSONL rather than a workbook, which the
+scorer reads directly. See [`docs/jev/08-grounding.md`](../docs/jev/08-grounding.md).
+
 ## `gpt41_panel_n2058/` — the full-panel GPT-4.1 runs
 
 `arm1` in these filenames is the demographics-stateless arm, named before the arms were.

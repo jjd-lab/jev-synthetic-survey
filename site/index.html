@@ -294,6 +294,19 @@
 
       <figure class="frame">
         <figcaption>
+          <strong>Swap the 14 demographic facts for 620 of the person’s own past answers and both
+          models track individuals better — the same direction, and neither by much.</strong>
+          Per-person correlation rises from 0.063 to 0.102 for Jev and from 0.095 to 0.107 for
+          gpt-4.1. Jev does it from a 21,000-token state while carrying no memory of its own earlier
+          answers at all. It costs 5.4× more, $24.40 against $4.02, because that state is re-sent on
+          every question. The two figures are not measured on the same design — Jev’s comparison
+          also changed statefulness, and runs over 300 people against 2,058 — so read the direction,
+          not the size.
+        </figcaption>
+      </figure>
+
+      <figure class="frame">
+        <figcaption>
           Jev bills input only. Output is free. The gpt-4.1 figure is inferred from list
           rates, so read it as an order of magnitude. A 34-fold gap makes “no better” a
           different proposition than it would be at parity.
