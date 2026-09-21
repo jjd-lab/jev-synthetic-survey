@@ -73,3 +73,45 @@ Not run, and deliberately so.
 6. **A walk that commits sampled draws into the history** rather than the model's own stated
    answer. Untestable offline, and the natural follow-up if soft aggregation proves
    under-dispersed.
+
+## Further out: change the model, not the prompt
+
+The six items above all re-ask this question with a different elicitation, a different grounding or
+a different aggregation. They share an assumption: that the model is fixed and the way we query it
+is the variable. The result that most deserves a follow-up is the one that assumption cannot reach.
+
+**Every arm fails at the individual level, and richer prompting did not fix it.** All five sit below
+the 73.59% a persona-blind baseline reaches by ignoring the twin entirely. The prior-answers arm is
+the closest thing here to an upper bound on prompting one's way out: 620 real past answers in place
+of 14 demographic fields bought **+2.66 accuracy points** and still landed under that panel's own floor of 73.27%. Segment
+diversity says the same thing from the other side — the arms place each demographic group at roughly
+the right level while flattening the differences between groups to 40% of the real spread by
+variable and 21% by task. That is a model with no per-person signal to act on, not a model reasoning
+badly about signal it has.
+
+Demographics do not identify a person. Outcome data does. A System One model tuned on experiment
+assignments, transaction histories and completed survey responses would be attacking the failure
+this repo actually found, rather than the elicitation it spent most of its runs on. It is also the
+direct test of the caveat TypeSafe states themselves: *"calibration is measured across groups of
+predictions; it does not guarantee that an individual answer is correct."*
+
+Three things would have to be true for the result to mean anything:
+
+- **A different holdout, and this is the load-bearing one.** Twin-2K-500's is a cognitive-bias
+  battery, built so that answers should *not* track who you are, and two independent measurements
+  confirm it: per-person correlation sits near zero on 15 of the 16 tasks whatever the grounding,
+  and human separation between demographic groups barely clears random grouping on most variables.
+  A tuned model would have almost nothing to show here even if the tuning worked perfectly. The
+  measurement needs a holdout where person-level signal demonstrably exists — false consensus, at
+  rho 0.46, is what that looks like.
+- **An untuned control on identical input.** Tuning the model while changing the training data moves
+  two things at once. The comparison is tuned-against-untuned on the same prompts, the same
+  respondents and the same scorer, or it is not a comparison.
+- **Criteria fixed in advance, again.** The lesson of this repo is not that Jev lost; it is that the
+  question form was worth more than the model difference being measured, and that only became
+  visible because the tests were written down first.
+
+What carries over is the harness. Paired cells, a prompt held fixed across arms, option order seeded
+per respondent, and a scorer that keeps the distributional question separate from the individual one
+are the parts that took the longest to get right here, and none of them assume which model is being
+asked.
