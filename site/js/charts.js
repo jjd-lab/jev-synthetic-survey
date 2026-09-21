@@ -1,8 +1,13 @@
+// The palette lives in essay.css; reading it here keeps one definition for the page and its charts.
+const token = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 const COLORS = {
-  jev: "#c63b22",
-  gpt: "#2a5d6e",
-  human: "#2f5d3a",
-  gold: "#b8860b",
+  jev: token("--jev"),
+  jevSoft: token("--jev-soft"),
+  gpt: token("--gpt"),
+  gptSoft: token("--gpt-soft"),
+  human: token("--human"),
+  gold: token("--gold"),
+  neutral: token("--neutral"),
 };
 
 function fmtPct(value, digits = 2) {
@@ -26,13 +31,19 @@ function svgEl(name, attrs, children) {
   return node;
 }
 
-function rowChart(host, rows, { max, height = 34 }) {
+function rowChart(host, rows, { max, height = 34, title = "" }) {
   host.replaceChildren();
   const width = Math.max(host.clientWidth || 640, 320);
   const left = 178;
   const right = 72;
   const barW = width - left - right;
-  const svg = svgEl("svg", { viewBox: `0 0 ${width} ${rows.length * height + 6}`, role: "img" });
+  // role="img" hides the <text> children from assistive tech, so the values go in the name.
+  const summary = rows.map((row) => `${row.label} ${row.display}`).join("; ");
+  const svg = svgEl("svg", {
+    viewBox: `0 0 ${width} ${rows.length * height + 6}`,
+    role: "img",
+    "aria-label": title ? `${title}: ${summary}` : summary,
+  });
 
   rows.forEach((row, index) => {
     const y = 6 + index * height;
@@ -68,7 +79,7 @@ function metricStack(host, blocks) {
     const chart = document.createElement("div");
     wrap.append(title, chart);
     host.append(wrap);
-    rowChart(chart, block.rows, { max: block.max, height: block.height || 30 });
+    rowChart(chart, block.rows, { max: block.max, height: block.height || 30, title: block.title });
   }
 }
 
@@ -79,10 +90,10 @@ const EssayCharts = {
       host,
       [
         { label: "Human test–retest", value: figures.constants.human_ceiling_pct, display: fmtPct(figures.constants.human_ceiling_pct), color: COLORS.human },
-        { label: "Paper’s published twin", value: figures.constants.paper_twin_pct, display: fmtPct(figures.constants.paper_twin_pct), color: "#8a9698" },
-        { label: "Prior answers", value: panel.prior_answers_stateless.accuracy_pct, display: fmtPct(panel.prior_answers_stateless.accuracy_pct), color: COLORS.gpt },
+        { label: "Paper’s published twin", value: figures.constants.paper_twin_pct, display: fmtPct(figures.constants.paper_twin_pct), color: COLORS.neutral },
+        { label: "Prior answers", value: panel.prior_answers_stateless.accuracy_pct, display: fmtPct(panel.prior_answers_stateless.accuracy_pct), color: COLORS.gold },
         { label: "Demographics, stateless", value: panel.demographics_stateless.accuracy_pct, display: fmtPct(panel.demographics_stateless.accuracy_pct), color: COLORS.gpt, muted: true },
-        { label: "Demographics, stateful", value: panel.demographics_stateful.accuracy_pct, display: fmtPct(panel.demographics_stateful.accuracy_pct), color: COLORS.gpt, muted: true },
+        { label: "Demographics, stateful", value: panel.demographics_stateful.accuracy_pct, display: fmtPct(panel.demographics_stateful.accuracy_pct), color: COLORS.gpt },
       ],
       { max: 100, height: 34 },
     );
@@ -90,37 +101,37 @@ const EssayCharts = {
 
   panel(host, figures) {
     const arms = [
-      ["Demographics, stateless", figures.panel.arms.demographics_stateless, "#8a9698"],
-      ["Demographics, stateful", figures.panel.arms.demographics_stateful, COLORS.gpt],
-      ["Prior answers, stateless", figures.panel.arms.prior_answers_stateless, COLORS.gold],
+      ["Demographics, stateless", figures.panel.arms.demographics_stateless, COLORS.gpt, true],
+      ["Demographics, stateful", figures.panel.arms.demographics_stateful, COLORS.gpt, false],
+      ["Prior answers, stateless", figures.panel.arms.prior_answers_stateless, COLORS.gold, false],
     ];
     metricStack(host, [
       {
         title: "Accuracy",
         max: 100,
-        rows: arms.map(([label, arm, color]) => ({
-          label, value: arm.accuracy_pct, display: fmtPct(arm.accuracy_pct), color,
+        rows: arms.map(([label, arm, color, muted]) => ({
+          label, value: arm.accuracy_pct, display: fmtPct(arm.accuracy_pct), color, muted,
         })),
       },
       {
         title: "Yes/no distribution gap · lower better",
         max: 0.3,
-        rows: arms.map(([label, arm, color]) => ({
-          label, value: arm.soft_nominal, display: fmtNum(arm.soft_nominal), color,
+        rows: arms.map(([label, arm, color, muted]) => ({
+          label, value: arm.soft_nominal, display: fmtNum(arm.soft_nominal), color, muted,
         })),
       },
       {
         title: "Ordinal gap · lower better",
         max: 0.8,
-        rows: arms.map(([label, arm, color]) => ({
-          label, value: arm.soft_ordinal, display: fmtNum(arm.soft_ordinal, 3), color,
+        rows: arms.map(([label, arm, color, muted]) => ({
+          label, value: arm.soft_ordinal, display: fmtNum(arm.soft_ordinal, 3), color, muted,
         })),
       },
       {
         title: "Collapsed columns",
         max: 30,
-        rows: arms.map(([label, arm, color]) => ({
-          label, value: arm.collapsed_columns, display: `${arm.collapsed_columns} / 108`, color,
+        rows: arms.map(([label, arm, color, muted]) => ({
+          label, value: arm.collapsed_columns, display: `${arm.collapsed_columns} / 108`, color, muted,
         })),
       },
     ]);
@@ -129,10 +140,10 @@ const EssayCharts = {
   comparison(host, figures) {
     const spec = [
       ["Jev Choice", "jev_choice", COLORS.jev, false],
-      ["Jev + descriptions", "jev_described", "#e07a68", false],
+      ["Jev + descriptions", "jev_described", COLORS.jevSoft, false],
       ["Jev Noul", "jev_noul", COLORS.gold, false],
       ["GPT-4.1 probabilities", "gpt41_probs", COLORS.gpt, false],
-      ["GPT-4.1 hard answer", "gpt41_hard", "#7a8b90", true],
+      ["GPT-4.1 hard answer", "gpt41_hard", COLORS.gptSoft, true],
     ];
     const arm = (key) => figures.comparison.arms[key];
     metricStack(host, [
@@ -245,19 +256,6 @@ const EssayCharts = {
         ],
       },
     ]);
-  },
-
-  cost(host, figures) {
-    const arms = figures.comparison.arms;
-    rowChart(
-      host,
-      [
-        { label: "Jev Choice", value: arms.jev_choice.cost, display: fmtCost(arms.jev_choice.cost), color: COLORS.jev },
-        { label: "Jev Noul", value: arms.jev_noul.cost, display: fmtCost(arms.jev_noul.cost), color: COLORS.gold },
-        { label: "GPT-4.1 probabilities", value: arms.gpt41_probs.cost, display: fmtCost(arms.gpt41_probs.cost), color: COLORS.gpt },
-      ],
-      { max: 140, height: 38 },
-    );
   },
 
   price(host, figures) {

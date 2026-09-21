@@ -9,6 +9,11 @@
   --gpt: #2a5d6e;
   --human: #2f5d3a;
   --gold: #b8860b;
+  /* --gold is 2.6 to 3.0:1 on the paper backgrounds; this one clears 5:1 there. */
+  --gold-ink: #7a5a06;
+  --jev-soft: #e07a68;
+  --gpt-soft: #7a8b90;
+  --neutral: #8a9698;
   --rail: 11.5rem;
   --serif: "Fraunces", "Iowan Old Style", "Times New Roman", serif;
   --sans: "Sora", "Helvetica Neue", sans-serif;
@@ -17,6 +22,7 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 body {
   margin: 0;
   background: var(--paper);
@@ -114,6 +120,7 @@ main { margin-left: var(--rail); }
   color: var(--gold);
   margin: 0 0 1rem;
 }
+.paper .kicker, .paper .bench-kicker, .bench .bench-kicker { color: var(--gold-ink); }
 .hero h1 {
   font-family: var(--serif);
   font-weight: 400;
@@ -237,7 +244,7 @@ ul.hero-note li { margin-bottom: 0.5rem; }
   background: var(--ink);
   color: var(--paper);
 }
-.ink .muted, .ink .source, .ink figcaption { color: color-mix(in srgb, var(--paper) 58%, transparent); }
+.ink .muted, .ink .source, .ink figcaption, .ink .frame > p { color: color-mix(in srgb, var(--paper) 58%, transparent); }
 .ink .frame { background: color-mix(in srgb, var(--paper) 5%, transparent); border-color: color-mix(in srgb, var(--paper) 14%, transparent); }
 .ink .chart { color: var(--paper); }
 
@@ -339,7 +346,7 @@ ul.hero-note li { margin-bottom: 0.5rem; }
   margin: 0 0 1.4rem;
 }
 .ink .frame { background: #171614; }
-figcaption {
+figcaption, .frame > p {
   font-size: 0.92rem;
   color: var(--muted);
   margin: 0 0 1rem;
@@ -355,7 +362,6 @@ figcaption {
   animation: bar-in 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
 }
 .chart .label { font-family: var(--sans); font-size: 12px; }
-.chart .tick { font-family: var(--mono); font-size: 11px; fill: currentColor; opacity: 0.62; }
 .chart .value { font-family: var(--mono); font-size: 11px; }
 
 .pull, .opinion {
@@ -406,6 +412,7 @@ figcaption {
 }
 
 @media (max-width: 900px) {
+  section[id] { scroll-margin-top: 5.5rem; }
   /* No room to the right of the text column at this width; the numeral is decorative,
      and letting it sit outside would push a horizontal scrollbar onto the page. */
   .chapter-no { display: none; }

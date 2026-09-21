@@ -101,13 +101,13 @@
 
       <div class="bench" id="walkthrough" data-walkthrough>
         <div class="bench-tabs" role="tablist" aria-label="Walkthrough steps">
-          <button type="button" role="tab" aria-selected="true" data-step="0">1 · Persona</button>
-          <button type="button" role="tab" aria-selected="false" data-step="1">2 · Holdout</button>
-          <button type="button" role="tab" aria-selected="false" data-step="2">3 · The model</button>
-          <button type="button" role="tab" aria-selected="false" data-step="3">4 · The human</button>
+          <button type="button" role="tab" id="step-tab-0" aria-controls="step-panel-0" aria-selected="true" data-step="0">1 · Persona</button>
+          <button type="button" role="tab" id="step-tab-1" aria-controls="step-panel-1" aria-selected="false" data-step="1">2 · Holdout</button>
+          <button type="button" role="tab" id="step-tab-2" aria-controls="step-panel-2" aria-selected="false" data-step="2">3 · The model</button>
+          <button type="button" role="tab" id="step-tab-3" aria-controls="step-panel-3" aria-selected="false" data-step="3">4 · The human</button>
         </div>
 
-        <article class="bench-panel is-on" data-panel="0">
+        <article class="bench-panel is-on" role="tabpanel" id="step-panel-0" aria-labelledby="step-tab-0" data-panel="0">
           <p class="bench-kicker">Constructed demo · not a real respondent</p>
           <h3>Fourteen demographic facts</h3>
           <p>
@@ -132,7 +132,7 @@
           </ul>
         </article>
 
-        <article class="bench-panel" data-panel="1">
+        <article class="bench-panel" role="tabpanel" id="step-panel-1" aria-labelledby="step-tab-1" data-panel="1">
           <p class="bench-kicker">One cell · pricing block · QID9-style</p>
           <h3>A held-out yes/no, with a piped price</h3>
           <blockquote class="stem">
@@ -150,7 +150,7 @@
           </p>
         </article>
 
-        <article class="bench-panel" data-panel="2">
+        <article class="bench-panel" role="tabpanel" id="step-panel-2" aria-labelledby="step-tab-2" data-panel="2">
           <p class="bench-kicker">Illustrative vectors · teaching only</p>
           <h3>Two ways to get a probability</h3>
           <div class="split">
@@ -167,7 +167,7 @@
           </div>
         </article>
 
-        <article class="bench-panel" data-panel="3">
+        <article class="bench-panel" role="tabpanel" id="step-panel-3" aria-labelledby="step-tab-3" data-panel="3">
           <p class="bench-kicker">The exam is the human’s own answer</p>
           <h3>Population first, person second</h3>
           <p>
@@ -238,7 +238,7 @@
         <p>
           Same 300 respondents, same 108 columns, same stateful demographics persona.
           The test that decides it is a conjunction: Jev must win both the 65 yes/no
-          columns and the 43 ordinal ones. It loses the yes/no half. The second test takes
+          columns and the 43 ordinal ones. Asked as a <code>Choice</code>, it trails on the yes/no half. The second test takes
           TypeSafe at its word: System One models are “trained for calibrated decisions”, so the
           bar was set at 0.05. No arm comes close — Jev Noul <span data-fig="comparison.arms.jev_noul.ece">0.1472</span>, Jev Choice <span data-fig="comparison.arms.jev_choice.ece">0.2029</span>, GPT-4.1
           <span data-fig="comparison.arms.gpt41_probs.ece">0.2393</span> — and Jev is the better calibrated of the two models, by 39%, while still sitting
@@ -261,7 +261,7 @@
       <div class="pair-notes">
         <p>
           Distribution gap, yes/no: Jev <code>Choice</code> <span data-fig="comparison.arms.jev_choice.soft_nominal">0.1985</span> against GPT-4.1 <span data-fig="comparison.arms.gpt41_probs.soft_nominal">0.1789</span>.
-          Wilcoxon p = <span data-fig="comparison.paired_jev_choice_vs_gpt41_probs.soft_nominal_p">1.0000</span>. Jev worse. The ordinal half goes the other way, <span data-fig="comparison.arms.jev_choice.soft_ordinal">0.6864</span>
+          Wilcoxon p = <span data-fig="comparison.paired_jev_choice_vs_gpt41_probs.soft_nominal_p">1.0000</span>, GPT-4.1 ahead. The ordinal half goes the other way, <span data-fig="comparison.arms.jev_choice.soft_ordinal">0.6864</span>
           against <span data-fig="comparison.arms.gpt41_probs.soft_ordinal">0.7272</span>, p = <span data-fig="comparison.paired_jev_choice_vs_gpt41_probs.soft_ordinal_p">0.031</span>.
         </p>
         <p>
@@ -313,14 +313,14 @@
         <div class="chart" id="chart-grounding"></div>
       </figure>
 
-      <figure class="frame">
-        <figcaption>
+      <aside class="frame">
+        <p>
           <strong>A model that emits no text used the long persona rather than ignoring it.</strong>
           $0.00099 and 0.38 seconds an answer, 21,000 tokens of persona on every question, across
           24,596 cells. The 620 answers are different questions from the 108 scored, so the arm had
           to carry them onto questions the persona does not contain.
-        </figcaption>
-      </figure>
+        </p>
+      </aside>
 
       <figure class="frame">
         <figcaption>
@@ -392,6 +392,12 @@
         no affiliation with TypeSafe or OpenAI, received no funding, credits or early access from
         either, and paid for all model usage myself. Neither company had any input into the design
         or the write-up, and neither has seen it.
+      </p>
+      <p class="colophon">
+        The data is <a href="https://huggingface.co/datasets/LLM-Digital-Twin/Twin-2K-500">Twin-2K-500 on Hugging Face</a>.
+        Jev is <a href="https://typesafe.ai">TypeSafe’s</a>. Every measure on this page is defined on
+        <a href="https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/survey/02-metrics.md">the metrics page</a>,
+        and <a href="https://github.com/jjd-lab/jev-synthetic-survey/blob/main/CITATION.cff">CITATION.cff</a> says how to cite this.
       </p>
       <p class="colophon">
         Code and write-up MIT. Twin-2K-500 is CC BY 4.0, Toubia et al.,
