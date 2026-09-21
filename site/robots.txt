@@ -1,0 +1,5 @@
+# Everything here is public and meant to be found.
+User-agent: *
+Allow: /
+
+Sitemap: https://jjd-lab.github.io/jev-synthetic-survey/sitemap.xml
