@@ -286,6 +286,20 @@ def build_figures() -> dict:
             **{k: v for k, v in DOCUMENTED["price"].items() if k != "source"},
             "source": DOCUMENTED["price"]["source"],
         },
+        "economics": {
+            # Jev's figure is the mean of latency_ms over every answered cell. gpt-4.1's arm
+            # recorded no per-call latency, so its figure is wall clock over concurrency and is
+            # marked inferred, exactly as its cost is.
+            "jev_cost": DOCUMENTED["costs"]["jev_choice"],
+            "gpt41_cost": DOCUMENTED["costs"]["gpt41_probs"],
+            # Both wall clocks are measured, and they ran at different concurrency, so the
+            # chart labels carry it rather than leaving the comparison to look like a speed test.
+            "jev_minutes": 6.5,
+            "jev_concurrency": 16,
+            "gpt41_minutes": 22,
+            "gpt41_concurrency": 50,
+            "source": "Jev: the stateless demographics run, 6m28s. gpt-4.1: README run table.",
+        },
         "segments": segment_snapshot(),
         "grounding": grounding_snapshot(),
     }

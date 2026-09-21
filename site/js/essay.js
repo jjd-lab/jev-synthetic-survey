@@ -52,7 +52,7 @@ async function main() {
     EssayCharts.noul(document.getElementById("chart-noul"), figures);
     EssayCharts.grounding(document.getElementById("chart-grounding"), figures);
     EssayCharts.segments(document.getElementById("chart-segments"), figures);
-    EssayCharts.cost(document.getElementById("chart-cost"), figures);
+    EssayCharts.economics(document.getElementById("chart-economics"), figures);
     EssayCharts.price(document.getElementById("chart-price"), figures);
   };
   draw();

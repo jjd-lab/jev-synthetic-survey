@@ -225,6 +225,28 @@ const EssayCharts = {
     ]);
   },
 
+  economics(host, figures) {
+    const e = figures.economics;
+    metricStack(host, [
+      {
+        title: "Cost for the same 24,596 answers",
+        max: 150,
+        rows: [
+          { label: "Jev", value: e.jev_cost, display: fmtCost(e.jev_cost), color: COLORS.jev },
+          { label: "gpt-4.1 · inferred", value: e.gpt41_cost, display: fmtCost(e.gpt41_cost), color: COLORS.gpt },
+        ],
+      },
+      {
+        title: "Wall clock for one 300-respondent run",
+        max: 25,
+        rows: [
+          { label: `Jev · ${e.jev_concurrency} at a time`, value: e.jev_minutes, display: `${e.jev_minutes} min`, color: COLORS.jev },
+          { label: `gpt-4.1 · ${e.gpt41_concurrency} at a time`, value: e.gpt41_minutes, display: `${e.gpt41_minutes} min`, color: COLORS.gpt },
+        ],
+      },
+    ]);
+  },
+
   cost(host, figures) {
     const arms = figures.comparison.arms;
     rowChart(

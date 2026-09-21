@@ -313,15 +313,6 @@
 
       <figure class="frame">
         <figcaption>
-          Jev bills input only. Output is free. The gpt-4.1 figure is inferred from list
-          rates, so read it as an order of magnitude. A 34-fold gap makes “no better” a
-          different proposition than it would be at parity.
-        </figcaption>
-        <div class="chart" id="chart-cost"></div>
-      </figure>
-
-      <figure class="frame">
-        <figcaption>
           <strong>Break the sample down by demographic group and Jev is the closer instrument
           everywhere.</strong> Inside each segment — each age band, each party, each region — its
           answer distribution sits nearer the humans’ than gpt-4.1’s does, on 13 of 13 demographic
@@ -342,6 +333,17 @@
           threshold is not.
         </figcaption>
         <div class="chart" id="chart-price"></div>
+      </figure>
+
+      <figure class="frame">
+        <figcaption>
+          <strong>What the same 24,596 answers cost, and how long one run took.</strong> Jev bills
+          input only and output is free; the gpt-4.1 price comes from list rates, so read it as an
+          order of magnitude. Both wall clocks are measured, but they ran at different batch sizes —
+          16 walks in flight against 50 — so the bars are not a speed test. Per call, where Jev
+          logged every request and gpt-4.1 logged none, Jev averaged 0.26 seconds.
+        </figcaption>
+        <div class="chart" id="chart-economics"></div>
       </figure>
 
       <blockquote class="opinion">
