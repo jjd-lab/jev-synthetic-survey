@@ -12,7 +12,9 @@ the same config and the same persona cache the GPT-4.1 prior-answers arm used, s
 identical and only the model differs. 300 respondents, 108 columns, 24,596 cells, `Noul` on the 65
 two-option columns and `Choice` on the 43 multi-option ones.
 
-[`runs/jev_grounding_n300/jev_prior_answers.jsonl`](../../runs/jev_grounding_n300/jev_prior_answers.jsonl).
+Two arms ship here: [`jev_prior_answers.jsonl`](../../runs/jev_grounding_n300/jev_prior_answers.jsonl)
+and [`jev_demographics_stateless.jsonl`](../../runs/jev_grounding_n300/jev_demographics_stateless.jsonl),
+the second added to complete the 2×2 below. It cost $0.69 and 6m 28s, with no aborts.
 
 | | |
 |---|---|
@@ -55,34 +57,85 @@ prior-answers arm it was built to sit beside.
 
 So this arm gave up accumulated self-state and replaced it with real human answers.
 
-## Distributional
+## Population level
+
+Both arms stateless, so grounding is the only difference.
 
 | | demographics | 620 prior answers | |
 |---|---|---|---|
-| distribution gap (soft TVD) | 0.1530 | **0.1368** | p = 0.0000 |
-| Brier | 0.7385 | **0.7041** | p = 0.0000 |
-| calibration (ECE) | 0.1472 | **0.1218** | |
-| accuracy | 67.28% | **68.35%** | |
-| ordinal gap (soft W1) | **0.6812** | 0.7119 | p = 0.3313, not significant |
+| distribution gap (soft TVD) | 0.1484 | **0.1368** | p = 0.0000 |
+| Brier | 0.7172 | **0.7041** | p = 0.0000 |
+| calibration (ECE) | 0.1298 | **0.1218** | |
+| accuracy | 67.50% | **68.35%** | |
+| ordinal gap (soft W1) | **0.6576** | 0.7119 | p = 0.8767, not significant |
 
 Four of five move the right way. The ordinal half moves the wrong way and does not clear
 significance, so it is a null rather than a loss.
 
 The calibration figure, 0.1218, is the best in this repo and still fails the registered bar of 0.05.
 
-## Per person
+Three diagnostics say how the spread itself changed, and they do not all point the same way:
+
+| | demographics, chained | demographics, stateless | 620 prior, stateless |
+|---|---|---|---|
+| entropy ratio | 0.9467 | 0.9587 | 0.9519 |
+| collapsed columns | 25 | 22 | 29 |
+| blind-spot cells | 1,069 | 546 | **117** |
+
+A blind spot is a cell where the arm put probability *zero* on the answer the human actually gave.
+Richer grounding cuts them 4.7-fold, from 2.2% of cells to 0.5%, which is the largest relative
+effect measured on this arm. It also raises the collapsed count, and the two are not in tension: a
+collapsed column is one where every respondent gets the same *argmax*, a blind spot is a zero in the
+*vector*. The prior-answers arm hedges more — it stops ruling answers out — while still committing
+to the same top answer on a few more columns. Its better calibration is the same fact seen from
+another angle.
+
+Chaining moves both the wrong way: it doubles blind spots, 546 to 1,069, and narrows the
+distribution, 0.9587 to 0.9467. Feeding the model its own earlier answers makes it more certain, and
+more certainty on a persona carrying little per-person signal means more cells where the truth is
+excluded outright.
+
+One caveat on reading these together: entropy ratio and the gaps above are aggregated equal-weight
+per task, and the blind-spot count is a raw cell count. Pricing contributes 40 of the 108 columns,
+so it weighs 40 times more in the cell count than in the task-weighted figures.
+
+## Segment level, briefly
+
+A secondary diagnostic, kept short because it is not what this arm was run to answer. Median
+separation ratio across the demographic variables, where 1.00 reproduces real group differences:
+demographics chained 0.286, demographics stateless 0.282, 620 prior answers **0.185**.
+
+So the arm that tracks individuals best flattens groups the most, and chaining is close to
+irrelevant here — +0.004 separation against −0.0106 per-person correlation. One difference between
+the models is worth recording: chaining *unpins* collapsed columns for GPT-4.1, 24 down to 16 of
+108, and does the opposite for Jev, 22 up to 25. Full treatment in
+[07 Segment diversity](07-segment-diversity.md).
+
+## Individual level
 
 The question richer grounding is supposed to answer: does the arm rank the *right people* high?
 Spearman against the human within each column, price-controlled, on the 13 tasks measurable in both
 arms.
 
-| | demographics | 620 prior answers |
-|---|---|---|
-| equal weight over tasks | 0.0631 | **0.1020** |
-| median | 0.0148 | **0.0795** |
+Three arms make a 2×2 with one cell missing, over the 12 tasks measurable in all of them:
 
-Higher on 9 of 13 tasks. The largest moves are anchoring, −0.120 to +0.132, and less-is-more,
-−0.032 to +0.080: tasks where demographics carried nothing and prior answers carry something.
+| | chained | stateless |
+|---|---|---|
+| 14 demographics | 0.0731 | 0.0837 |
+| 620 prior answers | — | **0.1083** |
+
+which separates two effects that had been moving together:
+
+| | |
+|---|---|
+| **grounding**, both arms stateless | **+0.0246** |
+| **statefulness**, both arms demographics | **−0.0106** |
+
+Richer grounding helps. Chaining, on this measure, slightly hurts: letting the model see its own
+earlier answers makes it track individuals a little *worse* than asking each question cold. The two
+had been pulling in opposite directions, which is why the confounded contrast between the chained
+demographics arm and the stateless prior-answers arm read as +0.0352 — a real +0.0246 plus a
++0.0106 that was only the removal of a harmful chain.
 
 ## This is not a Jev-specific result
 
@@ -94,33 +147,36 @@ its arms are stateless and both cover all 2,058 respondents.
 | gpt-4.1, n = 2,058 | 0.0945 | 0.1068 | +0.0123 | both stateless |
 | Jev, n = 300 | 0.0631 | 0.1020 | +0.0389 | chained → stateless |
 
-Both models convert real prior answers into per-person signal. What this repo can say is that **Jev
-uses a 21k-token state the same way GPT-4.1 does**, not that it does so better. The two changes are
-not measured on the same design:
+| | demographics | 620 prior | change |
+|---|---|---|---|
+| gpt-4.1, n = 2,058 | 0.0945 | 0.1068 | +0.0123 |
+| Jev, n = 300 | 0.0837 | 0.1083 | +0.0246 |
 
-- **Jev's comparison is confounded.** Statefulness changed along with grounding. The direction of
-  the confound helps rather than hurts — the prior-answers arm won while carrying *less* state, so
-  the grounding effect is a lower bound — but a lower bound is not a measurement.
-- **The samples differ.** 300 respondents against 2,058, and the 300 are the first 300 rows, which
-  are older, whiter and more conservative than the panel.
-- **The task sets differ.** 13 tasks against 14; a task unmeasurable in one arm drops from the mean.
+Both comparisons are now stateless-to-stateless, so both are clean. Jev's gain is about twice
+GPT-4.1's, on the same substitution, in the same direction. What remains uncontrolled is the sample:
+300 respondents against 2,058, and the 300 are the first 300 rows, which are older, whiter and more
+conservative than the panel. Task coverage also differs, 12 against 14.
 
-**The clean test costs about $0.69.** A Jev demographics arm run stateless completes the 2×2 and
-isolates grounding from statefulness. Its prompt is the persona and the question and nothing else:
-670 tokens per cell, measured from the first question of each existing walk, against the 3,891 the
-chained arm averages once it is carrying up to 83 of its own answers. 16.5M tokens in total. Until
-it exists, the +0.0389 above should be read as the direction, not the size.
+So the claim this arm supports is that **Jev converts a long persona into per-person signal at least
+as well as GPT-4.1 does**, and plausibly better. It is not evidence of a capability GPT-4.1 lacks.
 
 ## What it does not change
 
 None of this touches the verdict. The registered comparison is Jev `Choice` against verbalized
 GPT-4.1 on demographics-only grounding, and this arm is a different grounding, a different
-elicitation and a later run. It also does not rescue individual prediction: 0.1020 is a correlation
-near zero on most tasks, and the arm still sits below the persona-blind baseline on accuracy.
+elicitation and a later run.
 
-What it does establish is that the instrument, not the persona, is the binding constraint — and that
-richer grounding moves both models, in the same direction, by an amount too small to change what
-either is useful for.
+**The conclusion rests on the two levels the criteria are stated in.** At the population level,
+richer grounding is a clear but small win: the distribution gap goes 0.1484 to 0.1368 and Brier
+0.7172 to 0.7041, both at p = 0.0000, and blind spots fall 4.7-fold. At the individual level it is
+a clear but small win too, +0.0246 on rank correlation, and **it does not change what the arm is
+useful for**: 0.1083 is a correlation near zero on most tasks, and the arm still sits below the
+persona-blind baseline on accuracy.
+
+Those two together are the finding. A 21k-token persona of the respondent's own answers buys real
+population fidelity and real per-person signal, in the same direction as it buys them for GPT-4.1,
+and neither is enough to make an individual prediction worth acting on. The instrument, not the
+persona, is the binding constraint.
 
 Back to [the documentation index](../README.md), or
 [what the result licenses](05-what-this-licenses.md).

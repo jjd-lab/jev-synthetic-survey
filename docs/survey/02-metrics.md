@@ -4,6 +4,35 @@ Both tracks of this write-up read the same numbers. This page defines them, stat
 is good, and states the one aggregation rule that every headline figure in the repo uses. Nothing
 here is specific to a model.
 
+## Three levels, and why a model can pass one and fail another
+
+A survey answer can be right or wrong at three different scales, and this repo measures all three
+because an arm can be excellent at one while useless at the next.
+
+| Level | The question it answers | Metrics | Defined in |
+|---|---|---|---|
+| **Population** | Across everyone, does the spread of answers match? | distribution gap, ordinal gap, Brier, calibration, entropy ratio, collapsed columns | this page |
+| **Segment** | Do demographic groups differ from each other the way real ones do? | separation ratio, segment fidelity | [06 Segment diversity](06-segment-diversity.md) |
+| **Individual** | Is the right *person* given the right answer? | rank correlation, accuracy against the persona-blind floor, blind spots | this page |
+
+The population and individual levels are what this repo is built to measure, and what every
+registered criterion is stated in. The segment level is a secondary diagnostic: it is reported
+where it changes a conclusion and not otherwise, because on this instrument the human signal
+between demographic groups barely clears its own noise floor.
+
+They are independent in both directions, which is the reason to keep them apart:
+
+- An arm can match the population marginal **exactly** and still hand every demographic group the
+  same distribution. Every crosstab then comes out empty while the headline number looks perfect.
+- An arm can sit close to the humans **inside** every segment and still understate how far the
+  segments are from each other. Being right about each group's level and right about the gaps
+  between groups are different properties.
+- Every arm in this repo is measurably useful at the population level and measurably useless at the
+  individual level, and no amount of the first buys the second.
+
+Read any single number on this page as an answer to one of those three questions, never to the
+survey as a whole.
+
 ## The unit of measurement: a cell
 
 **A cell is one respondent answering one question.** 300 respondents against 108 questions, minus the
@@ -35,7 +64,7 @@ name the same set.
 **"Multi-option" means one answer out of more than two, not more than one answer.** No scored column
 in this instrument is multi-select.
 
-## Distribution gap (soft TVD), on the two-option columns
+## Population level: distribution gap (soft TVD), on the two-option columns
 
 For one column, take the human answers and the model's answers and compare the two distributions
 over that column's options. The total variation distance is half the sum of absolute differences:
@@ -57,7 +86,7 @@ between the two is Monte Carlo error rather than a difference in elicitation.
 
 After first use this page and the others call it **the distribution gap**.
 
-## Ordinal distribution gap (soft Wasserstein-1), on the multi-option columns
+## Population level: ordinal distribution gap (soft Wasserstein-1), on the multi-option columns
 
 On an ordered scale, missing by one scale point is not the same mistake as missing by four, and the
 distribution gap above cannot tell them apart. The Wasserstein-1 distance can: it is the sum of the
@@ -216,7 +245,7 @@ to predict a lone respondent from, and accuracy and floor must be averaged over 
 the edge subtracts two means taken over different sets. Such columns are counted, not silently
 dropped.
 
-## Individual signal: rank correlation with the human
+## Individual level: rank correlation with the human
 
 Accuracy answers "how often is the answer right", which a persona-blind predictor can win on any
 skewed column. The complementary question is **does the model rank the right people high?** Within
@@ -244,7 +273,7 @@ three agree that the price-controlled signal is real, small, and near +0.05. If 
 partial correlation diverges from the decile-pooled one, distrust the partial: it means the model's
 price response stopped being monotone.
 
-## Diversity: entropy ratio, collapsed columns, blind spots
+## Population level: entropy ratio, collapsed columns, and blind spots
 
 Accuracy and distribution gaps can both look acceptable while the model answers a column far more
 uniformly than the humans did. Three diagnostics catch that.
@@ -311,6 +340,11 @@ than quietly repaired upstream.
 | accuracy | higher is better, read as an edge against the floor |
 | entropy ratio | 1.0 is human-level; below is collapse, above is hedging |
 | collapsed columns, blind spots | fewer is better |
+| separation ratio (segment) | 1.0 matches real group differences; below flattens, above caricatures |
+| segment fidelity | lower is better, 0 is identical within a group |
+
+The last two are defined in [06 Segment diversity](06-segment-diversity.md) rather than here,
+because they need the noise floor to be readable and that machinery belongs with the result.
 
 ## Where the code is
 

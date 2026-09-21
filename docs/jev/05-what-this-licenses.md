@@ -13,10 +13,6 @@
   about 34 times cheaper. If a use case is ordinal-scale marginals under cost pressure, this result
   argues for it. That is a narrower claim than the test was making, and it has not been tested on
   its own.
-- **Do not use this Jev arm for crosstabs.** It reproduces a fifth of the real difference between
-  demographic groups on the median task, and essentially none on four of them, while GPT-4.1 tracks
-  the same variables about as far as the humans do. This is the one dimension measured here where
-  Jev is the worse instrument. See [segment diversity](07-segment-diversity.md).
 - **Keep pricing broken out in any future work.** The 9.18 point accuracy gap on the piped-price
   block is the single largest effect measured here, and its cause is a boundary offset rather than
   arithmetic. See [price sensitivity](04-price-sensitivity.md).
@@ -36,6 +32,11 @@
   [runs/README.md](../../runs/README.md). Twin-2K-500 has also been public since 2025 and its tasks
   are classic replications, so contamination applies to every arm equally. Between-arm comparisons
   are fair; levels are not.
+- **Segment breakdowns are a separate, weaker question.** The criteria here are stated at the
+  population and individual levels, and those carry the verdict. On demographic crosstabs the arm
+  reproduces about a fifth of the real difference between groups, which is a reason not to use it
+  that way rather than a result about the model; see
+  [segment diversity](07-segment-diversity.md).
 - **Scope.** 300 respondents, one instrument, one model version (`jev-1.13.0`, recorded per cell),
   two-option and ordinal columns only. Multi-select is untested and would need one `Noul` per
   option: the client now has the primitive, the scorer has no multi-select path. Whether to run
