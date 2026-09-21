@@ -1,22 +1,16 @@
 """Generate personas from Excel respondent data"""
 
-from typing import List, Optional
+from typing import List
 from src.data.respondent import Respondent
 
 _DISPLAY_WIDTH = 80
 
 
-def generate_personas_from_respondents(respondents: List[Respondent],
-                                        model: str = None,
-                                        temperature: float = 0.3,
-                                        max_concurrency: Optional[int] = None,
-                                        max_retries: Optional[int] = None) -> List[dict]:
+def generate_personas_from_respondents(respondents: List[Respondent]) -> List[dict]:
     """Generate personas from list of respondents.
 
     Args:
         respondents: List of Respondent objects
-        model: LLM model to use
-        temperature: Temperature for persona generation (factual summarization, default: 0.3)
 
     Returns:
         List of persona dictionaries

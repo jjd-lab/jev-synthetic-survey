@@ -276,12 +276,10 @@ def run_excel_validation_pipeline(config_path: str,
         run_id: identifier for this checkpoint run (subdir under checkpoint_dir/)
         resume: skip work already saved to the checkpoint dir
 
-    Stateful runs checkpoint one batch per full concurrency wave (batch size =
-    llm.max_concurrency) and resume per persona. Stateless runs checkpoint one file per question
-    and resume per (question, respid) cell, since a stateless cell has no conversation history and
-    is independently re-runnable.
+    A run checkpoints one batch per full concurrency wave (batch size = llm.max_concurrency) and
+    resumes per persona.
     """
-    PipelineDisplay.header("EXCEL VALIDATION PIPELINE")
+    PipelineDisplay.header("VALIDATION PIPELINE")
     print(f"Loading config: {config_path}")
 
     try:
@@ -340,13 +338,7 @@ def run_excel_validation_pipeline(config_path: str,
 
     if personas is None:
         try:
-            personas = generate_personas_from_respondents(
-                respondents,
-                model=config.llm.model,
-                temperature=config.llm.get_persona_temperature(),
-                max_concurrency=config.llm.max_concurrency,
-                max_retries=config.llm.max_retries,
-            )
+            personas = generate_personas_from_respondents(respondents)
 
             print(f"[OK] Generated {len(personas)} personas")
             if skip_respondents:
@@ -382,22 +374,19 @@ def run_excel_validation_pipeline(config_path: str,
     all_subscription_tiers_by_question = {}
     all_persona_indices_by_question = {}
     all_variation_ids_by_question = {}
-    all_option_orders_by_question = {}  # populated by stateful validation; empty for stateless
+    all_option_orders_by_question = {}
     all_probs_by_question = {}  # only under response_mode: verbalized_probs / weighted_draw
-    open_ended_question_ids = []  # populated by stateful validation; empty for stateless runs
+    open_ended_question_ids = []
     error_records = []
     failed_persona_indices = set()
     # Set to the spend-cap reason when a run stops short, so the closing summary says "HALTED"
     # instead of "COMPLETE" -- a partial panel that reads as finished is the failure this guards.
     budget_halted = None
-    # Owned here, not by the runner: the checkpointed stateful path calls the runner once per cohort,
-    # so a recorder created down there would report only the last cohort. Stays empty on the
-    # stateless path, which is not wired to it (nothing there has a cacheable prefix to measure).
+    # Owned here, not by the runner: the checkpointed path calls the runner once per cohort, so a
+    # recorder created down there would report only the last cohort.
     token_recorder = TokenUsageRecorder()
 
-    # One router for BOTH modes: stateful uses the full walk (skip/show-if/mask/pipe), stateless
-    # uses only `is_asked` to honor between-subject arm assignments. Building it once keeps the
-    # arm gate defined in a single place instead of once per mode.
+    # Built once, so the arm gate is defined in a single place.
     from src.core.question_router import QuestionRouter
     router = QuestionRouter(getattr(config, 'routing_rules', None), question_mapper)
 
@@ -445,7 +434,6 @@ def run_excel_validation_pipeline(config_path: str,
         effective_batch = config.llm.max_concurrency or len(personas)
         run_dir = ckpt.init_run_dir(checkpoint_dir, run_id)
         manifest = ckpt.load_manifest(run_dir)
-        # Mirror of the stateless branch's guard. Reachable now that a survey can move between
         # A dir written by the removed question-scoped checkpointer. Without this guard the
         # `batches` count below is 0, so a run would append its own keys beside the existing
         # `questions` and leave a mixed dir that nothing can read back correctly.
@@ -512,8 +500,7 @@ def run_excel_validation_pipeline(config_path: str,
                     # A failed cell inside a finished walk is a failed walk too. `status` is what
                     # save_batch reads to decide "complete", so consulting only
                     # `__persona_error__` marked such a persona done and left its `LLM Error`
-                    # cells behind a manifest that no --resume would revisit -- the stateless
-                    # flavour never marks a failed cell complete, and this is that same contract.
+                    # cells behind a manifest that no --resume would revisit.
                     # The re-run repeats the whole walk (a stateful cell cannot be spliced), so
                     # expect a little drift in the persona's other answers; measured at 12 cells
                     # of 108x2 when repairing 2 filtered cells in the twin2k chained arm.
@@ -726,9 +713,9 @@ Examples:
                              "are identical to the same rows in a full run.")
     parser.add_argument("--questions", help="Comma-separated list of question IDs to validate (e.g., MU1,MU2)")
     parser.add_argument("--no-cache", action="store_true", help="Skip persona cache and always regenerate personas")
-    parser.add_argument("--checkpoint-dir", help="Enable resumable runs; base dir for checkpoints. Stateful mode checkpoints per batch of personas (batch size = llm.max_concurrency); stateless mode checkpoints per question and resumes per (question, respid) cell.")
+    parser.add_argument("--checkpoint-dir", help="Enable resumable runs; base dir for checkpoints. One checkpoint per batch of personas (batch size = llm.max_concurrency).")
     parser.add_argument("--run-id", help="Checkpoint run identifier (subdir under <checkpoint-dir>/); defaults to the config filename stem")
-    parser.add_argument("--resume", action="store_true", help="Skip work already saved in the checkpoint dir (personas in stateful mode, (question, respid) cells in stateless mode)")
+    parser.add_argument("--resume", action="store_true", help="Skip personas already saved in the checkpoint dir")
 
     args = parser.parse_args()
 

@@ -37,7 +37,7 @@ survey_prompt: |
   Return structured output with choice number(s) and explanation.
 
 llm:
-  model: "bedrock/us.anthropic.claude-haiku-4-5"
+  model: "gpt-4.1"
   persona_temperature: 0.3
   survey_temperature: 0.7
   n_variations: 1

@@ -28,6 +28,5 @@ jobs:
       - run: ruff check .
 
       # Offline by design: no test reaches the network, and conftest.py provides placeholder
-      # credentials so a bare checkout is green. Tests marked live_llm are excluded by
-      # pytest.ini and need a real key.
+      # credentials so a bare checkout is green.
       - run: pytest -q

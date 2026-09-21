@@ -15,7 +15,7 @@ including the parts that are easy to get wrong:
     shuffled question -- so replaying it requires walking every question in order, not just the
     shuffled ones. Draw it per cell instead and both arms get different option orders, silently
     unpairing the comparison.
-  * History carries the FILLED stem, not the raw one (`survey_runner_excel.py:1235`), which matters
+  * History carries the FILLED stem, not the raw one (`_fill_stem` in `survey_runner_excel.py`), which matters
     on the 40 pricing questions whose `{stem_value}` is randomized per respondent.
   * The 48 between-subject columns are gated by `is_asked` off `persona["condition_assignments"]`,
     so each twin is asked only the arm its human counterpart was randomized into.

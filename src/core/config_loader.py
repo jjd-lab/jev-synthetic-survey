@@ -96,10 +96,6 @@ class LLMConfig(BaseModel):
     max_retries: Optional[int] = None
     subscription_tiers: Optional[List[str]] = None
 
-    def get_persona_temperature(self) -> float:
-        """Get temperature for persona generation (factual summarization)"""
-        return self.persona_temperature if self.persona_temperature is not None else 0.3
-
     def get_survey_temperature(self) -> float:
         """Get temperature for survey responses (varied)"""
         return self.survey_temperature if self.survey_temperature is not None else self.temperature

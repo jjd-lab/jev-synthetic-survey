@@ -56,10 +56,10 @@ def structured_output_method(model: Optional[str] = None) -> str:
     support the strict ``json_schema`` decoder, which hard-enforces the schema — no client-side
     shape drift, so the list-as-string / missing-field failures seen under ``function_calling``
     cannot occur. `None` falls back to the same MODEL_NAME env default as create_llm_instance
-    (Bedrock Haiku).
+    (gpt-4.1).
     """
     load_dotenv()
-    m = (model or os.getenv("MODEL_NAME", "bedrock/us.anthropic.claude-haiku-4-5")).lower()
+    m = (model or os.getenv("MODEL_NAME", "gpt-4.1")).lower()
     # Match on the provider prefix, not a free-text substring, so an OpenAI-compatible deployment
     # whose alias happens to contain "claude"/"anthropic" isn't misrouted off the strict
     # json_schema path.
@@ -91,7 +91,7 @@ def create_llm_instance(
 
     from langchain_openai import ChatOpenAI
 
-    default_model = os.getenv("MODEL_NAME", "bedrock/us.anthropic.claude-haiku-4-5")
+    default_model = os.getenv("MODEL_NAME", "gpt-4.1")
     default_temperature = float(os.getenv("TEMPERATURE", "0.7"))
     default_api_base_url = os.getenv("API_BASE_URL")
     default_api_key = os.getenv("API_KEY")
