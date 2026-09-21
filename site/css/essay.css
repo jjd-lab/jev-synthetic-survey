@@ -197,16 +197,20 @@ main { margin-left: var(--rail); }
 
 .chapter {
   padding: 5.5rem 7vw 4.5rem;
+  /* Containing block for the ghost numeral, so it anchors to the full content
+     width rather than to the 40rem text column it used to sit on top of. */
+  position: relative;
 }
 .chapter-head {
   max-width: 40rem;
   margin-bottom: 2.4rem;
-  position: relative;
 }
 .chapter-no {
   position: absolute;
-  right: -0.2rem;
-  top: -2.6rem;
+  /* 7vw matches the chapter's own gutter, so the numeral lines up with the
+     content edge instead of bleeding off the viewport. */
+  right: 7vw;
+  top: 2.9rem;
   font-family: var(--serif);
   font-size: clamp(4.5rem, 10vw, 7.5rem);
   letter-spacing: -0.06em;
@@ -397,6 +401,9 @@ figcaption {
 }
 
 @media (max-width: 900px) {
+  /* No room to the right of the text column at this width; the numeral is decorative,
+     and letting it sit outside would push a horizontal scrollbar onto the page. */
+  .chapter-no { display: none; }
   .rail {
     position: sticky;
     top: 0;
