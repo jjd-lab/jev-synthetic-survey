@@ -37,6 +37,9 @@ specific model and the verdict on it.
 [Appendix: question inventory](appendix-question-inventory.md) lists all 108 columns and the 16
 tasks they belong to.
 
+[The pre-launch review](reviews/2026-09-21-pre-launch-review.md) records what was checked before this
+repository went public, what was wrong, and what was deliberately left alone.
+
 ## The order the work was done
 
 The grounding panel came first, then the planned comparison, then the Jev Noul re-ask, which was

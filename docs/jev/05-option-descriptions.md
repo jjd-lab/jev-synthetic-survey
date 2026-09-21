@@ -63,8 +63,8 @@ calibration-layer problem is the better reading.
 
 The 68 undescribed columns receive a byte-identical payload, so their movement is a clean estimate
 of Jev's run-to-run nondeterminism in a paired design. Per cell it is 0.011, against the 0.055 from
-`order_probe` that [the planned comparison](02-planned-comparison.md) already flags as inflated by
-accidental chaining.
+an earlier repeat run, not shipped here, that [the planned comparison](02-planned-comparison.md)
+already flags as inflated by accidental chaining.
 
 The column-level floor matters more, since that is the level an arm comparison is read at, and it
 is 0.0010 over the 25 two-option columns and 0.0058 over the 43 multi-option ones. The second

@@ -77,7 +77,9 @@ python scripts/twin2k/price_sensitivity.py \
     --arm gpt41_probs=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl
 ```
 
-Reproduces the table above. The `--arm` labels are free text and become the column headings.
+Reproduces the table above. The `--arm` labels are free text and become the column headings. The
+script prints its figures and writes no file, so unlike the rest of the write-up these numbers have
+no report under `reports/`; running it is how to check them.
 
 Back to [the Jev track](../README.md#jev-track), or on to
 [what this licenses](08-what-this-licenses.md).
