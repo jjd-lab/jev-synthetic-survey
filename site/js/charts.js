@@ -249,7 +249,7 @@ const EssayCharts = {
         max: 150,
         rows: [
           { label: "Jev", value: e.jev_cost, display: fmtCost(e.jev_cost), color: COLORS.jev },
-          { label: "GPT-4.1 · list rates", value: e.gpt41_cost, display: fmtCost(e.gpt41_cost), color: COLORS.gpt },
+          { label: "GPT-4.1", value: e.gpt41_cost, display: fmtCost(e.gpt41_cost), color: COLORS.gpt },
         ],
       },
       {

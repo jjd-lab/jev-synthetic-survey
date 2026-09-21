@@ -286,6 +286,10 @@ file to the claim it supports.
    above.
 2. **More respondents.** 48 between-subject columns draw only 16 to 25 respondents at this sample
    size, which is where the per-column test is noisiest.
+3. **A persona about what is being asked.** Every arm grounds in content the exam does not cover.
+   The untested variant is an interview: answers related to the questions being scored. False
+   consensus is the existence proof — the one task where the persona bears on the question, and the
+   one with real per-person signal. [The full list](docs/jev/08-what-this-licenses.md#what-to-run-next).
 
 Describing the options was the obvious first candidate and has since been run, fixed in advance, and
 [it changes nothing](docs/jev/05-option-descriptions.md): the pricing bias moved +0.185 to +0.183

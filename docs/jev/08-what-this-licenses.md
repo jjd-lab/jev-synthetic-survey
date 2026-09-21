@@ -80,6 +80,17 @@ Not run, and deliberately so.
 6. **A walk that commits sampled draws into the history** rather than the model's own stated
    answer. Untestable offline, and the natural follow-up if soft aggregation proves
    under-dispersed.
+7. **A persona that is about what is being asked.** Every arm here grounds in content the holdout
+   does not cover: 14 demographic fields, or 620 answers on personality and economic preferences,
+   against a cognitive-bias battery built so that answers should *not* track who you are. The
+   untested variant is a persona built from answers *related* to the questions being scored — what
+   an interviewer would collect before asking the ones that matter. This instrument already
+   contains the existence proof: False consensus is the one task where the persona content bears
+   directly on the question, "what fraction of others agree with you" being a function of the
+   attitudes those 620 columns encode, and it is the one task with real per-person signal
+   (+0.476 price-controlled, against near zero on the other 15). If related grounding lifts that
+   correlation where unrelated grounding did not, the ceiling measured here is the mismatch
+   between persona and exam rather than anything about the models.
 
 ## Further out: change the model, not the prompt
 

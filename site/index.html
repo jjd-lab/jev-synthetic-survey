@@ -7,20 +7,20 @@
   <meta name="description" content="Jev vs GPT-4.1 as synthetic survey respondents, on the same 300 people. How you ask mattered more than which model you used.">
   <link rel="canonical" href="https://jjd-lab.github.io/jev-synthetic-survey/">
   <meta property="og:title" content="How you ask matters more than which model">
-  <meta property="og:description" content="Jev vs GPT-4.1 on Twin-2K-500. Asked as a Noul, Jev leads GPT-4.1 probabilities on all six measures, at $4 billed against roughly $136 at list rates.">
+  <meta property="og:description" content="Jev vs GPT-4.1 on Twin-2K-500. Asked as a Noul, Jev leads GPT-4.1 probabilities on all six measures, at $4 against roughly $136.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://jjd-lab.github.io/jev-synthetic-survey/">
   <meta property="og:image" content="https://jjd-lab.github.io/jev-synthetic-survey/assets/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="How you ask matters more than which model. Jev vs GPT-4.1, the same 300 survey respondents, $4 billed against about $136 at list rates, six measures to none against GPT-4.1 probabilities.">
+  <meta property="og:image:alt" content="How you ask matters more than which model. Jev vs GPT-4.1, the same 300 survey respondents, $4 against about $136, six measures to none against GPT-4.1 probabilities.">
   <meta property="og:site_name" content="Jev on a synthetic survey">
   <meta name="author" content="jjd-lab">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="How you ask matters more than which model">
-  <meta name="twitter:description" content="Jev vs GPT-4.1 on Twin-2K-500. Asked as a Noul, Jev leads GPT-4.1 probabilities on all six measures, at $4 billed against roughly $136 at list rates.">
+  <meta name="twitter:description" content="Jev vs GPT-4.1 on Twin-2K-500. Asked as a Noul, Jev leads GPT-4.1 probabilities on all six measures, at $4 against roughly $136.">
   <meta name="twitter:image" content="https://jjd-lab.github.io/jev-synthetic-survey/assets/og.png">
-  <meta name="twitter:image:alt" content="How you ask matters more than which model. Jev vs GPT-4.1, the same 300 survey respondents, $4 billed against about $136 at list rates, six measures to none against GPT-4.1 probabilities.">
+  <meta name="twitter:image:alt" content="How you ask matters more than which model. Jev vs GPT-4.1, the same 300 survey respondents, $4 against about $136, six measures to none against GPT-4.1 probabilities.">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -68,13 +68,13 @@
             <div><dt>Respondents</dt><dd>300 <span class="stat-note">of 2,058</span></dd></div>
             <div><dt>Questions</dt><dd>108</dd></div>
             <div><dt>Jev cost</dt><dd>$<span data-fig="comparison.arms.jev_noul.cost">4.02</span> <span class="stat-note">billed</span></dd></div>
-            <div><dt>GPT-4.1 cost</dt><dd>~$<span data-fig="comparison.arms.gpt41_probs.cost">136</span> <span class="stat-note">at list rates</span></dd></div>
+            <div><dt>GPT-4.1 cost</dt><dd>~$<span data-fig="comparison.arms.gpt41_probs.cost">136</span></dd></div>
           </dl>
         </div>
 
         <ul class="hero-note">
           <li>Asked as a <code>Noul</code>, Jev leads GPT-4.1 probabilities on all six measures, at a
-            thirty-fourth of the cost at list rates. Plain GPT-4.1 hard answers still score two points higher
+            thirty-fourth of the cost. Plain GPT-4.1 hard answers still score two points higher
             on
             accuracy, and return no distribution.</li>
           <li>How you ask mattered more than which model you used. Switching the 65 yes/no
@@ -172,10 +172,12 @@
           <p class="bench-kicker">The exam is the human’s own answer</p>
           <h3>Population first, person second</h3>
           <p>
-            In this invented cell the human said <strong>No</strong>. A survey mostly wants
-            the <em>share</em> who said No, not whether the model picked the right person. That is
-            why the tables lead with a distribution gap, not accuracy. Humans themselves only
-            reproduce their earlier answers <span data-fig="constants.human_ceiling_pct">81.68</span>% of the time.
+            In this invented cell the human said <strong>No</strong>. One person gives one
+            answer, so their bar is all-or-nothing — that is the thing every model vector above is
+            scored against. A survey mostly wants the <em>share</em> who said No across everyone,
+            not whether the model picked the right person, which is why the tables lead with a
+            distribution gap rather than accuracy. Humans themselves only reproduce their earlier
+            answers <span data-fig="constants.human_ceiling_pct">81.68</span>% of the time.
           </p>
           <div class="demo-bars" data-demo="human"></div>
           <p class="muted">
@@ -274,6 +276,8 @@
       <p class="source">
         Source:
         <a href="https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/jev/02-planned-comparison.md">the planned comparison</a>.
+        Every measure here — accuracy, the two distribution gaps, calibration, Brier — is defined on
+        <a href="https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/survey/02-metrics.md">the metrics page</a>.
         Reproduce with
         <a href="https://github.com/jjd-lab/jev-synthetic-survey#reproduce-it"><code>prob_scoring.py</code></a>.
       </p>
@@ -323,13 +327,13 @@
 
       <figure class="frame">
         <figcaption>
-          <strong>Inside each demographic group Jev is the closer instrument, on 13 of 13
-          variables.</strong> Median distance to the humans <span data-fig="segments.fidelity_jev">0.233</span>
-          against <span data-fig="segments.fidelity_gpt41">0.295</span>, over all 2,058 respondents.
-          The chart is the other half of the same measurement and goes the other way: Jev
-          reproduces 40% of the real gap <em>between</em> groups, GPT-4.1 about 110%. Being right
-          inside a group and getting the gaps between groups right are different things, and
-          neither arm does both, which is why neither is safe for a demographic breakdown.
+          <strong>A crosstab asks two questions, and each arm answers only one of them.</strong>
+          <em>What did this group say?</em> Jev lands closer to the real answer on all 13
+          demographic variables, a median distance of <span data-fig="segments.fidelity_jev">0.233</span>
+          against GPT-4.1’s <span data-fig="segments.fidelity_gpt41">0.295</span>, over all 2,058
+          respondents. <em>How far apart are two groups?</em> That is the chart, and it goes the
+          other way: Jev spreads its groups to 40% of the real distance, GPT-4.1 to about 110%. A
+          breakdown needs both answers right, and neither arm gives both.
         </figcaption>
         <div class="chart" id="chart-segments"></div>
       </figure>
@@ -345,7 +349,7 @@
 
       <figure class="frame">
         <figcaption>
-          <strong>What the same 24,596 answers cost, and how long one run took.</strong> Jev bills
+          <strong>What one run over the same 300 respondents cost, and how long it took.</strong> Jev bills
           input only and output is free; the GPT-4.1 bar prices that arm's own token counts at OpenAI list
           rates and is not a bill. Both wall clocks are measured, but at different batch sizes —
           16 walks in flight against 50 — so the bars are not a speed test. Per call Jev averaged
@@ -358,8 +362,7 @@
         <p class="bench-kicker">Author’s take · not a result</p>
         <p>
           I would use Jev. Asked as a <code>Noul</code> it leads GPT-4.1 probabilities on both
-          halves, answered all 24,596 cells without an error, and costs a thirty-fourth as much at
-          list rates. For ordinal-scale marginals under cost pressure I would reach for it today,
+          halves, answered all 24,596 cells without an error, and costs a thirty-fourth as much. For ordinal-scale marginals under cost pressure I would reach for it today,
           with <code>Noul</code> for anything yes/no.
         </p>
       </blockquote>
@@ -372,7 +375,7 @@
       </header>
       <ul class="limits">
         <li>The 300 are the first 300 rows of the sample — older, whiter, more conservative. Read the paired comparisons. Do not read any absolute number as a population estimate.</li>
-        <li>The holdout is a cognitive-bias battery. Answers are not supposed to track who you are. Individual prediction fails for every arm.</li>
+        <li>The exam and the persona are different subject matter. The persona carries personality and economic-preference answers; the holdout is a cognitive-bias battery, built so that answers should <em>not</em> track who you are. Predicting an individual fails for every arm here, and that is as much the instrument as the models.</li>
         <li><code>Noul</code> was built after the two-option result, so it cannot carry the verdict. Option descriptions were fixed in advance of their own run and changed nothing.</li>
         <li>Jev was given the same plain input GPT-4.1 got. TypeSafe’s own prompting levers are mostly untested, not refuted.</li>
       </ul>
