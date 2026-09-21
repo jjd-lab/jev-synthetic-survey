@@ -189,9 +189,9 @@ python scripts/twin2k/price_sensitivity.py \
 ## Recorded cost
 
 Billed for the n=300 Jev arms: Jev Choice $4.01, Jev Choice described $4.03, Jev Noul $4.02, Jev on
-prior-answers grounding $24.40. GPT-4.1 probabilities is roughly $136 at OpenAI list rates rather
-than a bill; see [the planned comparison](jev/02-planned-comparison.md). The hard-answer arm has no
-cost of its own, being an extraction.
+prior-answers grounding $24.40. GPT-4.1 probabilities is roughly $136, derived rather than billed;
+[the planned comparison](jev/02-planned-comparison.md) shows how. The hard-answer arm has no cost of
+its own, being an extraction.
 
 A Jev arm's cost is its input tokens and nothing else — output is free and the rate is flat — so
 the spread between those figures is entirely prompt length:
@@ -217,11 +217,12 @@ What each step costs, measured on a 2023 laptop:
 | `fetch_twin2k.py` | 205 MB of disk | a few minutes on a home connection | free |
 | the price diagnostic, once fetched | the dataset | under a second | free |
 | a new 300-respondent Jev arm | `TYPESAFE_API_KEY` | 6 to 8 min at 16 walks | about $4 |
-| a new 300-respondent GPT-4.1 arm | `API_KEY` | about 22 min at 50 walks | about $136 at list rates |
+| a new 300-respondent GPT-4.1 arm | `API_KEY` | about 22 min at 50 walks | about $136 |
 
-The two run costs buy the same 24,596 cells. Jev bills input only at $0.042 per million tokens with
-output free, which is where the 34-fold gap comes from. The GPT-4.1 figure prices that arm's
-own token counts at OpenAI list rates; it is not a bill.
+The two run costs buy the same work: one walk through the questionnaire for each of 300
+respondents. Jev bills input only at $0.042 per million tokens with output free, which is where the
+34-fold gap comes from. The GPT-4.1 figure is derived rather than billed; see
+[the planned comparison](jev/02-planned-comparison.md).
 
 The two wall clocks are **not** a like-for-like speed comparison. The arms ran at different
 concurrency, 16 in-flight walks against 50, so the Jev figure is the slower setting rather than the

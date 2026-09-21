@@ -6,7 +6,7 @@ abstract: >-
   (TypeSafe Jev 1.13.0) against gpt-4.1 asked to state one, over 300 respondents and 108
   questions of the Twin-2K-500 synthetic-survey benchmark. Asked each yes/no question as a
   single probability (a Noul), Jev leads gpt-4.1's stated probabilities on all six reported
-  measures at about a thirty-fourth of the cost at list rates. Asked as a two-option choice, the
+  measures at about a thirty-fourth of the cost. Asked as a two-option choice, the
   comparison was first set up around, it trails on the distribution gap, and no arm met the
   calibration bar fixed in advance. How the question was asked moved the result more than
   which model was used. Independent work: the author has no affiliation with TypeSafe or

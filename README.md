@@ -9,8 +9,7 @@ questions, 16 behavioral-economics tasks, and 24,596 answered cells per arm. Jev
 probability vector natively. I asked GPT-4.1 to state one in words.
 
 Asked each yes/no question as a `Noul`, a single probability that the answer is yes, Jev leads
-GPT-4.1 probabilities on all six measures, at a thirty-fourth of the cost at GPT-4.1's list rates,
-and comes within two points of GPT-4.1's hard-answer accuracy while returning a full probability
+GPT-4.1 probabilities on all six measures, at a thirty-fourth of the cost, and comes within two points of GPT-4.1's hard-answer accuracy while returning a full probability
 distribution, which a hard answer does not. Asked as a `Choice`, pick one of the two options and
 the form the comparison was set up around, it trails on the distribution gap, 0.1985 against
 0.1789. How you ask mattered more than which model you used.
@@ -74,7 +73,7 @@ On the 65 yes/no questions a `Noul` — one probability, no options offered — 
 the model. Asked that way, Jev beats verbalized GPT-4.1 on all six measures: the two-option
 distribution gap 0.1530 against 0.1789, the ordinal half 0.6812 against 0.7272, calibration 0.1472
 against 0.2393, Brier 0.7385 against 0.8108, accuracy 67.28% against 64.78%, and cost $4.02 billed
-against roughly $136 at list rates.
+against roughly $136.
 
 **How you ask mattered more than which model you used.** The comparison was set up around a
 two-option `Choice` on those same questions, and that form loses the distribution gap, 0.1985
@@ -104,7 +103,7 @@ is better everywhere except the last column.
 | Jev Choice (the arm the comparison was set up around) | 0.1985 | 0.6864 | 0.2029 | 0.7550 | 67.59% | $4.01 |
 | Jev Choice + option descriptions | 0.1985 | 0.6822 | 0.2032 | 0.7553 | 67.51% | $4.03 |
 | Jev Noul | **0.1530** | **0.6812** | **0.1472** | **0.7385** | 67.28% | $4.02 |
-| GPT-4.1 probabilities | 0.1789 | 0.7272 | 0.2393 | 0.8108 | 64.78% | ~$136 at list rates |
+| GPT-4.1 probabilities | 0.1789 | 0.7272 | 0.2393 | 0.8108 | 64.78% | ~$136 |
 | GPT-4.1 hard answer | 0.2037 | 0.6987 | 0.3741 | 1.1664 | **69.32%** | not measured |
 
 300 respondents, 108 columns, 24,596 cells in every arm, equal weight per task. Every arm name,
@@ -170,8 +169,9 @@ The verdict is a conjunction, so losing one half of it is not the same as losing
 
 - It wins the 43 ordinal questions on the ordinal distribution gap, 0.6864 against 0.7272, better in
   26 of 43 columns at p=0.031. That advantage carries its all-cell Brier win, 0.7550 against 0.8108.
-- It costs about 34 times less at list rates. $4.01 billed, against roughly $136 to buy the same
-  cells at GPT-4.1's list prices, because Jev bills input only and its output is free.
+- It costs about 34 times less: $4.01 billed against roughly $136 for the same 300 respondents,
+  because Jev bills input only and its output is free.
+  [How the GPT-4.1 figure is derived](docs/jev/02-planned-comparison.md).
 - It answers about ten times faster per call, 0.26 s measured across all 24,596 cells against
   roughly 2.7 s inferred for GPT-4.1. The two arms' wall clocks look close only because they ran
   at different concurrency, so do not read those as a speed comparison.
@@ -302,7 +302,7 @@ under-specified.
 
 Everything above is measured. This part is opinion, kept separate on purpose.
 
-I think Jev is a strong option and I would use it. It costs about 34 times less at list rates, it
+I think Jev is a strong option and I would use it. It costs about 34 times less, it
 answered every
 one of 24,596 cells without an error, it leads on the ordinal half outright, and asked as a `Noul`
 it leads GPT-4.1 probabilities on the yes/no half as well. The comparison as first set up, a

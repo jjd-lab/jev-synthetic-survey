@@ -10,7 +10,7 @@
   accuracy penalty. It is the strongest actionable result here and the one to carry into any future
   Jev work. See [the Noul follow-up](03-noul-follow-up.md).
 - **Jev is the better multi-option forecaster in this setting**, and the cheapest by a wide margin,
-  about 34 times cheaper at list rates. If a use case is ordinal-scale marginals under cost
+  about 34 times cheaper. If a use case is ordinal-scale marginals under cost
   pressure, this result
   argues for it. That is a narrower claim than the test was making, and it has not been tested on
   its own.

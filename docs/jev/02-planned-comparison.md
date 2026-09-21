@@ -6,8 +6,7 @@ out negative for Jev Choice, and for the two-option columns that test turns on t
 is unchanged on this form: verbalized probabilities and soft aggregation.
 
 That is the smaller half of the result. Jev Choice trails on exactly one of the six reported
-measures and leads on the other five, at a thirty-fourth of the cost at list rates, and the one it
-trails on
+measures and leads on the other five, at a thirty-fourth of the cost, and the one it trails on
 closes once the yes/no questions are asked as a `Noul`; see [the follow-up](03-noul-follow-up.md).
 The claim the data speaks to most clearly is that this is the better instrument once asked
 properly. That is not what this comparison was set up to ask, and it is not settled here.
@@ -187,20 +186,19 @@ $0.042 per million tokens, with output free.
 | Arm | Input tokens | Output | Cost |
 |---|---|---|---|
 | Jev Choice | 95,489,047 (billed) | free | $4.01 billed |
-| GPT-4.1 probabilities | 91,186,347 (39.7% cached) | 1,052,004 | about $136 at list rates |
+| GPT-4.1 probabilities | 91,186,347 (39.7% cached) | 1,052,004 | about $136 |
 | Jev Noul | 95,694,291 (billed) | free | $4.02 billed |
 
 The two figures are not the same kind of number, and this is the only place that matters. Jev's is
 a billed total. GPT-4.1's prices that arm's own token counts at OpenAI list rates ($2.00 per
 million input, $0.50 cached, $8.00 output); the run itself went through a hosted OpenAI-compatible
-endpoint, so it is what the same 24,596 cells cost at list price, not a bill. A 34-fold cost gap
-makes "no better" a different proposition than it would be at parity.
+endpoint, so it is what the same run — 300 respondents, 24,596 cells — costs at list price, not a
+bill. A 34-fold cost gap makes "no better" a different proposition than it would be at parity.
 
 Note what the Jev figure is mostly buying. Both arms are chained, so each cell re-sends the walk so
 far: 670 input tokens at the first question, 7,406 by the 83rd, 3,891 on average for Jev Noul and
-3,882 for Jev Choice. Roughly five
-sixths of the bill is the model re-reading its own earlier answers, not the persona. Unchained, the
-same 24,596 cells would be about 16.5M tokens and $0.69.
+3,882 for Jev Choice. Roughly five sixths of the bill is the model re-reading its own earlier
+answers, not the persona. Unchained, the same run would be about 16.5M tokens and $0.69.
 
 Wall clock is not a like-for-like comparison here and should not be read as one, because the arms
 ran at different concurrency: about 35 minutes for Jev Choice at 16 concurrent walks against 22
