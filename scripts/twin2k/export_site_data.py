@@ -288,7 +288,7 @@ def build_figures() -> dict:
         "economics": {
             # Jev's figure is the mean of latency_ms over every answered cell. gpt-4.1's arm
             # recorded no per-call latency, so its figure is wall clock over concurrency and is
-            # marked inferred, exactly as its cost is.
+            # derived from wall clock over concurrency, as its cost is derived from list rates.
             "jev_cost": DOCUMENTED["costs"]["jev_choice"],
             "gpt41_cost": DOCUMENTED["costs"]["gpt41_probs"],
             # Both wall clocks are measured, and they ran at different concurrency, so the

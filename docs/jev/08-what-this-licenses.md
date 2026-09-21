@@ -10,7 +10,8 @@
   accuracy penalty. It is the strongest actionable result here and the one to carry into any future
   Jev work. See [the Noul follow-up](03-noul-follow-up.md).
 - **Jev is the better multi-option forecaster in this setting**, and the cheapest by a wide margin,
-  about 34 times cheaper. If a use case is ordinal-scale marginals under cost pressure, this result
+  about 34 times cheaper at list rates. If a use case is ordinal-scale marginals under cost
+  pressure, this result
   argues for it. That is a narrower claim than the test was making, and it has not been tested on
   its own.
 - **A long persona is not wasted on it.** Given 620 of a respondent's own prior answers, a
@@ -89,8 +90,8 @@ is the variable. The result that most deserves a follow-up is the one that assum
 **Every arm fails at the individual level, and richer prompting did not fix it.** All five sit below
 the 73.59% a persona-blind baseline reaches by ignoring the twin entirely. The prior-answers arm is
 the closest thing here to an upper bound on prompting one's way out: 620 real past answers in place
-of 14 demographic fields bought **+2.66 accuracy points** and still landed under that panel's own floor of 73.27%. Segment
-diversity says the same thing from the other side — the arms place each demographic group at roughly
+of 14 demographic fields bought **+2.66 accuracy points** and still landed under that panel's own
+floor of 73.27%. Segment diversity says the same thing from the other side — the arms place each demographic group at roughly
 the right level while flattening the differences between groups to 40% of the real spread by
 variable and 21% by task. That is a model with no per-person signal to act on, not a model reasoning
 badly about signal it has.
@@ -100,6 +101,20 @@ assignments, transaction histories and completed survey responses would be attac
 this repo actually found, rather than the elicitation it spent most of its runs on. It is also the
 direct test of the caveat TypeSafe states themselves: *"calibration is measured across groups of
 predictions; it does not guarantee that an individual answer is correct."*
+
+The usual way to spend that data is to fine-tune a language model on it, and this dataset's own
+paper already did. Its LLM fine-tuning arm scores **69.61%** on the paper's scoring, below seven of
+the nine prompting arms in the same table and below the 73.27% a persona-blind baseline reaches
+here. That is the wall this repo kept hitting, approached from the other side, and it is a reason to
+suspect the ceiling is the instrument and the grounding rather than the amount of tuning.
+
+What has not been tried is putting the same data behind a decision-only model: fine-tuning Jev on
+survey responses, transaction histories and experiment assignments, or pre-training with the method
+Jev uses rather than a next-token objective. The argument for it is not cost. It is that the output
+type is already the quantity a survey is read for, a probability per option, so the training signal
+and the scored quantity would be the same object instead of one being decoded out of free text
+afterwards. The three conditions below apply to that experiment unchanged, and none of this is
+evidence that it would work.
 
 Three things would have to be true for the result to mean anything:
 
@@ -113,9 +128,9 @@ Three things would have to be true for the result to mean anything:
 - **An untuned control on identical input.** Tuning the model while changing the training data moves
   two things at once. The comparison is tuned-against-untuned on the same prompts, the same
   respondents and the same scorer, or it is not a comparison.
-- **Criteria fixed in advance, again.** The lesson of this repo is not that Jev lost; it is that the
-  question form was worth more than the model difference being measured, and that only became
-  visible because the tests were written down first.
+- **Criteria fixed in advance, again.** The lesson of this repo is not which model came out ahead;
+  it is that the question form was worth more than the difference between the models, and that only
+  became visible because the tests were written down first.
 
 What carries over is the harness. Paired cells, a prompt held fixed across arms, option order seeded
 per respondent, and a scorer that keeps the distributional question separate from the individual one

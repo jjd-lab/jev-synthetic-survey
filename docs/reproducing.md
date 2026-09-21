@@ -188,9 +188,10 @@ python scripts/twin2k/price_sensitivity.py \
 
 ## Recorded cost
 
-Measured for the n=300 arms: Jev Choice $4.01, Jev Choice described $4.03, Jev Noul $4.02, Jev on
-prior-answers grounding $24.40, GPT-4.1 probabilities roughly $136 inferred from list pricing. The
-hard-answer arm has no cost of its own, being an extraction.
+Billed for the n=300 Jev arms: Jev Choice $4.01, Jev Choice described $4.03, Jev Noul $4.02, Jev on
+prior-answers grounding $24.40. GPT-4.1 probabilities is roughly $136 at OpenAI list rates rather
+than a bill; see [the planned comparison](jev/02-planned-comparison.md). The hard-answer arm has no
+cost of its own, being an extraction.
 
 A Jev arm's cost is its input tokens and nothing else — output is free and the rate is flat — so
 the spread between those figures is entirely prompt length:
@@ -219,8 +220,8 @@ What each step costs, measured on a 2023 laptop:
 | a new 300-respondent GPT-4.1 arm | `API_KEY` | about 22 min at 50 walks | about $136 at list rates |
 
 The two run costs buy the same 24,596 cells. Jev bills input only at $0.042 per million tokens with
-output free, which is where the 34-fold gap comes from. The GPT-4.1 figure is inferred from list
-rates rather than billed through, so read it as an order of magnitude.
+output free, which is where the 34-fold gap comes from. The GPT-4.1 figure prices that arm's
+own token counts at OpenAI list rates; it is not a bill.
 
 The two wall clocks are **not** a like-for-like speed comparison. The arms ran at different
 concurrency, 16 in-flight walks against 50, so the Jev figure is the slower setting rather than the

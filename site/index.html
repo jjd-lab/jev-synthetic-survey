@@ -7,20 +7,20 @@
   <meta name="description" content="Jev vs GPT-4.1 as synthetic survey respondents: 300 people, 24,596 answers. How you ask mattered more than which model you used.">
   <link rel="canonical" href="https://jjd-lab.github.io/jev-synthetic-survey/">
   <meta property="og:title" content="How you ask matters more than which model">
-  <meta property="og:description" content="Jev vs GPT-4.1 on Twin-2K-500. Asked as a Noul, Jev leads GPT-4.1 probabilities on all six measures, at $4 against roughly $136.">
+  <meta property="og:description" content="Jev vs GPT-4.1 on Twin-2K-500. Asked as a Noul, Jev leads GPT-4.1 probabilities on all six measures, at $4 billed against roughly $136 at list rates.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://jjd-lab.github.io/jev-synthetic-survey/">
   <meta property="og:image" content="https://jjd-lab.github.io/jev-synthetic-survey/assets/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="How you ask matters more than which model. Jev vs GPT-4.1, 300 respondents, 24,596 survey answers, $4 against about $136, six measures to none against GPT-4.1 probabilities.">
+  <meta property="og:image:alt" content="How you ask matters more than which model. Jev vs GPT-4.1, 300 respondents, 24,596 survey answers, $4 billed against about $136 at list rates, six measures to none against GPT-4.1 probabilities.">
   <meta property="og:site_name" content="Jev on a synthetic survey">
   <meta name="author" content="jjd-lab">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="How you ask matters more than which model">
-  <meta name="twitter:description" content="Jev vs GPT-4.1 on Twin-2K-500. Asked as a Noul, Jev leads GPT-4.1 probabilities on all six measures, at $4 against roughly $136.">
+  <meta name="twitter:description" content="Jev vs GPT-4.1 on Twin-2K-500. Asked as a Noul, Jev leads GPT-4.1 probabilities on all six measures, at $4 billed against roughly $136 at list rates.">
   <meta name="twitter:image" content="https://jjd-lab.github.io/jev-synthetic-survey/assets/og.png">
-  <meta name="twitter:image:alt" content="How you ask matters more than which model. Jev vs GPT-4.1, 300 respondents, 24,596 survey answers, $4 against about $136, six measures to none against GPT-4.1 probabilities.">
+  <meta name="twitter:image:alt" content="How you ask matters more than which model. Jev vs GPT-4.1, 300 respondents, 24,596 survey answers, $4 billed against about $136 at list rates, six measures to none against GPT-4.1 probabilities.">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -67,14 +67,15 @@
           <dl class="hero-stats">
             <div><dt>Respondents</dt><dd>300 <span class="stat-note">of 2,058</span></dd></div>
             <div><dt>Questions</dt><dd>108</dd></div>
-            <div><dt>Jev cost</dt><dd>$<span data-fig="comparison.arms.jev_noul.cost">4.02</span></dd></div>
-            <div><dt>GPT-4.1 cost</dt><dd>~$<span data-fig="comparison.arms.gpt41_probs.cost">136</span></dd></div>
+            <div><dt>Jev cost</dt><dd>$<span data-fig="comparison.arms.jev_noul.cost">4.02</span> <span class="stat-note">billed</span></dd></div>
+            <div><dt>GPT-4.1 cost</dt><dd>~$<span data-fig="comparison.arms.gpt41_probs.cost">136</span> <span class="stat-note">at list rates</span></dd></div>
           </dl>
         </div>
 
         <ul class="hero-note">
           <li>Asked as a <code>Noul</code>, Jev leads GPT-4.1 probabilities on all six measures, at a
-            thirty-fourth of the cost. Plain GPT-4.1 hard answers still score two points higher on
+            thirty-fourth of the cost at list rates. Plain GPT-4.1 hard answers still score two points higher
+            on
             accuracy, and return no distribution.</li>
           <li>How you ask mattered more than which model you used. Switching the 65 yes/no
             questions from a two-option <code>Choice</code> to a <code>Noul</code> moves the
@@ -349,8 +350,8 @@
       <figure class="frame">
         <figcaption>
           <strong>What the same 24,596 answers cost, and how long one run took.</strong> Jev bills
-          input only and output is free; the GPT-4.1 price comes from list rates, so read it as an
-          order of magnitude. Both wall clocks are measured, but they ran at different batch sizes —
+          input only and output is free; the GPT-4.1 bar prices that arm's own token counts at OpenAI list
+          rates and is not a bill. Both wall clocks are measured, but they ran at different batch sizes —
           16 walks in flight against 50 — so the bars are not a speed test. Per call, where Jev
           logged every request and GPT-4.1 logged none, Jev averaged 0.26 seconds.
         </figcaption>
@@ -360,7 +361,7 @@
       <blockquote class="opinion">
         <p class="bench-kicker">Author’s take · not a result</p>
         <p>
-          I think Jev is a strong option and I would use it. It costs about 34 times less,
+          I think Jev is a strong option and I would use it. It costs about 34 times less at list rates,
           it answered every one of 24,596 cells without an error, it leads on the ordinal half
           outright, and asked as a <code>Noul</code> it leads GPT-4.1 probabilities on the yes/no half
           as well. I would use it today for ordinal-scale marginals under cost
