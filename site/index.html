@@ -295,15 +295,16 @@
       <figure class="frame">
         <figcaption>
           <strong>Swap the 14 demographic facts for 620 of the person’s own past answers and both
-          models track individuals better — the same direction, and neither by much.</strong>
-          Per-person correlation rises from 0.063 to 0.102 for Jev and from 0.095 to 0.107 for
-          gpt-4.1. Jev does it from a 21,000-token state while carrying no memory of its own earlier
-          answers at all. It costs 6.1× more, $24.40 against $4.02, because that state is re-sent on
-          every question and Jev bills every token of it. gpt-4.1 served 91% of the same repeated persona
-          from cache on its own run, though that one covers all 2,058 people and carries no recorded
-          cost, so the two prices are not comparable. The two figures are not measured on the same design — Jev’s comparison
-          also changed statefulness, and runs over 300 people against 2,058 — so read the direction,
-          not the size.
+          models improve, in the same direction and neither by much.</strong> Two levels decide it.
+          <em>Across the population</em>, Jev’s distribution gap goes 0.1484 to 0.1368 and its Brier
+          0.7172 to 0.7041, both at p = 0.0000, and cells where it put zero probability on the
+          human’s real answer fall 4.7-fold, 546 to 117. <em>Per person</em>, rank correlation goes
+          0.0837 to 0.1083 for Jev and 0.0945 to 0.1068 for gpt-4.1 — same direction, about twice
+          the size. Both comparisons hold statefulness fixed, so grounding is the only thing that
+          moved. It is still not enough to predict an individual: 0.1083 is near zero on most tasks
+          and the arm stays below the persona-blind baseline on accuracy. The state costs 6.1× more,
+          $24.40 against $4.02, because 21,000 tokens are re-sent on every question and Jev bills
+          every one.
         </figcaption>
       </figure>
 
@@ -362,11 +363,12 @@
         <li>The holdout is a cognitive-bias battery. Answers are not supposed to track who you are. Individual prediction fails for every arm.</li>
         <li><code>Noul</code> was built after seeing the result. Option descriptions were pre-registered later and changed nothing.</li>
         <li>Jev was given the same plain input gpt-4.1 got. TypeSafe’s own prompting levers are mostly untested, not refuted.</li>
-        <li><strong>Neither arm should be used for crosstabs.</strong> Being right inside a group is not the same as getting the gaps between groups right, and both fail the second one in opposite directions. Jev flattens: it reproduces 40% of the real spread between demographic groups by variable, and 21% by task, dropping to 3–9% on four of the sixteen tasks — a breakdown built on it would read “no demographic effect” where the humans show one. gpt-4.1 exaggerates: 2.87× the real gap on party, 2.68× on political views, reporting a polarization that is not in the data. On the four anchoring columns it gave all 2,058 respondents the same answer, 4,116 cells with no variation at all.</li>
+        <li><strong>Neither arm should be used for demographic crosstabs.</strong> The results above are at the population and per-person levels, which is where the criteria were set. Between demographic groups both arms fail, in opposite directions: Jev reproduces about 40% of the real gap, gpt-4.1 about 2.7× too much on politics. That is a reason not to use either for breakdowns, not a result about the models.</li>
       </ul>
       <div class="cta">
         <a class="btn primary" href="https://github.com/jjd-lab/jev-synthetic-survey">The repository</a>
         <a class="btn" href="https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/README.md">The write-up</a>
+        <a class="btn" href="https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/jev/08-grounding.md">Grounding</a>
         <a class="btn" href="https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/jev/05-what-this-licenses.md">What this licenses</a>
       </div>
       <p class="colophon">
