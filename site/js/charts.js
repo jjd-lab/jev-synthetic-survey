@@ -96,50 +96,12 @@ const EssayCharts = {
       [
         { label: "Human test–retest", value: figures.constants.human_ceiling_pct, display: fmtPct(figures.constants.human_ceiling_pct), color: COLORS.human },
         { label: "Paper’s published twin", value: figures.constants.paper_twin_pct, display: fmtPct(figures.constants.paper_twin_pct), color: COLORS.neutral },
-        { label: "Prior answers", value: panel.prior_answers_stateless.accuracy_pct, display: fmtPct(panel.prior_answers_stateless.accuracy_pct), color: COLORS.gold },
+        { label: "Prior answers, stateless", value: panel.prior_answers_stateless.accuracy_pct, display: fmtPct(panel.prior_answers_stateless.accuracy_pct), color: COLORS.gold },
         { label: "Demographics, stateless", value: panel.demographics_stateless.accuracy_pct, display: fmtPct(panel.demographics_stateless.accuracy_pct), color: COLORS.gpt, muted: true },
         { label: "Demographics, stateful", value: panel.demographics_stateful.accuracy_pct, display: fmtPct(panel.demographics_stateful.accuracy_pct), color: COLORS.gpt },
       ],
       { max: 100, height: 34 },
     );
-  },
-
-  panel(host, figures) {
-    const arms = [
-      ["Demographics, stateless", figures.panel.arms.demographics_stateless, COLORS.gpt, true],
-      ["Demographics, stateful", figures.panel.arms.demographics_stateful, COLORS.gpt, false],
-      ["Prior answers, stateless", figures.panel.arms.prior_answers_stateless, COLORS.gold, false],
-    ];
-    metricStack(host, [
-      {
-        title: "Accuracy",
-        max: 100,
-        rows: arms.map(([label, arm, color, muted]) => ({
-          label, value: arm.accuracy_pct, display: fmtPct(arm.accuracy_pct), color, muted,
-        })),
-      },
-      {
-        title: "Yes/no distribution gap · lower better",
-        max: 0.3,
-        rows: arms.map(([label, arm, color, muted]) => ({
-          label, value: arm.soft_nominal, display: fmtNum(arm.soft_nominal), color, muted,
-        })),
-      },
-      {
-        title: "Ordinal gap · lower better",
-        max: 0.8,
-        rows: arms.map(([label, arm, color, muted]) => ({
-          label, value: arm.soft_ordinal, display: fmtNum(arm.soft_ordinal, 3), color, muted,
-        })),
-      },
-      {
-        title: "Collapsed columns",
-        max: 30,
-        rows: arms.map(([label, arm, color, muted]) => ({
-          label, value: arm.collapsed_columns, display: `${arm.collapsed_columns} / 108`, color, muted,
-        })),
-      },
-    ]);
   },
 
   comparison(host, figures) {

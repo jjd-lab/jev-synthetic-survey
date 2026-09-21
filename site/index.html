@@ -68,7 +68,7 @@
     <ol>
       <li><a href="#hero" data-section="hero"><span>00</span> The question</a></li>
       <li><a href="#concept" data-section="concept"><span>01</span> A synthetic respondent</a></li>
-      <li><a href="#panel" data-section="panel"><span>02</span> Twin-2K, GPT-4.1</a></li>
+      <li><a href="#panel" data-section="panel"><span>02</span> Ceiling and floor</a></li>
       <li><a href="#verdict" data-section="verdict"><span>03</span> The comparison</a></li>
       <li><a href="#promising" data-section="promising"><span>04</span> Where Jev is better</a></li>
       <li><a href="#limits" data-section="limits"><span>05</span> Limits</a></li>
@@ -112,7 +112,8 @@
             accuracy, and return no distribution.</li>
           <li>How you ask mattered more than which model you used. Switching the 65 yes/no
             questions from a two-option <code>Choice</code> to a <code>Noul</code> moves the
-            distribution gap from <span data-fig="noul.choice_soft_nominal">0.1985</span> to <span data-fig="noul.noul_soft_nominal">0.1530</span>, at the same price.</li>
+            distribution gap — how far the model’s spread of answers sits from the humans’, 0
+            identical, 1 as far apart as possible — from <span data-fig="noul.choice_soft_nominal">0.1985</span> to <span data-fig="noul.noul_soft_nominal">0.1530</span>, at the same price.</li>
           <li>A persona of 620 of the person’s own past answers lifts both models at both levels,
             and Jev keeps pace with GPT-4.1.</li>
           <li>No arm predicts an individual yet. Per-person correlation with the human sits near
@@ -229,35 +230,28 @@
     <section class="chapter ink" id="panel">
       <header class="chapter-head">
         <p class="chapter-no">02</p>
-        <h2>GPT-4.1 on all 2,058 people</h2>
+        <h2>The ground both models stand on</h2>
         <p>
           The same engine walked <code>gpt-4.1</code> through the whole Twin-2K-500 sample, three
-          times. No Jev in this chapter: it asks what the persona is worth.
+          times. No Jev in this chapter: it sets the floor and the ceiling everything after it is
+          read against.
         </p>
       </header>
 
       <figure class="frame">
         <figcaption>
-          Accuracy against the human test–retest ceiling and the paper’s published twin. The three
-          arms sit within 2.7 points of each other, and 9 to 12 points below what the humans manage
-          against their own earlier answers.
+          Accuracy against the human test–retest ceiling and the paper’s published twin. All three
+          arms land 9 to 12 points below what the humans manage against their own earlier answers.
+          Adding 620 of a person’s own past answers to the same fourteen demographic facts buys
+          +2.66 points; letting the model see its own earlier answers buys less than a quarter of
+          a point.
         </figcaption>
         <div class="chart" id="chart-floors"></div>
       </figure>
 
-      <figure class="frame">
-        <figcaption>
-          Three arms, one model. Prior answers buy +2.66 points of accuracy. Seeing its own
-          earlier answers unpins collapsed columns and loses a fifth of a point.
-        </figcaption>
-        <div class="chart" id="chart-panel"></div>
-      </figure>
-
       <aside class="pull">
-        Six hundred and twenty of a person’s own past answers buy +2.66 points of accuracy over
-        fourteen demographic facts. Letting the model read its own earlier answers buys less than a
-        quarter of a point. A demographics-grounded twin is usable for a population’s distribution,
-        not for predicting a specific person.
+        A demographics-grounded twin is usable for a population’s distribution, not for predicting
+        a specific person.
       </aside>
 
       <p class="source">
@@ -340,8 +334,8 @@
 
       <figure class="frame">
         <figcaption>
-          <strong>Swap the 14 demographic facts for 620 of the person’s own past answers and both
-          levels improve.</strong> Not enough to predict an individual: <span data-fig="grounding.prior_rho">0.1045</span> is near zero on most
+          <strong>Add 620 of the person’s own past answers to the same 14 demographic facts and
+          both levels improve.</strong> Not enough to predict an individual: <span data-fig="grounding.prior_rho">0.1045</span> is near zero on most
           tasks. Both bars hold statefulness
           fixed, so grounding is the only thing that moved — GPT-4.1 shifts the same way, 0.0945 to
           0.1068.

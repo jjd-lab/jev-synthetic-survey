@@ -1,7 +1,7 @@
 # What richer grounding buys, and what it does not
 
-Every other arm in this track grounds the persona in 14 demographic fields. This one replaces them
-with 620 of the respondent's own prior answers, a 21,000-token state, and asks what changes.
+Every other arm in this track grounds the persona in 14 demographic fields. This one keeps those 14
+and adds 620 of the respondent's own prior answers, a 21,000-token state, and asks what changes.
 
 Run after the verdict, so it carries none of it.
 

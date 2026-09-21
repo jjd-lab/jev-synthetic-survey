@@ -47,7 +47,6 @@ async function main() {
 
   const draw = () => {
     EssayCharts.floors(document.getElementById("chart-floors"), figures);
-    EssayCharts.panel(document.getElementById("chart-panel"), figures);
     EssayCharts.comparison(document.getElementById("chart-comparison"), figures);
     EssayCharts.noul(document.getElementById("chart-noul"), figures);
     EssayCharts.grounding(document.getElementById("chart-grounding"), figures);

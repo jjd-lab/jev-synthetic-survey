@@ -1,11 +1,12 @@
 # Visual explainer
 
 A static essay for GitHub Pages. It keeps Jev as the hero, then teaches the
-synthetic-survey idea and the `gpt-4.1` Twin-2K n=2058 panel before the
-comparison. Every chart is drawn from [`data/figures.json`](data/figures.json),
-which is generated from `reports/` — the page never loads the JSONL dumps. The
-numbers typed into the prose carry a `data-fig` path into that file, and
-`tests/unit/test_published_numbers.py` fails if one drifts from it.
+synthetic-survey idea and, from the `gpt-4.1` Twin-2K n=2058 panel, the ceiling
+and floor the comparison is read against. Every chart is drawn from
+[`data/figures.json`](data/figures.json), which is generated from `reports/` —
+the page never loads the JSONL dumps. The numbers typed into the prose carry a
+`data-fig` path into that file, and `tests/unit/test_published_numbers.py` fails
+if one drifts from it.
 
 ## View it locally
 
