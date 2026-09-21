@@ -412,7 +412,7 @@ figcaption, .frame > p {
 }
 
 @media (max-width: 900px) {
-  section[id] { scroll-margin-top: 5.5rem; }
+  section[id] { scroll-margin-top: 3.6rem; }
   /* No room to the right of the text column at this width; the numeral is decorative,
      and letting it sit outside would push a horizontal scrollbar onto the page. */
   .chapter-no { display: none; }
@@ -431,15 +431,34 @@ figcaption, .frame > p {
   }
   .rail ol {
     flex-direction: row;
-    overflow: auto;
+    overflow-x: auto;
     gap: 0.9rem;
     flex: 1;
+    scrollbar-width: none;
+    /* The labels are a single scrolling line here; the fade is the only cue that
+       there is more to the right, since the scrollbar is hidden. */
+    mask-image: linear-gradient(to right, #000 88%, transparent);
   }
+  .rail ol::-webkit-scrollbar { display: none; }
+  .rail li { flex: 0 0 auto; }
+  .rail a { white-space: nowrap; }
   .rail a span { display: none; }
   .rail-repo { margin-top: 0; }
   main { margin-left: 0; }
   .hero-board, .hero-stats, .split, .pair-notes, .persona { grid-template-columns: 1fr; }
   .hero { padding-top: 2rem; }
+}
+
+/* Phone: the page is a long read, so the vertical rhythm tightens rather than the type. */
+@media (max-width: 600px) {
+  body { font-size: 1rem; }
+  .chapter { padding: 3.2rem 6vw 2.6rem; }
+  .chapter-head h2 { margin-bottom: 0.6rem; }
+  .lede { font-size: 1.05rem; }
+  figcaption, .frame > p { font-size: 0.9rem; }
+  .frame { padding: 0.9rem 0.9rem 1.1rem; margin-bottom: 1.1rem; }
+  .pull, .opinion { margin: 1.4rem 0; }
+  .hero-board { margin: 1.6rem 0 1rem; }
 }
 
 @keyframes bar-in {

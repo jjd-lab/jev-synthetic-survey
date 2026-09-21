@@ -33,35 +33,40 @@ function svgEl(name, attrs, children) {
 
 function rowChart(host, rows, { max, height = 34, title = "" }) {
   host.replaceChildren();
-  const width = Math.max(host.clientWidth || 640, 320);
-  const left = 178;
-  const right = 72;
-  const barW = width - left - right;
+  const width = Math.max(host.clientWidth || 640, 300);
+  // A fixed 178px label gutter leaves nothing for the bar on a phone, so below this
+  // width the label moves onto its own line and the bar spans the full chart.
+  const stacked = width < 520;
+  const left = stacked ? 0 : 178;
+  const right = stacked ? 58 : 72;
+  const rowH = stacked ? height + 18 : height;
+  const barW = Math.max(40, width - left - right);
   // role="img" hides the <text> children from assistive tech, so the values go in the name.
   const summary = rows.map((row) => `${row.label} ${row.display}`).join("; ");
   const svg = svgEl("svg", {
-    viewBox: `0 0 ${width} ${rows.length * height + 6}`,
+    viewBox: `0 0 ${width} ${rows.length * rowH + 6}`,
     role: "img",
     "aria-label": title ? `${title}: ${summary}` : summary,
   });
 
   rows.forEach((row, index) => {
-    const y = 6 + index * height;
+    const y = 6 + index * rowH;
     const w = Math.max(2, (row.value / max) * barW);
+    const barY = stacked ? y + 20 : y + 4;
     svg.append(
-      svgEl("text", { class: "label", x: "0", y: String(y + 16), fill: "currentColor" }, [
+      svgEl("text", { class: "label", x: "0", y: String(stacked ? y + 12 : y + 16), fill: "currentColor" }, [
         document.createTextNode(row.label),
       ]),
       svgEl("rect", {
         class: "bar",
         x: String(left),
-        y: String(y + 4),
+        y: String(barY),
         width: String(w),
         height: "16",
         fill: row.color,
         opacity: row.muted ? "0.4" : "0.92",
       }),
-      svgEl("text", { class: "value", x: String(left + w + 8), y: String(y + 16), fill: "currentColor" }, [
+      svgEl("text", { class: "value", x: String(left + w + 8), y: String(barY + 12), fill: "currentColor" }, [
         document.createTextNode(row.display),
       ]),
     );
