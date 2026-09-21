@@ -33,8 +33,15 @@ fi
 
 # --- 2. every commit being pushed must carry the right identity --------------------
 zero=$(git hash-object --stdin </dev/null | tr '[:xdigit:]' '0')
-while read -r _local_ref local_sha _remote_ref remote_sha; do
+while read -r local_ref local_sha _remote_ref remote_sha; do
     [ "$local_sha" = "$zero" ] && continue          # branch deletion: nothing to inspect
+
+    # --- 3. only main is published; `push --all` would send every local branch ------
+    if [ "$local_ref" != "refs/heads/main" ]; then
+        say "BLOCKED: refusing to push $local_ref; only refs/heads/main is published."
+        fail=1
+        continue
+    fi
 
     if [ "$remote_sha" = "$zero" ]; then
         range="$local_sha"                          # new branch: check every reachable commit
