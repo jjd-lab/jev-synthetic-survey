@@ -70,7 +70,7 @@ from src.validation.response_validator import (  # noqa: E402
 )
 
 PRICING_TASK = "Pricing"
-# 10 equal-width bins is the reliability-diagram convention and what the plan pre-registered. ECE is
+# 10 equal-width bins is the reliability-diagram convention and what the plan fixed in advance. ECE is
 # bin-sensitive, so `--ece-bins` exists and an adaptive (equal-count) cross-check is always reported
 # alongside -- a number that moves a lot between the two is not a calibration finding.
 ECE_BINS = 10
@@ -261,7 +261,7 @@ def equal_weight(task_means: dict):
 
 
 def headline(per_column: dict, columns: dict) -> dict:
-    """A per-column metric reported the two pre-registered ways: all tasks, and pricing excluded."""
+    """A per-column metric reported the two ways fixed in advance: all tasks, and pricing excluded."""
     all_tasks = by_task(per_column, columns)
     no_pricing = by_task(per_column, columns, exclude=(PRICING_TASK,))
     return {
@@ -814,7 +814,7 @@ def _compare(left, left_columns, right, right_columns, resamples, seed) -> dict:
     result["brier"] = _paired_bucket(
         left, right, a, b, _brier_statistic, left_brier, right_brier, resamples, seed
     )
-    # C3 passes only if BOTH halves favour the left arm, per the pre-registered criterion.
+    # C3 passes only if BOTH halves favour the left arm, per the criterion fixed in advance.
     result["c3_left_wins"] = bool(
         all(result[key]["delta"] is not None and result[key]["delta"] <= 0
             for key in ("soft_nominal", "soft_ordinal", "brier"))
@@ -877,7 +877,7 @@ def _paired_bucket(left, right, a, b, statistic, left_per, right_per, resamples,
         "delta": None if left_value is None or right_value is None else left_value - right_value,
         "delta_ci_low": float(np.quantile(delta_array, 0.025)) if len(delta_array) else None,
         "delta_ci_high": float(np.quantile(delta_array, 0.975)) if len(delta_array) else None,
-        # One-sided: the pre-registered direction is "the left arm is no worse", so a two-sided p
+        # One-sided: the direction fixed in advance is "the left arm is no worse", so a two-sided p
         # would answer a question nobody asked.
         "wilcoxon_p_left_lower": wilcoxon_p,
         "n_columns": len(shared),
@@ -1112,12 +1112,12 @@ def print_report(report: dict) -> None:
             p = ("" if metric["wilcoxon_p_left_lower"] is None
                  else f"  wilcoxon p={metric['wilcoxon_p_left_lower']:.4f}")
             print(f"  {key:<14} delta {_fmt(delta, '+.4f')}{interval}{p}")
-        # Sign check only, NOT the registered distribution test. The registered rule is the
+        # Sign check only, NOT the distribution test fixed in advance. That rule is the
         # per-column Wilcoxon within each bucket, printed above; this line reads the deltas.
         # The two disagree whenever an arm wins the task-weighted mean and loses per column,
         # which is exactly what the Noul follow-up did, so do not read this as the verdict.
         print(f"  deltas all favour the left arm: {'yes' if block['c3_left_wins'] else 'no'}"
-              "   (sign check, not the registered test: read the wilcoxon p per bucket)")
+              "   (sign check, not the test fixed in advance: read the wilcoxon p per bucket)")
         print("  Read every delta against the measured repeat-agreement floor above; a margin "
               "smaller than the floor is not a result.")
 
@@ -1127,7 +1127,7 @@ def _fmt(value, spec=".4f") -> str:
 
 
 def _c1_verdict(ece) -> str:
-    """The plan's pre-registered bands, fixed before any data was seen."""
+    """The plan's bands, fixed before any data was seen."""
     if ece is None or not np.isfinite(ece):
         return "not computed"
     if ece <= 0.05:

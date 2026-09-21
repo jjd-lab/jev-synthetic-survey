@@ -8,7 +8,7 @@ numbers is the only check that does not come from the same head that wrote the c
 The rest are synthetic forecasters with known answers -- an oracle, a base-rate predictor, a
 confidently-wrong predictor -- because a metric is only trustworthy if it returns the value theory
 says it must on inputs whose value theory fixes. They also pin the four aggregation choices the plan
-pre-registered, since those are what a later reader is most likely to "simplify" back into a pooled
+fixed in advance, since those are what a later reader is most likely to "simplify" back into a pooled
 cell mean.
 """
 
@@ -276,7 +276,7 @@ class TestCommitRules:
         assert vector_of({"probs": None, "choice": "Maybe"}, BINARY) is None
 
 
-# The four pre-registered aggregation choices
+# The four aggregation choices fixed in advance
 @pytest.mark.unit
 class TestAggregation:
     def _pricing_heavy(self):
@@ -439,7 +439,7 @@ class TestReferencesAndUncertainty:
         assert paired["c3_left_wins"] is False
 
     def test_c3_needs_every_bucket_to_favour_the_left_arm(self, tmp_path):
-        """One bucket going the other way sinks it — the pre-registered conjunction, asserted.
+        """One bucket going the other way sinks it — the conjunction fixed in advance, asserted.
 
         Left wins nominal and Brier and loses ordinal. Averaging the buckets would hide that; a
         conjunction cannot, which is why the verdict is written as one.
@@ -674,6 +674,6 @@ class TestDiagnostics:
     (0.0, "PASS"), (0.05, "PASS"), (0.0500001, "MARGINAL"),
     (0.10, "MARGINAL"), (0.1000001, "FAIL"), (0.9, "FAIL"),
 ])
-def test_the_c1_bands_are_the_preregistered_ones(ece, verdict):
+def test_the_c1_bands_are_the_ones_fixed_in_advance(ece, verdict):
     """0.05 / 0.10 with inclusive lower edges, written down before any Jev data existed."""
     assert _c1_verdict(ece).startswith(verdict)

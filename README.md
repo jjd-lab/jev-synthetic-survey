@@ -2,16 +2,21 @@
 
 **Visual explainer** — [read it as a page](https://jjd-lab.github.io/jev-synthetic-survey/), with the walkthrough and the figures.
 
-We asked a decision-only model, TypeSafe's [Jev](https://typesafe.ai) `jev-1.13.0`, and `gpt-4.1` to
+I asked a decision-only model, TypeSafe's [Jev](https://typesafe.ai) `jev-1.13.0`, and `gpt-4.1` to
 play the same 300 survey respondents on the public
 [Twin-2K-500](https://huggingface.co/datasets/LLM-Digital-Twin/Twin-2K-500) benchmark. That is 108
 questions, 16 behavioral-economics tasks, and 24,596 answered cells per arm. Jev returns a
-probability vector natively. We asked `gpt-4.1` to state one in words.
+probability vector natively. I asked `gpt-4.1` to state one in words.
 
-Asked as a `Noul`, the form that fits the model, Jev beats `gpt-4.1` on all six measured columns at
-a thirty-fourth of the cost. Asked as a two-option `Choice`, the form the comparison was set up
-around, it loses the distribution gap 0.1985 against 0.1789. How you ask mattered more than which
-model you used.
+Asked as a `Noul`, the form that fits the model, Jev leads `gpt-4.1` probabilities on all six
+measures at a thirty-fourth of the cost, and comes within two points of `gpt-4.1`'s hard-answer
+accuracy while returning a full probability distribution, which a hard answer does not. Asked as a
+two-option `Choice`, the form the comparison was set up around, it trails on the distribution gap,
+0.1985 against 0.1789. How you ask mattered more than which model you used.
+
+**Independent work.** I have no affiliation with TypeSafe or OpenAI, and received no funding,
+credits or early access from either. I paid for all Jev and `gpt-4.1` usage myself. Neither company
+had any input into the design or the write-up, and neither has seen it.
 
 The full write-up is in [`docs/`](docs/README.md), split into a
 [survey track](docs/README.md#survey-track) for what transfers to any model on this benchmark and a
@@ -42,13 +47,13 @@ human also answered, and you compare the two. The appeal is that real panels are
 expensive, so a model that could stand in for one would let you pretest a survey before fielding
 it. Whether it can is an open question, and this repo is one measurement of it.
 
-**The data is not ours, and neither is the benchmark design.** Everything here runs on
+**The data is not mine, and neither is the benchmark design.** Everything here runs on
 [Twin-2K-500](https://huggingface.co/datasets/LLM-Digital-Twin/Twin-2K-500), built for this exact
 question by Toubia et al. (*Twin-2K-500*, [arXiv 2505.17479](https://arxiv.org/abs/2505.17479),
 CC BY 4.0). They surveyed 2,058 US adults on Prolific across four waves in February 2025, over 500
 questions each, then held one block out: a battery of classic behavioral-economics tasks. The rest
-of a person's answers is what you may use to build their twin. The held-out block is the exam. We
-did not collect any of it and we do not redistribute it;
+of a person's answers is what you may use to build their twin. The held-out block is the exam. I
+did not collect any of it and I do not redistribute it;
 [`fetch_twin2k.py`](scripts/twin2k/fetch_twin2k.py) downloads it from the authors.
 
 **What a run does here.** For each of 300 respondents, build a persona out of their 14 demographic
@@ -58,7 +63,7 @@ Five arms ship in this repo and they differ only in which model was asked, and h
 
 **What is being compared.** Two ways of getting a probability out of a model. Jev is decision-only:
 it generates no text at all, returning a typed value and a number per option natively.
-`gpt-4.1` is a general chat model, so we asked it to state those same numbers in words. The
+`gpt-4.1` is a general chat model, so I asked it to state those same numbers in words. The
 question is whether the native vector beats the verbalized one.
 
 **Why the tables below lead with a distribution gap instead of accuracy.** Nobody can predict how
@@ -74,7 +79,7 @@ the three different ways this dataset's questions can be counted.
 
 ---
 
-## Asked the right way, Jev wins every measure
+## Asked the right way, Jev leads verbalized GPT-4.1 on every measure
 
 On the 65 yes/no questions a `Noul` — one probability, no options offered — is the form that fits
 the model. Asked that way, Jev beats verbalized `gpt-4.1` on all six measures: the two-option
@@ -88,10 +93,13 @@ against 0.1789. One substitution, same model, same respondents, same price, move
 — further than the whole distance between the two models. That is the result worth carrying into
 any future work, and it is why the recommendation is `Noul` for anything yes/no.
 
-Two limits belong with it. The `Noul` arm was built after seeing the `Choice` result, so it cannot
-settle the comparison the tests were written for; that one stands as a loss on the measure it turned
-on. And calibration missed its bar of 0.05 for every arm at once — 0.1472 at best — which makes it a
-statement about demographics-only grounding rather than about any model.
+Three things belong with it. The `Noul` arm was built after seeing the `Choice` result, so it cannot
+settle the comparison the tests were written for; on the measure that one turned on, `gpt-4.1`
+probabilities came out ahead. The `Noul` lead on the yes/no half is in the task-weighted gap this
+codebase reports; on the stricter per-column rule fixed in advance `gpt-4.1` probabilities are still
+ahead, p=0.9995, because one task holds 40 of the 65 columns. And calibration missed its bar of 0.05
+for every arm at once — 0.1472 at best — which makes it a statement about demographics-only grounding
+rather than about any model.
 [Details and both tests in full](docs/jev/02-planned-comparison.md).
 
 ## All five arms
@@ -128,8 +136,8 @@ table will mislead you about if you read it alone:
 
 ## Asking the same question a different way closed most of the gap
 
-We asked Jev every yes/no question as a `Choice`, meaning pick one of two options. That was the
-wrong form, and it cost more than the whole gap we were trying to measure.
+I asked Jev every yes/no question as a `Choice`, meaning pick one of two options. That was the
+wrong form, and it cost more than the whole gap I was trying to measure.
 
 Re-asking those same 65 columns as a `Noul`, a single probability that the answer is yes with no
 options offered, changes the result at the same price and with no loss of accuracy.
@@ -149,7 +157,7 @@ other.
 If you take one thing from this repo, take this: on this model, never ask a yes/no question as a
 two-option choice. [The follow-up in full](docs/jev/03-noul-follow-up.md).
 
-That arm does not overturn the verdict and was never eligible to. We fixed the test on the `Choice`
+That arm does not overturn the verdict and was never eligible to. I fixed the test on the `Choice`
 arm and built `Noul` afterwards, having seen the result. Against `gpt-4.1` it wins on the
 aggregation this codebase uses, 0.1530 against 0.1789, and loses the per-column test that was fixed
 in advance at p=0.9995. One task holds 40 of the 65 two-option columns, and that weighting choice
@@ -174,7 +182,7 @@ The verdict is a conjunction, so losing one half of it is not the same as losing
 
 ## Where it is worse
 
-Jev loses the yes/no half, and most of that is the pricing block. We first wrote this up as
+Jev loses the yes/no half, and most of that is the pricing block. I first wrote this up as
 TypeSafe's documented "not a calculator" weakness. That was wrong. Measuring it gives a more useful
 answer: the arithmetic is fine and the decision boundary is not.
 
@@ -201,7 +209,7 @@ also unbatched its grids. The entire loss sits in the 15 tasks where grid batchi
 and the one block that was unbatched improved by 0.89 points, so the cause is the elicitation rather
 than the batching.
 
-If you ask a model to verbalize its uncertainty, expect its committed answer to move. We measured
+If you ask a model to verbalize its uncertainty, expect its committed answer to move. I measured
 that on one model and one instrument; treat it as a hypothesis worth checking on yours rather than
 as a settled law. [Details](docs/survey/04-elicitation-effects.md).
 
@@ -209,7 +217,7 @@ as a settled law. [Details](docs/survey/04-elicitation-effects.md).
 
 Every metric above is computed on the panel as a whole. A survey is normally read as crosstabs, and
 an arm can match the overall marginal exactly while handing every demographic group the same answer.
-So we measured how far apart each arm puts its segments, against how far apart the real ones are,
+So I measured how far apart each arm puts its segments, against how far apart the real ones are,
 with a shuffled-label noise floor to say how much of the human gap is signal at all.
 
 | separation ratio, all 2,058 respondents | Jev `Noul` | `gpt-4.1` hard |
@@ -231,7 +239,7 @@ Read the low ratios with the noise floor in hand. This holdout is a cognitive-bi
 answers should not track who you are, so on most variables there is little group difference to
 reproduce. [The full measurement](docs/survey/06-segment-diversity.md).
 
-## Limits
+## Scope, and what would sharpen this
 
 **The instrument.** Twin-2K-500's holdout is a cognitive-bias battery while the grounding is
 personality and economic-preference content, so the test is out-of-domain by construction. Its
@@ -240,7 +248,7 @@ questions are built so that answers should not track who you are.
 **The sample.** 2,058 Prolific US adults, four waves, February 2025 (Toubia et al.,
 [arXiv 2505.17479](https://arxiv.org/abs/2505.17479)). Not population-representative, US-only,
 public since 2025, and built from classic replications, so contamination applies to every arm
-equally. Our 300 are the first 300 rows and are older, whiter and more conservative than the panel.
+equally. The 300 here are the first 300 rows and are older, whiter and more conservative than the panel.
 Read the between-arm comparisons and do not read any absolute number.
 
 **This evaluation.** 300 of 2,058 respondents. 108 of 126 holdout columns, because 18 sliders and
@@ -394,7 +402,7 @@ The Jev probe refuses to load a config outside `configs/twin2k/`, and refuses an
 not TypeSafe. Twin-2K-500 is the only data cleared to be sent there, and the code and the tests
 enforce that rather than convention.
 
-## What we would do next
+## What I would do next
 
 1. **Re-run the distribution test with `Noul`** as the elicitation fixed in advance, and fix the
    aggregation rule in advance. That choice accounts for the entire disagreement in the result
@@ -413,16 +421,17 @@ under-specified.
 
 Everything above is measured. This part is opinion, kept separate on purpose.
 
-I think Jev is a strong option and I would use it. It costs about 34 times less, it produced no
-errors in 24,596 cells, it wins the ordinal half outright, and the yes/no half it lost closes almost
-entirely once you stop asking those questions the wrong way. The verdict stands and I am not going to
-soften it. Given `gpt-4.1`'s input and a `Choice` on every yes/no item, Jev did not win. But that
-comparison held the prompt fixed to be fair to the model, which means it left every one of
-TypeSafe's own prompting options untouched. The one we changed afterwards moved the losing half by
-more than the whole deficit, and I expect the others to matter too.
+I think Jev is a strong option and I would use it. It costs about 34 times less, it answered every
+one of 24,596 cells without an error, it leads on the ordinal half outright, and asked as a `Noul`
+it leads `gpt-4.1` probabilities on the yes/no half as well. The comparison as first set up, a
+`Choice` on every yes/no item, went `gpt-4.1`'s way on the distribution gap, and that result stands.
+It also held the prompt fixed to be fair to both models, which left every one of TypeSafe's own
+prompting options untouched. The one I changed afterwards moved that half by more than the whole
+deficit, and I expect the others to matter too.
 
 I would use it today for ordinal-scale marginals under cost pressure, with `Noul` for anything
-yes/no.
+yes/no. What I would test next is a fresh run with `Noul` and its aggregation rule both fixed
+beforehand.
 
 ## Contents
 
@@ -449,7 +458,7 @@ machinery this evaluation does not exercise.
 [`CITATION.cff`](CITATION.cff) carries the same in machine-readable form, which is what GitHub's
 "Cite this repository" button reads.
 
-The dataset is not ours. Cite it as Toubia, O., et al. *Twin-2K-500*,
+The dataset is not mine. Cite it as Toubia, O., et al. *Twin-2K-500*,
 [arXiv 2505.17479](https://arxiv.org/abs/2505.17479).
 
 ## License

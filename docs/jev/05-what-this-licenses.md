@@ -83,7 +83,7 @@ Not run, and deliberately so.
 ## Further out: change the model, not the prompt
 
 The six items above all re-ask this question with a different elicitation, a different grounding or
-a different aggregation. They share an assumption: that the model is fixed and the way we query it
+a different aggregation. They share an assumption: that the model is fixed and the way I query it
 is the variable. The result that most deserves a follow-up is the one that assumption cannot reach.
 
 **Every arm fails at the individual level, and richer prompting did not fix it.** All five sit below

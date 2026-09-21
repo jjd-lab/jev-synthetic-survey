@@ -32,8 +32,8 @@ The two tests were fixed on **Jev Choice against GPT-4.1 probabilities**, and on
 the verdict. Everything after it is labeled as what it is:
 
 - **Jev Noul is post hoc.** It was built in response to a result, so it explains the verdict without
-  being able to overturn it. The fair version is a fresh run with `Noul` registered as the
-  elicitation and the aggregation rule fixed beforehand.
+  being able to overturn it. The fair version is a fresh run with `Noul` as the elicitation
+  and the aggregation rule both fixed beforehand.
 - **The hard-answer arm is a sanity check**, not a comparator. It has no probability vector.
 - **The diagnostics are post hoc by construction.** They were run over data already collected, and
   the price threshold in particular is fitted on the same cells it is scored on.
@@ -41,8 +41,8 @@ the verdict. Everything after it is labeled as what it is:
 The criteria themselves were written down before the Jev runs, in a working plan that is not
 published because it discusses unrelated private surveys. Nothing in this repository's history
 independently timestamps them, since the repository was created after the runs finished. Treat
-"fixed in advance" as the authors' account, supported by a scorer that implements exactly those
-rules and by both tests being reported as failed. It is not an external registration, and the pages
-here avoid calling it one.
+"fixed in advance" as my account, supported by a scorer that implements exactly those rules and by
+both tests being reported as failed. The criteria were not lodged with any outside body, and the
+pages here do not claim they were.
 
 Back to [the documentation index](README.md).

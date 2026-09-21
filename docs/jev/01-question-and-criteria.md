@@ -76,7 +76,7 @@ The verdict follows mechanically from the two:
 
 ## What the tests were read on
 
-Both were registered on **Jev Choice against GPT-4.1 probabilities**, and that pair alone carries
+Both were fixed on **Jev Choice against GPT-4.1 probabilities**, and that pair alone carries
 the verdict. Two other arms exist and neither is a comparator:
 
 - **GPT-4.1 hard answer** has no probability vector at all, so any Brier or calibration number
@@ -85,17 +85,17 @@ the verdict. Two other arms exist and neither is a comparator:
 - **Jev Noul** was built after seeing Jev Choice lose the yes/no half. It is a follow-up, reported
   as one, and it was never eligible to carry a test fixed in advance.
 
-## A note on the phrase "pre-registered"
+## What "fixed in advance" rests on
 
 The criteria above were fixed in writing before any Jev run, in a working plan. That plan is not
 published: it discusses two unrelated private surveys at length, and nothing in it beyond these
 criteria bears on this result. Nothing in this repository's history independently timestamps them
 either, since the repository was created after the runs finished.
 
-So treat "written down in advance" as what it is: a claim made by the authors, supported by the
-internal consistency of the scorer, which implements exactly these rules and nothing more, and by
-the fact that both tests were reported as failed. It is not an external pre-registration on a
-registry, and the pages here avoid calling it one.
+So treat "written down in advance" as what it is: my account, supported by the internal
+consistency of the scorer, which implements exactly these rules and nothing more, and by the fact
+that both tests were reported as failed. The criteria were not lodged with any outside body, and
+the pages here do not claim they were.
 
 ## Reproduce
 

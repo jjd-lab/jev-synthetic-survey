@@ -154,7 +154,7 @@ long way. Expect the others to matter too.
 - **Post hoc.** Built after seeing the result it explains. It cannot carry a test fixed in advance,
   and the fair version of this experiment is a fresh run with `Noul` fixed in advance as the elicitation
   and the aggregation rule fixed beforehand. That distance between the two aggregations is exactly
-  the gap the registration would have to close.
+  the gap that fresh run would have to close.
 - **It does not rescue Jev on the comparison that was set up first.** It fails the same per-column rule against
   GPT-4.1.
 - **The coherence figure carries a presentation-order component** that this design cannot separate.

@@ -1,6 +1,6 @@
 # Documentation
 
-Two tracks. The survey track holds what we learned about simulating this survey with a language
+Two tracks. The survey track holds what I learned about simulating this survey with a language
 model, which transfers to any model you point at it. The Jev track holds the evaluation of one
 specific model and the verdict on it.
 

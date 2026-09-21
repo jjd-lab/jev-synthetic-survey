@@ -58,7 +58,7 @@ not agreement. It is 78.13% in all three arms, to the digit.
 ### 2. On 13 of 16 tasks the twin cannot tell one person from another
 
 Only one task ranks individuals correctly, and it works for an unsurprising reason: the 14 demographics
-we feed it include party and political views, which really do predict policy opinions. There is no
+I feed it include party and political views, which really do predict policy opinions. There is no
 reason to expect that to carry over to anything else.
 
 > **False consensus** — QID287, a 10-item matrix: *"Would you support or oppose… Placing a tax on
@@ -426,8 +426,8 @@ from distinguishing respondents.
 
 ## What this does not show
 
-- **Not comparable to the paper's 71.72% as a like-for-like.** Our temperature is 0.7 against their 0,
-  options are shuffled against their fixed order, and we enforce a schema where they parse free text.
+- **Not comparable to the paper's 71.72% as a like-for-like.** My temperature is 0.7 against their 0,
+  options are shuffled against their fixed order, and I enforce a schema where they parse free text.
   The 72.92% > 71.72% ordering is real on this scorer, not evidence of a better twin.
 - **No significance test on the arm contrasts.** +2.66 pt is an equal-weight mean over 16 task means,
   and the paired Wilcoxon machinery used at n=50 has not been re-run at panel scale. The n=50 result it
