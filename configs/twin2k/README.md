@@ -15,7 +15,7 @@ shared prompt cannot drift between arms.
 | `prior_answers_stateless.yaml` | persona carries 620 prior answers, not just the 14 demographics | [`runs/gpt41_panel_n2058/prior_answers_stateless/`](../../runs/gpt41_panel_n2058/prior_answers_stateless/) | `reports/gpt41_panel_n2058/paper_accuracy_full_prior_answers.json`, `individual_signal_full_prior_answers.json` |
 | `gpt41_probs.yaml` | `response_mode: verbalized_probs`, grids unbatched | [`runs/jev_vs_gpt41_n300/gpt41_probs/`](../../runs/jev_vs_gpt41_n300/gpt41_probs/), converted to `gpt41_probs.jsonl` | `score_with_noul`, `score_all_arms`, `score_jc_vs_ac`, `score_with_described`, and the n=300 half of the verdict |
 
-`arm1` in the report filenames is the demographics-stateless arm, named before the arms were.
+The report filenames and keys, `arm1` included, are decoded in [the glossary](../../docs/README.md#names-used-throughout).
 [`reports/README.md`](../../reports/README.md) maps every report back to its run and gives the
 command that regenerates it.
 

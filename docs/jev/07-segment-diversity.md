@@ -6,32 +6,25 @@ is usually broken out for. An arm can match the overall marginal exactly and sti
 the same answer, leaving every crosstab empty.
 
 The method, the metrics and the full measurement are in
-[survey/06 Segment diversity](../survey/06-segment-diversity.md). This page is the verdict on Jev.
+[survey/05 Segment diversity](../survey/05-segment-diversity.md). This page is the verdict on Jev.
 
-## What is measured
+## Reading the ratio
 
-For one demographic variable and one scored column, split the respondents into segments of at least
-50, and compute each segment's answer distribution twice: from the humans, and from the arm.
-**Separation** is the mean pairwise distance between segments. The **ratio** is the arm's separation
-over the humans': 1.00 reproduces real group structure, below 1.00 flattens it, above 1.00
-exaggerates it. Both failures are wrong.
+The **ratio** is how far apart an arm puts its demographic segments over how far apart the humans'
+are: 1.00 reproduces real group structure, below 1.00 flattens it, above 1.00 exaggerates it. Read
+every low ratio against the noise floor on the survey page. This battery is built so answers should
+*not* track who you are, so on most variables there is little real difference to reproduce; the ones
+with genuine excess over the floor are political views, sex, party, religion, race and age.
 
-Throughout this page, "Jev `Noul`" means `Noul` on the 65 two-option columns and `Choice` on the
-43 multi-option ones — 64.6% of cells and 35.4% respectively. `Noul` takes a yes/no condition, so it
-cannot be asked of a multi-option column.
-
-The **noise floor** — the same quantity with segment labels shuffled — is what makes the ratio
-readable, and on this instrument it is large. Twin-2K-500 holds out a cognitive-bias battery whose
-questions are built so answers should *not* track who you are, so on most variables there is little
-real group difference to reproduce and a low ratio is not much of an accusation. The variables with
-genuine excess over the floor are political views, sex, party, religion, race and age.
+"Jev Noul" here means `Noul` on the 65 two-option columns and `Choice` on the 43 multi-option
+ones.
 
 ## Jev flattens, away from politics
 
 Full panel, 2,058 respondents, 50-person floor
 ([`reports/jev_vs_gpt41_n2058/segment_diversity_n2058.json`](../../reports/jev_vs_gpt41_n2058/segment_diversity_n2058.json)):
 
-| Variable | Jev `Noul` ratio | GPT-4.1 hard ratio |
+| Variable | Jev Noul ratio | GPT-4.1 hard ratio |
 |---|---|---|
 | political views | 1.23 | **2.68** |
 | party | 1.35 | **2.87** |
@@ -49,7 +42,7 @@ this repo where GPT-4.1 is the better instrument and Jev is the worse one.**
 Averaged over the 11 non-political demographics, Jev's median ratio is **0.21 by task against 0.40
 by variable**. Averaging over tasks was hiding it:
 
-| Task | Jev `Noul` ratio |
+| Task | Jev Noul ratio |
 |---|---|
 | Probability matching | 0.03 |
 | Dominator neglect | 0.06 |
@@ -72,7 +65,7 @@ battery and only misleadingly full on false consensus.
 
 Politics is where humans separate most and the only place either arm exceeds the human level. Jev
 sits just above it at 1.35 and 1.23. GPT-4.1 is at 2.87 and 2.68, spreading Republicans and
-Democrats roughly two and a half times further apart than they actually are on a battery that is not
+Democrats roughly 2.8 times further apart than they actually are on a battery that is not
 about politics. Both caricature; GPT-4.1 caricatures twice as hard, and a crosstab built on it would
 report a polarization that is not in the data.
 
@@ -100,10 +93,11 @@ Flattening and misplacement are separate defects, and each arm has one.
 - **The pooled-marginal results are unaffected.** This measures a different thing from the
   distribution and calibration tests that carry the verdict; nothing here changes them.
 - **It is not an individual-level claim.** These are group rates. Every arm sits below the
-  persona-blind floor on individual accuracy; see [what this licenses](05-what-this-licenses.md).
-- **Scope.** One instrument, one model version, demographics-only grounding. Whether a persona
-  carrying prior answers would separate segments further is untested here.
+  persona-blind floor on individual accuracy; see [what this licenses](08-what-this-licenses.md).
+- **Scope.** One instrument, one model version, demographics-only grounding. A persona carrying
+  620 prior answers separates segments less, not more, a median ratio of 0.185 against 0.282; see
+  [grounding](06-grounding.md).
 
 Back to [the documentation index](../README.md), the method in
-[survey/06](../survey/06-segment-diversity.md), or
-[what the result licenses](05-what-this-licenses.md).
+[survey/05](../survey/05-segment-diversity.md), or
+[what the result licenses](08-what-this-licenses.md).

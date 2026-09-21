@@ -131,8 +131,8 @@ const EssayCharts = {
       ["Jev Choice", "jev_choice", COLORS.jev, false],
       ["Jev + descriptions", "jev_described", "#e07a68", false],
       ["Jev Noul", "jev_noul", COLORS.gold, false],
-      ["gpt-4.1 probabilities", "gpt41_probs", COLORS.gpt, false],
-      ["gpt-4.1 hard answer", "gpt41_hard", "#7a8b90", true],
+      ["GPT-4.1 probabilities", "gpt41_probs", COLORS.gpt, false],
+      ["GPT-4.1 hard answer", "gpt41_hard", "#7a8b90", true],
     ];
     const arm = (key) => figures.comparison.arms[key];
     metricStack(host, [
@@ -219,7 +219,7 @@ const EssayCharts = {
         rows: [
           { label: "The humans", value: 1, display: "1.00", color: COLORS.human },
           { label: "Jev Noul", value: seg.spread_jev, display: fmtNum(seg.spread_jev, 2), color: COLORS.gold },
-          { label: "gpt-4.1 hard", value: seg.spread_gpt41, display: fmtNum(seg.spread_gpt41, 2), color: COLORS.gpt },
+          { label: "GPT-4.1 hard", value: seg.spread_gpt41, display: fmtNum(seg.spread_gpt41, 2), color: COLORS.gpt },
         ],
       },
     ]);
@@ -233,7 +233,7 @@ const EssayCharts = {
         max: 150,
         rows: [
           { label: "Jev", value: e.jev_cost, display: fmtCost(e.jev_cost), color: COLORS.jev },
-          { label: "gpt-4.1 · inferred", value: e.gpt41_cost, display: fmtCost(e.gpt41_cost), color: COLORS.gpt },
+          { label: "GPT-4.1 · inferred", value: e.gpt41_cost, display: fmtCost(e.gpt41_cost), color: COLORS.gpt },
         ],
       },
       {
@@ -241,7 +241,7 @@ const EssayCharts = {
         max: 25,
         rows: [
           { label: `Jev · ${e.jev_concurrency} at a time`, value: e.jev_minutes, display: `${e.jev_minutes} min`, color: COLORS.jev },
-          { label: `gpt-4.1 · ${e.gpt41_concurrency} at a time`, value: e.gpt41_minutes, display: `${e.gpt41_minutes} min`, color: COLORS.gpt },
+          { label: `GPT-4.1 · ${e.gpt41_concurrency} at a time`, value: e.gpt41_minutes, display: `${e.gpt41_minutes} min`, color: COLORS.gpt },
         ],
       },
     ]);
@@ -254,7 +254,7 @@ const EssayCharts = {
       [
         { label: "Jev Choice", value: arms.jev_choice.cost, display: fmtCost(arms.jev_choice.cost), color: COLORS.jev },
         { label: "Jev Noul", value: arms.jev_noul.cost, display: fmtCost(arms.jev_noul.cost), color: COLORS.gold },
-        { label: "gpt-4.1 probabilities", value: arms.gpt41_probs.cost, display: fmtCost(arms.gpt41_probs.cost), color: COLORS.gpt },
+        { label: "GPT-4.1 probabilities", value: arms.gpt41_probs.cost, display: fmtCost(arms.gpt41_probs.cost), color: COLORS.gpt },
       ],
       { max: 140, height: 38 },
     );
@@ -268,7 +268,7 @@ const EssayCharts = {
         { label: "Humans · mean P(yes)", value: price.human_mean_p_yes, display: fmtNum(price.human_mean_p_yes, 3), color: COLORS.human },
         { label: "Jev Choice", value: price.jev_choice_mean_p_yes, display: fmtNum(price.jev_choice_mean_p_yes, 3), color: COLORS.jev },
         { label: "Jev Noul", value: price.jev_noul_mean_p_yes, display: fmtNum(price.jev_noul_mean_p_yes, 3), color: COLORS.gold },
-        { label: "gpt-4.1 probabilities", value: price.gpt41_mean_p_yes, display: fmtNum(price.gpt41_mean_p_yes, 3), color: COLORS.gpt },
+        { label: "GPT-4.1 probabilities", value: price.gpt41_mean_p_yes, display: fmtNum(price.gpt41_mean_p_yes, 3), color: COLORS.gpt },
       ],
       { max: 0.7, height: 34 },
     );

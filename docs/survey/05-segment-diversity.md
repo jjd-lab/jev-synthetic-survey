@@ -42,10 +42,10 @@ keeps the sampling error, so it measures the second directly.
 All 2,058 respondents, 108 columns
 ([`reports/jev_vs_gpt41_n2058/segment_diversity_n2058.json`](../../reports/jev_vs_gpt41_n2058/segment_diversity_n2058.json)):
 
-"Jev `Noul`" is `Noul` on the 65 two-option columns and `Choice` on the 43 multi-option ones; a
+"Jev Noul" is `Noul` on the 65 two-option columns and `Choice` on the 43 multi-option ones; a
 `Noul` takes a yes/no condition and cannot be asked of a multi-option column.
 
-| Variable | humans | noise floor | Jev `Noul` | ratio | GPT-4.1 hard | ratio |
+| Variable | humans | noise floor | Jev Noul | ratio | GPT-4.1 hard | ratio |
 |---|---|---|---|---|---|---|
 | political views | 0.1146 | 0.0654 | 0.1405 | 1.23 | 0.3074 | **2.68** |
 | party | 0.0887 | 0.0552 | 0.1193 | 1.35 | 0.2547 | **2.87** |
@@ -65,7 +65,7 @@ The same measurement on the 300-respondent arms, where **every arm is soft**, so
 comparison depends on elicitation
 ([`reports/jev_vs_gpt41_n300/segment_diversity_n300.json`](../../reports/jev_vs_gpt41_n300/segment_diversity_n300.json)):
 
-| Variable | Jev `Choice` | Jev `Noul` | GPT-4.1 probabilities |
+| Variable | Jev Choice | Jev Noul | GPT-4.1 probabilities |
 |---|---|---|---|
 | political views | 0.83 | 0.82 | **1.56** |
 | party | 0.86 | 0.87 | **1.79** |
@@ -78,7 +78,7 @@ The variable table averages each arm over all 16 tasks, which hides how uneven t
 Split the same measurement the other way — by task, averaged over the 11 non-political demographics,
 ordered by how far the humans clear the shuffle floor:
 
-| Task | humans | noise floor | Jev `Noul` | GPT-4.1 hard |
+| Task | humans | noise floor | Jev Noul | GPT-4.1 hard |
 |---|---|---|---|---|
 | Omission bias | 0.0957 | 0.0535 | 0.22 | 0.84 |
 | False consensus | 0.0980 | 0.0585 | **1.27** | 1.30 |
@@ -160,7 +160,7 @@ elicitation-confound check — is in [jev/07 Segment diversity](../jev/07-segmen
   the elicitation confound, never as a measurement in its own right.
 - **Nothing here is a prediction about individuals.** These are group rates. The individual-level
   question is settled elsewhere and negatively: every arm sits below the persona-blind floor. See
-  [limitations](05-limitations.md).
+  [limitations](06-limitations.md).
 
 ## Reproduce
 
@@ -177,4 +177,4 @@ so this needs no download and no credentials. `--variable` restricts to named de
 `--min-segment` moves the floor.
 
 Back to [the documentation index](../README.md), or on to
-[limitations](05-limitations.md).
+[limitations](06-limitations.md).

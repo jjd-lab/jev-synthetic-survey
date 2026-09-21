@@ -288,7 +288,7 @@ folder and workbook timestamps:
 | [`reports/gpt41_panel_n2058/paper_accuracy_full_prior_answers.json`](../../reports/gpt41_panel_n2058/paper_accuracy_full_prior_answers.json), [`reports/gpt41_panel_n2058/individual_signal_full_prior_answers.json`](../../reports/gpt41_panel_n2058/individual_signal_full_prior_answers.json) | prior answers, stateless | `runs/gpt41_panel_n2058/prior_answers_stateless/` |
 | [`reports/gpt41_panel_n2058/task_deep_dive_full.md`](../../reports/gpt41_panel_n2058/task_deep_dive_full.md) | all three | the same workbooks, per task |
 
-`arm1` in those filenames is the demographics-stateless arm, named before the arms were.
+The filenames and keys, `arm1` included, are decoded in [the glossary](../README.md#names-used-throughout).
 Adding `--ceiling` to the accuracy command recomputes the human test-retest figure, which must land
 on 81.68%; that is the scorer's external check and it needs the dataset itself, via
 [`scripts/twin2k/fetch_twin2k.py`](../../scripts/twin2k/fetch_twin2k.py).

@@ -17,7 +17,7 @@
   21,000-token state, the arm improves at both levels that carry the criteria — distribution gap
   0.1484 to 0.1368, per-person rank correlation 0.0933 to 0.1045 — at $0.00099 and 0.38 seconds per
   answer, with all 24,596 cells answered. Cheap and fast did not mean it could only handle a short
-  persona. See [grounding](08-grounding.md).
+  persona. See [grounding](06-grounding.md).
 - **Keep pricing broken out in any future work.** The 9.18 point accuracy gap on the piped-price
   block is the single largest effect measured here, and its cause is a boundary offset rather than
   arithmetic. See [price sensitivity](04-price-sensitivity.md).

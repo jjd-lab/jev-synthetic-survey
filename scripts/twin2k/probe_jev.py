@@ -409,7 +409,7 @@ def main() -> int:
                        help="Send a derived description per option on two-option columns. On the "
                             "shipped instrument that is the 40 pricing columns and nothing else. "
                             "Has no effect with --primitive noul, which carries the option text "
-                            "in its own true/false slots; see docs/jev/06-option-descriptions.md.")
+                            "in its own true/false slots; see docs/jev/05-option-descriptions.md.")
     parser.add_argument("--primitive", choices=("choice", "noul"), default="choice",
                        help="`noul` asks the 65 two-option columns as a yes/no condition instead "
                             "of a Choice, and leaves the 43 multiclass columns on Choice. Tests "

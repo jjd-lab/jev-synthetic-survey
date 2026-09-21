@@ -20,7 +20,19 @@ cp .env.example .env                      # then fill in the keys below
 | `TYPESAFE_API_KEY`, or `JEV_KEY` | the four Jev arms (`probe_jev.py`) |
 
 On a personal key, lower `max_concurrency` in the config YAML — 50 in three arms, 32 in
-`prior_answers_stateless` — to 8-16. A concurrency slot holds a whole persona walk, not one call.
+`prior_answers_stateless` — to 8-16. A concurrency slot holds a whole persona walk, not one call,
+and a personal account's rate limit is far below a shared endpoint's.
+
+[`.env.example`](../.env.example) documents the optional settings. The configs ship a plain
+`gpt-4.1`, so `.env.example` as written runs against stock OpenAI. Every GPT-4.1 number in this repo
+was collected through a hosted OpenAI-compatible endpoint, and the model id is the only thing that
+differs: it is sent verbatim as the model, so at such an endpoint the provider prefix *is* the
+routing key. To reproduce the shipped runs, restore that prefix along with its `API_BASE_URL`.
+Structured output does not change: `structured_output_method` branches only on a `bedrock/` prefix,
+so both ids take the same hard-enforced `json_schema` path the probability arm depends on.
+
+Scoring the shipped runs needs none of this: no key, no download. That command is in the
+[README](../README.md#reproduce-it), and the rest are in [`reports/README.md`](../reports/README.md).
 
 ## The GPT-4.1 panel
 
@@ -45,8 +57,17 @@ python main.py --config configs/twin2k/prior_answers_stateless.yaml \
 ```
 
 `main.py` has no completion marker, so a partial re-run takes its window explicitly:
-`--sample 2058 --skip 300` is respondents 301-2058. Option order is seeded per respid, so those
-cells are identical to the same rows of a full run.
+`--sample 2058 --skip 300` is respondents 301-2058. Option order is seeded per respid
+([`survey_runner_excel.py`](../src/core/survey_runner_excel.py)), so those cells are identical to
+the same rows of a full run.
+
+Give a skipped run its **own `--run-id`**. A checkpoint record is keyed by its position in the run's
+persona list, so position 0 is respondent 1 in a full run and respondent 301 under `--skip 300`;
+sharing a directory would make the export drop one of every colliding pair. The run directory
+records the window it was built for and refuses a mismatch, so this fails loudly rather than
+quietly. Convert each run's workbook to per-cell JSONL with
+[`prob_scoring.py convert`](../scripts/twin2k/prob_scoring.py), then concatenate the two files. The
+scorer keys on respid and qid, so order across the join does not matter.
 
 ## The n=300 probability arm
 
@@ -104,6 +125,10 @@ python scripts/twin2k/probe_jev.py --config configs/twin2k/demographics_stateful
     --out runs/jev_vs_gpt41_n2058/jev_noul.jsonl   # "300 already complete, 1758 to run"
 ```
 
+The probe refuses to load a config outside `configs/twin2k/`, and refuses any endpoint that is not
+TypeSafe. Twin-2K-500 is the only data cleared to be sent there, and the code and the tests enforce
+that rather than convention.
+
 ## The grounding arm
 
 One arm, stateless, grounded in 620 prior answers instead of 14 demographics. It reads a different
@@ -122,7 +147,7 @@ python scripts/twin2k/probe_jev.py \
 No `--chain`: the arm is stateless by design, matching its GPT-4.1 counterpart. Concurrency 8 rather
 than 16 — at 16 the first pass lost 8 personas to rate limits on a 21k-token state, and re-running
 the same command cleared all 8 in 35 seconds. $24.40 and 17m 25s in total. Written up in
-[08 Grounding](jev/08-grounding.md).
+[06 Grounding](jev/06-grounding.md).
 
 ## The hard-answer extractions
 
@@ -138,6 +163,19 @@ python scripts/twin2k/prob_scoring.py convert \
 ```
 
 Drop `--sample` and `--respid-order` for the 2,058-respondent version.
+
+## The price diagnostic
+
+The one analysis that needs the dataset itself, for the per-respondent piped prices. It prints its
+figures and writes no report, so the numbers on [the price page](jev/04-price-sensitivity.md) come
+from running it:
+
+```bash
+python scripts/twin2k/price_sensitivity.py \
+    --arm jev_choice=runs/jev_vs_gpt41_n300/jev_choice.jsonl \
+    --arm jev_noul=runs/jev_vs_gpt41_n300/jev_noul.jsonl \
+    --arm gpt41_probs=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl
+```
 
 ## What a re-run will not match
 
@@ -168,6 +206,34 @@ of roughly 300 tokens per cell, which is why the billed figure lands slightly ab
 
 The full-panel arms have no recorded dollar figure. Their token counts are in each run's
 `run_tokens_*.json`.
+
+What each step costs, measured on a 2023 laptop:
+
+| Step | Needs | Time | Cost |
+|---|---|---|---|
+| score the three headline arms | nothing downloaded, no account | 1m 45s | free |
+| `pytest` | nothing | under a minute, no network | free |
+| `fetch_twin2k.py` | 205 MB of disk | a few minutes on a home connection | free |
+| the price diagnostic, once fetched | the dataset | under a second | free |
+| a new 300-respondent Jev arm | `TYPESAFE_API_KEY` | 6 to 8 min at 16 walks | about $4 |
+| a new 300-respondent GPT-4.1 arm | `API_KEY` | about 22 min at 50 walks | about $136 at list rates |
+
+The two run costs buy the same 24,596 cells. Jev bills input only at $0.042 per million tokens with
+output free, which is where the 34-fold gap comes from. The GPT-4.1 figure is inferred from list
+rates rather than billed through, so read it as an order of magnitude.
+
+The two wall clocks are **not** a like-for-like speed comparison. The arms ran at different
+concurrency, 16 in-flight walks against 50, so the Jev figure is the slower setting rather than the
+slower model. Per call Jev is the faster of the two by roughly an order of magnitude: its records
+carry `latency_ms` and average **0.26 s** over all 24,596 cells, while the GPT-4.1 arm was converted
+from workbooks and kept no per-call timing, so its rate can only be inferred from wall clock at
+about 2.7 s. Jev's walk is latency-bound with no measurable overhead on top, so its wall clock
+scales down with concurrency: raising `--concurrency` is the whole lever.
+
+[`runs/jev_vs_gpt41_n300/`](../runs/jev_vs_gpt41_n300/) holds the five comparison arms as plain
+JSONL, 70 MB in all. The 2,058-respondent arms ship as plain JSONL too, except for the one file past
+GitHub's 100 MB limit: the scorer also reads `.jsonl.gz`, which is how `jev_noul` is stored at
+115 MB raw.
 
 Back to [the repo overview](../README.md), [the write-up](README.md), or
 [`runs/README.md`](../runs/README.md).

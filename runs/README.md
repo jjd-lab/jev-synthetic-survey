@@ -100,13 +100,14 @@ of 14 demographic fields, and run **stateless** so it sits beside the GPT-4.1 pr
 
 | File | Arm | Grounding |
 |---|---|---|
-| `jev_prior_answers.jsonl` | Jev `Noul` | 620 prior answers, 21k-token state, no self-history |
+| `jev_prior_answers.jsonl` | Jev Noul | 620 prior answers, 21k-token state, no self-history |
+| `jev_demographics_stateless.jsonl` | Jev Noul | the 14 demographics, no self-history; the control that isolates grounding from chaining |
 | `respondents_300.txt` | | the respondent ids, in loader order |
 
 Cost $24.40 and 17m 25s at concurrency 16, against $4.02 for the demographics arm: the state is
 re-sent on each of the 82 cells per respondent. Scored in
 [`reports/jev_grounding_n300/`](../reports/jev_grounding_n300/), written up in
-[`docs/jev/08-grounding.md`](../docs/jev/08-grounding.md).
+[`docs/jev/06-grounding.md`](../docs/jev/06-grounding.md).
 
 ## `jev_vs_gpt41_n2058/`: the same two models over the whole panel
 

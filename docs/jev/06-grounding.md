@@ -153,7 +153,7 @@ its arms are stateless and both cover all 2,058 respondents.
 
 | | demographics | 620 prior | change |
 |---|---|---|---|
-| gpt-4.1, n = 2,058 | 0.0945 | 0.1068 | +0.0123 |
+| GPT-4.1, n = 2,058 | 0.0945 | 0.1068 | +0.0123 |
 | Jev, n = 300 | 0.0933 | 0.1045 | +0.0113 |
 
 Both comparisons are stateless-to-stateless, so both are clean. Jev's gain is the same size as
@@ -166,7 +166,7 @@ as GPT-4.1 does**. It is not evidence of a capability GPT-4.1 lacks.
 
 ## What it does not change
 
-None of this touches the verdict. The comparison was set up around Jev `Choice` against verbalized
+None of this touches the verdict. The comparison was set up around Jev Choice against verbalized
 GPT-4.1 on demographics-only grounding, and this arm is a different grounding, a different
 elicitation and a later run.
 
@@ -207,4 +207,4 @@ observable from these runs. What is observable is that the context changed the a
 direction more context should change them.
 
 Back to [the documentation index](../README.md), or
-[what the result licenses](05-what-this-licenses.md).
+[what the result licenses](08-what-this-licenses.md).

@@ -139,7 +139,7 @@ def derive_description(label: str) -> Optional[str]:
 
     The manipulation of the described-`Choice` arm, in full, and a pure function of the label so
     that no description is ever written by hand. The rule is fixed in
-    docs/jev/06-option-descriptions.md and was committed before this code existed:
+    docs/jev/05-option-descriptions.md and was committed before this code existed:
 
       1. strip a leading "Yes, " or "No, ";
       2. require what remains to be a first-person clause ("I would ...");

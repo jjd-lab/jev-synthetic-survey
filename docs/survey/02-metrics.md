@@ -12,7 +12,7 @@ because an arm can be excellent at one while useless at the next.
 | Level | The question it answers | Metrics | Defined in |
 |---|---|---|---|
 | **Population** | Across everyone, does the spread of answers match? | distribution gap, ordinal gap, Brier, calibration, entropy ratio, collapsed columns | this page |
-| **Segment** | Do demographic groups differ from each other the way real ones do? | separation ratio, segment fidelity | [06 Segment diversity](06-segment-diversity.md) |
+| **Segment** | Do demographic groups differ from each other the way real ones do? | separation ratio, segment fidelity | [05 Segment diversity](05-segment-diversity.md) |
 | **Individual** | Is the right *person* given the right answer? | rank correlation, accuracy against the persona-blind floor, blind spots | this page |
 
 The population and individual levels are what this repo is built to measure, and what every
@@ -320,7 +320,7 @@ Two consequences a reader has to hold on to:
   two-option columns roughly eight times the weight it gets per column. Any test fixed in advance has
   to fix which of the two it reads, in advance.
 
-## Two rules about uncertainty
+## Three rules about uncertainty
 
 Bootstrap over respondents, never over cells. Roughly 84 cells come from one respondent and are
 correlated, so resampling cells would understate an interval several-fold. Arm differences resample
@@ -330,6 +330,14 @@ resamples at seed 20260919.
 Raw vectors go in, and are normalized only at the point of use. How far a source's probability
 vector is from summing to 1 is itself a result, so the raw sum is reported as a distribution rather
 than quietly repaired upstream.
+
+Know which figures carry an interval, and that none is corrected for multiple comparisons. Every
+paired difference in a `score_*` report has a bootstrap interval and a one-sided per-column Wilcoxon
+p. The segment separation ratios are read against a shuffled-label noise floor and carry no
+interval; the price-sensitivity figures are printed point estimates; and the contrasts between the
+2,058-respondent panel arms have no paired test. Six measures, up to five arms and 16 tasks make
+many comparisons, so read a single per-task or per-column result, such as "29 of 65 columns", as
+description and not as a finding on its own.
 
 ## Direction summary
 
@@ -347,7 +355,7 @@ than quietly repaired upstream.
 | separation ratio (segment) | 1.0 matches real group differences; below flattens, above caricatures |
 | segment fidelity | lower is better, 0 is identical within a group |
 
-The last two are defined in [06 Segment diversity](06-segment-diversity.md) rather than here,
+The last two are defined in [05 Segment diversity](05-segment-diversity.md) rather than here,
 because they need the noise floor to be readable and that machinery belongs with the result.
 
 ## Where the code is

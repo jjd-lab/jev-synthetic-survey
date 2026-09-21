@@ -47,7 +47,7 @@ final digit differed.
 
 Both n=2058 reports use a 50-person segment floor. The n=300 segment report keeps the 25-person
 floor, because at that sample size 50 drops whole variables; see
-[`docs/survey/06-segment-diversity.md`](../docs/survey/06-segment-diversity.md).
+[`docs/survey/05-segment-diversity.md`](../docs/survey/05-segment-diversity.md).
 
 Scored with the same `prob_scoring.py score` command, pointed at the n=2058 arms.
 
@@ -58,13 +58,15 @@ Scored with the same `prob_scoring.py score` command, pointed at the n=2058 arms
 | `score_grounding.json` | Jev on 620 prior answers against Jev on 14 demographics | `runs/jev_grounding_n300/jev_prior_answers.jsonl`, `runs/jev_vs_gpt41_n300/jev_noul.jsonl` |
 | `individual_signal_prior_answers.json` | the prior-answers arm, per person | `runs/jev_grounding_n300/jev_prior_answers.jsonl` |
 | `individual_signal_demographics.json` | the demographics arm, per person | `runs/jev_vs_gpt41_n300/jev_noul.jsonl` |
+| `score_grounding_clean.json` | Jev on 620 prior answers against Jev on 14 demographics, both stateless, so grounding is the only difference | `runs/jev_grounding_n300/jev_prior_answers.jsonl`, `runs/jev_grounding_n300/jev_demographics_stateless.jsonl` |
+| `individual_signal_demographics_stateless.json` | the stateless demographics arm, per person | `runs/jev_grounding_n300/jev_demographics_stateless.jsonl` |
 
-The two `individual_signal_*` files here are scored from JSONL rather than a workbook, which the
-scorer reads directly. See [`docs/jev/08-grounding.md`](../docs/jev/08-grounding.md).
+The `individual_signal_*` files here are scored from JSONL rather than a workbook, which the
+scorer reads directly. See [`docs/jev/06-grounding.md`](../docs/jev/06-grounding.md).
 
 ## `gpt41_panel_n2058/` — the full-panel GPT-4.1 runs
 
-`arm1` in these filenames is the demographics-stateless arm, named before the arms were.
+Every filename code and report key, `arm1` included, is decoded in [the glossary](../docs/README.md#names-used-throughout).
 
 | File | Arm | Scored from |
 |---|---|---|

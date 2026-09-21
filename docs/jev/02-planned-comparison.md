@@ -26,8 +26,8 @@ arm**. Set equality was asserted on respondent ids and cell keys, not just count
 | Arm | Model | How it was asked | Errors |
 |---|---|---|---|
 | Jev Choice | `jev-1.13.0` | native `Choice` vector | 0 |
-| GPT-4.1 probabilities | gpt-4.1 | states a probability per option, grids unbatched | 0 |
-| GPT-4.1 hard answer | gpt-4.1 | picks one option, grids batched | not recorded |
+| GPT-4.1 probabilities | `gpt-4.1` | states a probability per option, grids unbatched | 0 |
+| GPT-4.1 hard answer | `gpt-4.1` | picks one option, grids batched | not recorded |
 | Jev Noul | `jev-1.13.0` | `Noul` on the 65 two-option columns, `Choice` on the 43 multi-option ones | 0 |
 
 The comparison that decides the verdict is Jev Choice against GPT-4.1 probabilities. The other two
@@ -226,7 +226,7 @@ cache, was not the model's response time. Budget from 6 to 8 minutes, not 35.
   0.055 and flip the top answer 7.5% of the time. Scaled to 300 respondents the column-level noise
   floor is about 0.006, so the +0.0196 two-option deficit is above it and the loss is real, even
   though the respondent bootstrap interval straddles zero. That 0.055 is an upper bound inflated by
-  the accidental chaining described below. The [described arm](06-option-descriptions.md) later
+  the accidental chaining described below. The [described arm](05-option-descriptions.md) later
   measured 0.011 per cell on byte-identical payloads. Its column-level floor came out at 0.0058 on
   the multi-option columns, which matches the 0.006 used here, so this conclusion is unchanged.
 - **Contamination applies to both sides equally.** Twin-2K-500 has been public since 2025 and its

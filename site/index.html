@@ -35,7 +35,7 @@
     <ol>
       <li><a href="#hero" data-section="hero"><span>00</span> The question</a></li>
       <li><a href="#concept" data-section="concept"><span>01</span> A synthetic respondent</a></li>
-      <li><a href="#panel" data-section="panel"><span>02</span> Twin-2K, gpt-4.1</a></li>
+      <li><a href="#panel" data-section="panel"><span>02</span> Twin-2K, GPT-4.1</a></li>
       <li><a href="#verdict" data-section="verdict"><span>03</span> The comparison</a></li>
       <li><a href="#promising" data-section="promising"><span>04</span> Where Jev is better</a></li>
       <li><a href="#limits" data-section="limits"><span>05</span> Limits</a></li>
@@ -52,35 +52,35 @@
           <em>beat a verbalized one?</em>
         </h1>
         <p class="lede">
-          I asked TypeSafe’s Jev, a decision-only model, and gpt-4.1 to play the same 300 survey
+          I asked TypeSafe’s Jev, a decision-only model, and GPT-4.1 to play the same 300 survey
           respondents. Jev returns a probability per option because that is its output type.
-          gpt-4.1 is a chat model, so it was made to fill one into an enforced JSON schema. Six
+          GPT-4.1 is a chat model, so it was made to fill one into an enforced JSON schema. Six
           measures separate them.
         </p>
 
         <div class="hero-board">
-          <div class="stamp" aria-label="Asked as a Noul, Jev leads gpt-4.1 probabilities on all six reported measures">
+          <div class="stamp" aria-label="Asked as a Noul, Jev leads GPT-4.1 probabilities on all six reported measures">
             <span>Jev <code>Noul</code></span>
             <strong>6–0</strong>
-            <span>vs gpt-4.1<br>probabilities</span>
+            <span>vs GPT-4.1<br>probabilities</span>
           </div>
           <dl class="hero-stats">
             <div><dt>Respondents</dt><dd>300 <span class="stat-note">of 2,058</span></dd></div>
             <div><dt>Questions</dt><dd>108</dd></div>
             <div><dt>Jev cost</dt><dd>$<span data-fig="comparison.arms.jev_noul.cost">4.02</span></dd></div>
-            <div><dt>gpt-4.1 cost</dt><dd>~$<span data-fig="comparison.arms.gpt41_probs.cost">136</span></dd></div>
+            <div><dt>GPT-4.1 cost</dt><dd>~$<span data-fig="comparison.arms.gpt41_probs.cost">136</span></dd></div>
           </dl>
         </div>
 
         <ul class="hero-note">
-          <li>Asked as a <code>Noul</code>, Jev leads gpt-4.1 probabilities on all six measures, at a
-            thirty-fourth of the cost. Plain gpt-4.1 hard answers still score two points higher on
+          <li>Asked as a <code>Noul</code>, Jev leads GPT-4.1 probabilities on all six measures, at a
+            thirty-fourth of the cost. Plain GPT-4.1 hard answers still score two points higher on
             accuracy, and return no distribution.</li>
           <li>How you ask mattered more than which model you used. Switching the 65 yes/no
             questions from a two-option <code>Choice</code> to a <code>Noul</code> moves the
             distribution gap from <span data-fig="noul.choice_soft_nominal">0.1985</span> to <span data-fig="noul.noul_soft_nominal">0.1530</span>, at the same price.</li>
           <li>A persona of 620 of the person’s own past answers lifts both models at both levels,
-            and Jev keeps pace with gpt-4.1.</li>
+            and Jev keeps pace with GPT-4.1.</li>
           <li>No arm predicts an individual yet. Every one scores below a baseline that ignores the
             persona entirely, and richer grounding is what closes the distance.</li>
         </ul>
@@ -160,7 +160,7 @@
               <div class="demo-bars" data-demo="jev"></div>
             </div>
             <div>
-              <p class="arm-label gpt">gpt-4.1 · verbalized</p>
+              <p class="arm-label gpt">GPT-4.1 · verbalized</p>
               <p class="muted">Asked to write the same numbers out.</p>
               <div class="demo-bars" data-demo="gpt"></div>
             </div>
@@ -193,7 +193,7 @@
     <section class="chapter ink" id="panel">
       <header class="chapter-head">
         <p class="chapter-no">02</p>
-        <h2>gpt-4.1 on all 2,058 people</h2>
+        <h2>GPT-4.1 on all 2,058 people</h2>
         <p>
           Before the Jev comparison, the same engine walked <code>gpt-4.1</code> through the
           whole Twin-2K-500 sample, three times. This chapter has no Jev in it. It asks what
@@ -234,13 +234,13 @@
     <section class="chapter paper" id="verdict">
       <header class="chapter-head">
         <p class="chapter-no">03</p>
-        <h2>Jev against gpt-4.1</h2>
+        <h2>Jev against GPT-4.1</h2>
         <p>
           Same 300 respondents, same 108 columns, same stateful demographics persona.
           The test that decides it is a conjunction: Jev must win both the 65 yes/no
           columns and the 43 ordinal ones. It loses the yes/no half. The second test takes
           TypeSafe at its word: System One models are “trained for calibrated decisions”, so the
-          bar was set at 0.05. No arm comes close — Jev Noul <span data-fig="comparison.arms.jev_noul.ece">0.1472</span>, Jev Choice <span data-fig="comparison.arms.jev_choice.ece">0.2029</span>, gpt-4.1
+          bar was set at 0.05. No arm comes close — Jev Noul <span data-fig="comparison.arms.jev_noul.ece">0.1472</span>, Jev Choice <span data-fig="comparison.arms.jev_choice.ece">0.2029</span>, GPT-4.1
           <span data-fig="comparison.arms.gpt41_probs.ece">0.2393</span> — and Jev is the better calibrated of the two models, by 39%, while still sitting
           three times over the bar. TypeSafe qualifies the claim itself, and the qualification is
           the finding: “calibration is measured across groups of predictions; it does not guarantee
@@ -260,12 +260,12 @@
 
       <div class="pair-notes">
         <p>
-          Distribution gap, yes/no: Jev <code>Choice</code> <span data-fig="comparison.arms.jev_choice.soft_nominal">0.1985</span> against gpt-4.1 <span data-fig="comparison.arms.gpt41_probs.soft_nominal">0.1789</span>.
+          Distribution gap, yes/no: Jev <code>Choice</code> <span data-fig="comparison.arms.jev_choice.soft_nominal">0.1985</span> against GPT-4.1 <span data-fig="comparison.arms.gpt41_probs.soft_nominal">0.1789</span>.
           Wilcoxon p = <span data-fig="comparison.paired_jev_choice_vs_gpt41_probs.soft_nominal_p">1.0000</span>. Jev worse. The ordinal half goes the other way, <span data-fig="comparison.arms.jev_choice.soft_ordinal">0.6864</span>
           against <span data-fig="comparison.arms.gpt41_probs.soft_ordinal">0.7272</span>, p = <span data-fig="comparison.paired_jev_choice_vs_gpt41_probs.soft_ordinal_p">0.031</span>.
         </p>
         <p>
-          Accuracy is last on purpose. The arm that wins it, gpt-4.1 hard answer at <span data-fig="comparison.arms.gpt41_hard.accuracy_pct">69.32</span>%,
+          Accuracy is last on purpose. The arm that wins it, GPT-4.1 hard answer at <span data-fig="comparison.arms.gpt41_hard.accuracy_pct">69.32</span>%,
           is last on the distribution gap. All five land under <span data-fig="constants.comparison_loo_floor_pct">73.59</span>% on this 300-person slice,
           the score from ignoring the persona entirely.
         </p>
@@ -307,7 +307,7 @@
           <strong>Swap the 14 demographic facts for 620 of the person’s own past answers and both
           levels improve.</strong> Not enough to predict an individual: <span data-fig="grounding.prior_rho">0.1045</span> is near zero on most
           tasks, and the arm stays below the persona-blind baseline. Both bars hold statefulness
-          fixed, so grounding is the only thing that moved — gpt-4.1 shifts the same way, 0.0945 to
+          fixed, so grounding is the only thing that moved — GPT-4.1 shifts the same way, 0.0945 to
           0.1068.
         </figcaption>
         <div class="chart" id="chart-grounding"></div>
@@ -326,11 +326,11 @@
         <figcaption>
           <strong>Break the sample down by demographic group and Jev is the closer instrument
           everywhere.</strong> Inside each segment — each age band, each party, each region — its
-          answer distribution sits nearer the humans’ than gpt-4.1’s does, on 13 of 13 demographic
+          answer distribution sits nearer the humans’ than GPT-4.1’s does, on 13 of 13 demographic
           variables with no exceptions. Median distance <span data-fig="segments.fidelity_jev">0.233</span> against <span data-fig="segments.fidelity_gpt41">0.295</span>, over all 2,058
           respondents. If the deliverable is “what share of this group said yes”, this is the arm
           that gets it right. The chart is the other half of the same measurement, and it goes the
-          other way: Jev reproduces 40% of the real gap <em>between</em> groups, gpt-4.1 about
+          other way: Jev reproduces 40% of the real gap <em>between</em> groups, GPT-4.1 about
           110%. Being right inside a group and getting the gaps between groups right are different
           things, and neither arm does both.
         </figcaption>
@@ -349,10 +349,10 @@
       <figure class="frame">
         <figcaption>
           <strong>What the same 24,596 answers cost, and how long one run took.</strong> Jev bills
-          input only and output is free; the gpt-4.1 price comes from list rates, so read it as an
+          input only and output is free; the GPT-4.1 price comes from list rates, so read it as an
           order of magnitude. Both wall clocks are measured, but they ran at different batch sizes —
           16 walks in flight against 50 — so the bars are not a speed test. Per call, where Jev
-          logged every request and gpt-4.1 logged none, Jev averaged 0.26 seconds.
+          logged every request and GPT-4.1 logged none, Jev averaged 0.26 seconds.
         </figcaption>
         <div class="chart" id="chart-economics"></div>
       </figure>
@@ -362,7 +362,7 @@
         <p>
           I think Jev is a strong option and I would use it. It costs about 34 times less,
           it answered every one of 24,596 cells without an error, it leads on the ordinal half
-          outright, and asked as a <code>Noul</code> it leads gpt-4.1 probabilities on the yes/no half
+          outright, and asked as a <code>Noul</code> it leads GPT-4.1 probabilities on the yes/no half
           as well. I would use it today for ordinal-scale marginals under cost
           pressure, with <code>Noul</code> for anything yes/no.
         </p>
@@ -378,14 +378,14 @@
         <li>The 300 are the first 300 rows of the sample — older, whiter, more conservative. Read the paired comparisons. Do not read any absolute number as a population estimate.</li>
         <li>The holdout is a cognitive-bias battery. Answers are not supposed to track who you are. Individual prediction fails for every arm.</li>
         <li><code>Noul</code> was built after the two-option result, so it cannot carry the verdict. Option descriptions were fixed in advance of their own run and changed nothing.</li>
-        <li>Jev was given the same plain input gpt-4.1 got. TypeSafe’s own prompting levers are mostly untested, not refuted.</li>
-        <li><strong>Neither arm should be used for demographic crosstabs.</strong> The results above are at the population and per-person levels, which is where the criteria were set. Between demographic groups both arms fail, in opposite directions: Jev reproduces about 40% of the real gap, gpt-4.1 about <span data-fig="segments.spread_gpt41_politics">2.8</span>× too much on politics. That is a reason not to use either for breakdowns, not a result about the models.</li>
+        <li>Jev was given the same plain input GPT-4.1 got. TypeSafe’s own prompting levers are mostly untested, not refuted.</li>
+        <li><strong>Neither arm should be used for demographic crosstabs.</strong> The results above are at the population and per-person levels, which is where the criteria were set. Between demographic groups both arms fail, in opposite directions: Jev reproduces about 40% of the real gap, GPT-4.1 about <span data-fig="segments.spread_gpt41_politics">2.8</span>× too much on politics. That is a reason not to use either for breakdowns, not a result about the models.</li>
       </ul>
       <div class="cta">
         <a class="btn primary" href="https://github.com/jjd-lab/jev-synthetic-survey">The repository</a>
         <a class="btn" href="https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/README.md">The write-up</a>
-        <a class="btn" href="https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/jev/08-grounding.md">Grounding</a>
-        <a class="btn" href="https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/jev/05-what-this-licenses.md">What this licenses</a>
+        <a class="btn" href="https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/jev/06-grounding.md">Grounding</a>
+        <a class="btn" href="https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/jev/08-what-this-licenses.md">What this licenses</a>
       </div>
       <p class="colophon">
         By <a href="https://github.com/jjd-lab">jjd-lab</a>, September 2026. Independent work: I have

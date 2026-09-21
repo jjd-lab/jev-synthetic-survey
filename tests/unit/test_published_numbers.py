@@ -91,20 +91,32 @@ def collapsed(relative: str, arm: str) -> int:
     return len(report(relative)["arms"][arm]["fidelity"]["collapsed_columns"])
 
 
+SEGMENT_VARIABLES = {"political views": "demo_political_views", "party": "demo_party",
+                     "race": "demo_race", "sex": "demo_sex", "age": "demo_age",
+                     "religion": "demo_religion"}
+
+
+def segment_rows() -> list[tuple[str, str, str, list]]:
+    """The ratio table appears twice: in full on the survey page, as ratios only on the Jev page."""
+    rows = []
+    for label, variable in SEGMENT_VARIABLES.items():
+        jev, gpt = segment_ratios(variable)
+        rows.append(("docs/jev/07-segment-diversity.md", "GPT-4.1 hard ratio", label, [jev, gpt]))
+        # survey page columns: humans, noise floor, Jev separation, ratio, GPT-4.1 separation, ratio
+        rows.append(("docs/survey/05-segment-diversity.md", "| Variable | humans", label,
+                     [None, None, None, jev, None, gpt]))
+    return rows
+
+
 def published_rows(figures: dict) -> list[tuple[str, str, str, list[float]]]:
     grounding = "jev_grounding_n300/score_grounding.json"
     clean = "jev_grounding_n300/score_grounding_clean.json"
-    return [
+    return segment_rows() + [
         ("README.md", "| Arm |", "Jev Choice (", arm_row(figures, "jev_choice")),
         ("README.md", "| Arm |", "Jev Noul", arm_row(figures, "jev_noul")),
-        ("README.md", "| Arm |", "gpt-4.1 probabilities", arm_row(figures, "gpt41_probs")),
-        ("README.md", "| Arm |", "gpt-4.1 hard answer", arm_row(figures, "gpt41_hard")),
-        ("README.md", "separation ratio", "political views", segment_ratios("demo_political_views")),
-        ("README.md", "separation ratio", "party", segment_ratios("demo_party")),
-        ("README.md", "separation ratio", "race", segment_ratios("demo_race")),
-        ("README.md", "separation ratio", "sex", segment_ratios("demo_sex")),
-        ("README.md", "separation ratio", "age", segment_ratios("demo_age")),
-        ("docs/jev/08-grounding.md", "demographics, chained", "collapsed columns",
+        ("README.md", "| Arm |", "GPT-4.1 probabilities", arm_row(figures, "gpt41_probs")),
+        ("README.md", "| Arm |", "GPT-4.1 hard answer", arm_row(figures, "gpt41_hard")),
+        ("docs/jev/06-grounding.md", "demographics, chained", "collapsed columns",
          [collapsed(grounding, "jev_demographics"), collapsed(clean, "jev_demog_stateless"),
           collapsed(clean, "jev_prior_answers")]),
         ("docs/jev/02-planned-comparison.md", "| Measure", "accuracy (from the vector)",
@@ -124,6 +136,6 @@ def test_published_tables_match_the_reports(figures):
         typed = table_row((REPO_ROOT / relative).read_text(encoding="utf-8"), header, label)
         assert len(typed) >= len(expected), f"{relative} | {label} | row is missing cells"
         for cell, value in zip(typed, expected, strict=False):
-            if not matches(cell, value):
+            if value is not None and not matches(cell, value):
                 wrong.append(f"{relative} | {label} | typed {cell}, report has {value:.4f}")
     assert not wrong, "\n".join(wrong)

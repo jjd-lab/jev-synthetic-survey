@@ -2,40 +2,28 @@
 
 **Visual explainer** — [read it as a page](https://jjd-lab.github.io/jev-synthetic-survey/), with the walkthrough and the figures.
 
-I asked a decision-only model, TypeSafe's [Jev](https://typesafe.ai) `jev-1.13.0`, and `gpt-4.1` to
+I asked a decision-only model, TypeSafe's [Jev](https://typesafe.ai) `jev-1.13.0`, and GPT-4.1 to
 play the same 300 survey respondents on the public
 [Twin-2K-500](https://huggingface.co/datasets/LLM-Digital-Twin/Twin-2K-500) benchmark. That is 108
 questions, 16 behavioral-economics tasks, and 24,596 answered cells per arm. Jev returns a
-probability vector natively. I asked `gpt-4.1` to state one in words.
+probability vector natively. I asked GPT-4.1 to state one in words.
 
-Asked as a `Noul`, the form that fits the model, Jev leads `gpt-4.1` probabilities on all six
-measures at a thirty-fourth of the cost, and comes within two points of `gpt-4.1`'s hard-answer
+Asked each yes/no question as a `Noul`, a single probability that the answer is yes, Jev leads GPT-4.1 probabilities on all six
+measures at a thirty-fourth of the cost, and comes within two points of GPT-4.1's hard-answer
 accuracy while returning a full probability distribution, which a hard answer does not. Asked as a
-two-option `Choice`, the form the comparison was set up around, it trails on the distribution gap,
+`Choice`, pick one of the two options, which is the form the comparison was set up around, it trails on the distribution gap,
 0.1985 against 0.1789. How you ask mattered more than which model you used.
 
 **Independent work.** I have no affiliation with TypeSafe or OpenAI, and received no funding,
-credits or early access from either. I paid for all Jev and `gpt-4.1` usage myself. Neither company
+credits or early access from either. I paid for all Jev and GPT-4.1 usage myself. Neither company
 had any input into the design or the write-up, and neither has seen it.
 
 The full write-up is in [`docs/`](docs/README.md), split into a
 [survey track](docs/README.md#survey-track) for what transfers to any model on this benchmark and a
 [Jev track](docs/README.md#jev-track) for the verdict on this one.
 
-**Where to go from here.** This page is the summary; each row below is the thing itself.
-
-| If you want | Go to |
-|---|---|
-| the visual explainer | [the GitHub Pages essay](https://jjd-lab.github.io/jev-synthetic-survey/) |
-| to have never thought about synthetic survey respondents | [New to this?](#new-to-this-start-here), just below |
-| the result, all five arms, one table | [All five arms](#all-five-arms) |
-| the write-up, paper style, with every caveat | [`docs/`](docs/README.md) |
-| the crosstab view: do the arms' demographic groups differ like real ones? | [Matching the population is not the same as matching its groups](#matching-the-population-is-not-the-same-as-matching-its-groups) |
-| to re-derive every number yourself, no account needed | [Reproduce it](#reproduce-it) |
-| to re-run the arms themselves, command by command | [`docs/reproducing.md`](docs/reproducing.md) |
-| the raw per-cell answers, model beside human | [`runs/`](runs/README.md) |
-| the scored reports behind each figure | [`reports/`](reports/README.md) |
-| the code: scorer, Jev probe, survey engine | [`scripts/twin2k/`](scripts/twin2k/README.md), [`src/`](src/) |
+New to synthetic survey respondents? [Start here](#new-to-this-start-here). For the raw runs, the
+scored reports and the code, see [where to go](#where-to-go).
 
 ---
 
@@ -59,11 +47,11 @@ did not collect any of it and I do not redistribute it;
 **What a run does here.** For each of 300 respondents, build a persona out of their 14 demographic
 items, walk that persona through 108 of the held-out questions one at a time, and record what the
 model answered beside what the human actually answered. One pass over all 300 people is an **arm**.
-Five arms ship in this repo and they differ only in which model was asked, and how.
+Five arms make up the comparison below, and they differ only in which model was asked, and how.
 
 **What is being compared.** Two ways of getting a probability out of a model. Jev is decision-only:
 it generates no text at all, returning a typed value and a number per option natively.
-`gpt-4.1` is a general chat model, so I asked it to state those same numbers in words. The
+GPT-4.1 is a general chat model, so I asked it to state those same numbers in words. The
 question is whether the native vector beats the verbalized one.
 
 **Why the tables below lead with a distribution gap instead of accuracy.** Nobody can predict how
@@ -82,7 +70,7 @@ the three different ways this dataset's questions can be counted.
 ## Asked the right way, Jev leads verbalized GPT-4.1 on every measure
 
 On the 65 yes/no questions a `Noul` — one probability, no options offered — is the form that fits
-the model. Asked that way, Jev beats verbalized `gpt-4.1` on all six measures: the two-option
+the model. Asked that way, Jev beats verbalized GPT-4.1 on all six measures: the two-option
 distribution gap 0.1530 against 0.1789, the ordinal half 0.6812 against 0.7272, calibration 0.1472
 against 0.2393, Brier 0.7385 against 0.8108, accuracy 67.28% against 64.78%, and cost $4.02 against
 roughly $136.
@@ -94,9 +82,9 @@ against 0.1789. One substitution, same model, same respondents, same price, move
 any future work, and it is why the recommendation is `Noul` for anything yes/no.
 
 Three things belong with it. The `Noul` arm was built after seeing the `Choice` result, so it cannot
-settle the comparison the tests were written for; on the measure that one turned on, `gpt-4.1`
+settle the comparison the tests were written for; on the measure that one turned on, GPT-4.1
 probabilities came out ahead. The `Noul` lead on the yes/no half is in the task-weighted gap this
-codebase reports; on the stricter per-column rule fixed in advance `gpt-4.1` probabilities are still
+codebase reports; on the stricter per-column rule fixed in advance GPT-4.1 probabilities are still
 ahead, p=0.9995, because one task holds 40 of the 65 columns. And calibration missed its bar of 0.05
 for every arm at once — 0.1472 at best — which makes it a statement about demographics-only grounding
 rather than about any model.
@@ -112,16 +100,17 @@ is better everywhere except the last column.
 
 | Arm | distribution gap | ordinal gap | calibration (ECE) | Brier | accuracy | cost |
 |---|---|---|---|---|---|---|
-| Jev `Choice` (the arm the comparison was set up around) | 0.1985 | 0.6864 | 0.2029 | 0.7550 | 67.59% | $4.01 |
-| Jev `Choice` + option descriptions | 0.1985 | 0.6822 | 0.2032 | 0.7553 | 67.51% | $4.03 |
-| Jev `Noul` | **0.1530** | **0.6812** | **0.1472** | **0.7385** | 67.28% | $4.02 |
-| `gpt-4.1` probabilities | 0.1789 | 0.7272 | 0.2393 | 0.8108 | 64.78% | ~$136 |
-| `gpt-4.1` hard answer | 0.2037 | 0.6987 | 0.3741 | 1.1664 | **69.32%** | not measured |
+| Jev Choice (the arm the comparison was set up around) | 0.1985 | 0.6864 | 0.2029 | 0.7550 | 67.59% | $4.01 |
+| Jev Choice + option descriptions | 0.1985 | 0.6822 | 0.2032 | 0.7553 | 67.51% | $4.03 |
+| Jev Noul | **0.1530** | **0.6812** | **0.1472** | **0.7385** | 67.28% | $4.02 |
+| GPT-4.1 probabilities | 0.1789 | 0.7272 | 0.2393 | 0.8108 | 64.78% | ~$136 |
+| GPT-4.1 hard answer | 0.2037 | 0.6987 | 0.3741 | 1.1664 | **69.32%** | not measured |
 
-300 respondents, 108 columns, 24,596 cells in every arm, equal weight per task. Four things the
+300 respondents, 108 columns, 24,596 cells in every arm, equal weight per task. Every arm name,
+metric name and report key is defined once in [the glossary](docs/README.md#names-used-throughout). Four things the
 table will mislead you about if you read it alone:
 
-- **"Jev `Noul`" is `Noul` only where `Noul` applies.** A `Noul` takes a yes/no condition, so it can be asked on the 65 two-option columns and not on the 43 multi-option ones, which fall back to `Choice`. By cell the arm is 64.6% `Noul` and 35.4% `Choice`. The name is the elicitation that changed, not the elicitation of every cell.
+- **"Jev Noul" is `Noul` only where `Noul` applies.** A `Noul` takes a yes/no condition, so it can be asked on the 65 two-option columns and not on the 43 multi-option ones, which fall back to `Choice`. By cell the arm is 64.6% `Noul` and 35.4% `Choice`. The name is the elicitation that changed, not the elicitation of every cell.
 - **The hard-answer arm has no probability vector.** Its ECE and Brier score a one-hot spike, so
   they measure the absence of a distribution rather than the quality of one. It is in the table
   because it is the arm that wins accuracy, which is the whole point about accuracy. It was
@@ -132,7 +121,7 @@ table will mislead you about if you read it alone:
 - **The descriptions arm changed 40 of the 108 columns**, the pricing block, because the
   description is derived from the option label and most labels yield none. The other 68 columns got
   a byte-identical payload, which is the control that proves the run was clean rather than a
-  result. [What it did and did not move](docs/jev/06-option-descriptions.md).
+  result. [What it did and did not move](docs/jev/05-option-descriptions.md).
 
 ## Asking the same question a different way closed most of the gap
 
@@ -158,10 +147,22 @@ If you take one thing from this repo, take this: on this model, never ask a yes/
 two-option choice. [The follow-up in full](docs/jev/03-noul-follow-up.md).
 
 That arm does not overturn the verdict and was never eligible to. I fixed the test on the `Choice`
-arm and built `Noul` afterwards, having seen the result. Against `gpt-4.1` it wins on the
+arm and built `Noul` afterwards, having seen the result. Against GPT-4.1 it wins on the
 aggregation this codebase uses, 0.1530 against 0.1789, and loses the per-column test that was fixed
 in advance at p=0.9995. One task holds 40 of the 65 two-option columns, and that weighting choice
 accounts for the entire disagreement between the two answers.
+
+## Asking a model to state a probability moves its answer
+
+Asking GPT-4.1 for a probability distribution cost 4.42 points of committed accuracy against
+asking it to pick an answer, 64.90% versus 69.32%. The obvious confound is that the probability arm
+also unbatched its grids. The entire loss sits in the 15 tasks where grid batching is not in play,
+and the one block that was unbatched improved by 0.89 points, so the cause is the elicitation rather
+than the batching.
+
+If you ask a model to verbalize its uncertainty, expect its committed answer to move. I measured
+that on one model and one instrument; treat it as a hypothesis worth checking on yours rather than
+as a settled law. [Details](docs/survey/04-elicitation-effects.md).
 
 ## Where Jev is better
 
@@ -169,10 +170,10 @@ The verdict is a conjunction, so losing one half of it is not the same as losing
 
 - It wins the 43 ordinal questions on the ordinal distribution gap, 0.6864 against 0.7272, better in
   26 of 43 columns at p=0.031. That advantage carries its all-cell Brier win, 0.7550 against 0.8108.
-- It costs about 34 times less. $4.01 measured against roughly $136 inferred from `gpt-4.1` list
+- It costs about 34 times less. $4.01 measured against roughly $136 inferred from GPT-4.1 list
   rates, because Jev bills input only and its output is free.
 - It answers about ten times faster per call, 0.26 s measured across all 24,596 cells against
-  roughly 2.7 s inferred for `gpt-4.1`. The two arms' wall clocks look close only because they ran
+  roughly 2.7 s inferred for GPT-4.1. The two arms' wall clocks look close only because they ran
   at different concurrency, so do not read those as a speed comparison.
 - It answered every cell in all three comparison arms, 24,596 each, with no errors and no aborted
   walks. The long-persona arm hit rate limits on 8 personas, and every one cleared on retry.
@@ -186,7 +187,7 @@ Jev loses the yes/no half, and most of that is the pricing block. I first wrote 
 TypeSafe's documented "not a calculator" weakness. That was wrong. Measuring it gives a more useful
 answer: the arithmetic is fine and the decision boundary is not.
 
-| over the 40 pricing columns | Jev `Choice` | Jev `Noul` | gpt-4.1 | humans |
+| over the 40 pricing columns | Jev Choice | Jev Noul | GPT-4.1 | humans |
 |---|---|---|---|---|
 | corr(price, P(yes)) | −0.551 | −0.522 | −0.488 | −0.333 |
 | mean P(yes) | 0.601 | 0.591 | 0.343 | 0.416 |
@@ -196,22 +197,10 @@ answer: the arithmetic is fine and the decision boundary is not.
 The bias is near-constant, +0.185 asking as a `Choice` and +0.175 as a `Noul`, and on the `Noul`
 arm it accounts for 95% of that arm's entire pricing error. Jev predicts a purchase far more often
 than these respondents reported making one. Re-committing at a shifted threshold recovers 5.89
-points of `Choice` pricing accuracy and 8.45 of `Noul`'s, while giving `gpt-4.1` 0.03 points, which
+points of `Choice` pricing accuracy and 8.45 of `Noul`'s, while giving GPT-4.1 0.03 points, which
 says the ranking is sound and only the operating point is wrong. That threshold is fitted in-sample,
 so it bounds the failure rather than scoring it.
 [Details](docs/jev/04-price-sensitivity.md).
-
-## A result that is not about Jev
-
-Asking `gpt-4.1` for a probability distribution cost 4.42 points of committed accuracy against
-asking it to pick an answer, 64.90% versus 69.32%. The obvious confound is that the probability arm
-also unbatched its grids. The entire loss sits in the 15 tasks where grid batching is not in play,
-and the one block that was unbatched improved by 0.89 points, so the cause is the elicitation rather
-than the batching.
-
-If you ask a model to verbalize its uncertainty, expect its committed answer to move. I measured
-that on one model and one instrument; treat it as a hypothesis worth checking on yours rather than
-as a settled law. [Details](docs/survey/04-elicitation-effects.md).
 
 ## Matching the population is not the same as matching its groups
 
@@ -220,15 +209,10 @@ an arm can match the overall marginal exactly while handing every demographic gr
 So I measured how far apart each arm puts its segments, against how far apart the real ones are,
 with a shuffled-label noise floor to say how much of the human gap is signal at all.
 
-| separation ratio, all 2,058 respondents | Jev `Noul` | `gpt-4.1` hard |
-|---|---|---|
-| political views | 1.23 | **2.68** |
-| party | 1.35 | **2.87** |
-| race | **0.23** | 0.68 |
-| sex | **0.30** | 0.69 |
-| age | **0.40** | 1.10 |
+A ratio of 1.0 would reproduce the human gap. On party GPT-4.1 hard answer puts its groups 2.87
+times as far apart as the real ones, and on race Jev Noul puts them 0.23 times as far.
 
-1.0 would reproduce the human gap. The two models fail in opposite directions. `gpt-4.1` spreads
+The two models miss in opposite directions. GPT-4.1 spreads
 Republicans and Democrats about 2.8 times further apart than they really are, on a
 battery that is not about politics, which would show up as polarization that is not in the data. Jev
 does the reverse everywhere else, compressing race, sex and age to a third of the real gap. That 2x
@@ -237,13 +221,17 @@ are soft.
 
 Read the low ratios with the noise floor in hand. This holdout is a cognitive-bias battery built so
 answers should not track who you are, so on most variables there is little group difference to
-reproduce. [The full measurement](docs/survey/06-segment-diversity.md).
+reproduce. [The full measurement](docs/survey/05-segment-diversity.md).
 
 ## Scope, and what would sharpen this
 
 **The instrument.** Twin-2K-500's holdout is a cognitive-bias battery while the grounding is
 personality and economic-preference content, so the test is out-of-domain by construction. Its
-questions are built so that answers should not track who you are.
+questions are built so that answers should not track who you are, and two independent
+measurements confirm it: per-person correlation sits near zero on 15 of the 16 tasks whatever the
+grounding, and human separation between demographic groups barely clears random grouping on most
+variables. The instrument, more than any model, is what bounds the individual-level result, and a
+holdout where person-level signal demonstrably exists is the thing that would sharpen it most.
 
 **The sample.** 2,058 Prolific US adults, four waves, February 2025 (Toubia et al.,
 [arXiv 2505.17479](https://arxiv.org/abs/2505.17479)). Not population-representative, US-only,
@@ -261,7 +249,7 @@ distribution and not for predicting a specific person. That is the standing stat
 rather than a result about Jev.
 
 One number puts the rest in proportion: humans agree with their own earlier answers only 81.68% of
-the time. [All limitations](docs/survey/05-limitations.md).
+the time. [All limitations](docs/survey/06-limitations.md).
 
 ## Reproduce it
 
@@ -280,127 +268,16 @@ python scripts/twin2k/prob_scoring.py score \
 ```
 
 That reproduces [`reports/jev_vs_gpt41_n300/score_with_noul.json`](reports/jev_vs_gpt41_n300/score_with_noul.json), which holds every
-figure quoted above for Jev `Choice`, Jev `Noul` and `gpt-4.1` probabilities. The described arm, the
+figure quoted above for Jev Choice, Jev Noul and GPT-4.1 probabilities. The described arm, the
 hard-answer arm and the segment table come from the other reports listed in
 [`reports/`](reports/README.md). Two fields will not match byte for byte: each arm's `path`, which records
 where the file was read from and in the shipped report still names the working directory the run was
 scored in, and occasionally the last digit of a p-value, which moves with the platform's
 floating-point rounding.
 
-[`runs/jev_vs_gpt41_n300/`](runs/jev_vs_gpt41_n300/) holds the five arms as plain JSONL, one record
-per respondent and question cell, carrying the probability vector, the committed answer, the human's
-answer, the option order as presented, and the model version. Each arm is 24,596 cells and the five
-come to 70 MB, small enough to ship here rather than from a dataset host. The 2,058-respondent
-arms ship as plain JSONL too, except for the one file past GitHub's 100 MB limit: the scorer also
-reads `.jsonl.gz`, which is how `jev_noul` is stored at 115 MB raw.
-[`runs/README.md`](runs/README.md) maps every file to the claim it supports.
-
-The price diagnostic also needs the dataset itself, for the per-respondent piped prices.
-
-```bash
-python scripts/twin2k/fetch_twin2k.py            # Twin-2K-500, CC BY 4.0
-python scripts/twin2k/price_sensitivity.py \
-    --arm jev_choice=runs/jev_vs_gpt41_n300/jev_choice.jsonl \
-    --arm jev_noul=runs/jev_vs_gpt41_n300/jev_noul.jsonl \
-    --arm gpt41_probs=runs/jev_vs_gpt41_n300/gpt41_probs.jsonl
-```
-
-What each step costs, measured on a 2023 laptop:
-
-| Step | Needs | Time | Cost |
-|---|---|---|---|
-| score the three arms above | nothing downloaded, no account | 1m 45s | free |
-| `pytest` | nothing | under a minute, no network | free |
-| `fetch_twin2k.py` | 205 MB of disk | a few minutes on a home connection | free |
-| the price diagnostic, once fetched | the dataset | under a second | free |
-| a new 300-respondent Jev arm | `TYPESAFE_API_KEY` | 6 to 8 min at 16 walks | about $4 |
-| a new 300-respondent `gpt-4.1` arm | `API_KEY` | about 22 min at 50 walks | about $136 at list rates |
-
-The two run costs are the whole reason the comparison is interesting: they buy the same 24,596
-cells. Jev bills input only at $0.042 per million tokens with output free, which is where the
-34-fold gap comes from. The `gpt-4.1` figure is inferred from list rates rather than billed
-through, so read it as an order of magnitude. `probe_jev.py --dry-run` prints the exact Jev cost
-before anything is sent.
-
-Because output is free and the rate is flat, a Jev arm's price is just its tokens per cell, and
-most of a chained arm's tokens are its own earlier answers rather than its persona. The `Noul`
-arm starts each walk at 670 tokens — persona and question together — and reaches 7,406 by the 83rd
-question, averaging 3,891. Run the same arm stateless and it is about $0.69 rather than $4.02. Swap
-the 14 demographic fields for 620 prior answers and it is $24.40, because a 21k-token state is
-re-sent on every cell; see [08 Grounding](docs/jev/08-grounding.md). Persona content and
-accumulated self-history are both just context, and both are billed the same way.
-
-The two wall clocks are **not** a like-for-like speed comparison, and nothing here should be read
-as one. The arms ran at different concurrency, 16 in-flight walks against 50, so the Jev figure is
-the slower setting rather than the slower model. Per call Jev is the faster of the two by roughly
-an order of magnitude: its records carry `latency_ms` and average **0.26 s** over all 24,596 cells,
-while the `gpt-4.1` arm was converted from workbooks and kept no per-call timing, so its rate can
-only be inferred from wall clock at about 2.7 s. Jev's walk is latency-bound with no measurable
-overhead on top, so its wall clock scales down with concurrency: raising `--concurrency` is the
-whole lever.
-
-## Credentials
-
-Only needed to run a **new** arm. Scoring the shipped runs needs none.
-
-```bash
-cp .env.example .env
-```
-
-| Variable | For | Notes |
-|---|---|---|
-| `TYPESAFE_API_KEY` | Jev | the probe also accepts `JEV_KEY` |
-| `API_BASE_URL`, `API_KEY` | the `gpt-4.1` comparator | any OpenAI-compatible endpoint |
-
-[`.env.example`](.env.example) documents the optional settings. The table above has what a full arm
-costs and how long it takes.
-
-The configs ship a plain `gpt-4.1`, so `.env.example` as written runs against stock OpenAI. Every
-number in this repo was collected through a hosted OpenAI-compatible endpoint, and the model id is
-the only thing that differs. It is sent verbatim as the model, so at such an endpoint the provider
-prefix *is* the routing key. To reproduce the shipped runs, restore that prefix along with its
-`API_BASE_URL`.
-What it does not change is structured output: `structured_output_method` branches only on a
-`bedrock/` prefix, so both ids take the same hard-enforced `json_schema` path the probability arm
-depends on.
-
-On a personal key, lower `max_concurrency` in the YAML (50 in three arms, 32 in
-`prior_answers_stateless`) to 8-16 — a slot holds a whole persona-walk, not one call, and a
-personal account's rate limit is far below a shared endpoint's.
-
-## Run a new arm
-
-```bash
-python scripts/twin2k/probe_jev.py --arm my_run --chain --primitive noul --sample 300
-python main.py --config configs/twin2k/gpt41_probs.yaml \
-    --checkpoint-dir outputs/twin2k/checkpoints --resume
-```
-
-To collect only the respondents an earlier run did not reach, both runners take the panel from the
-top and skip what is already done. The Jev probe resumes from its own output, per persona, keyed on
-`--arm` + `--repeat-tag` + `--order-salt` + whether `--describe-criteria` was set:
-
-```bash
-python scripts/twin2k/probe_jev.py --arm jev_noul_chained --chain --primitive noul \
-    --sample 2058 --out <the arm's existing .jsonl>   # prints "300 already complete, 1758 to run"
-```
-
-`main.py` has no such marker, so it takes the window explicitly — `--sample 2058 --skip 300` is
-respondents 301-2058. Option order is seeded per respid
-([`survey_runner_excel.py`](src/core/survey_runner_excel.py)), so those cells are identical to the
-same rows of a full run.
-
-Give a skipped run its **own `--run-id`**. A checkpoint record is keyed by its position in the
-run's persona list, so position 0 is respondent 1 in a full run and respondent 301 under
-`--skip 300`; sharing a dir would make the export drop one of every colliding pair. The run dir
-records the window it was built for and refuses a mismatch, so this fails loudly rather than
-quietly. Convert each run's workbook to per-cell JSONL with
-[`prob_scoring.py convert`](scripts/twin2k/prob_scoring.py), then concatenate the two files. The
-scorer keys on respid and qid, so order across the join does not matter.
-
-The Jev probe refuses to load a config outside `configs/twin2k/`, and refuses any endpoint that is
-not TypeSafe. Twin-2K-500 is the only data cleared to be sent there, and the code and the tests
-enforce that rather than convention.
+The price diagnostic, what each step costs, credentials, and how to run or resume an arm are in
+[`docs/reproducing.md`](docs/reproducing.md). [`runs/README.md`](runs/README.md) maps every run
+file to the claim it supports.
 
 ## What I would do next
 
@@ -411,11 +288,11 @@ enforce that rather than convention.
    size, which is where the per-column test is noisiest.
 
 Describing the options was the obvious first candidate and has since been run, fixed in advance, and
-[it changes nothing](docs/jev/06-option-descriptions.md): the pricing bias moved +0.185 to +0.183
+[it changes nothing](docs/jev/05-option-descriptions.md): the pricing bias moved +0.185 to +0.183
 and the gap did not move at all. That closes the objection that `Choice` was merely
 under-specified.
 
-[The full list](docs/jev/05-what-this-licenses.md#what-to-run-next).
+[The full list](docs/jev/08-what-this-licenses.md#what-to-run-next).
 
 ## Author's take
 
@@ -423,8 +300,8 @@ Everything above is measured. This part is opinion, kept separate on purpose.
 
 I think Jev is a strong option and I would use it. It costs about 34 times less, it answered every
 one of 24,596 cells without an error, it leads on the ordinal half outright, and asked as a `Noul`
-it leads `gpt-4.1` probabilities on the yes/no half as well. The comparison as first set up, a
-`Choice` on every yes/no item, went `gpt-4.1`'s way on the distribution gap, and that result stands.
+it leads GPT-4.1 probabilities on the yes/no half as well. The comparison as first set up, a
+`Choice` on every yes/no item, went GPT-4.1's way on the distribution gap, and that result stands.
 It also held the prompt fixed to be fair to both models, which left every one of TypeSafe's own
 prompting options untouched. The one I changed afterwards moved that half by more than the whole
 deficit, and I expect the others to matter too.
@@ -433,19 +310,22 @@ I would use it today for ordinal-scale marginals under cost pressure, with `Noul
 yes/no. What I would test next is a fresh run with `Noul` and its aggregation rule both fixed
 beforehand.
 
-## Contents
+## Where to go
 
-| | |
+| If you want | Go to |
 |---|---|
-| [`site/`](site/README.md) | the visual explainer hosted on GitHub Pages |
-| [`docs/`](docs/README.md) | the write-up: the survey track, the Jev track, and the question inventory |
-| [`runs/`](runs/README.md) | the raw per-cell output of every arm, and what each file supports |
-| [`docs/reproducing.md`](docs/reproducing.md) | the command behind every run, and what a re-run will not match |
-| [`reports/`](reports/README.md) | the scored reports behind every figure, and how to regenerate them |
-| [`scripts/twin2k/`](scripts/twin2k/README.md) | the scorer, the Jev probe, the price diagnostic, and the config builders |
-| [`configs/twin2k/`](configs/twin2k/README.md) | the arm configurations, and which run and report each one produced |
-| [`src/`](src/), [`main.py`](main.py) | the survey engine the `gpt-4.1` arms run on |
-| [`tests/`](tests/) | `pytest`, offline, no network |
+| the visual explainer | [the GitHub Pages essay](https://jjd-lab.github.io/jev-synthetic-survey/), source in [`site/`](site/README.md) |
+| the write-up, paper style, with every caveat | [`docs/`](docs/README.md): the survey track, the Jev track, the question inventory |
+| every arm name, metric and report key, defined once | [the glossary](docs/README.md#names-used-throughout) |
+| the crosstab view | [survey track](docs/survey/05-segment-diversity.md), and [the verdict on Jev](docs/jev/07-segment-diversity.md) |
+| what richer grounding buys | [06 Grounding](docs/jev/06-grounding.md) |
+| what the result supports, and what to run next | [08 What this licenses](docs/jev/08-what-this-licenses.md) |
+| to re-derive every number yourself, no account needed | [Reproduce it](#reproduce-it), then [`reports/`](reports/README.md) |
+| to re-run the arms themselves, command by command | [`docs/reproducing.md`](docs/reproducing.md) |
+| the raw per-cell answers, model beside human | [`runs/`](runs/README.md) |
+| the arm configurations, and which run each produced | [`configs/twin2k/`](configs/twin2k/README.md) |
+| the code: scorer, Jev probe, survey engine | [`scripts/twin2k/`](scripts/twin2k/README.md), [`src/`](src/), [`main.py`](main.py) |
+| the tests | [`tests/`](tests/): `pytest`, offline, no network |
 
 `src/` and `main.py` are adapted from a private survey-simulation codebase, which is why they carry
 machinery this evaluation does not exercise.
