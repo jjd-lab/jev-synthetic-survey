@@ -178,5 +178,27 @@ population fidelity and real per-person signal, in the same direction as it buys
 and neither is enough to make an individual prediction worth acting on. The instrument, not the
 persona, is the binding constraint.
 
+## The takeaway about the model
+
+Hold the size of the effect aside and look at what producing it required. A model that emits no
+text, returns one typed value and a probability per option, and costs **$0.00099 and 0.38 seconds
+per answer** read a 21,000-token persona and carried it onto questions that persona does not
+contain. The 620 prior answers are different questions from the 108 scored here, so nothing in the
+state is a lookup for anything being asked: the arm has to generalise from what a person said
+elsewhere to what they would say here. It did that across 24,596 cells with **no errors**, on
+prompts up to 22,589 tokens, and the result moved both levels in the right direction at once.
+
+That is worth stating plainly because the cost figures invite the opposite assumption. Cheap and
+fast usually means shallow, and a decision-only model that generates nothing looks like the kind of
+thing that should only be able to pattern-match a short persona. It is not what happened: given more
+context it used more of it, and the arm that carried the most context is the one that ranks
+individuals best and rules out the truth least often.
+
+Two limits keep this from being a capability claim. GPT-4.1 moves the same way on the same
+substitution, so nothing here is unique to Jev. And "uses the context" is what was measured — the
+arm produces no reasoning trace to inspect, so how it gets from 620 answers to a probability is not
+observable from these runs. What is observable is that the context changed the answers, in the
+direction more context should change them.
+
 Back to [the documentation index](../README.md), or
 [what the result licenses](05-what-this-licenses.md).

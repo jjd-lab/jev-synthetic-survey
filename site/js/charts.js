@@ -188,6 +188,28 @@ const EssayCharts = {
     ]);
   },
 
+  grounding(host, figures) {
+    const g = figures.grounding;
+    metricStack(host, [
+      {
+        title: "Across the population · distribution gap · lower better",
+        max: 0.2,
+        rows: [
+          { label: "14 demographics", value: g.demog_soft_nominal, display: fmtNum(g.demog_soft_nominal), color: COLORS.jev },
+          { label: "620 prior answers", value: g.prior_soft_nominal, display: fmtNum(g.prior_soft_nominal), color: COLORS.gold },
+        ],
+      },
+      {
+        title: "Per person · rank correlation with the human · higher better",
+        max: 0.2,
+        rows: [
+          { label: "14 demographics", value: g.demog_rho, display: fmtNum(g.demog_rho, 3), color: COLORS.jev },
+          { label: "620 prior answers", value: g.prior_rho, display: fmtNum(g.prior_rho, 3), color: COLORS.gold },
+        ],
+      },
+    ]);
+  },
+
   segments(host, figures) {
     const seg = figures.segments;
     metricStack(host, [

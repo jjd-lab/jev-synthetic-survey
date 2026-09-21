@@ -32,6 +32,9 @@ SCORE_NOUL = REPORTS / "jev_vs_gpt41_n300" / "score_with_noul.json"
 SCORE_ALL = REPORTS / "jev_vs_gpt41_n300" / "score_all_arms.json"
 SCORE_DESCRIBED = REPORTS / "jev_vs_gpt41_n300" / "score_with_described.json"
 SEGMENTS = REPORTS / "jev_vs_gpt41_n2058" / "segment_diversity_n2058.json"
+GROUNDING = REPORTS / "jev_grounding_n300" / "score_grounding_clean.json"
+SIGNAL_GROUND_DEMOG = REPORTS / "jev_grounding_n300" / "individual_signal_demographics_stateless.json"
+SIGNAL_GROUND_PRIOR = REPORTS / "jev_grounding_n300" / "individual_signal_prior_answers.json"
 
 # Numbers that the scored JSON does not carry. Each points at the page that owns it.
 DOCUMENTED = {
@@ -163,6 +166,38 @@ def segment_snapshot() -> dict:
     }
 
 
+def grounding_snapshot() -> dict:
+    """The grounding arm at the two levels the criteria are stated in.
+
+    Both arms are stateless, so grounding is the only thing that differs and the pair reads as a
+    measurement rather than a direction. Population numbers come from the scored report; the
+    per-person figures are the equal-weight mean over the tasks measurable in BOTH arms, which is
+    the only honest way to average a metric that drops a task when either side collapses.
+    """
+    score = load_json(GROUNDING)["arms"]
+
+    def fid(arm: str, key: str) -> float:
+        return score[arm]["fidelity"][key]["all_tasks"]
+
+    def rho(path: Path) -> dict:
+        block = load_json(path)["correlation"]
+        return {t: v["mean_rho_controlled"] for t, v in block.items()
+                if v.get("mean_rho_controlled") is not None}
+
+    demog, prior = rho(SIGNAL_GROUND_DEMOG), rho(SIGNAL_GROUND_PRIOR)
+    shared = [t for t in demog if t in prior]
+    mean = lambda d: sum(d[t] for t in shared) / len(shared)
+    return {
+        "demog_soft_nominal": round(fid("jev_demog_stateless", "soft_nominal"), 4),
+        "prior_soft_nominal": round(fid("jev_prior_answers", "soft_nominal"), 4),
+        "demog_brier": round(score["jev_demog_stateless"]["brier"]["all_tasks"], 4),
+        "prior_brier": round(score["jev_prior_answers"]["brier"]["all_tasks"], 4),
+        "demog_rho": round(mean(demog), 4),
+        "prior_rho": round(mean(prior), 4),
+        "tasks_compared": len(shared),
+    }
+
+
 def build_figures() -> dict:
     noul = load_json(SCORE_NOUL)
     all_arms = load_json(SCORE_ALL)
@@ -252,6 +287,7 @@ def build_figures() -> dict:
             "source": DOCUMENTED["price"]["source"],
         },
         "segments": segment_snapshot(),
+        "grounding": grounding_snapshot(),
     }
 
 
