@@ -51,6 +51,7 @@ temp/
 notebooks/
 data/
 !src/data/
+!site/data/
 CLAUDE.md
 # Working material that is not for publication: the session plan, bundle manifests, anything
 # naming a private survey. Nothing in here may be committed.

@@ -1,0 +1,186 @@
+{
+  "generated_by": "scripts/twin2k/export_site_data.py",
+  "question": "Does Jev's native probability vector beat gpt-4.1 asked to write one out?",
+  "verdict": "strong_claim_fails",
+  "references": {
+    "repo": "https://github.com/jjd-lab/jev-synthetic-survey",
+    "pages": "https://jjd-lab.github.io/jev-synthetic-survey/",
+    "dataset": "https://huggingface.co/datasets/LLM-Digital-Twin/Twin-2K-500",
+    "paper": "https://arxiv.org/abs/2505.17479",
+    "writeup": "https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/README.md"
+  },
+  "constants": {
+    "human_ceiling_pct": 81.68,
+    "paper_twin_pct": 71.72,
+    "panel_loo_floor_pct": 73.27,
+    "comparison_loo_floor_pct": 73.5862967349584,
+    "cells_per_arm": 24596,
+    "respondents_comparison": 300,
+    "columns": 108,
+    "tasks": 16,
+    "sources": {
+      "human_ceiling_pct": "docs/survey/03-grounding-panel.md",
+      "paper_twin_pct": "Toubia et al., Twin-2K-500, arXiv 2505.17479",
+      "panel_loo_floor_pct": "docs/survey/03-grounding-panel.md"
+    }
+  },
+  "panel": {
+    "model": "gpt-4.1",
+    "n": 2058,
+    "source": "docs/survey/03-grounding-panel.md",
+    "arms": {
+      "demographics_stateless": {
+        "accuracy_pct": 70.2575853728689,
+        "loo_majority_pct": 73.26759425157117,
+        "edge_pct": -3.0100088787022656,
+        "collapsed_columns": 24,
+        "soft_nominal": 0.253,
+        "soft_ordinal": 0.714,
+        "n": 2058
+      },
+      "demographics_stateful": {
+        "accuracy_pct": 70.04070127958684,
+        "loo_majority_pct": 73.26759425157117,
+        "edge_pct": -3.226892971984327,
+        "collapsed_columns": 16,
+        "soft_nominal": 0.2,
+        "soft_ordinal": 0.651,
+        "n": 2058
+      },
+      "prior_answers_stateless": {
+        "accuracy_pct": 72.92141543546077,
+        "loo_majority_pct": 73.26759425157117,
+        "edge_pct": -0.34617881611039536,
+        "collapsed_columns": 25,
+        "soft_nominal": 0.157,
+        "soft_ordinal": 0.681,
+        "n": 2058
+      }
+    }
+  },
+  "comparison": {
+    "n": 300,
+    "source": "reports/jev_vs_gpt41_n300/score_with_noul.json",
+    "arms": {
+      "jev_choice": {
+        "accuracy_pct": 67.59013449053381,
+        "loo_majority_pct": 73.5862967349584,
+        "soft_nominal": 0.19846512656322002,
+        "soft_ordinal": 0.6863540553461976,
+        "ece": 0.20289593048599522,
+        "brier": 0.754993125326619,
+        "respondents": 300,
+        "cells": 24596,
+        "columns": 108,
+        "cost": 4.01
+      },
+      "jev_described": {
+        "accuracy_pct": 67.51325554764675,
+        "loo_majority_pct": 73.5862967349584,
+        "soft_nominal": 0.19853236144248584,
+        "soft_ordinal": 0.6822012022944092,
+        "ece": 0.20322759019662398,
+        "brier": 0.755316014809623,
+        "respondents": 300,
+        "cells": 24596,
+        "columns": 108,
+        "cost": 4.03
+      },
+      "jev_noul": {
+        "accuracy_pct": 67.2800701843628,
+        "loo_majority_pct": 73.5862967349584,
+        "soft_nominal": 0.1530402057048996,
+        "soft_ordinal": 0.6811781795386225,
+        "ece": 0.1472025867186051,
+        "brier": 0.7385357134216023,
+        "respondents": 300,
+        "cells": 24596,
+        "columns": 108,
+        "cost": 4.02
+      },
+      "gpt41_probs": {
+        "accuracy_pct": 64.78336946747697,
+        "loo_majority_pct": 73.5862967349584,
+        "soft_nominal": 0.1789061225103705,
+        "soft_ordinal": 0.72718470015534,
+        "ece": 0.2392775540252272,
+        "brier": 0.8108055954581198,
+        "respondents": 300,
+        "cells": 24596,
+        "columns": 108,
+        "cost": 136.0
+      },
+      "gpt41_hard": {
+        "accuracy_pct": 69.32005565848087,
+        "loo_majority_pct": 73.5862967349584,
+        "soft_nominal": 0.20372184619301456,
+        "soft_ordinal": 0.698739671320274,
+        "ece": 0.37408542014468554,
+        "brier": 1.1663886584461676,
+        "respondents": 300,
+        "cells": 24596,
+        "columns": 108,
+        "cost": null
+      }
+    },
+    "paired_jev_choice_vs_gpt41_probs": {
+      "soft_nominal_delta": 0.01955900405284952,
+      "soft_nominal_p": 0.9999980527274291,
+      "soft_ordinal_delta": -0.040830644809142225,
+      "soft_ordinal_p": 0.03082490160772977,
+      "c3_jev_wins": false
+    }
+  },
+  "noul": {
+    "source": "docs/jev/03-noul-follow-up.md",
+    "choice_soft_nominal": 0.19846512656322002,
+    "noul_soft_nominal": 0.1530402057048996,
+    "choice_ece": 0.20289593048599522,
+    "noul_ece": 0.1472025867186051,
+    "choice_zero_pct": 16.6,
+    "noul_zero_pct": 0.0
+  },
+  "price": {
+    "human_mean_p_yes": 0.416,
+    "jev_choice_mean_p_yes": 0.601,
+    "jev_noul_mean_p_yes": 0.591,
+    "gpt41_mean_p_yes": 0.343,
+    "human_corr": -0.333,
+    "jev_choice_corr": -0.551,
+    "jev_noul_corr": -0.522,
+    "gpt41_corr": -0.488,
+    "jev_choice_bias": 0.185,
+    "jev_noul_bias": 0.175,
+    "gpt41_bias": -0.073,
+    "source": "docs/jev/04-price-sensitivity.md"
+  },
+  "economics": {
+    "jev_cost": 4.01,
+    "gpt41_cost": 136.0,
+    "jev_minutes": 6.5,
+    "jev_concurrency": 16,
+    "gpt41_minutes": 22,
+    "gpt41_concurrency": 50,
+    "source": "Jev: the stateless demographics run, 6m28s. gpt-4.1: README run table."
+  },
+  "segments": {
+    "min_segment": 50,
+    "variables_scored": 13,
+    "jev_closer_on": 13,
+    "fidelity_jev": 0.2333,
+    "fidelity_gpt41": 0.2951,
+    "spread_jev": 0.399,
+    "spread_gpt41": 1.097,
+    "spread_jev_politics": 1.286,
+    "spread_gpt41_politics": 2.777
+  },
+  "grounding": {
+    "demog_soft_nominal": 0.1484,
+    "prior_soft_nominal": 0.1368,
+    "demog_brier": 0.7172,
+    "prior_brier": 0.7041,
+    "demog_rho": 0.0933,
+    "prior_rho": 0.1045,
+    "tasks_compared": 13
+  }
+}

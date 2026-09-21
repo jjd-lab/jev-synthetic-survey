@@ -39,6 +39,10 @@ def test_headlines_match_readme(exporter):
     assert figures["comparison"]["paired_jev_choice_vs_gpt41_probs"]["c3_jev_wins"] is False
 
 
+def test_committed_figures_are_a_fresh_export(exporter):
+    assert exporter.load_json(exporter.DEFAULT_OUT) == exporter.build_figures()
+
+
 def test_write_figures_round_trips(exporter, tmp_path):
     out = tmp_path / "figures.json"
     exporter.write_figures(out)
