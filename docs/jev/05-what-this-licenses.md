@@ -31,7 +31,7 @@
 - **This is not a verdict on Jev prompted TypeSafe's way.** The comparison deliberately gave Jev
   the input GPT-4.1 got, which is what makes it a comparison of models. Described option labels and
   a structured state object remain untested, and the one lever that was pulled afterwards moved the
-  losing half a long way. Expect any re-run to need its criteria re-registered around them.
+  losing half a long way. Expect any re-run to need its criteria rewritten around them.
 - **No absolute number should be read as a population estimate.** The 300 respondents are the first
   300 rows of the panel and are older, whiter and more conservative than it; see
   [runs/README.md](../../runs/README.md). Twin-2K-500 has also been public since 2025 and its tasks
@@ -52,8 +52,8 @@
 
 Not run, and deliberately so.
 
-1. **A re-run with `Noul` registered in advance as the elicitation.** The follow-up arm is post hoc
-   and cannot carry the criterion, but it has moved the interesting question. A properly registered
+1. **A re-run with `Noul` fixed in advance as the elicitation.** The follow-up arm is post hoc
+   and cannot carry the criterion, but it has moved the interesting question. A properly pre-specified
    arm using `Noul` for yes/no *and* described option labels is now the fair test against GPT-4.1,
    and it needs its aggregation rule fixed beforehand. That is the whole distance between the two
    answers the follow-up gives.

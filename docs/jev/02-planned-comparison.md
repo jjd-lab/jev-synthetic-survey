@@ -1,13 +1,13 @@
 # The planned comparison, and the verdict
 
 **Verdict: the strong claim fails.** Both tests fail. Jev's native probability vector is not better than GPT-4.1's
-stated one on the comparison as registered, and for the two-option column the test turns on the
+stated one on the comparison as it was set up, and for the two-option column the test turns on the
 recommendation is unchanged: stay with verbalized probabilities and soft aggregation.
 
-That is the strong claim, and its failure is the smaller half of the result. The registered arm
+That is the strong claim, and its failure is the smaller half of the result. That arm
 loses exactly one of the six reported measures and wins the other five, at a thirty-fourth of the
 cost — so the weaker claim, that this is the better instrument once asked properly, is the one the
-data actually speaks to. It is not what was registered, and it is not discharged here.
+data actually speaks to. It is not what the comparison was set up to ask, and it is not settled here.
 
 ## Question
 

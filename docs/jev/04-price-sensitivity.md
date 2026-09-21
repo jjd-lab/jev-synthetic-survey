@@ -57,7 +57,7 @@ counts as yes* is exactly the kind of framing problem a description can address 
 cannot. That lever moves from "untested" to the one this evidence implicates.
 
 A calibration layer fit on held-out columns would likely recover most of this block. That is a
-different product from Jev, and it would have to be registered in advance and scored out of sample
+different product from Jev, and it would have to be fixed in advance and scored out of sample
 to mean anything.
 
 ## Caveats

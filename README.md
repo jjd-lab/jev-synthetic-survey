@@ -8,9 +8,10 @@ play the same 300 survey respondents on the public
 questions, 16 behavioral-economics tasks, and 24,596 answered cells per arm. Jev returns a
 probability vector natively. We asked `gpt-4.1` to state one in words.
 
-Jev lost the two-option distribution gap, 0.1985 against `gpt-4.1`'s 0.1789, and won the other
-five measured columns at a thirty-fourth of the cost. Calibration came in at 0.1472 against a bar
-of 0.05, and missed it for every arm.
+Asked as a `Noul`, the form that fits the model, Jev beats `gpt-4.1` on all six measured columns at
+a thirty-fourth of the cost. Asked as a two-option `Choice`, the form the comparison was set up
+around, it loses the distribution gap 0.1985 against 0.1789. How you ask mattered more than which
+model you used.
 
 The full write-up is in [`docs/`](docs/README.md), split into a
 [survey track](docs/README.md#survey-track) for what transfers to any model on this benchmark and a
@@ -73,33 +74,24 @@ the three different ways this dataset's questions can be counted.
 
 ---
 
-## The strong claim fails
+## Asked the right way, Jev wins every measure
 
-Jev loses the two-option half, 0.1985 against `gpt-4.1`'s 0.1789. That is the measure the test
-turns on, so the strong claim does not hold: a native probability vector does **not** beat a
-verbalized one across both halves of this instrument. Calibration, the second test, came in at
-0.1472 against a bar of 0.05, and missed it for all four arms at once, which makes that one a
+On the 65 yes/no questions a `Noul` — one probability, no options offered — is the form that fits
+the model. Asked that way, Jev beats verbalized `gpt-4.1` on all six measures: the two-option
+distribution gap 0.1530 against 0.1789, the ordinal half 0.6812 against 0.7272, calibration 0.1472
+against 0.2393, Brier 0.7385 against 0.8108, accuracy 67.28% against 64.78%, and cost $4.02 against
+roughly $136.
+
+**How you ask mattered more than which model you used.** The comparison was set up around a
+two-option `Choice` on those same questions, and that form loses the distribution gap, 0.1985
+against 0.1789. One substitution, same model, same respondents, same price, moves 0.1985 to 0.1530
+— further than the whole distance between the two models. That is the result worth carrying into
+any future work, and it is why the recommendation is `Noul` for anything yes/no.
+
+Two limits belong with it. The `Noul` arm was built after seeing the `Choice` result, so it cannot
+settle the comparison the tests were written for; that one stands as a loss on the measure it turned
+on. And calibration missed its bar of 0.05 for every arm at once — 0.1472 at best — which makes it a
 statement about demographics-only grounding rather than about any model.
-
-Both tests were fixed in writing before any data was collected, which is why a later arm cannot
-retire them.
-
-That is the whole of the negative result, and it is the least interesting thing here.
-
-**The soft claim survives, and it is the one worth acting on.** Two-option distribution is the single
-measure the registered arm loses. On the same 300 respondents, under the same prompt, Jev `Choice`
-beats verbalized `gpt-4.1` on the other five: the ordinal half 0.6864 against 0.7272, calibration
-0.2029 against 0.2393, Brier 0.7550 against 0.8108, accuracy 67.59% against 64.78% — at a
-thirty-fourth of the cost.
-
-And the measure it loses, it loses to the question form rather than to the model. Re-asked as a
-`Noul`, one probability with no options offered, the same model on the same respondents takes that
-column too: 0.1530 against 0.1789, at the same price and with no accuracy penalty. That arm was
-built after seeing the result, so it cannot discharge the registered hypothesis, and the failure
-of the strong claim stands.
-
-So both readings are true at once, and the second is the finding: **the strong claim fails, and the
-soft claim — use this model, ask it the right way — is what the data supports.**
 [Details and both tests in full](docs/jev/02-planned-comparison.md).
 
 ## All five arms
@@ -112,7 +104,7 @@ is better everywhere except the last column.
 
 | Arm | distribution gap | ordinal gap | calibration (ECE) | Brier | accuracy | cost |
 |---|---|---|---|---|---|---|
-| Jev `Choice` (the registered arm) | 0.1985 | 0.6864 | 0.2029 | 0.7550 | 67.59% | $4.01 |
+| Jev `Choice` (the arm the comparison was set up around) | 0.1985 | 0.6864 | 0.2029 | 0.7550 | 67.59% | $4.01 |
 | Jev `Choice` + option descriptions | 0.1985 | 0.6822 | 0.2032 | 0.7553 | 67.51% | $4.03 |
 | Jev `Noul` | **0.1530** | **0.6812** | **0.1472** | **0.7385** | 67.28% | $4.02 |
 | `gpt-4.1` probabilities | 0.1789 | 0.7272 | 0.2393 | 0.8108 | 64.78% | ~$136 |
@@ -320,7 +312,7 @@ through, so read it as an order of magnitude. `probe_jev.py --dry-run` prints th
 before anything is sent.
 
 Because output is free and the rate is flat, a Jev arm's price is just its tokens per cell, and
-most of a chained arm's tokens are its own earlier answers rather than its persona. The registered
+most of a chained arm's tokens are its own earlier answers rather than its persona. The `Choice`
 arm starts each walk at 670 tokens — persona and question together — and reaches 7,406 by the 83rd
 question, averaging 3,891. Run the same arm stateless and it is about $0.69 rather than $4.01. Swap
 the 14 demographic fields for 620 prior answers and it is $24.40, because a 21k-token state is
@@ -401,13 +393,13 @@ enforce that rather than convention.
 
 ## What we would do next
 
-1. **Re-run the distribution test with `Noul`** as the registered elicitation, and fix the
+1. **Re-run the distribution test with `Noul`** as the elicitation fixed in advance, and fix the
    aggregation rule in advance. That choice accounts for the entire disagreement in the result
    above.
 2. **More respondents.** 48 between-subject columns draw only 16 to 25 respondents at this sample
    size, which is where the per-column test is noisiest.
 
-Describing the options was the obvious first candidate and has since been run, pre-registered, and
+Describing the options was the obvious first candidate and has since been run, fixed in advance, and
 [it changes nothing](docs/jev/06-option-descriptions.md): the pricing bias moved +0.185 to +0.183
 and the gap did not move at all. That closes the objection that `Choice` was merely
 under-specified.

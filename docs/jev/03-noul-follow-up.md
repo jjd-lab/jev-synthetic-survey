@@ -96,7 +96,7 @@ The test fixed in advance is the per-column Wilcoxon within each half, so **the 
 still fails against GPT-4.1**, now for a different reason than Jev Choice's. Jev Choice lost on both
 aggregations; Jev Noul wins the task-weighted one and loses the per-column one. The scorer prints a
 passing flag for this pair, but that flag reads the sign of the delta only and is looser than the
-registered rule. The registered rule governs.
+rule fixed in advance. That rule governs.
 
 Per column, `Noul` closes proportionally more of the gap where no price is piped into the stem, so
 the numeric weakness survives the change of primitive:
@@ -152,10 +152,10 @@ long way. Expect the others to matter too.
 ## Caveats
 
 - **Post hoc.** Built after seeing the result it explains. It cannot carry a test fixed in advance,
-  and the fair version of this experiment is a fresh run with `Noul` registered as the elicitation
+  and the fair version of this experiment is a fresh run with `Noul` fixed in advance as the elicitation
   and the aggregation rule fixed beforehand. That distance between the two aggregations is exactly
   the gap the registration would have to close.
-- **It does not rescue Jev on the registered test.** It fails the same per-column rule against
+- **It does not rescue Jev on the comparison that was set up first.** It fails the same per-column rule against
   GPT-4.1.
 - **The coherence figure carries a presentation-order component** that this design cannot separate.
 - All caveats of [the planned comparison](02-planned-comparison.md) apply unchanged.

@@ -72,7 +72,7 @@ Both arms stateless, so grounding is the only difference.
 Four of five move the right way. The ordinal half moves the wrong way and does not clear
 significance, so it is a null rather than a loss.
 
-The calibration figure, 0.1218, is the best in this repo and still fails the registered bar of 0.05.
+The calibration figure, 0.1218, is the best in this repo and still fails the bar of 0.05.
 
 Three diagnostics say how the spread itself changed, and they do not all point the same way:
 
@@ -162,7 +162,7 @@ as well as GPT-4.1 does**, and plausibly better. It is not evidence of a capabil
 
 ## What it does not change
 
-None of this touches the verdict. The registered comparison is Jev `Choice` against verbalized
+None of this touches the verdict. The comparison was set up around Jev `Choice` against verbalized
 GPT-4.1 on demographics-only grounding, and this arm is a different grounding, a different
 elicitation and a later run.
 

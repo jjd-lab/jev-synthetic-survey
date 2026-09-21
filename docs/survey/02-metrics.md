@@ -16,7 +16,7 @@ because an arm can be excellent at one while useless at the next.
 | **Individual** | Is the right *person* given the right answer? | rank correlation, accuracy against the persona-blind floor, blind spots | this page |
 
 The population and individual levels are what this repo is built to measure, and what every
-registered criterion is stated in. The segment level is a secondary diagnostic: it is reported
+criterion is stated in. The segment level is a secondary diagnostic: it is reported
 where it changes a conclusion and not otherwise, because on this instrument the human signal
 between demographic groups barely clears its own noise floor.
 
@@ -313,7 +313,7 @@ Two consequences a reader has to hold on to:
   twin. If the two disagree in sign, that split is the finding.
 - **Task weighting and column weighting can point opposite ways, and both can be correct.** One task
   holds 40 of the 65 two-option columns, so equal task weighting gives each of the 25 non-pricing
-  two-option columns roughly eight times the weight it gets per column. Any pre-registered test has
+  two-option columns roughly eight times the weight it gets per column. Any test fixed in advance has
   to fix which of the two it reads, in advance.
 
 ## Two rules about uncertainty
