@@ -25,7 +25,7 @@ specific model and the verdict on it.
 
 | Page | What it covers |
 |---|---|
-| [01 Question and criteria](jev/01-question-and-criteria.md) | what was asked of Jev, and the two tests written down before the runs |
+| [01 Question and criteria](jev/01-question-and-criteria.md) | what was asked of Jev, what a request looks like, and the two tests written down before the runs |
 | [02 The planned comparison](jev/02-planned-comparison.md) | experiment 2: Jev Choice against GPT-4.1, and the verdict |
 | [03 The Noul follow-up](jev/03-noul-follow-up.md) | experiment 3: re-asking the yes/no questions a different way. Built after seeing the result, and it cannot change the verdict |
 | [04 Price sensitivity](jev/04-price-sensitivity.md) | the largest single effect measured: Jev reads price harder than humans do, at the wrong operating point |

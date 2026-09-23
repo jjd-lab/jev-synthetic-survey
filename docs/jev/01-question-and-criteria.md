@@ -17,6 +17,79 @@ It offers several primitives. Two are used here:
 That distinction turns out to matter more than anything else measured here, which is the subject
 of [the Noul follow-up](03-noul-follow-up.md).
 
+## What is sent, and what comes back
+
+One question, asked both ways. It is QID9_1, the first pricing item, at $7.39, the price shown in
+the dataset's own question catalog; each respondent saw their own price. The `state` is shortened
+here. In the runs it is the persona, followed by the respondent's earlier answers when the arm is
+stateful.
+
+As a `Choice`:
+
+```json
+{
+  "state": "<14 demographic fields, then this respondent's earlier answers>",
+  "model": "jev-1.13.0",
+  "questions": {
+    "q": {
+      "type": "choice",
+      "instructions": "Please consider the following product category: Dairy Products. Suppose you are in a grocery store, and you see the following product in that category: Land O Lakes Salted Stick Butter, 16 oz, 4 Sticks. The product is priced at: $7.39. Would you or would you not purchase this product?",
+      "criteria": {
+        "Yes, I would purchase the product": null,
+        "No, I would not purchase the product": null
+      }
+    }
+  }
+}
+```
+
+As a `Noul`:
+
+```json
+{
+  "state": "<14 demographic fields, then this respondent's earlier answers>",
+  "model": "jev-1.13.0",
+  "questions": {
+    "q": {
+      "type": "noul",
+      "instructions": "Please consider the following product category: Dairy Products. Suppose you are in a grocery store, and you see the following product in that category: Land O Lakes Salted Stick Butter, 16 oz, 4 Sticks. The product is priced at: $7.39. Would you or would you not purchase this product?\n\nDoes this respondent answer \"Yes, I would purchase the product\"?",
+      "criteria": {
+        "true": "Yes, I would purchase the product",
+        "false": "No, I would not purchase the product"
+      }
+    }
+  }
+}
+```
+
+The two differ in the primitive and one appended line, nothing else. Which option the `Noul`
+line names is drawn per respondent, so that any lean toward "yes" is spread across both options
+rather than fixed on one; [the Noul follow-up](03-noul-follow-up.md) says why that matters.
+
+A `Choice` comes back with a `choice` label and a `probabilities` object keyed by the same labels
+that were sent, plus a `confidence`. A `Noul` comes back with one number, `noul`, the probability
+that the condition is true. The client turns that into a two-option vector, `p` for the named
+option and `1 − p` for the other, and takes `p ≥ 0.5` as the answer. The complement is this
+repository's assumption, not something the API returns. Both are built in
+[`scripts/twin2k/jev_client.py`](../../scripts/twin2k/jev_client.py), and the two blocks above are
+its output, not hand-typed.
+
+**Jev sees option text, never option codes.** The question mapping stores each option under a
+numeric code, `{"1": "Yes, I would purchase the product", "2": "No, I would not purchase the
+product"}`. The mapper sorts by code and drops the codes, so the label text is the `criteria` key.
+On the way back the scorer lines both the returned probabilities and the human's answer up against
+that same list by label. Two consequences follow. Two options with the same text would collapse
+into one key, so the client refuses them. And the ten QID198 columns have options that are literally "1"
+and "2", so on those the label is the number.
+
+**Ordered scales go out as a `Choice` too.** QID287_1 asks for support or opposition to a carbon
+tax on five points, Strongly oppose to Strongly support, and Jev gets a `Choice` over those five
+labels. The mapping marks the 43 multi-option columns `ordered_scale`, and that flag changes two
+things only: their options keep scale order instead of being shuffled per respondent, and they are
+scored on the ordinal distribution gap rather than the two-option measures. The request itself is
+the same shape. TypeSafe's `Score` primitive, which places an answer along ordered levels, was not
+used; [what the result licenses](08-what-this-licenses.md) lists it as the next thing to try.
+
 ## The question
 
 A survey firm that already simulates respondents with GPT-4.1 has to ask what it would gain by
