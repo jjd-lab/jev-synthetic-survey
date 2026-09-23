@@ -1,0 +1,35 @@
+# Jev on a synthetic survey
+
+> An independent evaluation of TypeSafe's Jev (jev-1.13.0), a decision-only model that returns a probability per option natively, against GPT-4.1 asked to state one, as synthetic survey respondents on the public Twin-2K-500 benchmark. Same 300 respondents, 108 questions, 16 behavioral-economics tasks. Asked each yes/no question as a Noul, Jev leads GPT-4.1 probabilities on all six measures at $4.02 against about $136; plain GPT-4.1 hard answers score about two points higher on accuracy and return no distribution. Asked as a two-option Choice, Jev trails on the distribution gap (0.1985 against 0.1789). No affiliation with TypeSafe or OpenAI; self-funded.
+
+## Start here
+
+- [The essay](https://jjd-lab.github.io/jev-synthetic-survey/): the result, the figures and the walkthrough, as one page
+- [README](https://github.com/jjd-lab/jev-synthetic-survey/blob/main/README.md): summary, findings and where everything is
+
+## Survey track (what transfers to any model on this benchmark)
+
+- [Dataset and instrument](https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/survey/01-dataset-and-instrument.md): Twin-2K-500, the 108 scored questions, the human ceiling
+- [Metrics](https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/survey/02-metrics.md): every measure, defined once
+- [Grounding panel](https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/survey/03-grounding-panel.md): what persona content buys, GPT-4.1 over all 2,058 respondents
+- [Elicitation effects](https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/survey/04-elicitation-effects.md): how you ask changes what the model answers
+- [Segment diversity](https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/survey/05-segment-diversity.md): do synthetic demographic segments differ the way real ones do
+- [Limitations](https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/survey/06-limitations.md)
+
+## Jev track (the verdict on this model)
+
+- [Question and criteria](https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/jev/01-question-and-criteria.md): what was asked, and the two tests written down before the runs
+- [The planned comparison](https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/jev/02-planned-comparison.md): Jev Choice against GPT-4.1, and the verdict
+- [The Noul follow-up](https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/jev/03-noul-follow-up.md): re-asking the yes/no questions as a single probability
+- [Price sensitivity](https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/jev/04-price-sensitivity.md)
+- [Option descriptions](https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/jev/05-option-descriptions.md)
+- [Grounding](https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/jev/06-grounding.md)
+- [Segment diversity](https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/jev/07-segment-diversity.md)
+- [What this licenses](https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/jev/08-what-this-licenses.md): what the result supports and what it does not
+
+## Optional
+
+- [Reproducing the runs](https://github.com/jjd-lab/jev-synthetic-survey/blob/main/docs/reproducing.md)
+- [Figure data (JSON)](https://jjd-lab.github.io/jev-synthetic-survey/data/figures.json): every number the essay charts
+- [Source repository](https://github.com/jjd-lab/jev-synthetic-survey): code, raw runs, scored reports; MIT licensed
+- [Twin-2K-500 dataset](https://huggingface.co/datasets/LLM-Digital-Twin/Twin-2K-500): the benchmark, by Toubia et al., arXiv:2505.17479
